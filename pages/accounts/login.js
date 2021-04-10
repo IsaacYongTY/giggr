@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-const LoginPage = (props) => {
+const Login = (props) => {
 
     return (
         <div>
-        
+            This is a login page
         </div>
     )
 }
 
-export default LoginPage
+export default Login
