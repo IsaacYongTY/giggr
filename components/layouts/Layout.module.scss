@@ -1,0 +1,20 @@
+@import '../../assets/scss/_variables';
+
+.layoutSidebarOpen {
+  display: grid;
+  grid-template-columns: $sidebar-open-width 1fr;
+
+}
+
+.layoutSidebarClose {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+
+}
+
+
+.layoutContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

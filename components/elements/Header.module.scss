@@ -1,0 +1,25 @@
+@import '../../assets/scss/_variables';
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $header-height;
+  padding: 0 3rem;
+  background-color: white;
+  border-bottom: 1px solid #DDDDDD;
+  box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
+}
+
+.headerLogoPosition {
+  position: absolute;
+  top: 1.3rem;
+  left: 8.5rem;
+
+}
+
+.gearIconPosition {
+  position:absolute;
+  top: 1.8rem;
+  right: 3rem;
+}

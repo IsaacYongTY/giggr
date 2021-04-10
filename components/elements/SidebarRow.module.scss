@@ -1,0 +1,46 @@
+@import '../../assets/scss/_variables';
+
+.sidebarRow {
+  cursor: pointer;
+  padding: 0 1rem 0 2rem;
+  height: 5rem;
+  color: white;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.sidebarRow:hover {
+  background-color: white;
+  color: $darkgrey;
+
+  a {
+    text-decoration: none;
+    color: $darkgrey;
+  }
+}
+
+.sidebarTitle {
+  margin-left: 3rem;
+  min-width: 10rem;
+}
+
+.navigateNext {
+  margin-left: auto;
+}
+
+.textFadeInAnimation {
+  animation: text-fade 0.5s ease-in;
+}
+
+
+@keyframes text-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}

@@ -1,0 +1,74 @@
+@import '../../assets/scss/_variables';
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $blue;
+  width: 26rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+  }
+
+
+
+
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+  padding-left: 2rem;
+
+  * {
+    margin-right: 4.1rem;
+  }
+}
+
+.open {
+  animation: open-sidebar 0.3s ease-out;
+
+}
+
+.close {
+  animation: close-sidebar 0.3s ease-out ;
+}
+
+@keyframes open-sidebar {
+  0% {
+
+    width: 6.5rem;
+  }
+  100% {
+    width: 26rem;
+  }
+}
+
+@keyframes close-sidebar {
+  0% {
+
+    width: 26rem;
+  }
+  100% {
+    width: 6.5rem;
+  }
+}
+
+
+
+
+

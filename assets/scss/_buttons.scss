@@ -1,0 +1,41 @@
+@import './_variables';
+
+.btn {
+  display: block;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  border-radius: 0.3rem;
+  width: 100%;
+  color: $darkgrey;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  border: none;
+}
+
+.btn-outline {
+  border: 0.1rem solid black;
+  background-color: white;
+  color: $darkgrey;
+}
+
+.btn-highlight {
+  background-color: #FFE8D6;
+  border: none;
+}
+
+.btn-primary:hover  {
+  background-color: darken($primary-color, 10%);
+  cursor: pointer;
+}
+
+.btn-highlight:hover {
+  background-color: darken($highlight, 10%);
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background-color: $lightgrey;
+  cursor: pointer;
+}
