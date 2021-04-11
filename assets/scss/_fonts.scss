@@ -3,9 +3,6 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 body {
-  font-family: Roboto, sans-serif
-}
-
-.font-segoe {
-  font-family: "Segoe UI", sans-serif
+  font-family: "Segoe UI", Roboto, sans-serif;
+  font-weight: 500;
 }

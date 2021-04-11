@@ -1,24 +1,17 @@
 import React, { useState } from 'react'
-import LoginContainer from '../../../components/elements/LoginContainer'
+import SignupContainer from '../../components/elements/SignupContainer'
 
-const Login = () => {
+const Signup = () => {
 
     return (
-
         <div className="login-container">
-
             <div className="logo-position-top-center">
                 <div className="logo logo-white logo-lg"></div>
             </div>
-
-            <LoginContainer />
-
-
-            <div className="login-overlay">
-
-            </div>
+            <SignupContainer />
+            <div className="login-overlay"></div>
         </div>
     )
 }
 
-export default Login
+export default Signup

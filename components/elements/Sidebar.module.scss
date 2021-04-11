@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   background-color: $blue;
-  width: 26rem;
+
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,10 +22,6 @@
     }
 
   }
-
-
-
-
 }
 
 .sidebarHeader {
@@ -40,11 +36,13 @@
 }
 
 .open {
+  width: $sidebar-open-width;
   animation: open-sidebar 0.3s ease-out;
 
 }
 
 .close {
+  width: $sidebar-close-width;
   animation: close-sidebar 0.3s ease-out ;
 }
 
