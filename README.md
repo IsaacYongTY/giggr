@@ -17,8 +17,7 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
 - Database - **PostgreSQL, Sequelize, Supabase**
 - Unit Testing
 - Deployment - **Vercel**
-- Bootstrap - only Row, Col, Table if possible
-    - Alternatively, only swap out when there is enough time
+- SCSS
 
 ### Scope - MVP
 
