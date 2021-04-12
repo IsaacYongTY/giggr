@@ -49,3 +49,6 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
 - Manage Gig - Calendar View
 - Companion Mobile App - React Native
 - Financial Report - Gigs
+
+### Relational Database Sketch
+https://whimsical.com/giggr-database-sketch-CZheddN2JgG1ZeXkfXK7hj
