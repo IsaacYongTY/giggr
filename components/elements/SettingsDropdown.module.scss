@@ -1,0 +1,22 @@
+.container {
+    position:absolute;
+    top: 1.8rem;
+    right: 3rem;
+}
+
+.menu {
+
+  border: 1px solid lightgrey;
+  width: 16rem;
+  border-radius: 0.3rem;
+  margin: 1.8rem 0;
+  box-shadow: 3px 3px 3px lightgrey ;
+  z-index: 99;
+  background-color: white;
+}
+
+.gearIcon {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}

@@ -1,19 +1,30 @@
 import React from 'react';
 import Layout from '../components/layouts/Layout';
-import Head from 'next/head';
+import {GetServerSideProps, GetServerSidePropsContext} from "next";
 
-export default function Dashboard() {
+export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
+
+    if(!req.cookies.auth_token) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: 'accounts/login'
+            }
+        }
+    }
+    return {
+        props: { }
+    }
+}
+
+function Dashboard() {
 
     return (
-        <>
-            <Layout title="Dashboard">
-
-                <h1>THis is a Dashboard</h1>
-                khglkijhfglasdkjhdddddddddddddddddddddddddddddddddddddddddddd
-
-            </Layout>
-        </>
-
-
+        <Layout title="Dashboard">
+            <h1>THis is a Dashboard</h1>
+            khglkijhfglasdkjhdddddddddddddddddddddddddddddddddddddddddddd
+        </Layout>
     )
 }
+
+export default Dashboard

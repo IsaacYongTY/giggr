@@ -2,6 +2,7 @@
 @import './assets/scss/_fonts.scss';
 @import './assets/scss/_variables.scss';
 @import './assets/scss/_buttons.scss';
+@import './assets/scss/_logo.scss';
 
 html {
   font-size: 62.5%;
@@ -24,27 +25,7 @@ a {
   margin: 0 auto;
 }
 
-.logo {
-  min-width: 9rem;
-  height: 3.5rem;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: 2;
-  cursor: pointer;
-}
 
-.logo-blue {
-  background-image: url("./assets/img/logos/giggr-logo-blue-600x250.png");
-}
-
-.logo-white {
-  background-image: url("./assets/img/logos/giggr-logo-white-600x250.png");
-}
-
-.logo-lg {
-  width: 12rem;
-  height: 5rem;
-}
 
 .login-container {
   width: 100vw;
@@ -102,15 +83,6 @@ a {
   color: white;
 }
 
-.logo-position-top-center {
-  position: absolute;
-  top: 2rem;
-  left: calc(50% - 6rem);
-  z-index: 99;
-
-
-}
-
 .menu-button {
   cursor: pointer;
   user-select: none;
@@ -130,4 +102,10 @@ a {
   -moz-transition: none !important;
   -ms-transition: none !important;
   -o-transition: none !important;
+}
+
+.dev {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }

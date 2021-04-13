@@ -3,7 +3,7 @@
 .submenu {
   display: flex;
   flex-direction: column;
-  width: $sidebar-open-width - 3rem;
+  //width: $sidebar-open-width;
   background-color: white;
   position: absolute;
   top: calc(#{$header-height} + #{$sidebar-row-height} * 3);
