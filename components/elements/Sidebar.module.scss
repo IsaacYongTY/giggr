@@ -1,7 +1,7 @@
 @import '../../assets/scss/_variables';
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: $blue;

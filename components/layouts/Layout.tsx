@@ -21,15 +21,15 @@ export default function Layout( props: any) {
 
             <Header title={props.title}/>
 
-            <div className={`${isOpen ? styles.layoutSidebarOpen : styles.layoutSidebarClose}`}>
+            <div className={`${styles.layoutSidebar} ${isOpen ? styles.open : styles.close}`}>
                 <div>
                     <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} currentPathName={router.pathname}/>
                 </div>
 
-                <div className={styles.layoutContent}>
-                    <div className="container">
+                <div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>
+
                         {props.children}
-                    </div>
+
 
                 </div>
 
