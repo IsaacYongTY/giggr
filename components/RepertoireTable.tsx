@@ -1,10 +1,12 @@
-import React from "react";
+import React, {CSSProperties} from "react";
 import {convertDurationToMinSec} from "../lib/library";
 
 export default function RepertoireTable({songList} : any) {
 
+
+
     return (
-        <div style={{ "overflow-y": "scroll", height: "80rem"}}>
+        <div>
         <table className="table">
             <thead>
 
