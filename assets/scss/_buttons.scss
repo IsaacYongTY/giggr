@@ -1,12 +1,13 @@
 @import './_variables';
 
 .btn {
-  display: block;
+  //display: block;
   font-size: 1.6rem;
   padding: 1rem 2rem;
   border-radius: 0.3rem;
   width: 100%;
   color: $darkgrey;
+  cursor: pointer;
 }
 
 .btn-primary {
@@ -15,6 +16,18 @@
 }
 
 .btn-outline {
+  border: 0.1rem solid black;
+  background-color: white;
+  color: $darkgrey;
+}
+
+.btn-outline:hover {
+  border: 0.1rem solid black;
+  background-color: $lightgrey;
+  color: $darkgrey;
+}
+
+.btn-active {
   border: 0.1rem solid black;
   background-color: white;
   color: $darkgrey;
@@ -38,4 +51,23 @@
 .btn-outline:hover {
   background-color: $lightgrey;
   cursor: pointer;
+}
+
+.btn-link {
+  background-color: transparent;
+  border: none;
+
+  text: $blue;
+}
+
+.btn-link:hover {
+  background-color: $lightgrey;
+  color: $darkgrey;
+}
+
+.btn-link:active {
+
+  background-color: darken($lightgrey, 10%);
+  color: $darkgrey;
+
 }

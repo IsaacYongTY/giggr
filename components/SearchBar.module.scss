@@ -1,0 +1,15 @@
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  input[type="text"] {
+    flex: 7 1;
+    margin-right: 2rem;
+
+  }
+
+  button {
+    flex: 1 1;
+  }
+}

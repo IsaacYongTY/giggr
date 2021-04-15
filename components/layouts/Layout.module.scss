@@ -1,20 +1,51 @@
 @import '../../assets/scss/_variables';
 
-.layoutSidebarOpen {
+.layoutSidebar {
   display: grid;
+
+}
+
+.open {
   grid-template-columns: $sidebar-open-width 1fr;
+}
+
+
+
+.close {
+  grid-template-columns: $sidebar-close-width 1fr;
 
 }
 
-.layoutSidebarClose {
-  display: grid;
-  grid-template-columns: 6.5rem 1fr;
-
+.contentOpen {
+  animation: layoutWidthExpand 0.3s ease-out forwards;
 }
 
+.contentClose {
+  animation: layoutWidthCollapse 0.3s ease-out forwards;
+}
 
 .layoutContent {
   width: 100%;
   display: flex;
   justify-content: center;
+  //background-color: red;
+}
+
+@keyframes layoutWidthExpand {
+  0% {
+    width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
+    //width: 60%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes layoutWidthCollapse {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
+  }
 }
