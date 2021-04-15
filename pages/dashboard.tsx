@@ -1,9 +1,13 @@
 import React from 'react';
 import Layout from '../components/layouts/Layout';
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import DashboardCardList from "../components/elements/DashboardCardList";
+import jwt from "jsonwebtoken";
 
 export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
 
+    let decoded = await jwt.verify(req.cookies.auth_token, process.env.NEXT_PUBLIC_SECRET)
+    console.log(decoded)
     if(!req.cookies.auth_token) {
         return {
             redirect: {
@@ -12,17 +16,18 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res } : Get
             }
         }
     }
+
     return {
-        props: { }
+        props: { user: decoded.user }
     }
 }
 
-function Dashboard() {
+function Dashboard({ user } : any) {
 
     return (
         <Layout title="Dashboard">
-            <h1>THis is a Dashboard</h1>
-            khglkijhfglasdkjhdddddddddddddddddddddddddddddddddddddddddddd
+            <h2>Welcome, {user.firstName} id: {user.id}!</h2>
+            <DashboardCardList />
         </Layout>
     )
 }
