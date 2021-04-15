@@ -6,8 +6,15 @@ export default function SearchBar({ setFilteredSongList, songList, filter, searc
 
     function handleSetSearchTerm(e: any) {
         setSearchTerm(() => e.target.value)
-        setFilteredSongList((prevState: any) =>
-            songList.filter((song: any) => song[filter].includes(searchTerm))
+        setFilteredSongList((prevState: any) => {
+            // if(filter === "artist") {
+            //
+            //     return songList.filter((song: any) => song[filter]['enName'].includes(searchTerm))
+            // }
+
+            return songList.filter((song: any) => song[filter].includes(searchTerm))
+        }
+
         )
     }
     console.log(searchTerm)
