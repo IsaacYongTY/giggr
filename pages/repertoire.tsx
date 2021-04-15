@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Layout from "../components/layouts/Layout";
 import Head from "next/head";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/elements/SearchBar";
 import axios from "axios";
-import { convertDurationToMinSec } from "../lib/library";
-import RepertoireTable from "../components/RepertoireTable";
+import RepertoireTable from "../components/elements/RepertoireTable";
 
 export default function Repertoire() {
 
@@ -12,6 +11,7 @@ export default function Repertoire() {
     const [filter, setFilter] = useState("")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState("");
+    const [spotifyLink, setSpotifyLink] = useState("");
 
     useEffect(() => {
         handleLoadRepertoire()
@@ -25,6 +25,30 @@ export default function Repertoire() {
 
         console.log(response)
     }
+
+    const getTrackId = (spotifyLink: string) => {
+        spotifyLink = spotifyLink.replace('spotify:track:', '')
+        spotifyLink = spotifyLink.replace('https://open.spotify.com/track/', '')
+        spotifyLink = spotifyLink.substring(0,22)
+        return spotifyLink
+    }
+
+    async function handleAddSong() {
+
+        const trackId : string = getTrackId(spotifyLink)
+        console.log(trackId)
+        try {
+            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/addauto`, { trackId })
+            console.log(response)
+
+            await handleLoadRepertoire()
+        } catch (err) {
+            console.log(err)
+        }
+
+
+
+    }
     return (
         <Layout title="My Repertoire">
             <div className="container">
@@ -36,6 +60,8 @@ export default function Repertoire() {
                     <button className="btn btn-link" onClick={() => setFilter('artist')}>Artist</button>
                 </div>
 
+
+
                 <SearchBar
                     songList={songList}
                     setFilteredSongList={setFilteredSongList}
@@ -43,6 +69,18 @@ export default function Repertoire() {
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                 />
+
+                <div className="d-flex">
+                    <input
+                        name="spotifySearch"
+                        className="form-control"
+                        onChange={(e) => setSpotifyLink(e.target.value)}
+                    />
+                    <button
+                        className="btn btn-primary"
+                        onClick={handleAddSong}
+                    >Get from Spotify</button>
+                </div>
                 <RepertoireTable songList={searchTerm ? filteredSongList : songList}/>
             </div>
 

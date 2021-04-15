@@ -1,5 +1,5 @@
 import React, {CSSProperties} from "react";
-import {convertDurationToMinSec} from "../lib/library";
+import {convertDurationToMinSec} from "../../lib/library";
 
 export default function RepertoireTable({songList} : any) {
 
@@ -40,9 +40,9 @@ export default function RepertoireTable({songList} : any) {
                 <th>
                     <div className="cell">Spotify Link</div>
                 </th>
-                <th>
-                    <div className="cell">Test</div>
-                </th>
+                {/*<th>*/}
+                {/*    <div className="cell">Test</div>*/}
+                {/*</th>*/}
             </tr>
 
             </thead>
@@ -80,7 +80,7 @@ export default function RepertoireTable({songList} : any) {
                                 <a href={song.spotifyLink}>Link</a>
                             </div>
                         </td>
-                        <td><input /></td>
+                        {/*<td><input /></td>*/}
                     </tr>
                 ))
             }
