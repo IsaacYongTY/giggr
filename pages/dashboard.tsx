@@ -7,8 +7,8 @@ import jwt from "jsonwebtoken";
 export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
 
     // @ts-ignore
-    let decoded : any = jwt.verify(req.cookies.auth_token, process.env.NEXT_PUBLIC_SECRET)
-    console.log(decoded)
+    // let decoded : any = jwt.verify(req.cookies.auth_token, process.env.NEXT_PUBLIC_SECRET)
+    // console.log(decoded)
     if(!req.cookies.auth_token) {
         return {
             redirect: {
@@ -19,15 +19,15 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res } : Get
     }
 
     return {
-        props: { user: decoded.user }
+        props: { }
     }
 }
 
-function Dashboard({ user } : any) {
+function Dashboard({  } : any) {
 
     return (
         <Layout title="Dashboard">
-            <h2>Welcome, {user.firstName} id: {user.id}!</h2>
+            <h2>Welcome!</h2>
             <DashboardCardList />
         </Layout>
     )
