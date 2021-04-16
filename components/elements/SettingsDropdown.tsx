@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import SubmenuRow from "./SubmenuRow";
 import styles from "./SettingsDropdown.module.scss";
-import {getComputedStyle} from "dom-helpers";
 
 export default function SettingsDropdown() {
 
