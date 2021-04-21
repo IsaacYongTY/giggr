@@ -1,15 +1,22 @@
 .container {
-  background-color: green;
+
   display: flex; justify-content: center;
   > div {
     width: 100%;
   }
+
+  input[type="text"] {
+
+    font-size: 1.6rem;
+  }
+
+
 }
 
 
 .form {
   width: 75vw;
-  background-color: pink;
+  //background-color: pink;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,3 +31,14 @@
   justify-content: center;
   //align-items: center;
 }
+
+.row {
+  //background-color: pink;
+  width: 75%;
+  display: flex;
+  justify-content: center;
+}
+.col {
+  flex: 1
+}
+
