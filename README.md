@@ -51,4 +51,4 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
 - Financial Report - Gigs
 
 ### Relational Database Sketch
-https://whimsical.com/giggr-database-sketch-CZheddN2JgG1ZeXkfXK7hj
+https://whimsical.com/giggr-database-schema-4HWe9rs9dkoJRxfmv7WJvy
