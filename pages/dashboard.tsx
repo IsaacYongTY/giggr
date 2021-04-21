@@ -6,9 +6,12 @@ import jwt from "jsonwebtoken";
 
 export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
 
-    // @ts-ignore
-    // let decoded : any = jwt.verify(req.cookies.auth_token, process.env.NEXT_PUBLIC_SECRET)
-    // console.log(decoded)
+
+    let secret: string = process.env.NEXT_PUBLIC_SECRET || '';
+
+    let decoded = jwt.verify(req.cookies.auth_token, secret);
+    console.log(decoded)
+
     if(!req.cookies.auth_token) {
         return {
             redirect: {
