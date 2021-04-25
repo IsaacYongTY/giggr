@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./gigform.module.scss";
 import Layout from "../../components/layouts/Layout";
-import { DateTimePicker, TimePicker, DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
+import { TimePicker, DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
@@ -10,9 +10,6 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 
 export default function GigForm() {
-
-    const [selectedDate, handleDateChange] = useState(new Date())
-    const [selectedTime, handleTimeChange] = useState(null)
 
     const [isRepeated, setIsRepeated] = useState(false)
     const customDatePickerTheme = createMuiTheme({

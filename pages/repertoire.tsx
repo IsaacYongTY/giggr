@@ -20,8 +20,7 @@ export default function Repertoire() {
     },[])
     async function handleLoadRepertoire() {
         let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs`)
-        console.log(response.data.result)
-        setSongList(response.data.result)
+        setSongList(response.data.songs)
 
         console.log(response)
     }
