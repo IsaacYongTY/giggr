@@ -1,5 +1,6 @@
 import React, {CSSProperties} from "react";
 import {convertDurationToMinSec} from "../../lib/library";
+import { capitalizeString } from "../../lib/library";
 
 export default function RepertoireTable({songList} : any) {
 
@@ -73,7 +74,7 @@ export default function RepertoireTable({songList} : any) {
                             <div className="cell">{song.timeSignature}</div>
                         </td>
                         <td>
-                            <div className="cell">{song.language}</div>
+                            <div className="cell">{capitalizeString(song.language)}</div>
                         </td>
                         <td>
                             <div className="cell">

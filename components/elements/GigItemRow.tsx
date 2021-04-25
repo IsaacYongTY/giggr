@@ -1,18 +1,25 @@
 import React from "react";
 import styles from "./GigItemRow.module.css";
+import { format } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
-export default function GigItemRow() {
+export default function GigItemRow({gig}: any) {
 
+    const combineDateTime = (date : string, time: string) => {
+
+        console.log(date + time)
+        return utcToZonedTime(date + 'T' + time, 'Asia/Singapore')
+    }
     return (
         <div>
             <div className={styles.row}>
-                <a href="gigs/1">Gig 1</a>
-                <p>Katong V</p>
+                <a href={`gigs/${gig.id}`}>{gig.title}</a>
+                <p>{gig.venue}</p>
             </div>
             <div className={styles.row}>
 
-                <p>11.30am - 3.30pm</p>
-                <p>22/7/2021 </p>
+                {/*<p>{format( new Date(gig.time), 'hh:mm')}</p>*/}
+                <p>{format(new Date(combineDateTime(gig.date, gig.time)), 'dd MMM yyyy hh:mm a')}</p>
             </div>
         </div>
 
