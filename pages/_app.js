@@ -6,6 +6,8 @@ import React from "react";
 import "@material-ui/core";
 
 export default function MyApp({ Component, pageProps}) {
+
+
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Component {...pageProps} />

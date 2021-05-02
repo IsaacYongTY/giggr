@@ -168,6 +168,15 @@ label {
   display: block;
 }
 
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+}
+
+textarea {
+  font-size: 1.6rem;
+  resize: none;
+}
 //.MuiFormControl-root {
 //  font-size: 1.6rem;
 //
