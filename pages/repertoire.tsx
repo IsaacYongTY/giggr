@@ -4,25 +4,39 @@ import Head from "next/head";
 import SearchBar from "../components/elements/SearchBar";
 import axios from "axios";
 import RepertoireTable from "../components/elements/RepertoireTable";
+import withAuth from "../middlewares/withAuth";
+import { GetServerSideProps } from "next";
+import {useRouter} from "next/router";
+import Song from "../lib/types/song";
 
-export default function Repertoire() {
+export const getServerSideProps : GetServerSideProps = withAuth(async({req, res} : any) => {
 
-    const [songList, setSongList] = useState([])
+    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs`)
+
+    return {
+        props: {
+            songs: response.data.songs,
+            user: req.user
+        }
+    }
+})
+
+export default function Repertoire({ songs }: { songs: Array<Song> }) {
+    const router = useRouter()
+    const [songList, setSongList] = useState(songs)
     const [filter, setFilter] = useState("")
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredSongList, setFilteredSongList] = useState("");
+    const [filteredSongList, setFilteredSongList] = useState(songs);
     const [spotifyLink, setSpotifyLink] = useState("");
 
     useEffect(() => {
-        handleLoadRepertoire()
-        console.log(songList)
+
 
     },[])
-    async function handleLoadRepertoire() {
-        let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs`)
-        setSongList(response.data.songs)
 
-        console.log(response)
+
+    function refreshData() {
+        router.replace(router.asPath)
     }
 
     const getTrackId = (spotifyLink: string) => {
@@ -38,16 +52,15 @@ export default function Repertoire() {
         console.log(trackId)
         try {
             let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/addauto`, { trackId })
-            console.log(response)
 
-            await handleLoadRepertoire()
+            refreshData()
+
         } catch (err) {
             console.log(err)
         }
 
-
-
     }
+
     return (
         <Layout title="My Repertoire">
             <div className="container">
@@ -62,7 +75,7 @@ export default function Repertoire() {
 
 
                 <SearchBar
-                    songList={songList}
+                    songList={songs}
                     setFilteredSongList={setFilteredSongList}
                     filter={filter}
                     searchTerm={searchTerm}
@@ -80,10 +93,9 @@ export default function Repertoire() {
                         onClick={handleAddSong}
                     >Get from Spotify</button>
                 </div>
-                <RepertoireTable songList={searchTerm ? filteredSongList : songList}/>
+                <RepertoireTable songList={searchTerm ? filteredSongList : songs}/>
             </div>
-
-
         </Layout>
     )
 }
+

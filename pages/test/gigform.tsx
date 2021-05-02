@@ -45,7 +45,7 @@ export default function GigForm() {
     const handleSubmit = async (values: FormValues) => {
         console.log(values)
 
-        let response = await axios.post('http://localhost:8080/api/v1/gigs', values, { withCredentials: true })
+        let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`, values, {withCredentials: true})
         console.log(response)
     }
 
