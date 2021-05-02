@@ -4,30 +4,24 @@ import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import DashboardCardList from "../components/elements/DashboardCardList";
 import jwt from "jsonwebtoken";
 import axios from "axios";
-
-export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
-
-
-    let secret: string = process.env.NEXT_PUBLIC_SECRET || '';
-
-    let decoded = jwt.verify(req.cookies.auth_token, secret);
-    console.log(decoded)
+import withAuth from "../middlewares/withAuth";
 
 
-    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`)
+export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
+
+    const config = {
+        withCredentials: true,
+        headers: {
+            "x-auth-token": `Bearer ${req.user.token}`
+        }
+    }
+
+    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`, config)
     //
     // console.log(response)
 
-    let songsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?number=5`)
-    console.log(songsResponse.data)
-    if(!req.cookies.auth_token) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: 'accounts/login'
-            }
-        }
-    }
+    let songsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?number=5`, config)
+
 
     return {
         props: {
@@ -35,7 +29,7 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res } : Get
             songs: songsResponse.data.songs
         }
     }
-}
+})
 
 function Dashboard({ gigs, songs } : any) {
     console.log(gigs)
