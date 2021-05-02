@@ -6,24 +6,23 @@ import jwt from "jsonwebtoken";
 
 export const getServerSideProps : GetServerSideProps = async ({ req, res } : GetServerSidePropsContext) => {
 
-
-    let secret: string = process.env.NEXT_PUBLIC_SECRET || '';
-
-    let decoded = jwt.verify(req.cookies.auth_token, secret);
-    console.log(decoded)
-
     if(!req.cookies.auth_token) {
         return {
             redirect: {
                 permanent: false,
-                destination: 'accounts/login'
+                destination: '/accounts/login'
             }
         }
     }
 
+    let secret: string = process.env.NEXT_PUBLIC_SECRET || '';
+
+    let decoded: any = jwt.verify(req.cookies.auth_token, secret);
+
     return {
-        props: { }
+        props: { user: decoded.user}
     }
+
 }
 
 function Dashboard({  } : any) {

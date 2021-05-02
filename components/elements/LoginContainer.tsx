@@ -42,9 +42,12 @@ export default function LoginContainer() {
             // }z
 
             setIsShowErrorMessage(false)
-            await router.push('/dashboard')
+            console.log(router)
+            console.log('---')
+             router.push('/repertoire')
 
         } catch (err) {
+            console.log('errro')
             setIsShowErrorMessage(true)
             console.log(err)
         }
