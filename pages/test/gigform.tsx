@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./gigform.module.scss";
 import Layout from "../../components/layouts/Layout";
-import { DateTimePicker, TimePicker, DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
+import { TimePicker, DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
@@ -11,9 +11,6 @@ import * as Yup from "yup";
 import axios from "axios";
 
 export default function GigForm() {
-
-    const [selectedDate, handleDateChange] = useState(new Date())
-    const [selectedTime, handleTimeChange] = useState(null)
 
     const [isRepeated, setIsRepeated] = useState(false)
     const customDatePickerTheme = createMuiTheme({
@@ -49,7 +46,7 @@ export default function GigForm() {
     const handleSubmit = async (values: FormValues) => {
         console.log(values)
 
-        let response = await axios.post('http://localhost:8080/api/v1/gigs', values, { withCredentials: true })
+        let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`, values, {withCredentials: true})
         console.log(response)
     }
 

@@ -1,8 +1,13 @@
 import React from 'react';
 import styles from "./DashboardCard.module.scss";
 import GigItemRow from "./GigItemRow";
+import Song from "../../lib/types/song"
 
-export default function DashboardCard({type, data, link} : any) {
+
+export default function DashboardCard({type, data, link, gigs, songs} : any) {
+    console.log(gigs)
+
+
 
     const renderCardTitle =(type: string, data: object[]) => {
         switch(type) {
@@ -16,7 +21,7 @@ export default function DashboardCard({type, data, link} : any) {
             case "gigs":
                 return(
                     <>
-                        <p>You have <span className="text-primary">3</span> gigs </p>
+                        <p>You have <span className="text-primary">{gigs.length}</span> gigs </p>
                         <p>this week</p>
                     </>
                 )
@@ -30,9 +35,11 @@ export default function DashboardCard({type, data, link} : any) {
                     <>
                         <p>Recently added:</p>
                         <ul>
-                            <li>Song 1</li>
-                            <li>Song 2</li>
-                            <li>Song 3</li>
+                            {
+                                songs.map((song : Song) => (
+                                    <li>{song.title} - {song.artist.enName}</li>
+                                ))
+                            }
                         </ul>
                     </>
 
@@ -41,9 +48,13 @@ export default function DashboardCard({type, data, link} : any) {
             case "gigs":
                 return (
                     <ul>
-                        <li><GigItemRow /></li>
-                        <li><GigItemRow /></li>
-                        <li><GigItemRow /></li>
+                        {
+                            gigs.slice(0,3).map( gig => (
+                                <li>
+                                    <GigItemRow gig={gig} />
+                                </li>
+                            ))
+                        }
                     </ul>
                 )
         }
@@ -61,9 +72,6 @@ export default function DashboardCard({type, data, link} : any) {
                 )
         }
     }
-
-
-
 
     return (
 
