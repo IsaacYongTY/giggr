@@ -17,11 +17,7 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, re
     }
 
     let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`, config)
-    //
-    // console.log(response)
-
     let songsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?number=5`, config)
-
 
     return {
         props: {

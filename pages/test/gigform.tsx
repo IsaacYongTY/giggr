@@ -5,7 +5,8 @@ import { TimePicker, DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 import axios from "axios";
 
@@ -73,6 +74,12 @@ export default function GigForm() {
         )
     }
 
+    const validationSchema = Yup.object().shape({
+        title: Yup.string().required("Please give the gig a title"),
+        description: Yup.string(),
+        date: Yup.date().required(),
+        pay: Yup.number()
+    })
     const DatePickerField = ({ field, form, ...other}: any) => {
         const currentError = form.errors[field.name]
 
@@ -107,14 +114,18 @@ export default function GigForm() {
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values) => handleSubmit(values)}
-
+                    validationSchema={validationSchema}
                 >
                     {
-                        ({ values, errors, handleChange, handleSubmit }) => (
+                        ({ values, errors, handleChange, handleSubmit, touched ,setFieldValue}) => (
                         <form className={styles.form} onSubmit={handleSubmit}>
                             <div className={styles.formRow}>
-                                <label>Title:</label>
-                                <input className="form-control" name="title" onChange={handleChange}/>
+                                <label>Title:*</label>
+                                <input className="form-control" name="title" onChange={handleChange} autoComplete="off"/>
+                                <div className="error-message">
+                                    <ErrorMessage name="title" />
+                                </div>
+
                             </div>
 
                             <div className={styles.formRow}>
@@ -139,12 +150,15 @@ export default function GigForm() {
 
                             <div className={styles.formRow}>
                                 <label>Venue:</label>
-                                <input className="form-control" name="venue" onChange={handleChange}/>
+                                <input className="form-control" name="venue" onChange={handleChange} autoComplete="off"/>
                             </div>
 
                             <div className={styles.formRow}>
                                 <label>Pay:</label>
-                                <input className="form-control" name="pay" onChange={handleChange}/>
+                                <input className="form-control" name="pay" onChange={handleChange} autoComplete="off"/>
+                                <div className="error-message">
+                                    <ErrorMessage name="pay" />
+                                </div>
                             </div>
 
                             <div className={styles.row}>
@@ -158,11 +172,11 @@ export default function GigForm() {
                                         isRepeated &&
                                         <>
                                             <label>Frequency:</label>
-                                            <select>
-                                                <option>Every week</option>
-                                                <option>Every month</option>
-                                                <option>Biweekly</option>
-                                            </select>
+                                            <Field as="select" name="frequency">
+                                                <option value="weekly">Weekly</option>
+                                                <option value="monthly">Monthly</option>
+                                                <option value="biweekly">Biweekly</option>
+                                            </Field>
                                         </>
                                     }
 
