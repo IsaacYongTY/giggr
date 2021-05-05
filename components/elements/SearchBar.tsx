@@ -25,6 +25,7 @@ export default function SearchBar({ setFilteredSongList, songList, filter, searc
                 className="form-control"
                 name="searchTerm"
                 onChange={handleSetSearchTerm}
+                placeholder="Search..."
             />
             {/*<button className="btn btn-primary" >Search</button>*/}
         </div>

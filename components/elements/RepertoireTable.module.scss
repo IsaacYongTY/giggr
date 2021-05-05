@@ -1,0 +1,67 @@
+
+.table {
+  //border: 1px solid gray;
+  border-collapse: collapse;
+  position: relative;
+
+
+
+  & tbody {
+    width: 100rem;
+    height: 10rem;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    background-color: #e9faff;
+  }
+  th, tr, td {
+    margin: 0;
+
+    //border: 1px solid gray;
+    height: 2.5rem;
+
+  }
+
+  tr:nth-child(2n + 1) {
+    background-color: #e9faff;
+  }
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 1.6rem;
+
+
+  }
+
+
+
+}
+
+.cell {
+  padding: 1rem 2rem;
+  cursor: pointer;
+
+}
+
+.tableContainer {
+  height: 80rem;
+  overflow-y: scroll;
+}
+
+.tableContentContainer {
+  height: 80rem;
+  overflow-y: scroll;
+}
+
+.pillButton {
+  background-color: pink;
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+}
