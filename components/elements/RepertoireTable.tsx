@@ -1,11 +1,18 @@
-import React, {CSSProperties} from "react";
+import React, {useEffect, useState} from "react";
 import {convertDurationToMinSec} from "../../lib/library";
 import { capitalizeString } from "../../lib/library";
 import styles from "./RepertoireTable.module.scss";
 import Song from "../../lib/types/song";
+import axios from "axios";
+import { useRouter } from "next/router";
+import AddSongModal from "./AddSongModal";
 
-export default function RepertoireTable({ songList } : { songList: Song[] }) {
+export default function RepertoireTable({ songs, setSongs } : { songs: Song[], setSongs: any }) {
+    const router = useRouter()
 
+    // useEffect(() => {
+    //
+    // }, [songs])
     const colKey = [
         {
             name: "ID",
@@ -55,102 +62,129 @@ export default function RepertoireTable({ songList } : { songList: Song[] }) {
 
     ]
 
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [modalSong, setModalSong] = useState({});
 
+    function refreshData() {
+        router.replace(router.asPath)
+    }
+    async function handleDeleteSong(id : number) {
+        try {
+
+            let response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/${id}`, {withCredentials: true})
+            console.log(response)
+            setSongs((prevState : Song) => prevState.filter((song: Song) => song.id !== id))
+        } catch (error) {
+            console.log(error)
+            console.log("Song deletion failed")
+        }
+    }
+
+    function handleOpenModal(song : Song) {
+        setIsEditModalOpen(true)
+        console.log(song)
+        setModalSong(song)
+    }
     return (
-        <div className={styles.tableContainer}>
-        <table className={styles.table}>
-            <thead>
+        <>
+            <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                <thead>
 
 
-            <tr>
+                <tr>
+                    {
+                        colKey.map(col => (
+                            <th>
+                                <div className={styles.cell}>
+                                    {col.name}
+                                </div>
+                            </th>
+                        ))
+                    }
+
+                </tr>
+
+                </thead>
+
+
+                <tbody className="table-content-container">
                 {
-                    colKey.map(col => (
-                        <th>
-                            <div className={styles.cell}>
-                                {col.name}
-                            </div>
-                        </th>
-                    ))
-                }
-
-            </tr>
-
-            </thead>
-
-
-            <tbody className="table-content-container">
-            {
-                songList.map((song : any) => (
-                    <tr>
-                        {/*{*/}
-                        {/*    colKey.map( col => (*/}
-                        {/*        <td>*/}
-                        {/*            <div className={styles.cell}>{song[col.key]}</div>*/}
-                        {/*        </td>*/}
-                        {/*    ))*/}
-                        {/*}*/}
-                        <td>
-                            <div className={styles.cell}>{song.id}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{song.romTitle?.split(' ').slice(0,2).join(' ')} {song.title}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{song.artist.enName}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{song.key}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{song.tempo}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{convertDurationToMinSec(song.durationMs)}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{song.timeSignature}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>{capitalizeString(song.language)}</div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>
-                                {
-                                    song.composers.map((composer: any) =>(
-                                        <span className={styles.pillButton}>{composer.enName}</span>
-                                    ))
-                                }
-                            </div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>
-                                <a href={song.spotifyLink}>Link</a>
-                            </div>
-                        </td>
-                        <td>
-                            <div className={styles.cell}>
-
-                                    <span className="material-icons">
+                    songs?.map((song : any) => (
+                        <tr>
+                            {/*{*/}
+                            {/*    colKey.map( col => (*/}
+                            {/*        <td>*/}
+                            {/*            <div className={styles.cell}>{song[col.key]}</div>*/}
+                            {/*        </td>*/}
+                            {/*    ))*/}
+                            {/*}*/}
+                            <td>
+                                <div className={styles.cell}>{song.id}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.romTitle?.split(' ').slice(0,2).join(' ')} {song.title}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.artist.enName}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.key}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.tempo}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{convertDurationToMinSec(song.durationMs)}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.timeSignature}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>{song.language?.name}</div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>
+                                    {
+                                        song.composers.map((composer: any) =>(
+                                            <span className={styles.pillButton}>{composer.enName}</span>
+                                        ))
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>
+                                    <a href={song.spotifyLink}>Link</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div className={styles.cell}>
+                                    <span className="material-icons" onClick={() => handleOpenModal(song)}>
                                         edit
                                     </span>
 
-                                    <span className="material-icons">
+                                    <span className="material-icons" onClick={() => handleDeleteSong(song.id)}>
                                         delete
                                     </span>
+                                </div>
+                            </td>
 
 
-
-                            </div>
-                        </td>
-
-                        {/*<td><input /></td>*/}
-                    </tr>
-                ))
-            }
-            </tbody>
+                        </tr>
 
 
-        </table>
-        </div>
+                    ))
+
+
+                }
+                </tbody>
+
+
+            </table>
+            </div>
+
+            <AddSongModal isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} type="edit" song={modalSong} />
+
+        </>
     )
 }

@@ -3,13 +3,12 @@
   //border: 1px solid gray;
   border-collapse: collapse;
   position: relative;
-
+  width: 100%;
 
 
   & tbody {
     width: 100rem;
     height: 10rem;
-    overflow-x: auto;
     overflow-y: auto;
   }
 
@@ -40,15 +39,15 @@
 
   }
 
+  .cell {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 
-
-}
-
-.cell {
-  padding: 1rem 2rem;
-  cursor: pointer;
+  }
 
 }
+
+
 
 .tableContainer {
   height: 80rem;

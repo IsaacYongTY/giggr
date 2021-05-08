@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {useRouter} from "next/router";
 
-export default function SpotifySearchBar() {
+export default function SpotifySearchBar({ setFormValue } : any) {
 
     const router = useRouter();
     const [spotifyLink, setSpotifyLink] = useState("");
@@ -14,25 +14,37 @@ export default function SpotifySearchBar() {
         return spotifyLink
     }
 
-    function refreshData() {
-        router.replace(router.asPath)
-    }
+    // function refreshData() {
+    //     router.replace(router.asPath)
+    // }
 
+
+    console.log(spotifyLink)
 
     async function handleAddSong() {
 
         const trackId : string = getTrackId(spotifyLink)
         console.log(trackId)
-        try {
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/addauto`, { trackId })
 
-            refreshData()
+
+        try {
+
+            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/fill`, { trackId })
+
+            console.log(response.data.result)
+            const songData = response.data.result
+            setFormValue({
+                ...songData
+            })
+            setSpotifyLink('')
 
         } catch (err) {
             console.log(err)
         }
 
     }
+
+
     return (
         <div className="spotify-search">
             <input
