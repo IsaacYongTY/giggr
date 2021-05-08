@@ -13,22 +13,22 @@ import AddSongModal from "../components/elements/AddSongModal"
 
 export const getServerSideProps : GetServerSideProps = withAuth(async({req, res} : any) => {
 
-    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs`)
+    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?category=id&order=ASC`)
 
     return {
         props: {
-            songs: response.data.songs,
+            initialSongs: response.data.songs,
             user: req.user
         }
     }
 })
 
-export default function Repertoire({ songs }: { songs: Array<Song> }) {
+export default function Repertoire({ initialSongs }: { initialSongs: Array<Song> }) {
 
-    const [songList, setSongList] = useState(songs)
+    const [songs, setSongs] = useState(initialSongs)
     const [filter, setFilter] = useState("")
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredSongList, setFilteredSongList] = useState(songs);
+    const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,7 +54,7 @@ export default function Repertoire({ songs }: { songs: Array<Song> }) {
                     </div>
 
                     <SearchBar
-                        songList={songs}
+                        songs={songs}
                         setFilteredSongList={setFilteredSongList}
                         filter={filter}
                         searchTerm={searchTerm}
@@ -64,12 +64,13 @@ export default function Repertoire({ songs }: { songs: Array<Song> }) {
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
 
 
-                    <RepertoireTable songList={searchTerm ? filteredSongList : songs}/>
+                    <RepertoireTable songs={searchTerm ? filteredSongList : songs} setSongs={setSongs}/>
                 </div>
 
             </Layout>
 
-                <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+                <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type="add" />
+
         </>
     )
 }

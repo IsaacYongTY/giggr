@@ -1,32 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import SpotifySearchBar from "./SpotifySearchBar";
 import Modal from "react-modal";
 import styles from "./AddSongModal.module.scss";
 import AlertBox from "./AlertBox";
-import axios from "axios";
 
-export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: any) {
+export default function AddSongModal({isModalOpen, setIsModalOpen}: any) {
 
     const [formValue, setFormValue] = useState<any>({})
+
     useEffect(() => {
-        if(type=== 'edit') {
-            let { title, artist, key, tempo, durationMs, timeSignature, language, spotifyLink } = song || {}
-            let value = {
-                title,
-                artist: artist?.enName,
-                key,
-                tempo,
-                durationMinSec: durationMs,
-                timeSignature,
-                language,
-                spotifyLink
-            }
-            setFormValue(value)
-        }
-
-
-
-    },[isModalOpen])
+        setFormValue({})
+    },[])
 
     const customStyles = {
         content : {
@@ -54,20 +38,6 @@ export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: 
         setIsModalOpen(false)
     }
 
-    async function handleEditSong(id : number) {
-
-        try {
-            let sendData = {...song, ...formValue}
-            console.log(sendData)
-            await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/${id}`, sendData, {
-                withCredentials: true,
-
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
         <Modal
             isOpen={isModalOpen}
@@ -77,7 +47,7 @@ export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: 
             <input className={styles.titleInput} placeholder="Title" onChange={handleInput} defaultValue={formValue.title}/>
 
 
-            { type === "add" && <SpotifySearchBar setFormValue={setFormValue}/> }
+            {/*<SpotifySearchBar setFormValue={setFormValue}/>*/}
             {/*<label>Title:</label>*/}
             {/*<input className="form-control" name="title"/>*/}
 
@@ -94,7 +64,7 @@ export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: 
             <input className="form-control" name="duration" onChange={handleInput} defaultValue={formValue.durationMinSec}/>
 
             <label>Time Signature:</label>
-            <input className="form-control" name="timeSignature" onChange={handleInput} defaultValue={formValue.timeSignature}/>
+            <input className="form-control" name="timeSignature" onChange={handleInput} defaultValue={formValue.time}/>
 
             <label>Language:</label>
             <input className="form-control" name="language" onChange={handleInput} defaultValue={formValue.language}/>
@@ -104,12 +74,7 @@ export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: 
 
             <label>Spotify Link:</label>
             <input className="form-control" name="spotifyLink" onChange={handleInput} defaultValue={formValue.spotifyLink}/>
-            <button
-                className="btn btn-primary"
-                onClick={() => handleEditSong(song.id)}
-            >
-                {type === 'edit' ? "Confirm Edit" :"Add"}
-            </button>
+            <button className="btn btn-primary" onClick={() => console.log("add song to database")}>Add</button>
             <br />
             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
             <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>

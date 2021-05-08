@@ -23,7 +23,7 @@ export default interface Song {
         initialism: string,
         instrumentalness: number,
         key: string,
-        language: string,
+        languageId: number,
         mode: number,
         mood: any,
         genre: any,

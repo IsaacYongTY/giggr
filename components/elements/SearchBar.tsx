@@ -2,15 +2,20 @@ import React, {useEffect, useState} from "react";
 import styles from "./SearchBar.module.scss";
 import Song, { Artist } from "../../lib/types/song";
 
-export default function SearchBar({ setFilteredSongList, songList, filter, searchTerm, setSearchTerm }: any ) {
+export default function SearchBar({ setFilteredSongList, songs, filter, searchTerm, setSearchTerm }: any ) {
 
     useEffect(() => {
         setFilteredSongList((prevState: any) => {
             if(filter === "artist") {
-                return songList.filter((song: Song) =>  song.artist.enName.toLowerCase().includes(searchTerm))
+                return songs.filter((song: Song) =>  song.artist.enName.toLowerCase().includes(searchTerm))
             }
-            return songList.filter((song: Song ) => song[filter]?.toLowerCase().includes(searchTerm))
+            console.log(searchTerm)
+            console.log(songs)
+            console.log(filter)
+            console.log(songs?.filter((song: Song ) => song[filter]?.toLowerCase().includes(searchTerm)))
+            return songs?.filter((song: Song ) => song[filter]?.toLowerCase().includes(searchTerm))
         })
+
     },[searchTerm])
 
 

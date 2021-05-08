@@ -5,7 +5,7 @@
   font-size: 1.6rem;
   padding: 1rem 2rem;
   border-radius: 0.3rem;
-  width: 100%;
+  //width: 100%;
   color: $darkgrey;
   cursor: pointer;
 }
@@ -15,16 +15,25 @@
   border: none;
 }
 
+.btn-danger {
+  background-color: orangered;
+  border: none;
+
+  &:hover {
+    background-color: darken(orangered, 10%);
+  }
+}
+
 .btn-outline {
   border: 0.1rem solid black;
   background-color: white;
   color: $darkgrey;
-}
 
-.btn-outline:hover {
-  border: 0.1rem solid black;
-  background-color: $lightgrey;
-  color: $darkgrey;
+  &:hover {
+    border: 0.1rem solid black;
+    background-color: $lightgrey;
+    color: $darkgrey;
+  }
 }
 
 .btn-active {
@@ -36,6 +45,11 @@
 .btn-highlight {
   background-color: #FFE8D6;
   border: none;
+
+  &:hover {
+    background-color: darken($highlight, 10%);
+    cursor: pointer;
+  }
 }
 
 .btn-primary:hover  {
@@ -43,10 +57,6 @@
   cursor: pointer;
 }
 
-.btn-highlight:hover {
-  background-color: darken($highlight, 10%);
-  cursor: pointer;
-}
 
 .btn-outline:hover {
   background-color: $lightgrey;

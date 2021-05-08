@@ -1,0 +1,35 @@
+.alertBox {
+  width: 70rem;
+  height: 5rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  bottom: 1rem;
+  left: 50%;
+  background-color: red;
+  border-radius: 0.5rem;
+  border: 1px solid lightgray;
+  transform: translateX(-50%);
+
+
+  .fail {
+    background-color: red;
+  }
+}
+
+.success {
+  background-color: lightgreen;
+}
+
+.cross {
+
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  cursor: pointer;
+  //display: flex;
+
+
+}
