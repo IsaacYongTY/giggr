@@ -9,15 +9,17 @@ import withAuth from "../middlewares/withAuth";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 
+    console.log("working here")
+    console.log(req.user.tokenString)
     const config = {
         withCredentials: true,
         headers: {
-            "x-auth-token": `Bearer ${req.user.token}`
+            "x-auth-token": `Bearer ${req.user.tokenString}`
         }
     }
 
-    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`, config)
-    let songsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?number=5&category=createdAt&order=DESC`, config)
+    let response = await axios.get(`/api/v1/gigs`, config)
+    let songsResponse = await axios.get(`/api/v1/songs?number=5&category=createdAt&order=DESC`, config)
 
     return {
         props: {

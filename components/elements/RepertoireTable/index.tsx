@@ -94,8 +94,8 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
 
                 <tr>
                     {
-                        colKey.map(col => (
-                            <th>
+                        colKey.map((col,index) => (
+                            <th key={index}>
                                 <div className={styles.cell}>
                                     {col.name}
                                 </div>
@@ -111,7 +111,7 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
                 <tbody className="table-content-container">
                 {
                     songs?.map((song : any) => (
-                        <tr>
+                        <tr key={song.id}>
                             {/*{*/}
                             {/*    colKey.map( col => (*/}
                             {/*        <td>*/}
@@ -147,7 +147,7 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
                                 <div className={styles.cell}>
                                     {
                                         song.composers.map((composer: any) =>(
-                                            <span className={styles.pillButton}>{composer.enName}</span>
+                                            <span className={styles.pillButton} key={composer.id}>{composer.enName}</span>
                                         ))
                                     }
                                 </div>
