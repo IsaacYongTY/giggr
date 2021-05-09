@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
-import SpotifySearchBar from "./SpotifySearchBar";
+import SpotifySearchBar from "../SpotifySearchBar";
 import Modal from "react-modal";
 import styles from "./AddSongModal.module.scss";
-import AlertBox from "./AlertBox";
+import AlertBox from "../AlertBox";
 import axios from "axios";
 
 export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: any) {

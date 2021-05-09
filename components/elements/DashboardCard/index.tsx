@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./DashboardCard.module.scss";
-import GigItemRow from "./GigItemRow";
-import Song from "../../lib/types/song"
+import GigItemRow from "../GigItemRow";
+import Song from "../../../lib/types/song"
 
 
 export default function DashboardCard({type, data, link, gigs, songs} : any) {
@@ -49,7 +49,7 @@ export default function DashboardCard({type, data, link, gigs, songs} : any) {
                 return (
                     <ul>
                         {
-                            gigs.slice(0,3).map( gig => (
+                            gigs.slice(0,3).map( (gig : any) => (
                                 <li>
                                     <GigItemRow gig={gig} />
                                 </li>

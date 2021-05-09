@@ -35,7 +35,7 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
     - Manage gigs
         - List View
         - Date Picker
-        - AlertBox if timing clash - avoid double booking
+        - Index if timing clash - avoid double booking
 - Payment
     - Pricing Table
     - Stripe API

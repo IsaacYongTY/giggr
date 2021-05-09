@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Header.module.scss';
-import SettingsDropdown from "./SettingsDropdown";
+import SettingsDropdown from "../SettingsDropdown";
 
 const Header = ({ title }: any) => {
     return (

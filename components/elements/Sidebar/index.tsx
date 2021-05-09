@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Sidebar.module.scss'
-import SidebarRow from "./SidebarRow";
+import SidebarRow from "../SidebarRow";
 import Link from "next/link";
-import Submenu from "./Submenu";
+import Submenu from "../Submenu";
 
 export default function Sidebar({ isOpen, setIsOpen, currentPathName }: any) {
 
