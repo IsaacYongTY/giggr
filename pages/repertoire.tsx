@@ -7,12 +7,12 @@ import RepertoireTable from "../components/elements/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
+import { useRouter } from "next/router";
+import AddSongModal from "../components/elements/AddSongModal";
 
-import AddSongModal from "../components/elements/AddSongModal"
+export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
-export const getServerSideProps : GetServerSideProps = withAuth(async({req, res} : any) => {
-
-    let response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs?category=id&order=ASC`)
+    let response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
 
     return {
         props: {

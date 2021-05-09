@@ -78,8 +78,7 @@ export default function AddSongModal({isModalOpen, setIsModalOpen, type, song}: 
 
 
             { type === "add" && <SpotifySearchBar setFormValue={setFormValue}/> }
-            {/*<label>Title:</label>*/}
-            {/*<input className="form-control" name="title"/>*/}
+
 
             <label>Artist:</label>
             <input className="form-control" name="artist" onChange={handleInput} defaultValue={formValue.artist} />
