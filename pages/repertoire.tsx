@@ -6,7 +6,6 @@ import axios from "axios";
 import RepertoireTable from "../components/elements/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
-import {useRouter} from "next/router";
 import Song from "../lib/types/song";
 
 import AddSongModal from "../components/elements/AddSongModal"

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SubmenuRow from "./SubmenuRow";
+import SubmenuRow from "../SubmenuRow";
 import styles from "./SettingsDropdown.module.scss";
 import { useRouter } from "next/router";
 

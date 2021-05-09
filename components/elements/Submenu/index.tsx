@@ -1,5 +1,5 @@
 import React from 'react';
-import SubmenuRow from "./SubmenuRow";
+import SubmenuRow from "../SubmenuRow";
 import styles from "./Submenu.module.scss";
 
 export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {

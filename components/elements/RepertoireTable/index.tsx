@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {convertDurationToMinSec} from "../../lib/library";
-import { capitalizeString } from "../../lib/library";
+import {convertDurationToMinSec} from "../../../lib/library";
+import { capitalizeString } from "../../../lib/library";
 import styles from "./RepertoireTable.module.scss";
-import Song from "../../lib/types/song";
+import Song from "../../../lib/types/song";
 import axios from "axios";
 import { useRouter } from "next/router";
-import AddSongModal from "./AddSongModal";
+import AddSongModal from "../AddSongModal";
 
 export default function RepertoireTable({ songs, setSongs } : { songs: Song[], setSongs: any }) {
     const router = useRouter()

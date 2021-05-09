@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./SearchBar.module.scss";
-import Song, { Artist } from "../../lib/types/song";
+import Song, { Artist } from "../../../lib/types/song";
 
 export default function SearchBar({ setFilteredSongList, songs, filter, searchTerm, setSearchTerm }: any ) {
 

@@ -28,7 +28,7 @@ export default function Gigs({ gigs } : any) {
         <Layout>
             <div className={styles.gridContainer}>
                 {
-                    gigs.map( gig => (
+                    gigs.map( (gig:any) => (
                         <div>
                             <div className="card">
 

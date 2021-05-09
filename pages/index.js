@@ -9,9 +9,6 @@ export default function Home() {
     router.push('/accounts/login')
   },[])
 
-
-
-
   return (
     <div className="container">
       <Head>
