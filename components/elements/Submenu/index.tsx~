@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuRow from "../MenuRow";
+import SubmenuRow from "../SubmenuRow";
 import styles from "./Submenu.module.scss";
 
 export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {
@@ -11,10 +11,10 @@ export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {
             onMouseEnter={() => setIsSubmenuOpen(true)}
             onMouseLeave={() => setIsSubmenuOpen(false)}
         >
-            <MenuRow title="Progression Generator" link="/utilities/progression" />
-            <MenuRow title="Spotify Meta Tool" link="/utilities/metatool" />
-            <MenuRow title="BPM Tools" link="/utilities/bpm" />
-            <MenuRow title="Lead Sheet Generator" link="/utilities/leadsheetspacing" />
+            <SubmenuRow title="Progression Generator" link="/utilities/progression" />
+            <SubmenuRow title="Spotify Meta Tool" link="/utilities/metatool" />
+            <SubmenuRow title="BPM Tools" link="/utilities/bpm" />
+            <SubmenuRow title="Lead Sheet Generator" link="/utilities/leadsheetspacing" />
 
 
         </div>

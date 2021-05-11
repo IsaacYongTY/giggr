@@ -9,6 +9,7 @@ import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
 import { useRouter } from "next/router";
 import AddSongModal from "../components/elements/AddSongModal";
+import FilterRow from "../components/elements/FilterRow";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -25,7 +26,7 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 export default function Repertoire({ initialSongs }: { initialSongs: Array<Song> }) {
 
     const [songs, setSongs] = useState(initialSongs)
-    const [filter, setFilter] = useState("")
+    const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
@@ -45,12 +46,7 @@ export default function Repertoire({ initialSongs }: { initialSongs: Array<Song>
             <Layout title="My Repertoire">
                 <div className="container">
 
-                    Filter:
-                    <div className="d-flex">
-                        <button className="btn btn-link" onClick={() => setFilter('title')}>Title</button>
-                        <button className="btn btn-link" onClick={() => setFilter('initialism')}>Initials</button>
-                        <button className="btn btn-link" onClick={() => setFilter('artist')}>Artist</button>
-                    </div>
+                    <FilterRow setFilter={setFilter} />
 
                     <SearchBar
                         songs={songs}

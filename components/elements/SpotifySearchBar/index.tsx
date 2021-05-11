@@ -4,39 +4,28 @@ import {useRouter} from "next/router";
 
 export default function SpotifySearchBar({ setFormValue } : any) {
 
-    const router = useRouter();
     const [spotifyLink, setSpotifyLink] = useState("");
 
-    const getTrackId = (spotifyLink: string) => {
-        spotifyLink = spotifyLink.replace('spotify:track:', '')
-        spotifyLink = spotifyLink.replace('https://open.spotify.com/track/', '')
-        spotifyLink = spotifyLink.substring(0,22)
-        return spotifyLink
-    }
-
-    // function refreshData() {
-    //     router.replace(router.asPath)
-    // }
-
-
-    console.log(spotifyLink)
+    const getTrackId = (spotifyLink: string) => spotifyLink
+        .replace('spotify:track:', '')
+        .replace('https://open.spotify.com/track/', '')
+        .substring(0,22)
 
     async function handleAddSong() {
 
+        setFormValue({})
         const trackId : string = getTrackId(spotifyLink)
         console.log(trackId)
 
-
         try {
 
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/fill`, { trackId })
+            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/spotify`, { trackId })
 
             console.log(response.data.result)
             const songData = response.data.result
             setFormValue({
                 ...songData
             })
-            setSpotifyLink('')
 
         } catch (err) {
             console.log(err)
