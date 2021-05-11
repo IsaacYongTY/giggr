@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import SubmenuRow from "../SubmenuRow";
+import MenuRow from "../MenuRow";
 import styles from "./SettingsDropdown.module.scss";
 import { useRouter } from "next/router";
 
@@ -27,9 +27,9 @@ export default function SettingsDropdown() {
             {
                 isOpen &&
                 <div className={styles.menu}>
-                    <SubmenuRow icon="settings" title="Settings" />
-                    <SubmenuRow icon="help" title="Help" />
-                    <SubmenuRow icon="logout" title="Logout" action={handleLogout}/>
+                    <MenuRow icon="settings" title="Settings" />
+                    <MenuRow icon="help" title="Help" />
+                    <MenuRow icon="logout" title="Logout" action={handleLogout}/>
                 </div>
             }
 
