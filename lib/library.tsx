@@ -16,9 +16,14 @@ const removeBrackets = (input: string) => {
     return input.slice(0, removeIndex > -1 ? removeIndex : input.length).trim()
 }
 
-export const capitalizeString = (romTitle : string) =>
-    romTitle.split(' ').map((word) =>
+export const capitalizeString = (text : string) =>{
+    if(!text) {
+        return
+    }
+    return text.split(' ').map((word) =>
         word[0].toUpperCase() + word.slice(1)).join(' ')
+}
+
 
 export const getRomTitle = (title :string) => {
     title = removeBrackets(title)
