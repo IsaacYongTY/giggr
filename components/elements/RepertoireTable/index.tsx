@@ -141,7 +141,7 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
                                 <div className={styles.cell}>{song.timeSignature}</div>
                             </td>
                             <td>
-                                <div className={styles.cell}>{song.language?.name}</div>
+                                <div className={styles.cell}>{capitalizeString(song.language?.name)}</div>
                             </td>
                             <td>
                                 <div className={styles.cell}>
