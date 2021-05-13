@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import axios from "axios";
 import {useRouter} from "next/router";
 
 export default function SpotifySearchBar({ setFormValue } : any) {
 
     const [spotifyLink, setSpotifyLink] = useState("");
+    const spotifySearchInput = useRef<HTMLInputElement>(null);
 
     const getTrackId = (spotifyLink: string) => spotifyLink
         .replace('spotify:track:', '')
@@ -33,6 +34,11 @@ export default function SpotifySearchBar({ setFormValue } : any) {
 
     }
 
+    function selectText() {
+        if(spotifySearchInput.current) {
+            spotifySearchInput.current.select()
+        }
+    }
 
     return (
         <div className="spotify-search">
@@ -40,6 +46,8 @@ export default function SpotifySearchBar({ setFormValue } : any) {
                 name="spotifySearch"
                 className="form-control"
                 onChange={(e) => setSpotifyLink(e.target.value)}
+                ref={spotifySearchInput}
+                onClick={selectText}
             />
             <button
                 className="btn btn-primary"
