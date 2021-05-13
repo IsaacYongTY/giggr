@@ -23,7 +23,7 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
     }
 })
 
-export default function Repertoire({ initialSongs }: { initialSongs: Array<Song> }) {
+export default function Repertoire({ initialSongs, user }: { initialSongs: Array<Song>, user: any }) {
 
     const [songs, setSongs] = useState(initialSongs)
     const [filter, setFilter] = useState("title")
@@ -59,7 +59,7 @@ export default function Repertoire({ initialSongs }: { initialSongs: Array<Song>
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
 
 
-                    <RepertoireTable songs={searchTerm ? filteredSongList : songs} setSongs={setSongs}/>
+                    <RepertoireTable songs={searchTerm ? filteredSongList : songs} setSongs={setSongs} user={user}/>
                 </div>
 
             </Layout>

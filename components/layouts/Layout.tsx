@@ -27,9 +27,9 @@ export default function Layout( props: any) {
                 </div>
 
                 <div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>
-                    <div>
+
                         {props.children}
-                    </div>
+
                 </div>
 
             </div>

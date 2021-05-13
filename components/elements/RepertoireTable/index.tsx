@@ -6,7 +6,7 @@ import Song from "../../../lib/types/song";
 import axios from "axios";
 import AddSongModal from "../AddSongModal";
 
-export default function RepertoireTable({ songs, setSongs } : { songs: Song[], setSongs: any }) {
+export default function RepertoireTable({ songs, setSongs, user } : { songs: Song[], setSongs: any, user: any }) {
 
     const colKey = [
         {
@@ -58,10 +58,16 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState({});
 
+    console.log(songs)
     async function handleDeleteSong(id : number) {
         try {
 
-            let response = await axios.delete(`/api/v1/songs/${id}`, { withCredentials: true })
+            let response = await axios.delete(`/api/v1/songs/${id}`, {
+                withCredentials: true,
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
+            })
             console.log(response)
             setSongs((prevState : Song) => prevState.filter((song: Song) => song.id !== id))
         } catch (error) {
@@ -123,7 +129,7 @@ export default function RepertoireTable({ songs, setSongs } : { songs: Song[], s
                                         <div className={styles.cell}>{song.tempo}</div>
                                     </td>
                                     <td>
-                                        <div className={styles.cell}>{convertDurationToMinSec(song.durationMs)}</div>
+                                        <div className={styles.cell}>{song.durationMinSec}</div>
                                     </td>
                                     <td>
                                         <div className={styles.cell}>{song.timeSignature}</div>
