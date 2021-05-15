@@ -17,6 +17,7 @@ export default interface Song {
         updatedAt: Date,
         danceability: number,
         dateReleased: Date,
+        durationMinSec: string,
         durationMs: number,
         energy: number,
         id: number,

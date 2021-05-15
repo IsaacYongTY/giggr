@@ -28,6 +28,7 @@ export const capitalizeString = (text : string) =>{
 export const getRomTitle = (title :string) => {
     title = removeBrackets(title)
     let romTitle = chineseToPinyin(title, {noTone: true})
-    return capitalizeString(romTitle).replace(/,/g, ' ')
+
+    return capitalizeString(romTitle)?.replace(/,/g, ' ')
 
 }

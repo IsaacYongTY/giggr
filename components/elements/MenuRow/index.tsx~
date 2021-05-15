@@ -1,7 +1,7 @@
 import React from "react"
-import styles from "./SubmenuRow.module.scss";
+import styles from "./MenuRow.module.scss";
 
-export default function SubmenuRow({ icon, link, title, action }: any) {
+export default function MenuRow({ icon, link, title, action }: any) {
 
     return (
         <div className={styles.row} onClick={action}>
