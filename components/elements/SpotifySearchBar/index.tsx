@@ -1,26 +1,26 @@
 import React, {useRef, useState} from 'react';
 import axios from "axios";
 import {useRouter} from "next/router";
+import { getSpotifyTrackId } from "../../../lib/library";
 
 export default function SpotifySearchBar({ setFormValue } : any) {
 
     const [spotifyLink, setSpotifyLink] = useState("");
     const spotifySearchInput = useRef<HTMLInputElement>(null);
 
-    const getTrackId = (spotifyLink: string) => spotifyLink
-        .replace('spotify:track:', '')
-        .replace('https://open.spotify.com/track/', '')
-        .substring(0,22)
-
-    async function handleAddSong() {
+    async function handleGetFromSpotify() {
 
         setFormValue({})
-        const trackId : string = getTrackId(spotifyLink)
+        const trackId : string = getSpotifyTrackId(spotifyLink)
         console.log(trackId)
+
+        if(trackId) {
+            return
+        }
 
         try {
 
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/spotify`, { trackId })
+            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/spotify?trackId=${trackId}`)
 
             console.log(response.data.result)
             const songData = response.data.result
@@ -51,7 +51,7 @@ export default function SpotifySearchBar({ setFormValue } : any) {
             />
             <button
                 className="btn btn-primary"
-                onClick={handleAddSong}
+                onClick={handleGetFromSpotify}
             >Get from Spotify</button>
         </div>
     )

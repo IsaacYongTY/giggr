@@ -58,7 +58,6 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState({});
 
-    console.log(songs)
     async function handleDeleteSong(id : number) {
         try {
 
@@ -120,7 +119,7 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
                                         <div className={styles.cell}>{song.romTitle?.split(' ').slice(0,2).join(' ')} {song.title}</div>
                                     </td>
                                     <td>
-                                        <div className={styles.cell}>{song.artist.enName}</div>
+                                        <div className={styles.cell}>{song.artist?.enName}</div>
                                     </td>
                                     <td>
                                         <div className={styles.cell}>{song.key}</div>

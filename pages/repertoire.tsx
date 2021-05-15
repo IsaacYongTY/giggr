@@ -43,7 +43,7 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
     return (
         <>
 
-            <Layout title="My Repertoire">
+            <Layout title="My Repertoire" user={user}>
                 <div className="container">
 
                     <FilterRow setFilter={setFilter} />
