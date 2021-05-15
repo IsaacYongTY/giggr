@@ -1,10 +1,84 @@
-import React from "react"
+import React, {useState, useRef, useEffect} from "react"
+import Layout from "../../components/layouts/Layout";
+import SpotifySearchBar from "../../components/elements/SpotifySearchBar";
+import styles from "./metatool.module.scss";
+import AlertBox from "../../components/elements/AlertBox";
 
 export default function MetaTool() {
 
+    const [formValue, setFormValue] = useState({})
+    const textAreaContainer = useRef<HTMLDivElement>(null)
+    const [text, setText] = useState("")
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
+
+    function copyToClipboard() {
+        if(textAreaContainer.current) {
+            let sel: any;
+            let range: any;
+            let el = textAreaContainer.current; //get element id
+            if (window.getSelection && document.createRange) { //Browser compatibility
+                sel = window.getSelection();
+                console.log(sel.toString())
+                if (sel.toString() === '') { //no text selection
+                    window.setTimeout(function () {
+                        range = document.createRange(); //range object
+                        range.selectNodeContents(el); //sets Range
+                        sel.removeAllRanges(); //remove all ranges from selection
+                        sel.addRange(range);//add Range to a Selection.
+
+                        document.execCommand('copy')
+                        sel.removeAllRanges()
+
+                        setIsAlertOpen(true)
+                        setAlertMessage("Copied to clipboard!")
+
+                    }, 1);
+                }
+            }
+
+            document.execCommand('copy')
+            setIsAlertOpen(true)
+            sel.removeAllRanges()
+        }
+    }
+
+    function clearSelection() {
+        if(textAreaContainer.current) {
+            textAreaContainer.current.innerHTML = ""
+            setIsAlertOpen(true)
+            setAlertMessage("Content cleared")
+        }
+    }
+    useEffect(() => {
+        let { title, artist, key, tempo, durationMinSec, time, firstAlphabet, language, dateReleased } : any = formValue || {}
+
+        let yearReleased = dateReleased?.slice(0,4)
+        setText(`${title}\n${artist}\nKey: ${key}\nTempo: ${tempo}\nDuration: ${durationMinSec}\nTime: ${time}\nKeywords: ${firstAlphabet}, ${language}\n\nYear Released: ${yearReleased}`)
+
+    }, [formValue])
+
+
     return (
-        <div>
-            Meta Tools
-        </div>
+        <Layout>
+
+            <div className={styles.container}>
+                <SpotifySearchBar setFormValue={setFormValue}/>
+                <div contentEditable="true" className={styles.textarea} ref={textAreaContainer}>
+
+                    { Object.keys(formValue).length ? text : null }
+
+                </div>
+
+                <button className="btn btn-primary" onClick={copyToClipboard}>Copy To Clipboard</button>
+                <button className="btn btn-primary" onClick={clearSelection}>Clear</button>
+                {
+                    isAlertOpen &&
+                    <AlertBox message={alertMessage} timeout={5} setIsAlertOpen={setIsAlertOpen}/>
+                }
+
+            </div>
+
+        </Layout>
     )
 }
