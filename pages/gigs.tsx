@@ -25,6 +25,7 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, re
 export default function Gigs({ gigs } : any) {
 
     const [events, setEvents] = useState([])
+
     function gigsToFullCalendar(gigs: any) {
         return gigs.map((gig: any) => (
             {
@@ -40,7 +41,8 @@ export default function Gigs({ gigs } : any) {
     return (
         <Layout>
             <div className="container">
-                <div className={styles.calendar}>
+
+
                     <FullCalendar
                         plugins={[ dayGridPlugin, interactionPlugin ]}
                         initialView="dayGridMonth"
@@ -50,7 +52,8 @@ export default function Gigs({ gigs } : any) {
                         droppable={true}
                         events={events}
                     />
-                </div>
+
+
 
             </div>
 

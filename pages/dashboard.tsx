@@ -32,8 +32,11 @@ function Dashboard({ gigs, songs } : any) {
     console.log(gigs)
     return (
         <Layout title="Dashboard">
-            <h2>Welcome!</h2>
-            <DashboardCardList gigs={gigs} songs={songs}/>
+            <div>
+                <h2>Welcome!</h2>
+                <DashboardCardList gigs={gigs} songs={songs}/>
+            </div>
+
         </Layout>
     )
 }
