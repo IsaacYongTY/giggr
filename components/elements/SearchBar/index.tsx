@@ -7,7 +7,7 @@ export default function SearchBar({ setFilteredSongList, songs, filter, searchTe
     useEffect(() => {
         setFilteredSongList((prevState: any) => {
             if(filter === "artist") {
-                return songs.filter((song: Song) =>  song.artist.enName?.toLowerCase().includes(searchTerm))
+                return songs.filter((song: Song) =>  song.artist?.enName?.toLowerCase().includes(searchTerm))
             }
 
             return songs?.filter((song: Song ) => song[filter]?.toLowerCase().includes(searchTerm))

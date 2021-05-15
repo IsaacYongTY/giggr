@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from '../components/layouts/Layout';
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import DashboardCardList from "../components/elements/DashboardCardList";
-import jwt from "jsonwebtoken";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";
 

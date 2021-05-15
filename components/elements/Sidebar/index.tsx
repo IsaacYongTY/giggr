@@ -3,8 +3,13 @@ import styles from './Sidebar.module.scss'
 import SidebarRow from "../SidebarRow";
 import Link from "next/link";
 import Submenu from "../Submenu";
+import {GetServerSideProps} from "next";
+import withAuth from "../../../middlewares/withAuth";
+import axios from "axios";
 
-export default function Sidebar({ isOpen, setIsOpen, currentPathName }: any) {
+
+
+export default function Sidebar({ isOpen, setIsOpen, currentPathName, user }: any) {
 
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
 
@@ -35,6 +40,12 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName }: any) {
                 <SidebarRow icon="work" title="My Gigs" link="/gigs" isOpen={isOpen} currentPathName={currentPathName} />
                 <SidebarRow icon="handyman" title="Utilities" hasSubmenu={true} isOpen={isOpen} setIsSubmenuOpen={setIsSubmenuOpen} currentPathName={currentPathName}/>
                 <SidebarRow icon="insights" title="Stats" link="/stats" isOpen={isOpen} currentPathName={currentPathName} />
+                {
+                    user?.tierId === 4 &&
+                    <SidebarRow icon="admin_panel_settings" title="Admin" link="/admin" isOpen={isOpen} currentPathName={currentPathName} />
+                }
+
+
 
 
             </div>

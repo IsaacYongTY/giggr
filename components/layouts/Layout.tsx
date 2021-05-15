@@ -5,7 +5,7 @@ import styles from '../layouts/Layout.module.scss';
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-export default function Layout( props: any) {
+export default function Layout({ title, user, children }: any) {
 
     const router = useRouter();
 
@@ -14,21 +14,21 @@ export default function Layout( props: any) {
     return (
         <>
             <Head>
-                <title>{props.title} | GIGGR</title>
+                <title>{title} | GIGGR</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
 
 
-            <Header title={props.title}/>
+            <Header title={title}/>
 
             <div className={`${styles.layoutSidebar} ${isOpen ? styles.open : styles.close}`}>
                 <div>
-                    <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} currentPathName={router.pathname}/>
+                    <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} currentPathName={router.pathname} user={user}/>
                 </div>
 
                 <div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>
 
-                        {props.children}
+                        {children}
 
                 </div>
 

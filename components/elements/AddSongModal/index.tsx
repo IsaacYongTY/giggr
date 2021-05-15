@@ -10,23 +10,20 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     useEffect(() => {
-        if(type=== 'edit') {
-            let { title, artist, key, tempo, durationMs, timeSignature, language, spotifyLink } = song || {}
+        if(type === 'edit') {
+            let { title, artist, key, tempo, durationMinSec, timeSignature, language, spotifyLink } = song || {}
             let value = {
                 title,
                 artist: artist?.enName,
                 key,
                 tempo,
-                durationMinSec: durationMs,
+                durationMinSec,
                 timeSignature,
                 language,
                 spotifyLink
             }
             setFormValue(value)
         }
-
-
-
     },[isModalOpen])
 
     const customStyles = {
@@ -78,7 +75,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
     async function handleEditSong(id : number) {
 
         try {
-            let sendData = {...song, ...formValue}
+            let sendData = { ...formValue}
             console.log(sendData)
             await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/${id}`, sendData, {
                 withCredentials: true,
