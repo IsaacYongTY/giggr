@@ -5,21 +5,29 @@ import styles from "./AddSongModal.module.scss";
 import AlertBox from "../AlertBox";
 import axios from "axios";
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }: any) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database }: any) {
 
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
+
+    let url = `/api/v1/songs/`
+
+    if(database === 'master') {
+        url = `api/v1/admin/songs`
+    }
+
     useEffect(() => {
         if(type === 'edit') {
-            let { title, artist, key, tempo, durationMinSec, timeSignature, language, spotifyLink } = song || {}
+            let { title, artist, romTitle, key, tempo, durationMinSec, timeSignature, language, spotifyLink } = song || {}
             let value = {
                 title,
-                artist: artist?.enName,
+                romTitle,
+                artist: artist?.name,
                 key,
                 tempo,
                 durationMinSec,
                 timeSignature,
-                language,
+                language: language?.name,
                 spotifyLink
             }
             setFormValue(value)
@@ -54,8 +62,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
     async function handleAddSong() {
         try {
 
-            console.log('clicked')
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/`, formValue, {
+            let response = await axios.post(url, formValue, {
                 withCredentials: true,
 
             })
@@ -72,12 +79,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
             console.log(error)
         }
     }
+
     async function handleEditSong(id : number) {
 
         try {
             let sendData = { ...formValue}
-            console.log(sendData)
-            await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/${id}`, sendData, {
+            console.log(url)
+            await axios.patch(`${url}/${id}`, sendData, {
                 withCredentials: true,
 
             })
@@ -95,11 +103,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
             <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
 
-            { type === "add" && <SpotifySearchBar setFormValue={setFormValue}/> }
-
+            { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
 
             <label>Artist:</label>
             <input className="form-control" name="artist" onChange={handleInput} value={formValue.artist} />
+
+            <label>Romanized Title:</label>
+            <input className="form-control" name="artist" onChange={handleInput} value={formValue.romTitle} />
 
             <label>Key:</label>
             <input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>
@@ -124,28 +134,27 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song }
             {
                 type === 'edit'
                     ?
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => handleEditSong(song.id)}
-                        >
-                            Confirm Edit
-                        </button>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => handleEditSong(song.id)}
+                    >
+                        Confirm Edit
+                    </button>
                     :
-                        <button
-                            className="btn btn-primary"
-                            onClick={handleAddSong}
-                        >
-                            Add
-                        </button>
+                    <button
+                        className="btn btn-primary"
+                        onClick={handleAddSong}
+                    >
+                        Add
+                    </button>
             }
-
 
             <br />
             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
             <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
             {
                 isAlertOpen &&
-                <AlertBox />
+                <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
             }
 
         </Modal>

@@ -5,8 +5,10 @@ import styles from "./RepertoireTable.module.scss";
 import Song from "../../../lib/types/song";
 import axios from "axios";
 import AddSongModal from "../AddSongModal";
+import Image from "next/image";
 
-export default function RepertoireTable({ songs, setSongs, user } : { songs: Song[], setSongs: any, user: any }) {
+export default function RepertoireTable({ songs, setSongs, user, database } :
+    { songs: Song[], setSongs: any, user: any, database: string }) {
 
     const colKey = [
         {
@@ -59,9 +61,14 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
     const [modalSong, setModalSong] = useState({});
 
     async function handleDeleteSong(id : number) {
+        let url = `/api/v1/songs/`
+
+        if(database === 'master') {
+            url = `api/v1/admin/songs`
+        }
         try {
 
-            let response = await axios.delete(`/api/v1/songs/${id}`, {
+            let response = await axios.delete(`${url}/${id}`, {
                 withCredentials: true,
                 headers: {
                     "x-auth-token": `Bearer ${user.tokenString}`
@@ -119,7 +126,7 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
                                         <div className={styles.cell}>{song.romTitle?.split(' ').slice(0,2).join(' ')} {song.title}</div>
                                     </td>
                                     <td>
-                                        <div className={styles.cell}>{song.artist?.enName}</div>
+                                        <div className={styles.cell}>{song.artist?.name}</div>
                                     </td>
                                     <td>
                                         <div className={styles.cell}>{song.key}</div>
@@ -140,14 +147,20 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
                                         <div className={styles.cell}>
                                             {
                                                 song.composers.map((composer: any) =>(
-                                                    <span className={styles.pillButton} key={composer.id}>{composer.enName}</span>
+                                                    <span className={styles.pillButton} key={composer.id}>{composer.name}</span>
                                                 ))
                                             }
                                         </div>
                                     </td>
                                     <td>
                                         <div className={styles.cell}>
-                                            <a href={song.spotifyLink}>Link</a>
+                                            {
+                                                song.spotifyLink &&
+                                                <a href={song.spotifyLink}>
+                                                    <Image src="/spotify-icon-green.png" width={20} height={20}/>
+                                                </a>
+                                            }
+
                                         </div>
                                     </td>
                                     <td>
@@ -170,7 +183,12 @@ export default function RepertoireTable({ songs, setSongs, user } : { songs: Son
                 </table>
             </div>
 
-            <AddSongModal isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} type="edit" song={modalSong} />
+            <AddSongModal
+                isModalOpen={isEditModalOpen}
+                setIsModalOpen={setIsEditModalOpen}
+                type="edit"
+                song={modalSong}
+                database={database}/>
 
         </>
     )

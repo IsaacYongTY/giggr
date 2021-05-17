@@ -53,8 +53,6 @@ export default function Gigs({ gigs } : any) {
                         events={events}
                     />
 
-
-
             </div>
 
 
