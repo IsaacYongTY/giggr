@@ -29,7 +29,7 @@ export default function withAuth(WrappedComponent: any) {
             return {
                 redirect: {
                     permanent: false,
-                    destination: 'accounts/login'
+                    destination: '/accounts/login'
                 },
                 props: {}
             }
