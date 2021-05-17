@@ -1,7 +1,5 @@
-import { useRouter } from "next/router";
+
 import jwt from "jsonwebtoken";
-import cookies from "next-cookies";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 interface JwtDecoded {
     user: {
@@ -16,8 +14,6 @@ const decodeToken = (tokenString : string) => jwt.verify(tokenString, process.en
 
 
 export default function withAuth(WrappedComponent: any) {
-
-
 
     return async (context: any) => {
 
