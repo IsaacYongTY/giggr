@@ -1,13 +1,13 @@
 .container {
-  width: 50%;
+  width: 75%;
   //background-color: red;
 }
 
 .textarea {
   border: 1px solid lightgray;
   padding: 1rem;
-  width: 50rem;
-  height: 25rem;
+  width: 75rem;
+  height: 35rem;
   margin: 2rem 0;
   white-space: pre;
   overflow-y: scroll;
@@ -20,5 +20,21 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.buttonRowContainer {
+  > button {
+    margin-right: 3rem;
+  }
+}
+
+.checkboxRowContainer {
+  display: flex;
+  margin-top: 1rem;
+  > input[type="checkbox"] {
+    transform: scale(1.5);
+
+    margin-right: 2rem;
   }
 }

@@ -33,6 +33,7 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
+    console.log(initialSongs)
     function handleOpenModal() {
 
         setIsModalOpen(true)
@@ -59,12 +60,17 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
 
 
-                    <RepertoireTable songs={searchTerm ? filteredSongList : songs} setSongs={setSongs} user={user}/>
+                    <RepertoireTable
+                        songs={searchTerm ? filteredSongList : songs}
+                        setSongs={setSongs}
+                        user={user}
+                        database="database1"
+                    />
                 </div>
 
             </Layout>
 
-                <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type="add" />
+                <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type="add" database="database1" />
 
         </>
     )

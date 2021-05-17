@@ -3,14 +3,35 @@ import Layout from "../../components/layouts/Layout";
 import SpotifySearchBar from "../../components/elements/SpotifySearchBar";
 import styles from "./metatool.module.scss";
 import AlertBox from "../../components/elements/AlertBox";
+import withAuth from "../../middlewares/withAuth";
 
-export default function MetaTool() {
+export const getServerSideProps = withAuth(async ({req, res} : any) => {
+
+    return {
+        props: {
+            user: req.user
+        }
+    }
+})
+
+export default function MetaTool({ user } : any) {
 
     const [formValue, setFormValue] = useState({})
-    const textAreaContainer = useRef<HTMLDivElement>(null)
     const [text, setText] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [isContribute, setIsContribute] = useState(true)
     const [alertMessage, setAlertMessage] = useState("")
+    const textAreaContainer = useRef<HTMLDivElement>(null)
+
+    const isAdmin = user.tierId === 4
+
+    useEffect(() => {
+        let { title, artist, key, tempo, durationMinSec, timeSignature, initialism, language, dateReleased } : any = formValue || {}
+
+        let yearReleased = dateReleased?.slice(0,4)
+        setText(`${title}\n${artist}\nKey: ${key}\nTempo: ${tempo}\nDuration: ${durationMinSec}\nTime: ${timeSignature}\nKeywords: ${initialism}, ${language}\n\nYear Released: ${yearReleased}`)
+
+    }, [formValue])
 
     function copyToClipboard() {
         if(textAreaContainer.current) {
@@ -50,34 +71,52 @@ export default function MetaTool() {
             setAlertMessage("Content cleared")
         }
     }
-    useEffect(() => {
-        let { title, artist, key, tempo, durationMinSec, time, firstAlphabet, language, dateReleased } : any = formValue || {}
 
-        let yearReleased = dateReleased?.slice(0,4)
-        setText(`${title}\n${artist}\nKey: ${key}\nTempo: ${tempo}\nDuration: ${durationMinSec}\nTime: ${time}\nKeywords: ${firstAlphabet}, ${language}\n\nYear Released: ${yearReleased}`)
-
-    }, [formValue])
 
 
     return (
         <Layout>
 
             <div className={styles.container}>
-                <SpotifySearchBar setFormValue={setFormValue}/>
+                <SpotifySearchBar
+                    setFormValue={setFormValue}
+                    isContribute={isContribute}
+                    user={user}
+                    database="master"
+                />
                 <div contentEditable="true" className={styles.textarea} ref={textAreaContainer}>
 
                     { Object.keys(formValue).length ? text : null }
 
                 </div>
 
-                <button className="btn btn-primary" onClick={copyToClipboard}>Copy To Clipboard</button>
-                <button className="btn btn-primary" onClick={clearSelection}>Clear</button>
+                <div className={styles.buttonRowContainer}>
+                    <button className="btn btn-primary" onClick={copyToClipboard}>Copy To Clipboard</button>
+                    <button className="btn btn-primary" onClick={clearSelection}>Clear</button>
+                </div>
+
+                {
+                    isAdmin &&
+                    <div className={styles.checkboxRowContainer}>
+                        <input
+                            type="checkbox"
+                            id="contributeCheckbox"
+                            defaultChecked={isContribute}
+                            onChange={() => setIsContribute(prevState => !prevState)}
+                        />
+                        <label htmlFor="contributeCheckbox">Contribute to Database?</label>
+                    </div>
+                }
+
+
                 {
                     isAlertOpen &&
                     <AlertBox message={alertMessage} timeout={5} setIsAlertOpen={setIsAlertOpen}/>
                 }
 
             </div>
+
+
 
         </Layout>
     )

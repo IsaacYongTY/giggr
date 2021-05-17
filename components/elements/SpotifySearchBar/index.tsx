@@ -1,12 +1,18 @@
 import React, {useRef, useState} from 'react';
 import axios from "axios";
-import {useRouter} from "next/router";
+import styles from "./SpotifySearchBar.module.scss";
 import { getSpotifyTrackId } from "../../../lib/library";
 
-export default function SpotifySearchBar({ setFormValue } : any) {
+export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : any) {
 
     const [spotifyLink, setSpotifyLink] = useState("");
     const spotifySearchInput = useRef<HTMLInputElement>(null);
+
+    let url = `/api/v1/songs/`
+
+    if(database === 'master') {
+        url = `/api/v1/admin/songs`
+    }
 
     async function handleGetFromSpotify() {
 
@@ -14,19 +20,29 @@ export default function SpotifySearchBar({ setFormValue } : any) {
         const trackId : string = getSpotifyTrackId(spotifyLink)
         console.log(trackId)
 
-        if(trackId) {
+        if(!trackId) {
             return
         }
 
         try {
-
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/spotify?trackId=${trackId}`)
+            console.log(url)
+            let response = await axios.post(`${url}/spotify?trackId=${trackId}`)
 
             console.log(response.data.result)
             const songData = response.data.result
             setFormValue({
                 ...songData
             })
+
+            if(isContribute) {
+                await axios.post(url, songData, {
+                    withCredentials: true,
+                    headers: {
+                        "x-auth-token": `Bearer ${user.tokenString}`
+                    }
+                })
+                console.log("Added to database successfully")
+            }
 
         } catch (err) {
             console.log(err)
@@ -41,7 +57,7 @@ export default function SpotifySearchBar({ setFormValue } : any) {
     }
 
     return (
-        <div className="spotify-search">
+        <div className={styles.container}>
             <input
                 name="spotifySearch"
                 className="form-control"
