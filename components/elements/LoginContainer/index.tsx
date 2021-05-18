@@ -30,10 +30,10 @@ export default function LoginContainer() {
 
     async function handleLogin(values : MyFormValues) {
         console.log(values)
-        console.log('this is new 111')
+        console.log('this is new 1111')
         try {
             console.log(process.env.NEXT_PUBLIC_API_URL)
-            let response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`, values, { withCredentials: true})
+            let response = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
             console.log(response)
 
             // if(response.status !== 200) {
