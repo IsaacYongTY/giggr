@@ -7,7 +7,6 @@ import Modal from "react-modal";
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {
 
     const [csvFile, setCsvFile] = useState<File>()
-
     const fileUploadInput = useRef(null);
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
 
@@ -26,8 +25,6 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
     async function handleCsvSubmit() {
         console.log(csvFile)
 
-
-        console.log(database)
         if(csvFile) {
             let url = `/api/v1/songs/csv`
 
@@ -62,7 +59,7 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                     <span className="material-icons">
                         file_upload
                     </span>
-                    Click to Upload CSV
+                    <div>{csvFile ? csvFile.name : "Click to Upload CSV"}</div>
                 </label>
 
 

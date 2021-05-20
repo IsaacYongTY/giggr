@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {convertDurationToMinSec} from "../../../lib/library";
 import { capitalizeString } from "../../../lib/library";
 import styles from "./RepertoireTable.module.scss";
@@ -10,7 +10,8 @@ import Image from "next/image";
 export default function RepertoireTable({ songs, setSongs, user, database } :
     { songs: Song[], setSongs: any, user: any, database: string }) {
 
-    const colKey = [
+    const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language", "Composers", "Listen", "Action"]
+    const colKeyBackup = [
         {
             name: "ID",
             key: "id"
@@ -59,7 +60,11 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState({});
-
+    const [isActionShow, setIsActionShow] = useState(false)
+    const [isActionShowArray, setIsActionShowArray] = useState(Array(songs.length).fill(false))
+    const actionRow = useRef(null);
+    console.log(isActionShowArray)
+    console.log(isActionShowArray)
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 
@@ -87,6 +92,18 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
         setModalSong(song)
     }
 
+    function handleHover(index : number, isEnter : boolean) {
+        setIsActionShowArray((prevState: boolean[]) => {
+            let resultArray = prevState.map(() => false)
+
+            if(isEnter) {
+                resultArray[index] = true
+            }
+
+            return resultArray
+        })
+    }
+
     return (
         <>
             <div className={styles.tableContainer}>
@@ -98,7 +115,7 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                                 colKey.map((col,index) => (
                                     <th key={index}>
                                         <div className={styles.cell}>
-                                            {col.name}
+                                            {col}
                                         </div>
                                     </th>
                                 ))
@@ -110,15 +127,13 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
 
                     <tbody className="table-content-container">
                         {
-                            songs?.map((song : any) => (
-                                <tr key={song.id}>
-                                    {/*{*/}
-                                    {/*    colKey.map( col => (*/}
-                                    {/*        <td>*/}
-                                    {/*            <div className={styles.cell}>{song[col.key]}</div>*/}
-                                    {/*        </td>*/}
-                                    {/*    ))*/}
-                                    {/*}*/}
+                            songs?.map((song : any, index: number) => (
+                                <tr
+                                    key={song.id}
+                                    onMouseEnter={() => handleHover(index, true)}
+                                    onMouseLeave={() => handleHover(index, false)}
+                                >
+
                                     <td>
                                         <div className={styles.cell}>{song.id}</div>
                                     </td>
@@ -164,15 +179,19 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                                         </div>
                                     </td>
                                     <td>
-                                        <div className={styles.cell}>
+                                        {
+                                            isActionShowArray[index] &&
+                                            <div ref={actionRow} className={styles.cell}>
                                             <span className="material-icons" onClick={() => handleOpenModal(song)}>
                                                 edit
                                             </span>
 
-                                            <span className="material-icons" onClick={() => handleDeleteSong(song.id)}>
+                                                <span className="material-icons" onClick={() => handleDeleteSong(song.id)}>
                                                 delete
                                             </span>
-                                        </div>
+                                            </div>
+                                        }
+
                                     </td>
 
 
