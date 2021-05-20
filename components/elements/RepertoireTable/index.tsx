@@ -63,8 +63,7 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
     const [isActionShow, setIsActionShow] = useState(false)
     const [isActionShowArray, setIsActionShowArray] = useState(Array(songs.length).fill(false))
     const actionRow = useRef(null);
-    console.log(isActionShowArray)
-    console.log(isActionShowArray)
+
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 
@@ -147,7 +146,7 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                                         <div className={styles.cell}>{song.key}</div>
                                     </td>
                                     <td>
-                                        <div className={styles.cell}>{song.tempo}</div>
+                                        <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo}</div>
                                     </td>
                                     <td>
                                         <div className={styles.cell}>{song.durationMinSec}</div>
@@ -172,7 +171,7 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                                             {
                                                 song.spotifyLink &&
                                                 <a href={song.spotifyLink}>
-                                                    <Image src="/spotify-icon-green.png" width={20} height={20}/>
+                                                    <Image src="/spotify-icon-green.png" width={20} height={20} className="z-index-minus-1"/>
                                                 </a>
                                             }
 

@@ -10,7 +10,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-    console.log(setSongs)
+
     let url = `/api/v1/songs/`
 
     if(database === 'master') {
@@ -94,23 +94,31 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             console.log(url)
             await axios.patch(`${url}/${id}`, sendData, {
                 withCredentials: true,
-
             })
+
+            let refreshedSongs = await loadRepertoire()
+            console.log(refreshedSongs)
+            setSongs(refreshedSongs)
+
+            handleCloseModal()
+
+            setTimeout(() => {
+                setIsAlertOpen(false)
+            }, 5000)
+
         } catch (error) {
             console.log(error)
         }
 
-        let refreshedSongs = await loadRepertoire()
-        console.log(setSongs)
-        setSongs(refreshedSongs)
 
-        handleCloseModal()
     }
 
     return (
         <Modal
             isOpen={isModalOpen}
             style={customStyles}
+
+
         >
 
             <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
