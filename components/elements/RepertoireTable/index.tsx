@@ -188,7 +188,9 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                 setIsModalOpen={setIsEditModalOpen}
                 type="edit"
                 song={modalSong}
-                database={database}/>
+                database={database}
+                setSongs={setSongs}
+            />
 
         </>
     )

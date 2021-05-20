@@ -1,5 +1,6 @@
 // @ts-ignore
 import chineseToPinyin from 'chinese-to-pinyin';
+import axios from "axios";
 
 export const convertDurationToMinSec = function (spotifyDuration : number) {
 
@@ -42,4 +43,9 @@ export const getSpotifyTrackId = (spotifyLink: string) => {
         .replace('spotify:track:', '')
         .replace('https://open.spotify.com/track/', '')
         .substring(0,22)
+}
+
+export const loadRepertoire = async() => {
+    let response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
+    return response.data.songs
 }

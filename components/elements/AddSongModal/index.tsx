@@ -4,12 +4,13 @@ import Modal from "react-modal";
 import styles from "./AddSongModal.module.scss";
 import AlertBox from "../AlertBox";
 import axios from "axios";
+import { loadRepertoire } from "../../../lib/library";
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database }: any) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database, setSongs }: any) {
 
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-
+    console.log(setSongs)
     let url = `/api/v1/songs/`
 
     if(database === 'master') {
@@ -70,6 +71,12 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             console.log(response)
             setIsAlertOpen(true)
 
+            let refreshedSongs = await loadRepertoire()
+
+            setSongs(refreshedSongs)
+
+            handleCloseModal()
+
             setTimeout(() => {
                 setIsAlertOpen(false)
             }, 5000)
@@ -92,6 +99,12 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
         } catch (error) {
             console.log(error)
         }
+
+        let refreshedSongs = await loadRepertoire()
+        console.log(setSongs)
+        setSongs(refreshedSongs)
+
+        handleCloseModal()
     }
 
     return (
@@ -109,7 +122,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             <input className="form-control" name="artist" onChange={handleInput} value={formValue.artist} />
 
             <label>Romanized Title:</label>
-            <input className="form-control" name="artist" onChange={handleInput} value={formValue.romTitle} />
+            <input className="form-control" name="romTitle" onChange={handleInput} value={formValue.romTitle} />
 
             <label>Key:</label>
             <input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>
