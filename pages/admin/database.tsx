@@ -3,9 +3,10 @@ import { GetServerSideProps } from "next";
 import Layout from "../../components/layouts/Layout";
 import RepertoireTable from "../../components/elements/RepertoireTable";
 import withAuth from "../../middlewares/withAuth";
-import CsvRow from "../../components/elements/CsvRow";
+import CsvRow from "../../components/elements/CsvUploadModal";
 import axios from "axios";
 import AddSongModal from "../../components/elements/AddSongModal";
+import CsvUploadContainer from "../../components/elements/CsvUploadContainer";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
 
@@ -29,14 +30,14 @@ export default function DatabasePage({user, initialSongs} : any) {
         setIsModalOpen(true)
     }
 
+
     return (
         <>
             <Layout user={user} title="Admin View">
 
 
                 <div className="container">
-                    Upload CSV
-                    <CsvRow database="master"/>
+                    <CsvUploadContainer database="master" />
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
                     <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" />
                 </div>

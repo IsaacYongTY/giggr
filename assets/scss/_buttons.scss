@@ -8,6 +8,9 @@
   //width: 100%;
   color: $darkgrey;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-primary {

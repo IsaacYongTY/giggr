@@ -10,14 +10,17 @@ import Song from "../lib/types/song";
 import { useRouter } from "next/router";
 import AddSongModal from "../components/elements/AddSongModal";
 import FilterRow from "../components/elements/FilterRow";
+import CsvUploadContainer from "../components/elements/CsvUploadContainer";
+import { loadRepertoire } from "../lib/library";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
-    let response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
+
+    let initialSongs = await loadRepertoire()
 
     return {
         props: {
-            initialSongs: response.data.songs,
+            initialSongs,
             user: req.user
         }
     }
@@ -33,7 +36,7 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    console.log(initialSongs)
+    console.log(setSongs)
     function handleOpenModal() {
 
         setIsModalOpen(true)
@@ -48,6 +51,8 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
                 <div className="container">
 
                     <FilterRow setFilter={setFilter} />
+
+                    <CsvUploadContainer database="database1" />
 
                     <SearchBar
                         songs={songs}
@@ -70,7 +75,13 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
 
             </Layout>
 
-                <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type="add" database="database1" />
+                <AddSongModal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    type="add"
+                    database="database1"
+                    setSongs={setSongs}
+                />
 
         </>
     )

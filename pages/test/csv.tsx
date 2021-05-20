@@ -1,39 +1,19 @@
 import React, { ChangeEvent, useState } from "react"
-import axios from "axios";
-import FormData from "form-data";
+import CsvRow from "../../components/elements/CsvUploadModal";
+
 export default function Csv() {
 
-    const [csvFile, setCsvFile] = useState<File>()
-    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
-        if(e.target.files) {
-            console.log(e.target.files[0])
-            setCsvFile(e.target.files[0])
-        }
+    function handleOpenModal() {
+        setIsModalOpen(true)
     }
-
-
-    async function handleCsvSubmit() {
-        console.log(csvFile)
-
-        if(csvFile) {
-            let formData = new FormData()
-            formData.append("file", csvFile)
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/songs/csv`, formData, {
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-        }
-
-    }
-
 
     return (
-        <div>
-            <input type="file" name="file" onChange={handleOnChange} accept=".csv"/>
-            <button onClick={handleCsvSubmit}>Submit</button>
-        </div>
+        <>
+            <CsvRow database="database1" isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            <button onClick={handleOpenModal}>Open Modal</button>
+        </>
+
     )
 }
