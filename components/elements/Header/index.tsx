@@ -4,19 +4,15 @@ import SettingsDropdown from "../SettingsDropdown";
 
 const Header = ({ title }: any) => {
     return (
-        <>
             <div className={styles.header}>
+                <div className={`material-icons ${styles.menuButton}`} >
+                    menu
+                </div>
                 <div className={`${styles.headerLogoPosition} logo logo-blue`}></div>
                 <p>{title}</p>
                 <SettingsDropdown />
 
             </div>
-
-
-        </>
-
-
-
     )
 }
 

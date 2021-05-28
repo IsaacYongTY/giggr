@@ -27,8 +27,10 @@ export default function Layout({ title, user, children }: any) {
                 </div>
 
                 <div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>
-
+                    <div className="container">
                         {children}
+                    </div>
+
 
                 </div>
 

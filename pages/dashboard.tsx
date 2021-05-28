@@ -4,7 +4,7 @@ import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import DashboardCardList from "../components/elements/DashboardCardList";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";
-
+import styles from "./dashboard.module.scss";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 
@@ -32,7 +32,7 @@ function Dashboard({ gigs, songs } : any) {
     console.log(gigs)
     return (
         <Layout title="Dashboard">
-            <div>
+            <div className={styles.container}>
                 <h2>Welcome!</h2>
                 <DashboardCardList gigs={gigs} songs={songs}/>
             </div>
