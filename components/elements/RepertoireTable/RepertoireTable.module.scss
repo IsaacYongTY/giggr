@@ -23,6 +23,7 @@
   }
 
   tr {
+    position: relative;
     border-bottom: 1px solid lightgray;
 
   }
@@ -76,4 +77,18 @@
 
 .tempoCol {
   text-align: right;
+}
+
+.titleCol {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30rem;
+  position: relative;
+}
+
+.artistCol {
+  width: 10rem;
+
+  //background-color: red;
 }

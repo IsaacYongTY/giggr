@@ -27,8 +27,6 @@
 .layoutContent {
   width: 100%;
   display: flex;
-  justify-content: center;
-  //background-color: red;
 }
 
 @keyframes layoutWidthExpand {
@@ -41,11 +39,11 @@
   }
 }
 
-@keyframes layoutWidthCollapse {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
-  }
-}
+//@keyframes layoutWidthCollapse {
+//  0% {
+//    width: 100%;
+//  }
+//  100% {
+//    width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
+//  }
+//}
