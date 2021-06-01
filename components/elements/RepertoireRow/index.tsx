@@ -89,10 +89,21 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>
                     {
                         song.spotifyLink &&
-                        <a href={song.spotifyLink}>
-                            <Image src="/spotify-icon-green.png" width={20} height={20} className="z-index-minus-1"/>
-                        </a>
+                            <a href={song.spotifyLink}>
+                                <Image src="/spotify-icon-green.png" width={20} height={20}
+                                       className="z-index-minus-1"/>
+                            </a>
                     }
+
+                    {   song.youtubeLink &&
+
+                            <a href={song.youtubeLink}>
+                                <Image src="/youtube-icon-square.png" width={20} height={20}
+                                       className="z-index-minus-1"/>
+                            </a>
+
+                    }
+
 
                 </div>
             </td>
