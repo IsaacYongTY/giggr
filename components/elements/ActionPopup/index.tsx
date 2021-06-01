@@ -13,7 +13,6 @@ export default function ActionPopup({ handleOpenModal, handleHover, song, setIsS
             ref={actionRow}
             className={`${styles.container} `}
             onMouseEnter={() => setIsShowPopup(true)}
-            onMouseLeave={() => setIsShowPopup(false)}
         >
             <span className="material-icons" onClick={() => handleOpenModal(song)}>
                 edit

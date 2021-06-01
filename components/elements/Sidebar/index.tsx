@@ -3,11 +3,6 @@ import styles from './Sidebar.module.scss'
 import SidebarRow from "../SidebarRow";
 import Link from "next/link";
 import Submenu from "../Submenu";
-import {GetServerSideProps} from "next";
-import withAuth from "../../../middlewares/withAuth";
-import axios from "axios";
-
-
 
 export default function Sidebar({ isOpen, setIsOpen, currentPathName, user }: any) {
 

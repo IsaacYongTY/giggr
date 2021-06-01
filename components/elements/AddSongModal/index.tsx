@@ -19,7 +19,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
     useEffect(() => {
         if(type === 'edit') {
-            let { title, artist, romTitle, key, tempo, durationMinSec, timeSignature, language, spotifyLink } = song || {}
+            let { title, artist, romTitle, key, tempo, durationMinSec, timeSignature, language, spotifyLink, youtubeLink } = song || {}
             let value = {
                 title,
                 romTitle,
@@ -29,7 +29,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
                 durationMinSec,
                 timeSignature,
                 language: language?.name,
-                spotifyLink
+                spotifyLink,
+                youtubeLink
             }
             setFormValue(value)
         }
@@ -152,6 +153,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
             <label>Spotify Link:</label>
             <input className="form-control" name="spotifyLink" onChange={handleInput} value={formValue.spotifyLink}/>
+
+            <label>YouTube Link:</label>
+            <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
             {
                 type === 'edit'
                     ?
