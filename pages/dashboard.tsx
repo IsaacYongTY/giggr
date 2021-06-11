@@ -29,7 +29,6 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, re
 })
 
 function Dashboard({ gigs, songs } : any) {
-    console.log(gigs)
     return (
         <Layout title="Dashboard">
             <div className={styles.container}>
