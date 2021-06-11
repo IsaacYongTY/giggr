@@ -25,8 +25,11 @@
 }
 
 @media (max-width: 500px) {
-  .sidebar {
+  .close {
     display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
 
