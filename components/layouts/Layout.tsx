@@ -19,7 +19,7 @@ export default function Layout({ title, user, children }: any) {
             </Head>
 
 
-            <Header title={title}/>
+            <Header title={title} setIsOpen={setIsOpen}/>
 
             <div className={`${styles.layoutSidebar} ${isOpen ? styles.open : styles.close}`}>
                 <div>
@@ -30,8 +30,6 @@ export default function Layout({ title, user, children }: any) {
                     <div className="container">
                         {children}
                     </div>
-
-
                 </div>
 
             </div>
