@@ -21,6 +21,7 @@ export default function SearchBar({ setFilteredSongList, songs, filter, searchTe
     }
 
     return (
+
         <div className={styles.searchBar}>
             <input
                 type="text"
@@ -30,6 +31,10 @@ export default function SearchBar({ setFilteredSongList, songs, filter, searchTe
                 placeholder="Search..."
                 autoComplete="off"
             />
+
         </div>
+
+
     )
+
 }
