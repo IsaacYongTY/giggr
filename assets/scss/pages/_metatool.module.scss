@@ -1,0 +1,41 @@
+.container {
+  max-width: 50%;
+  //background-color: red;
+  margin: 0 auto;
+}
+
+.textarea {
+  border: 1px solid lightgray;
+  padding: 1rem;
+  width: 75rem;
+  height: 35rem;
+  margin: 2rem 0;
+  white-space: pre;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.buttonRowContainer {
+  > button {
+    margin-right: 3rem;
+  }
+}
+
+.checkboxRowContainer {
+  display: flex;
+  margin-top: 1rem;
+  > input[type="checkbox"] {
+    transform: scale(1.5);
+
+    margin-right: 2rem;
+  }
+}

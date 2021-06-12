@@ -1,34 +1,45 @@
 import React, {useEffect, useState} from 'react';
 import Layout from "../components/layouts/Layout";
-import Head from "next/head";
 import SearchBar from "../components/elements/SearchBar";
-import axios from "axios";
-import RepertoireTable from "../components/elements/RepertoireTable";
+import RepertoireTable from "../components/repertoire/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
-import { useRouter } from "next/router";
 import AddSongModal from "../components/elements/AddSongModal";
-import FilterRow from "../components/elements/FilterRow";
+import FilterRow from "../components/repertoire/FilterRow";
 import CsvUploadContainer from "../components/elements/CsvUploadContainer";
 import { loadRepertoire } from "../lib/library";
+import styles from "../assets/scss/pages/_repertoire.module.scss";
+import axios from "axios";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
 
     let initialSongs = await loadRepertoire()
-
+    let response = await axios.get('/api/v1/musicians', {
+        headers: {
+            "x-auth-token": `Bearer ${req.user.token}`
+        }
+    })
     return {
         props: {
             initialSongs,
+            initialMusicians: response.data.musicians,
             user: req.user
         }
     }
 })
 
-export default function Repertoire({ initialSongs, user }: { initialSongs: Array<Song>, user: any }) {
+type Props = {
+    initialSongs: Array<Song>,
+    initialMusicians: any,
+    user: any
+}
+
+export default function Repertoire({ initialSongs, initialMusicians, user }: Props) {
 
     const [songs, setSongs] = useState(initialSongs)
+    const [musicians, setMusicians] = useState(initialMusicians)
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
@@ -48,11 +59,11 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
         <>
 
             <Layout title="My Repertoire" user={user}>
-                <div>
-
+                <div className={styles.container}>
                     <FilterRow setFilter={setFilter} />
 
                     <CsvUploadContainer database="database1" />
+
 
                     <SearchBar
                         songs={songs}
@@ -65,13 +76,17 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
 
 
+
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : songs}
                         setSongs={setSongs}
                         user={user}
                         database="database1"
+                        musicians={musicians}
                     />
                 </div>
+
+
 
             </Layout>
 
@@ -81,6 +96,7 @@ export default function Repertoire({ initialSongs, user }: { initialSongs: Array
                     type="add"
                     database="database1"
                     setSongs={setSongs}
+                    musicians={musicians}
                 />
 
         </>

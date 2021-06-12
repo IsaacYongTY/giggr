@@ -1,0 +1,24 @@
+@import '../../variables';
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  //width: $sidebar-open-width;
+  background-color: white;
+  position: fixed;
+  top: calc(#{$header-height} + #{$sidebar-row-height} * 3);
+  border: 1px solid gray;
+  border-left: none;
+  border-radius: 0 0.3rem 0.3rem 0;
+  justify-content: center;
+  z-index: 2;
+
+}
+
+.open {
+  left: $sidebar-open-width;
+}
+
+.close {
+  left: $sidebar-close-width;
+}
