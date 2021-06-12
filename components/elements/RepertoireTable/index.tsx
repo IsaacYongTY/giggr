@@ -55,9 +55,7 @@ export default function RepertoireTable({ songs, setSongs, user, database } :
                             {
                                 colKey.map((col,index) => (
                                     <th key={index}>
-                                        <div className={styles.cell}>
-                                            {col}
-                                        </div>
+                                        {col}
                                     </th>
                                 ))
                             }
