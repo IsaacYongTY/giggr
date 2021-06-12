@@ -17,6 +17,7 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 
     let initialSongs = await loadRepertoire()
     let response = await axios.get('/api/v1/musicians', {
+        withCredentials: true,
         headers: {
             "x-auth-token": `Bearer ${req.user.token}`
         }
