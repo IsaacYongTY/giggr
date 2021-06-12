@@ -58,7 +58,7 @@ export function convertMinSecToMs(durationMinSec : string) {
     return parseInt(durationMinSec.split(':')[0]) * 60 + parseInt(durationMinSec.split(':')[1]) * 1000
 }
 
-export function convertKeyModeIntToKey(key: number, mode = 1) {
+export function convertKeyModeIntToKey(key: number, mode : number) {
 
     if(key > 11 || key < 0 || mode > 1 || mode < 0 || key === undefined) {
         return
