@@ -1,0 +1,33 @@
+.pillButton {
+  display: inline;
+  border-radius: 2rem;
+  background-color: lightblue;
+  min-width: max-content;
+  padding: 0.2rem 1rem;
+  margin: 0 0.5rem;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.pillButtonContainer {
+  width: 15rem;
+  display: flex;
+
+}
+
+.artistCol {
+  width: 10rem;
+
+  //background-color: red;
+}
+
+.tempoCol {
+  text-align: right;
+}
+
+
+.composersCol {
+  width: 50rem;
+}
+
