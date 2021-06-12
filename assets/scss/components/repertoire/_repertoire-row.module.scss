@@ -28,13 +28,13 @@
 
 .titleCol {
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: center;
-  width: 20rem;
+  max-width: 25rem;
   position: relative;
 }
 
 .composersCol {
-  width: 50rem;
+  width: 15rem;
 }
 

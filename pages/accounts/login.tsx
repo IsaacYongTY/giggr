@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import LoginContainer from '../../components/elements/LoginContainer'
+import LoginContainer from '../../components/login/LoginContainer'
 
-const Login = () => {
+export default function Login() {
 
     return (
 
@@ -21,4 +21,3 @@ const Login = () => {
     )
 }
 
-export default Login

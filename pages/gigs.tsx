@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import Layout from "../components/layouts/Layout";
-import styles from "./gigs.module.scss";
+import styles from "../assets/scss/pages/_gigs.module.scss";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";

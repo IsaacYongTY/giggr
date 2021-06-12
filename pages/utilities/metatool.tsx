@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from "react"
 import Layout from "../../components/layouts/Layout";
-import SpotifySearchBar from "../../components/elements/SpotifySearchBar";
-import styles from "./metatool.module.scss";
-import AlertBox from "../../components/elements/AlertBox";
+import SpotifySearchBar from "../../components/common/SpotifySearchBar";
+import styles from "../../assets/scss/pages/_metatool.module.scss";
+import AlertBox from "../../components/common/AlertBox";
 import withAuth from "../../middlewares/withAuth";
 import {convertDurationToMinSec, convertKeyModeIntToKey} from "../../lib/library";
 
@@ -81,7 +81,7 @@ export default function MetaTool({ user } : any) {
 
 
     return (
-        <Layout>
+        <Layout user={user}>
 
             <div className={styles.container}>
                 <SpotifySearchBar
