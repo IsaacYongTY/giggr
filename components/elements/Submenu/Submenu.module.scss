@@ -5,7 +5,7 @@
   flex-direction: column;
   //width: $sidebar-open-width;
   background-color: white;
-  position: absolute;
+  position: fixed;
   top: calc(#{$header-height} + #{$sidebar-row-height} * 3);
   border: 1px solid gray;
   border-left: none;
