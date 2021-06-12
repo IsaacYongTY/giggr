@@ -37,7 +37,7 @@ export default function DashboardCard({type, data, link, gigs, songs} : any) {
                         <ul>
                             {
                                 songs.map((song : Song) => (
-                                    <li>{song.title} - {song.artist?.enName}</li>
+                                    <li>{song.title} - {song.artist?.name}</li>
                                 ))
                             }
                         </ul>

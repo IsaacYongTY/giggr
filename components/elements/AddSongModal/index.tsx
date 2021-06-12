@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import styles from "./AddSongModal.module.scss";
 import AlertBox from "../AlertBox";
 import axios from "axios";
-import { loadRepertoire } from "../../../lib/library";
+import {convertKeyModeIntToKey, loadRepertoire} from "../../../lib/library";
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database, setSongs }: any) {
 
@@ -19,12 +19,12 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
     useEffect(() => {
         if(type === 'edit') {
-            let { title, artist, romTitle, key, tempo, durationMinSec, timeSignature, language, spotifyLink, youtubeLink } = song || {}
+            let { title, artist, romTitle, key, mode, tempo, durationMinSec, timeSignature, language, spotifyLink, youtubeLink } = song || {}
             let value = {
                 title,
                 romTitle,
                 artist: artist?.name,
-                key,
+                keyString: convertKeyModeIntToKey(key, mode),
                 tempo,
                 durationMinSec,
                 timeSignature,
@@ -134,7 +134,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             <input className="form-control" name="romTitle" onChange={handleInput} value={formValue.romTitle} />
 
             <label>Key:</label>
-            <input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>
+            <input className="form-control" name="key" onChange={handleInput} value={formValue?.keyString}/>
 
             <label>Tempo:</label>
             <input className="form-control" name="tempo" onChange={handleInput} value={formValue.tempo}/>
