@@ -17,7 +17,7 @@ export const getServerSideProps = withAuth(async ({req, res} : any) => {
 
 export default function MetaTool({ user } : any) {
 
-    const [formValue, setFormValue] = useState({})
+    const [formValue, setFormValue] = useState<any>({})
     const [text, setText] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [isContribute, setIsContribute] = useState(true)
