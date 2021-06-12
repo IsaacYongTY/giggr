@@ -17,15 +17,22 @@
 }
 
 .artistCol {
-  width: 10rem;
+  //display: flex;
+  min-width: 10rem;
 
-  //background-color: red;
 }
 
 .tempoCol {
   text-align: right;
 }
 
+.titleCol {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20rem;
+  position: relative;
+}
 
 .composersCol {
   width: 50rem;
