@@ -1,30 +1,23 @@
 import React, {useState} from "react";
-import styles from "../RepertoireTable/RepertoireTable.module.scss";
+import styles from "./index.module.scss";
 import ActionPopup from "../ActionPopup";
-import {capitalizeString} from "../../../lib/library";
+import {capitalizeString, convertDurationToMinSec, convertKeyModeIntToKey} from "../../../lib/library";
 import Image from "next/image";
 import Song from "../../../lib/types/song";
-import axios from "axios";
 
 export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }: any) {
 
     const [isShowPopup, setIsShowPopup] = useState(false)
-    const [isEnterPopup, setIsEnterPopup] = useState(false)
-
-
 
     function handleHover(song : Song, isEnter : boolean) {
-        if(isEnter || isEnterPopup) {
+        if(isEnter) {
             setIsShowPopup(true)
-
             return
         }
 
         setIsShowPopup(false)
-        // setCurrentSong({})
-        // setIsShowPopup(false)
-
     }
+
     return (
         <tr
             key={song.id}
@@ -52,13 +45,13 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>{song.artist?.name}</div>
             </td>
             <td>
-                <div className={styles.cell}>{song.key}</div>
+                <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
             </td>
             <td>
                 <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo}</div>
             </td>
             <td>
-                <div className={styles.cell}>{song.durationMinSec}</div>
+                <div className={styles.cell}>{convertDurationToMinSec(song.durationMs)}</div>
             </td>
             <td>
                 <div className={styles.cell}>{song.timeSignature}</div>
@@ -66,14 +59,16 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
             <td>
                 <div className={styles.cell}>{capitalizeString(song.language?.name)}</div>
             </td>
-            <td>
-                <div className={styles.cell}>
+            <td className={styles.composersCol}>
+                <div className={styles.pillButtonContainer}>
                     {
                         song.composers.map((composer: any) =>(
-                            <span className={styles.pillButton} key={composer.id}>{composer.name}</span>
+                            <div className={styles.pillButton} key={composer.id}>{composer.name}</div>
                         ))
                     }
                 </div>
+
+
             </td>
             <td>
                 <div className={styles.cell}>
