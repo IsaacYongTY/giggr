@@ -1,0 +1,43 @@
+@import '../../variables';
+
+.sidebarRow {
+  cursor: pointer;
+  padding: 0 1rem 0 2rem;
+  height: $sidebar-row-height;
+  color: white;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.sidebarRow:hover {
+  background-color: white;
+  color: $darkgrey;
+
+  a {
+    text-decoration: none;
+    color: $darkgrey;
+  }
+}
+
+.active {
+  background-color: white;
+  color: $darkgrey;
+
+  a {
+    text-decoration: none;
+    color: $darkgrey;
+  }
+}
+
+.sidebarTitle {
+  margin-left: 3rem;
+  min-width: 12rem;
+}
+
+.navigateNext {
+  margin-left: auto;
+}
+

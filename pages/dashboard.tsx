@@ -1,10 +1,10 @@
 import React from 'react';
 import Layout from '../components/layouts/Layout';
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
-import DashboardCardList from "../components/elements/DashboardCardList";
+import DashboardCardList from "../components/dashboard/DashboardCardList";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";
-import styles from "./dashboard.module.scss";
+import styles from "../assets/scss/pages/_dashboard.module.scss";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 

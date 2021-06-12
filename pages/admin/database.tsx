@@ -1,28 +1,40 @@
 import React, {useState} from "react";
 import { GetServerSideProps } from "next";
 import Layout from "../../components/layouts/Layout";
-import RepertoireTable from "../../components/elements/RepertoireTable";
+import RepertoireTable from "../../components/repertoire/RepertoireTable";
 import withAuth from "../../middlewares/withAuth";
-import CsvRow from "../../components/elements/CsvUploadModal";
 import axios from "axios";
 import AddSongModal from "../../components/elements/AddSongModal";
 import CsvUploadContainer from "../../components/elements/CsvUploadContainer";
+import Song from "../../lib/types/song";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
 
-    let response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, { withCredentials: true})
-
+    let songsResponse = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, { withCredentials: true})
+    let musiciansResponse = await axios.get('/api/v1/musicians', {
+        headers: {
+            "x-auth-token": `Bearer ${req.user.token}`
+        }
+    })
     return {
         props: {
-            initialSongs: response.data.songs,
+            initialSongs: songsResponse.data.songs,
+            initialMusicians: musiciansResponse.data.musicians,
             user: req.user
         }
 
     }
 })
-export default function DatabasePage({user, initialSongs} : any) {
+
+type Props = {
+    user: any,
+    initialSongs: Song[]
+    initialMusicians: any
+}
+export default function DatabasePage({user, initialSongs, initialMusicians} : Props) {
 
     const [songs, setSongs] = useState(initialSongs)
+    const [musicians, setMusicians] = useState(initialMusicians)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -39,11 +51,11 @@ export default function DatabasePage({user, initialSongs} : any) {
                 <div className="container">
                     <CsvUploadContainer database="master" />
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
-                    <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" />
+                    <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" musicians={musicians} />
                 </div>
 
             </Layout>
-            <AddSongModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} type="add" database="master"/>
+            <AddSongModal isModalOpen={isModalOpen} setSongs={setSongs} setIsModalOpen={setIsModalOpen} type="add" database="master"/>
         </>
 
     )

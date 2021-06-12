@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../elements/Header';
-import Sidebar from '../elements/Sidebar';
-import styles from '../layouts/Layout.module.scss';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import styles from '../../assets/scss/components/layouts/_layout.module.scss';
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -26,10 +26,13 @@ export default function Layout({ title, user, children }: any) {
                     <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} currentPathName={router.pathname} user={user}/>
                 </div>
 
-                <div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>
-                    <div className="container">
+                <div className={`${styles.layoutContent}`}>
+                {/*<div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>*/}
+
                         {children}
-                    </div>
+
+
+
                 </div>
 
             </div>
