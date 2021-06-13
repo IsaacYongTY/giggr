@@ -74,7 +74,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                     <tbody className="table-content-container">
                         {
                             songs?.map((song : any, index: number) => (
-                                <RepertoireRow song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong}/>
+                                <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong}/>
                             ))
                         }
                     </tbody>
