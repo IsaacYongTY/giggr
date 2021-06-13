@@ -69,6 +69,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             let sendData = { ...formValue}
             // sendData.composers = sendData.composers.split(',').map((composer : any) => composer.trim())
             // sendData.durationMs = convertMinSecToMs(formValue.durationMinSec)
+            console.log(formValue)
             let response = await axios.post(url, formValue, {
                 withCredentials: true,
 
@@ -78,7 +79,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             setIsAlertOpen(true)
 
             let refreshedSongs = await loadRepertoire()
-
+            console.log(refreshedSongs)
             setSongs(refreshedSongs)
 
             handleCloseModal()
@@ -105,7 +106,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
                 withCredentials: true,
             })
 
-            let refreshedSongs = await loadRepertoire()
+            let refreshedSongs = await loadRepertoire(database)
             console.log(refreshedSongs)
             setSongs(refreshedSongs)
 
@@ -162,7 +163,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             <select name="musicians">
                 {
                     musicians?.map((musician: any) => (
-                        <option>{musician.name}</option>
+                        <option key={musician.id}>{musician.name}</option>
                     ))
                 }
             </select>
