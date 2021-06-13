@@ -12,7 +12,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-
+    const [composers, setComposers] = useState("")
     let url = `/api/v1/songs/`
 
     if(database === 'master') {
@@ -75,11 +75,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
 
             })
 
-            console.log(response)
             setIsAlertOpen(true)
 
             let refreshedSongs = await loadRepertoire(database)
-            console.log(refreshedSongs)
             setSongs(refreshedSongs)
 
             handleCloseModal()
@@ -94,6 +92,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
         }
     }
 
+    async function handleAddComposer() {
+
+    }
     async function handleEditSong(id : number) {
 
         try {
@@ -170,14 +171,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             <div className={styles.pillButtonRow}>
                 {
                     formValue?.composers?.map((composer: any) => (
-                        <PillButton composer={composer} setFormValue={setFormValue} />
+                        <PillButton composer={composer} setMusicians={setComposers} />
 
                     ))
                 }
             </div>
 
-            <input className="form-control" name="composers" onChange={handleInput} />
-
+            {/*<input className="form-control" name="composers" onChange={(e) => setComposer(e.target.value)} />*/}
+            <button onClick={handleAddComposer}>Add</button>
             <label>Spotify Link:</label>
             <input className="form-control" name="spotifyLink" onChange={handleInput} value={formValue.spotifyLink}/>
 

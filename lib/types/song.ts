@@ -7,6 +7,8 @@ export interface Artist {
 
 }
 
+
+
 export default interface Song {
         [key: string] : any,
         title: string,
