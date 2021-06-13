@@ -1,17 +1,24 @@
 import React from "react";
 import styles from "../assets/scss/components/_pill-button.module.scss"
+
 type Props = {
     composer: any
-    setFormValue: any
+    setMusicians: any
 }
-export default function PillButton({ composer, setFormValue }: Props) {
+
+export default function PillButton({ composer, setMusicians }: Props) {
 
     function handleRemoveMusician(id : number) {
-        setFormValue((prevState : any) => {
-            let composers = prevState.composers.filter((composer : any) => composer.id !== id)
-
-            return { ...prevState, composers}
+        console.log(id)
+        setMusicians((prevState : any) => {
+            console.log(prevState)
+            let composers = prevState.filter((composer : any) => composer.id !== id)
+            console.log(composers)
+            return composers
         })
+        // setFormValue((prevState : any) => {
+
+        // })
     }
 
     return(
