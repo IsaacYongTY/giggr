@@ -78,7 +78,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             console.log(response)
             setIsAlertOpen(true)
 
-            let refreshedSongs = await loadRepertoire()
+            let refreshedSongs = await loadRepertoire(database)
             console.log(refreshedSongs)
             setSongs(refreshedSongs)
 
