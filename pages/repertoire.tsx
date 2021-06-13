@@ -47,8 +47,6 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-    console.log(setSongs)
     function handleOpenModal() {
 
         setIsModalOpen(true)
