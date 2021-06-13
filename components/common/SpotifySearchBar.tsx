@@ -8,7 +8,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
     const [spotifyLink, setSpotifyLink] = useState("");
     const spotifySearchInput = useRef<HTMLInputElement>(null);
 
-    let url = `/api/v1/songs/`
+    let url = `/api/v1/songs`
 
     if(database === 'master') {
         url = `/api/v1/admin/songs`
