@@ -40,9 +40,9 @@ export const loadRepertoire = async(database = 'database1') => {
 
     let response;
     if(database === 'master') {
-        response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
-    } else {
         response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`)
+    } else {
+        response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
     }
 
     console.log(response.data)
