@@ -39,6 +39,7 @@ export const getSpotifyTrackId = (spotifyLink: string) => {
 export const loadRepertoire = async(database = 'database1') => {
 
     let response;
+    console.log(database)
     if(database === 'master') {
         response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`)
     } else {
