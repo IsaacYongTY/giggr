@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import Layout from "../components/layouts/Layout";
 import SearchBar from "../components/elements/SearchBar";
 import RepertoireTable from "../components/repertoire/RepertoireTable";
@@ -82,6 +82,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                         user={user}
                         database="database1"
                         musicians={musicians}
+                        setMusicians={setMusicians}
                     />
                 </div>
 
@@ -96,6 +97,8 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                     database="database1"
                     setSongs={setSongs}
                     musicians={musicians}
+                    setMusicians={setMusicians}
+
                 />
 
         </>

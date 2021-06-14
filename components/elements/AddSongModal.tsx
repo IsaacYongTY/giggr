@@ -1,18 +1,44 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Dispatch, SetStateAction} from "react";
 import SpotifySearchBar from "../common/SpotifySearchBar";
 import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import {convertDurationToMinSec, convertKeyModeIntToKey, convertMinSecToMs, loadRepertoire} from "../../lib/library";
-import {log} from "util";
-import PillButton from "../PillButton";
+import {convertDurationToMinSec, convertKeyModeIntToKey, loadMusicians, loadRepertoire} from "../../lib/library";
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database, setSongs, musicians }: any) {
+import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
+
+import Musician from "../../lib/types/musician";
+import Song from "../../lib/types/song";
+
+
+
+type Option = {
+    value: string,
+    label: string
+}
+
+type Props = {
+    isModalOpen: boolean,
+    setIsModalOpen: Dispatch<SetStateAction<boolean>>
+    type: string
+    song?: Song
+    database: string
+    setSongs: Dispatch<SetStateAction<Song[]>>
+    musicians: Musician[]
+    setMusicians: Dispatch<SetStateAction<Musician[]>>
+}
+
+
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, database, setSongs, musicians, setMusicians }: Props) {
+
 
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-    const [composers, setComposers] = useState("")
+    const [composers, setComposers] = useState<Musician[]>([])
+    const [songwriters, setSongwriters] = useState<Musician[]>([])
+    const [arrangers, setArrangers] = useState<Musician[]>([])
+    const [options, setOptions] = useState<Option[]>([])
     let url = `/api/v1/songs/`
 
     if(database === 'master') {
@@ -20,11 +46,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
     }
 
     useEffect(() => {
-        if(type === 'edit') {
-            let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature, language, spotifyLink, youtubeLink, composers } = song || {}
+
+        if(type === 'edit' && song) {
+            let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature, language, spotifyLink, youtubeLink, composers, arrangers, songwriters } = song || {}
+            console.log(song)
             let value = {
                 title,
-                romTitle,
+                romTitle: romTitle || undefined,
                 artist: artist?.name,
                 key: convertKeyModeIntToKey(key, mode),
                 tempo,
@@ -32,11 +60,23 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
                 timeSignature,
                 language: language?.name,
                 spotifyLink,
-                youtubeLink,
-                composers
+                youtubeLink: youtubeLink || undefined,
+                composers,
+                arrangers,
+                songwriters
             }
+
+            setComposers(song?.composers?.map((composer:any) => ({value: composer.name, label: composer.name})))
+            setSongwriters(song?.songwriters?.map((songwriter:any) => ({value: songwriter.name, label: songwriter.name})))
+            setArrangers(song?.arrangers?.map((arranger:any) => ({value: arranger.name, label: arranger.name})))
             setFormValue(value)
         }
+
+        setOptions(musicians?.map((musician: Musician) => ({
+            value: musician.name,
+            label: musician.name
+        })))
+
     },[isModalOpen])
 
     const customStyles = {
@@ -49,7 +89,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             transform             : 'translate(-50%, -50%)',
             width: '80rem',
             height: '80rem',
-            padding: '3rem'
+            padding: '5rem'
         }
     };
     
@@ -67,10 +107,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
     async function handleAddSong() {
         try {
             let sendData = { ...formValue}
-            // sendData.composers = sendData.composers.split(',').map((composer : any) => composer.trim())
-            // sendData.durationMs = convertMinSecToMs(formValue.durationMinSec)
+
             console.log(formValue)
-            let response = await axios.post(url, formValue, {
+            console.log("handle add")
+            sendData.composers = composers.map(composer => composer.value)
+            sendData.songwriters = songwriters.map(arranger => arranger.value)
+            sendData.arrangers = arrangers.map(arranger => arranger.value)
+
+            let response = await axios.post(url, sendData, {
                 withCredentials: true,
 
             })
@@ -78,7 +122,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
             setIsAlertOpen(true)
 
             let refreshedSongs = await loadRepertoire(database)
+            let refreshedMusicians = await loadMusicians(database)
             setSongs(refreshedSongs)
+            setMusicians(refreshedMusicians)
 
             handleCloseModal()
 
@@ -92,24 +138,26 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
         }
     }
 
-    async function handleAddComposer() {
 
-    }
     async function handleEditSong(id : number) {
 
         try {
             let sendData = { ...formValue}
             console.log(url)
-            console.log(sendData)
 
-            // sendData.composers = sendData.composers.split(',').map((composer : any) => composer.trim())
+            sendData.composers = composers.map(composer => composer.value)
+            sendData.songwriters = songwriters.map(arranger => arranger.value)
+            sendData.arrangers = arrangers.map(arranger => arranger.value)
+
             await axios.patch(`${url}/${id}`, sendData, {
                 withCredentials: true,
             })
 
             let refreshedSongs = await loadRepertoire(database)
-            console.log(refreshedSongs)
+            let refreshedMusicians = await loadMusicians(database)
+
             setSongs(refreshedSongs)
+            setMusicians(refreshedMusicians)
 
             handleCloseModal()
 
@@ -130,85 +178,106 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, song, 
         <Modal
             isOpen={isModalOpen}
             style={customStyles}
-
-
+            ariaHideApp={false}
         >
 
-            <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
+            <div className={styles.container}>
+                <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
 
-            { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
+                { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
 
-            <label>Artist:</label>
-            <input className="form-control" name="artist" onChange={handleInput} value={formValue.artist} />
+                <div className={styles.formRow}>
+                    <label>
+                        Artist:
+                        <input className="form-control" name="artist" onChange={handleInput} value={formValue.artist} />
+                    </label>
 
-            <label>Romanized Title:</label>
-            <input className="form-control" name="romTitle" onChange={handleInput} value={formValue.romTitle} />
+                    <label>
+                        Romanized Title:
+                        <input className="form-control" name="romTitle" onChange={handleInput} value={formValue.romTitle} />
+                    </label>
+                </div>
 
-            <label>Key:</label>
-            <input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>
+                <div className={styles.formRow}>
+                    <label>Key:
+                        <input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>
+                    </label>
+                    <label>Tempo:
+                        <input className="form-control" name="tempo" onChange={handleInput} value={formValue.tempo}/>
+                    </label>
 
-            <label>Tempo:</label>
-            <input className="form-control" name="tempo" onChange={handleInput} value={formValue.tempo}/>
 
-            <label>Duration:</label>
-            <input className="form-control" name="durationMinSec" onChange={handleInput} value={formValue.durationMinSec}/>
+                    <label>Duration:
+                        <input className="form-control" name="durationMinSec" onChange={handleInput} value={formValue.durationMinSec}/>
+                    </label>
 
-            <label>Time Signature:</label>
-            <input className="form-control" name="timeSignature" onChange={handleInput} value={formValue.timeSignature}/>
+                    <label>Time Signature:
+                        <input className="form-control" name="timeSignature" onChange={handleInput} value={formValue.timeSignature}/>
+                    </label>
+                </div>
 
-            <label>Language:</label>
-            <input className="form-control" name="language" onChange={handleInput} value={formValue.language}/>
+                <div className={styles.formRow}>
+                    <label>Language:
+                        <input className="form-control" name="language" onChange={handleInput} value={formValue.language}/>
+                    </label>
+                </div>
 
-            <label>Composer:</label>
-            <select name="musicians">
+                <div className={styles.formRow}>
+                    <label>Composer:
+                        <ReactMusiciansDropdown options={options} selectedMusicians={composers} setSelectedMusicians={setComposers}/>
+                    </label>
+                </div>
+
+                <div className={styles.formRow}>
+                    <label>Songwriters:
+                        <ReactMusiciansDropdown options={options} selectedMusicians={songwriters} setSelectedMusicians={setSongwriters}/>
+                    </label>
+                </div>
+
+                <div className={styles.formRow}>
+                    <label>Arrangers:
+                        <ReactMusiciansDropdown options={options} selectedMusicians={arrangers} setSelectedMusicians={setArrangers}/>
+                    </label>
+                </div>
+
+                <div className={styles.formRow}>
+                    <label>Spotify Link:
+                        <input className="form-control" name="spotifyLink" onChange={handleInput} value={formValue.spotifyLink}/>
+                    </label>
+
+                    <label>YouTube Link:
+                        <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
+                    </label>
+                </div>
+
                 {
-                    musicians?.map((musician: any) => (
-                        <option key={musician.id}>{musician.name}</option>
-                    ))
+                    type === 'edit' && song
+                        ?
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => handleEditSong(song.id)}
+                        >
+                            Confirm Edit
+                        </button>
+                        :
+                        <button
+                            className="btn btn-primary"
+                            onClick={handleAddSong}
+                        >
+                            Add
+                        </button>
                 }
-            </select>
-            <div className={styles.pillButtonRow}>
-                {
-                    formValue?.composers?.map((composer: any) => (
-                        <PillButton composer={composer} setMusicians={setComposers} />
 
-                    ))
+                <br />
+                <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+                <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
+                {
+                    isAlertOpen &&
+                    <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
                 }
             </div>
 
-            {/*<input className="form-control" name="composers" onChange={(e) => setComposer(e.target.value)} />*/}
-            <button onClick={handleAddComposer}>Add</button>
-            <label>Spotify Link:</label>
-            <input className="form-control" name="spotifyLink" onChange={handleInput} value={formValue.spotifyLink}/>
-
-            <label>YouTube Link:</label>
-            <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
-            {
-                type === 'edit'
-                    ?
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => handleEditSong(song.id)}
-                    >
-                        Confirm Edit
-                    </button>
-                    :
-                    <button
-                        className="btn btn-primary"
-                        onClick={handleAddSong}
-                    >
-                        Add
-                    </button>
-            }
-
-            <br />
-            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-            <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
-            {
-                isAlertOpen &&
-                <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
-            }
 
         </Modal>
     )

@@ -25,7 +25,7 @@ export default interface Song {
         id: number,
         initialism: string,
         instrumentalness: number,
-        key: string,
+        key: number,
         languageId: number,
         mode: number,
         mood: any,

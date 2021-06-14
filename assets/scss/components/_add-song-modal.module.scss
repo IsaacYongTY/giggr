@@ -13,7 +13,7 @@
 //}
 
 .container {
-
+  padding: 2rem 3rem;
 }
 .titleInput {
   border: none;
@@ -29,4 +29,16 @@
 .pillButtonRow {
   display: flex;
   gap: 1rem;
+}
+
+.formRow {
+  display: flex;
+  width: 100%;
+  margin: 1rem 0;
+  gap: 2rem;
+
+  > label {
+    flex-grow: 1;
+  }
+
 }

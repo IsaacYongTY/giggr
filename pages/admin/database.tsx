@@ -51,11 +51,19 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
                 <div className="container">
                     <CsvUploadContainer database="master" />
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
-                    <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" musicians={musicians} />
+                    <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" musicians={musicians} setMusicians={setMusicians} />
                 </div>
 
             </Layout>
-            <AddSongModal isModalOpen={isModalOpen} setSongs={setSongs} setIsModalOpen={setIsModalOpen} type="add" database="master"/>
+            <AddSongModal
+                isModalOpen={isModalOpen}
+                setSongs={setSongs}
+                setIsModalOpen={setIsModalOpen}
+                type="add"
+                database="master"
+                musicians={musicians}
+                setMusicians={setMusicians}
+            />
         </>
 
     )
