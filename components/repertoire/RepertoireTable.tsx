@@ -1,12 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
-import {convertDurationToMinSec} from "../../lib/library";
-import { capitalizeString } from "../../lib/library";
+import React, { useState } from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
 import axios from "axios";
 import AddSongModal from "../elements/AddSongModal";
-import Image from "next/image";
-import ActionPopup from "./ActionPopup";
 import RepertoireRow from "./RepertoireRow";
 
 type Props = {
@@ -15,14 +11,14 @@ type Props = {
     user: any,
     database: string,
     musicians: any
+    setMusicians: any
 }
-export default function RepertoireTable({ songs, setSongs, user, database, musicians } : Props) {
+export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians } : Props) {
 
     const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language", "Composers", "Songwriters", "Arrangers", "Listen", "Action"]
 
-
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [modalSong, setModalSong] = useState({});
+    const [modalSong, setModalSong] = useState<Song>();
 
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
@@ -90,10 +86,8 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                 database={database}
                 setSongs={setSongs}
                 musicians={musicians}
+                setMusicians={setMusicians}
             />
-
-
-
         </>
     )
 }
