@@ -14,14 +14,13 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
             setIsShowPopup(true)
             return
         }
-
         setIsShowPopup(false)
     }
 
     return (
         <tr
             key={song.id}
-            onMouseEnter={() =>setIsShowPopup(true)}
+            onMouseEnter={() => setIsShowPopup(true)}
             onMouseLeave={() => setIsShowPopup(false)}
         >
 
@@ -71,13 +70,21 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
 
             </td>
             <td>
-                <div className={styles.cell}>
-
+                <div className={styles.pillButtonContainer}>
+                    {
+                        song.songwriters.map((songwriter: any) =>(
+                            <div className={styles.pillButton} key={songwriter.id}>{songwriter.name}</div>
+                        ))
+                    }
                 </div>
             </td>
             <td>
-                <div className={styles.cell}>
-
+                <div className={styles.pillButtonContainer}>
+                    {
+                        song.arrangers.map((arranger: any) =>(
+                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
+                        ))
+                    }
                 </div>
             </td>
             <td>

@@ -50,6 +50,18 @@ export const loadRepertoire = async(database = 'database1') => {
     return response.data.songs
 }
 
+export const loadMusicians = async(database = 'database1') => {
+
+    let response;
+    if(database === 'master') {
+        response = await axios.get(`/api/v1/admin/musicians?category=id&order=ASC`)
+    } else {
+        response = await axios.get(`/api/v1/musicians?category=id&order=ASC`)
+    }
+
+    return response.data.musicians
+}
+
 const keyIntMap = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 
 
