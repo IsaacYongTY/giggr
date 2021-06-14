@@ -39,7 +39,7 @@ export default function Playground() {
     return (
         <Layout title="Playground">
             <div>something here</div>
-            <ReactMusiciansDropdown options={options} song={song} selectedMusicians={selectedMusicians} setSelectedMusicians={setSelectedMusicians}/>
+            <ReactMusiciansDropdown options={options} selectedMusicians={selectedMusicians} setSelectedMusicians={setSelectedMusicians}/>
             {/*<MusiciansDropdown />*/}
         </Layout>
     )
