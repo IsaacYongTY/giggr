@@ -1,42 +1,4 @@
-import { getSpotifyTrackId, convertKeyModeIntToKey, convertEnharmonic } from "../lib/library";
-
-describe("getSpotifyTrackId", () => {
-    it("should return the ID if link is passed", () => {
-        expect(getSpotifyTrackId("https://open.spotify.com/track/0eDCVsJKGbQphGjRYa03vE?si=a9629713e16241db")).toBe("0eDCVsJKGbQphGjRYa03vE")
-        expect(getSpotifyTrackId("https://open.spotify.com/track/66cBlqEs1viJJCE74CDfGB")).toBe("66cBlqEs1viJJCE74CDfGB")
-
-    })
-
-    it("should return undefined if invalid value is passed in", () => {
-        expect(getSpotifyTrackId('')).toBe("")
-        expect(getSpotifyTrackId('123456')).toBe("")
-        expect(getSpotifyTrackId("66cBlqEs1viJJCE74CDfGB")).toBe("")
-    })
-})
-
-describe("convertKeyModeIntToKey", () => {
-    it("should return the key", () => {
-        expect(convertKeyModeIntToKey(0, 1)).toBe('C')
-        expect(convertKeyModeIntToKey(2,0)).toBe('Dm')
-        expect(convertKeyModeIntToKey(5)).toBe('F')
-    })
-
-    it("should return undefined if no input is provided", () => {
-        expect(convertKeyModeIntToKey()).toBe(undefined)
-    })
-
-    it("should return undefined if wrong input is provided", () => {
-        expect(convertKeyModeIntToKey(0,2)).toBe(undefined)
-        expect(convertKeyModeIntToKey(-1, 1)).toBe(undefined)
-    })
-
-    it("should return the correct enharmonic key", () => {
-        expect(convertKeyModeIntToKey(6,0)).toBe('F#m')
-        expect(convertKeyModeIntToKey(8,0)).toBe('G#m')
-        expect(convertKeyModeIntToKey(1,0)).toBe('C#m')
-    })
-})
-
+import convertEnharmonic from "../lib/utils/convert-enharmonic";
 
 describe("convertEnharmonic", () => {
     it("should return the same value if there's no enharmonic equivalent", () => {

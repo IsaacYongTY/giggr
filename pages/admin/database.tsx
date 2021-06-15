@@ -11,7 +11,7 @@ import Song from "../../lib/types/song";
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
 
     let songsResponse = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, { withCredentials: true})
-    let musiciansResponse = await axios.get('/api/v1/musicians', {
+    let musiciansResponse = await axios.get('/api/v1/admin/musicians?category=name&order=ASC', {
         headers: {
             "x-auth-token": `Bearer ${req.user.token}`
         }
