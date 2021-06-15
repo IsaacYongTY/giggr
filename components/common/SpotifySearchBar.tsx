@@ -1,7 +1,9 @@
 import React, {useRef, useState} from 'react';
 import axios from "axios";
 import styles from "../../assets/scss/components/common/_spotify-search-bar.module.scss";
-import {convertDurationToMinSec, convertKeyModeIntToKey, getSpotifyTrackId} from "../../lib/library";
+import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
+import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 
 export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : any) {
 
@@ -31,7 +33,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             console.log(response.data.result)
             let songData = response.data.result
             songData.key = convertKeyModeIntToKey(songData.key, songData.mode)
-            songData.durationMinSec = convertDurationToMinSec(songData.durationMs)
+            songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs)
             setFormValue({
                 ...songData
             })

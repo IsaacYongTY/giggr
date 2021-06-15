@@ -4,7 +4,9 @@ import SpotifySearchBar from "../../components/common/SpotifySearchBar";
 import styles from "../../assets/scss/pages/_metatool.module.scss";
 import AlertBox from "../../components/common/AlertBox";
 import withAuth from "../../middlewares/withAuth";
-import {convertDurationToMinSec, convertKeyModeIntToKey} from "../../lib/library";
+
+import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 
 export const getServerSideProps = withAuth(async ({req, res} : any) => {
 
@@ -31,7 +33,7 @@ export default function MetaTool({ user } : any) {
         let { title, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
 
         let yearReleased = dateReleased?.slice(0,4)
-        setText(`${title}\n${artist}\nKey: ${convertKeyModeIntToKey(key, mode)}\nTempo: ${tempo}\nDuration: ${convertDurationToMinSec(durationMs)}\nTime: ${timeSignature}\nKeywords: ${initialism}, ${language}\n\nYear Released: ${yearReleased}`)
+        setText(`${title}\n${artist}\nKey: ${convertKeyModeIntToKey(key, mode)}\nTempo: ${tempo}\nDuration: ${convertDurationMsToMinSec(durationMs)}\nTime: ${timeSignature}\nKeywords: ${initialism}, ${language}\n\nYear Released: ${yearReleased}`)
 
         if(title) {
             setSearchLink(`https://www.google.com/search?q=${title}%20${language === 'mandarin' ? "歌词" : "lyrics"}`)
