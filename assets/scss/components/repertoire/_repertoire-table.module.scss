@@ -21,6 +21,7 @@
     position: sticky;
     top: 0;
     background-color: #e9faff;
+    z-index: 2;
 
 
   }
@@ -64,7 +65,7 @@
 
 
 .tableContainer {
-  //height: 80rem;
+  height: 80rem;
   overflow-y: scroll;
 }
 

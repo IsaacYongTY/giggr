@@ -21,7 +21,7 @@ export default function ReactMusiciansDropdown({ options, selectedMusicians, set
         <div className={styles.container}>
             <CreatableSelect
                 name="musician"
-                closeMenuOnSelect={false}
+                // closeMenuOnSelect={false}
                 value={selectedMusicians}
                 isMulti
                 options={options}

@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-row.module.scss";
 import ActionPopup from "./ActionPopup";
-import {capitalizeString, convertDurationToMinSec, convertKeyModeIntToKey} from "../../lib/library";
+import {capitalizeString } from "../../lib/library";
+import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Image from "next/image";
 import Song from "../../lib/types/song";
 
@@ -50,7 +52,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo}</div>
             </td>
             <td>
-                <div className={styles.cell}>{convertDurationToMinSec(song.durationMs)}</div>
+                <div className={styles.cell}>{convertDurationMsToMinSec(song.durationMs)}</div>
             </td>
             <td>
                 <div className={styles.cell}>{song.timeSignature}</div>
@@ -66,8 +68,6 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                         ))
                     }
                 </div>
-
-
             </td>
             <td>
                 <div className={styles.pillButtonContainer}>
