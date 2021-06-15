@@ -16,16 +16,18 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 
 
     let initialSongs = await loadRepertoire()
-    let response = await axios.get('/api/v1/musicians', {
+    let { data: { musicians }} = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
         withCredentials: true,
         headers: {
             "x-auth-token": `Bearer ${req.user.token}`
         }
     })
+
     return {
         props: {
             initialSongs,
-            initialMusicians: response.data.musicians,
+            initialMusicians: musicians,
+
             user: req.user
         }
     }
@@ -34,6 +36,7 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 type Props = {
     initialSongs: Array<Song>,
     initialMusicians: any,
+
     user: any
 }
 
@@ -41,6 +44,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
 
     const [songs, setSongs] = useState(initialSongs)
     const [musicians, setMusicians] = useState(initialMusicians)
+    // const [languages, setLanguages] = useState(initialLanguages)
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
@@ -98,6 +102,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                     setSongs={setSongs}
                     musicians={musicians}
                     setMusicians={setMusicians}
+
 
                 />
 

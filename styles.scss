@@ -165,3 +165,7 @@ textarea {
 .z-index-minus-1 {
   z-index: -1;
 }
+
+.ReactModal__Overlay {
+  z-index: 99;
+}
