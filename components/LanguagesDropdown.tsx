@@ -1,39 +1,31 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React from "react";
 import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
-import Select from "react-select";
-import {capitalizeString} from "../lib/library";
+
+import { capitalizeString } from "../lib/library";
+import CreatableSelect from "react-select/creatable";
 
 
 type Props = {
-
     options: any
     currentSelection: string,
     setFormValue: any
-    attribute: string
-    isSearchable?: boolean
 }
 
 
-export default function AttributeDropdown({ options, currentSelection, setFormValue, attribute, isSearchable = false }: Props) {
+export default function LanguagesDropdown({ options, currentSelection, setFormValue }: Props) {
 
     function handleChange(selectedOption: any) {
-
-        setFormValue((prevState : any) => {
-            const currentData = { ...prevState, [attribute]: selectedOption.value}
-            console.log(currentData)
-            return currentData
-        })
+        setFormValue((prevState : any) => ({ ...prevState, language: selectedOption.value}))
     }
 
     return (
         <div className={styles.container}>
-            <Select
+            <CreatableSelect
                 name="musician"
                 value={{value: currentSelection, label: capitalizeString(currentSelection)}}
                 options={options.map((option: any) => ({ value: option.name, label: capitalizeString(option.name)}))}
                 className="basic-single"
                 onChange={handleChange}
-                isSearchable={isSearchable}
             />
 
         </div>
