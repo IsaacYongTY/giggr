@@ -12,7 +12,7 @@ import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
 import Musician from "../../lib/types/musician";
 import Song from "../../lib/types/song";
-import AttributeDropdown from "../AttributeDropdown";
+import LanguagesDropdown from "../LanguagesDropdown";
 import {minorKeyArray, majorKeyArray, noteArray} from "../../lib/data/data";
 import SingleArtistDropdown from "../SingleArtistDropdown";
 import KeysDropdown from "../KeysDropdown";
@@ -70,13 +70,15 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
 
         if(type === 'edit' && song) {
-            let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature, language, spotifyLink, youtubeLink, composers, arrangers, songwriters, initialism } = song || {}
+            let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature,
+                language, spotifyLink, youtubeLink, composers, arrangers, songwriters, initialism,
+                energy, danceability, valence, acousticness, instrumentalness } = song || {}
 
             let value = {
                 title,
                 romTitle: romTitle || undefined,
                 artist: artist?.name,
-                key: convertKeyModeIntToKey(key, mode),
+                key,
                 mode,
                 tempo,
                 durationMinSec: convertDurationMsToMinSec(durationMs),
@@ -87,7 +89,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 composers,
                 arrangers,
                 songwriters,
-                initialism
+                initialism,
+                energy,
+                danceability,
+                valence,
+                acousticness,
+                instrumentalness,
+
             }
 
             setComposers(song?.composers?.map((composer:any) => ({value: composer.name, label: composer.name})))
@@ -228,17 +236,12 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             <div className={styles.container}>
                 <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
-
                 { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
 
                 <div className={styles.formRow}>
                     <label>Artist:
                         <SingleArtistDropdown options={options} selectedArtist={formValue.artist} setFormValue={setFormValue}/>
                     </label>
-                    {/*<label>*/}
-                    {/*    Artist:*/}
-                    {/*    <input className="form-control" name="artist" onChange={handleInput} value={formValue.artist} />*/}
-                    {/*</label>*/}
 
                     <label>
                         Romanized Title:
@@ -248,12 +251,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Key:
-                        {/*<input className="form-control" name="key" onChange={handleInput} value={formValue?.key}/>*/}
-                        <KeysDropdown options={keyOptions} currentSelection={formValue.key} setFormValue={setFormValue} attribute="key" isSearchable={false} />
-                        <label>
-                            <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
-                            Minor
-                        </label>
+                        <KeysDropdown
+                            options={keyOptions}
+                            formValue={formValue}
+                            currentKey={song && song.key}
+                            currentMode={song && song.mode}
+                            setFormValue={setFormValue}
+                        />
+
 
                     </label>
                     <label>Tempo:
@@ -272,7 +277,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Language:
-                        <AttributeDropdown options={languages} currentSelection={formValue.language} setFormValue={setFormValue} attribute="language" />
+                        <LanguagesDropdown options={languages} currentSelection={formValue.language} setFormValue={setFormValue}  />
                     </label>
 
                     <label>Initialism:
@@ -308,31 +313,58 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     </label>
                 </div>
 
-                {
-                    type === 'edit' && song
-                        ?
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => handleEditSong(song.id)}
-                        >
-                            Confirm Edit
-                        </button>
-                        :
-                        <button
-                            className="btn btn-primary"
-                            onClick={handleAddSong}
-                        >
-                            Add
-                        </button>
-                }
-
                 <br />
-                <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-                <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
-                {
-                    isAlertOpen &&
-                    <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
-                }
+                <div className={styles.formRow}>
+                    <label>
+                        Energy:
+                        <input type="number" name="energy" disabled={true} className="form-control" value={formValue.energy} />
+                    </label>
+                    <label>
+                        Danceability:
+                        <input type="number" name="danceability" disabled={true} className="form-control" value={formValue.danceability} />
+                    </label>
+                    <label>
+                        Valence:
+                        <input type="number" name="valence" disabled={true} className="form-control" value={formValue.valence} />
+                    </label>
+                    <label>
+                        Acousticness:
+                        <input type="number" name="acousticness" disabled={true} className="form-control" value={formValue.acousticness} />
+                    </label>
+                    <label>
+                        Instrumentalness:
+                        <input type="number" name="instrumentalness" disabled={true} className="form-control" value={formValue.instrumentalness} />
+                    </label>
+
+
+                </div>
+
+                <div className={styles.buttonRow}>
+                    {
+                        type === 'edit' && song
+                            ?
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => handleEditSong(song.id)}
+                            >
+                                Confirm Edit
+                            </button>
+                            :
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleAddSong}
+                            >
+                                Add
+                            </button>
+                    }
+                    <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+                    <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
+                    {
+                        isAlertOpen &&
+                        <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
+                    }
+                </div>
+
             </div>
 
 

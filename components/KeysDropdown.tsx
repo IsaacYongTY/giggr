@@ -1,55 +1,97 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
-import Musician from "../lib/types/musician";
-import CreatableSelect from "react-select/creatable";
+
 import Select from "react-select";
-import {capitalizeString} from "../lib/library";
-import {capitalize} from "@material-ui/core";
+
+import convertKeyModeIntToKey from "../lib/utils/convert-key-mode-int-to-key";
+import convertKeyToKeyModeInt from "../lib/utils/convert-key-to-key-mode-int";
+
+import { majorKeyArray, minorKeyArray } from "../lib/data/data";
 
 type Props = {
-
+    formValue: any
     options: any
-    currentSelection: string,
+    currentKey?: number,
+    currentMode?: number,
     setFormValue: any
-    attribute: string
-    isSearchable?: boolean
+
 }
 
+interface OptionType {
+    value: string,
+    label: string
+}
 
-export default function KeysDropdown({ options, currentSelection, setFormValue, attribute, isSearchable = false }: Props) {
+export default function KeysDropdown({ formValue, setFormValue }: Props) {
 
-    console.log(options)
-    const [op, setOp] = useState([])
-    console.log(currentSelection)
-    function handleChange(selectedOption: any) {
-        console.log(selectedOption)
-        setFormValue((prevState : any) => {
-            const currentData = { ...prevState, [attribute]: selectedOption.value}
-            console.log(currentData)
-            return currentData
-        })
+    const [keyOptions, setKeyOptions] = useState<OptionType[]>([])
+
+    const minorKeyOptions = minorKeyArray.map(key => ({value: key, label: key}))
+    const majorKeyOptions = majorKeyArray.map(key => ({value: key, label: key}))
+
+
+    function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
+
+        const currentKeyString = convertKeyModeIntToKey(formValue.key, formValue.mode)
+
+        if(formValue.mode === 0) {
+            setKeyOptions(minorKeyOptions)
+
+        } else {
+            setKeyOptions(majorKeyOptions)
+        }
+
+
+        if(e.target.checked) {
+
+            const foundIndex = majorKeyArray.findIndex(keyOption => keyOption === currentKeyString)
+            const relativeMinor = minorKeyArray[foundIndex]
+            const [relativeMinorKey, relativeMinorMode] = convertKeyToKeyModeInt(relativeMinor)
+            setKeyOptions(minorKeyOptions)
+            setFormValue((prevState: any) => {
+                return {...prevState, key: relativeMinorKey, mode: relativeMinorMode}
+            })
+        } else {
+            const foundIndex = minorKeyArray.findIndex(keyOption => keyOption === currentKeyString)
+            const relativeMajor = majorKeyArray[foundIndex]
+            const [relativeMajorKey, relativeMajorMode] = convertKeyToKeyModeInt(relativeMajor)
+            setKeyOptions(majorKeyOptions)
+            setFormValue((prevState: any) => {
+                return {...prevState, key: relativeMajorKey, mode: relativeMajorMode}
+            })
+        }
     }
 
-    console.log(op)
-    // useEffect(() => {
-    //     console.log(options)
-    //     setOp(options.map((option: any) => ({ value: option.name, label: capitalizeString(option.name)})))
-    // },[isMinor])
+    function handleChange(selectedOption: any) {
+        let [selectedKey, selectedMode] : number[] = convertKeyToKeyModeInt(selectedOption.value)
+        setFormValue((prevState : any) => ({ ...prevState, key: selectedKey, mode: selectedMode }))
+    }
+
+
+
+    useEffect(() => {
+        if(formValue.mode === 0) {
+            setKeyOptions(minorKeyOptions)
+            return
+        }
+
+        setKeyOptions(majorKeyOptions)
+    },[])
 
     return (
         <div className={styles.container}>
             <Select
                 name="musician"
-                // closeMenuOnSelect={false}
-                value={{value: currentSelection, label: capitalizeString(currentSelection)}}
-                options={options.map((option: any) => ({ value: option.name, label: capitalizeString(option.name)}))}
+                value={{value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}}
+                options={keyOptions}
                 className="basic-single"
-                // classNamePrefix="select"
                 onChange={handleChange}
-                isSearchable={isSearchable}
-                // value={options.find(option => option.value === musician)}
-
+                isSearchable={false}
             />
+            <label>
+                <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
+                Minor
+            </label>
 
         </div>
     )
