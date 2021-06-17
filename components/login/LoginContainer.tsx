@@ -9,7 +9,9 @@ import { useRouter } from "next/router";
 export default function LoginContainer() {
 
     const router = useRouter();
+
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false)
+
     let schema = Yup.object().shape({
         email: Yup.string()
             .required("Please provide email")
@@ -29,28 +31,15 @@ export default function LoginContainer() {
     }
 
     async function handleLogin(values : MyFormValues) {
-        console.log(values)
-        console.log('this is new 11111')
+
         try {
-            console.log(process.env.NEXT_PUBLIC_API_URL)
-            let response = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
-            console.log(response)
 
-            // if(response.status !== 200) {
-            //     console.log('in')
-            //
-            //     return
-            // }z
-
-
+            await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
 
             setIsShowErrorMessage(false)
-            console.log(router)
-            console.log('---')
-             router.push('/repertoire')
+            router.push('/repertoire')
 
         } catch (err) {
-            console.log('errro')
             setIsShowErrorMessage(true)
             console.log(err)
         }
@@ -73,7 +62,7 @@ export default function LoginContainer() {
                     {
                         ({ values, errors, handleChange, handleSubmit, touched }) => (
                             <form method="POST" onSubmit={handleSubmit}>
-                                <input className="form-control" name="email" placeholder="Email" autoComplete="off" onChange={handleChange} type="email" />
+                                <input className="form-control" name="email" placeholder="Email" autoComplete="off" onChange={handleChange} type="email"  />
                                 <div>
                                     { errors.email && touched.email && errors.email}
                                 </div>
