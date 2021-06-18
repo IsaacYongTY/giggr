@@ -49,10 +49,10 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
             </td>
             <td>
-                <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo}</div>
+                <div className={`${styles.cell} ${styles.tempoCol}`}>{song.temp? song.tempo : null}</div>
             </td>
             <td>
-                <div className={styles.cell}>{convertDurationMsToMinSec(song.durationMs)}</div>
+                <div className={styles.cell}>{song.durationMs ? convertDurationMsToMinSec(song.durationMs) : null}</div>
             </td>
             <td>
                 <div className={styles.cell}>{song.timeSignature}</div>
@@ -69,7 +69,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                     }
                 </div>
             </td>
-            <td>
+            <td className={styles.songwritersCol}>
                 <div className={styles.pillButtonContainer}>
                     {
                         song.songwriters.map((songwriter: any) =>(
@@ -78,7 +78,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                     }
                 </div>
             </td>
-            <td>
+            <td className={styles.arrangersCol}>
                 <div className={styles.pillButtonContainer}>
                     {
                         song.arrangers.map((arranger: any) =>(
