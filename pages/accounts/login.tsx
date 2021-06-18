@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import LoginContainer from '../../components/login/LoginContainer'
 import styles from '../../assets/scss/pages/_login.module.scss'
+import SignupContainer from "../../components/login/SignupContainer";
 
 export default function Login() {
-
+    const [isLoginPage, setIsLoginPage] = useState(true)
     return (
 
         <div className={styles.container}>
@@ -12,7 +13,10 @@ export default function Login() {
                 <div className="logo logo-white logo-lg" />
             </div>
 
-            <LoginContainer />
+            {
+                isLoginPage ?  <LoginContainer setIsLoginPage={setIsLoginPage}/> : <SignupContainer setIsLoginPage={setIsLoginPage}/>
+            }
+
 
 
             <div className={styles.overlay}>

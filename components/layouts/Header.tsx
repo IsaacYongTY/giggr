@@ -9,7 +9,7 @@ const Header = ({ title, setIsOpen }: any) => {
             <div className={`material-icons ${styles.menuButton}`} onClick={() => setIsOpen(true)} >
                 menu
             </div>
-            <div className={`${styles.headerLogoPosition} logo logo-blue`}></div>
+            <div className={`${styles.headerLogoPosition} logo logo-blue`} />
             <p>{title}</p>
             <SettingsDropdown />
 

@@ -6,7 +6,7 @@ export default function FilterButton({ setFilter, filter, index, isFilterOnArray
 
     function handleSetFilter(filter : string) {
         setFilter(filter)
-    console.log(filter)
+        console.log(filter)
         setIsFilterOnArray((prevState : boolean[]) => {
             let resultArray = prevState.map(() => false)
             resultArray[index] = true

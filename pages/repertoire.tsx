@@ -44,7 +44,6 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
 
     const [songs, setSongs] = useState(initialSongs)
     const [musicians, setMusicians] = useState(initialMusicians)
-    // const [languages, setLanguages] = useState(initialLanguages)
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);

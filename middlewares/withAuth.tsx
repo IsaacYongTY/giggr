@@ -37,6 +37,7 @@ export default function withAuth(WrappedComponent: any) {
         const decoded : any = decodeToken(tokenString)
 
         console.log(decoded)
+        console.log('here')
         context.req.user = {...decoded.user, tokenString}
 
         return await WrappedComponent(context)
