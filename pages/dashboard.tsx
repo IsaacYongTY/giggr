@@ -8,8 +8,6 @@ import styles from "../assets/scss/pages/_dashboard.module.scss";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 
-    console.log("working here")
-    console.log(req.user.tokenString)
     const config = {
         withCredentials: true,
         headers: {
@@ -23,14 +21,15 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, re
     return {
         props: {
             gigs: response.data.gigs,
-            songs: songsResponse.data.songs
+            songs: songsResponse.data.songs,
+            user: req.user
         }
     }
 })
 
-function Dashboard({ gigs, songs } : any) {
+function Dashboard({ gigs, songs, user } : any) {
     return (
-        <Layout title="Dashboard">
+        <Layout title="Dashboard" user={user}>
             <div className={styles.container}>
                 <h2>Welcome!</h2>
                 <DashboardCardList gigs={gigs} songs={songs}/>
