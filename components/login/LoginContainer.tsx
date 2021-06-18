@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import styles from "../../assets/scss/components/login/_login-container.module.scss";
 import Link from "next/link";
 import { Formik } from "formik";
@@ -6,10 +6,16 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-export default function LoginContainer() {
+interface Props {
+    setIsLoginPage: Dispatch<SetStateAction<boolean>>
+}
+
+export default function LoginContainer({ setIsLoginPage } : Props) {
 
     const router = useRouter();
+
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false)
+
     let schema = Yup.object().shape({
         email: Yup.string()
             .required("Please provide email")
@@ -29,28 +35,15 @@ export default function LoginContainer() {
     }
 
     async function handleLogin(values : MyFormValues) {
-        console.log(values)
-        console.log('this is new 11111')
+
         try {
-            console.log(process.env.NEXT_PUBLIC_API_URL)
-            let response = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
-            console.log(response)
 
-            // if(response.status !== 200) {
-            //     console.log('in')
-            //
-            //     return
-            // }z
-
-
+            await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
 
             setIsShowErrorMessage(false)
-            console.log(router)
-            console.log('---')
-             router.push('/repertoire')
+            router.push('/dashboard')
 
         } catch (err) {
-            console.log('errro')
             setIsShowErrorMessage(true)
             console.log(err)
         }
@@ -61,7 +54,7 @@ export default function LoginContainer() {
         <div  className={`${styles.wrapper} card`} >
             <div className="card__body">
                 <h2>Log In</h2>
-                <p>New user? <Link href="signup">Sign up here</Link></p>
+                <p>New user?<a onClick={() => setIsLoginPage(false)}>Sign up here</a></p>
 
 
                 <Formik
@@ -73,7 +66,7 @@ export default function LoginContainer() {
                     {
                         ({ values, errors, handleChange, handleSubmit, touched }) => (
                             <form method="POST" onSubmit={handleSubmit}>
-                                <input className="form-control" name="email" placeholder="Email" autoComplete="off" onChange={handleChange} type="email" />
+                                <input className="form-control" name="email" placeholder="Email" autoComplete="off" onChange={handleChange} type="email"  />
                                 <div>
                                     { errors.email && touched.email && errors.email}
                                 </div>
@@ -84,8 +77,6 @@ export default function LoginContainer() {
                                 <button className="btn btn-highlight" type="submit">Log In</button>
                             </form>
                         )
-
-
                     }
                 </Formik>
 

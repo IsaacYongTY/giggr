@@ -1,11 +1,11 @@
 module.exports = {
 
     presets: [
-        'next/babel'
+        'next/babel',
     ],
 
-    // fullcalendar attempts to import its own CSS files, but next.js does not allow this.
-    // throw away these statements before they arrive at next.js,
+    // fullcalendar attempts to import its own CSS files, but zzz.js does not allow this.
+    // throw away these statements before they arrive at zzz.js,
     // but you'll need to import them manually in pages/_app.jsx.
     // will also work for any other 3rd-party packages that attempt to do this.
     overrides: [{
@@ -17,6 +17,12 @@ module.exports = {
                 patterns: ['.css']
             }]
         ]
-    }]
+    }],
+
+    plugins: [
+        [
+            '@babel/plugin-proposal-decorators', { legacy: true }
+        ]
+    ],
 
 }
