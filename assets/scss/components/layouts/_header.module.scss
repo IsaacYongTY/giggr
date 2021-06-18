@@ -1,9 +1,11 @@
 @import '../../variables';
 
 .header {
-  //display: flex;
-  position:sticky;
+  display: flex;
+  position:fixed;
   top: 0;
+
+  width: 100%;
   align-items: center;
   height: $header-height;
   //padding: 0 3rem;
