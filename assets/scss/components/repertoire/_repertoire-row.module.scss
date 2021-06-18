@@ -11,8 +11,12 @@
 }
 
 .pillButtonContainer {
+  margin: 0.5rem;
   min-width: 15rem;
   display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
   //overflow-x: hidden;
 
 }
@@ -36,6 +40,19 @@
 }
 
 .composersCol {
-  //width: 15rem;
+  max-width: 25rem;
+  //overflow: hidden;
+  //word-wrap: break-word;
+}
+
+.songwritersCol {
+  max-width: 25rem;
+  overflow: hidden;
+
+}
+
+.arrangersCol {
+  max-width: 25rem;
+  overflow: hidden;
 }
 
