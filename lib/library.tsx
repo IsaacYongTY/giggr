@@ -53,6 +53,17 @@ export const loadMusicians = async(database = 'database1') => {
 }
 
 
+export async function loadLanguages() {
+    let res = await axios.get('/api/v1/languages', {
+        withCredentials: true,
+        // headers: {
+        //     "x-auth-token": `Bearer ${req.user.token}`
+        // }
+    })
+
+    return res.data.languages
+
+}
 
 
 export function convertMinSecToMs(durationMinSec : string) {
