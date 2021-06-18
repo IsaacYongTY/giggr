@@ -77,8 +77,6 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
                                 <button className="btn btn-highlight" type="submit">Log In</button>
                             </form>
                         )
-
-
                     }
                 </Formik>
 
