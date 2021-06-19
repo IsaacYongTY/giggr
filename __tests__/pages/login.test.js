@@ -131,8 +131,6 @@ describe("Sign up UI", () => {
 
         axios.post.mockResolvedValueOnce()
         await waitFor(async () => {
-            console.log(router)
-            screen.debug()
             expect(router.pathname).toBe('/dashboard')
         })
     })
@@ -166,8 +164,8 @@ describe("Sign up UI", () => {
            }
         })
 
-        await waitFor(() => {
-            expect(screen.getByText(/user already exists\. please try again/i)).toBeInTheDocument()
-        })
+
+        expect(await screen.findByText(/user already exists\. please try again/i)).toBeInTheDocument()
+
     })
 })

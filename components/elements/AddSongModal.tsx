@@ -65,8 +65,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     useEffect(() => {
-
+        console.log('before')
         getLanguages()
+        console.log('after, mock works')
 
 
         if(type === 'edit' && song) {
@@ -121,14 +122,20 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     },[isModalOpen])
 
     async function getLanguages() {
-        let res = await axios.get('/api/v1/languages', {
-            withCredentials: true,
-            // headers: {
-            //     "x-auth-token": `Bearer ${req.user.token}`
-            // }
-        })
 
-        setLanguages(res.data.languages)
+        try {
+            let res = await axios.get('/api/v1/languages', {
+                withCredentials: true,
+                // headers: {
+                //     "x-auth-token": `Bearer ${req.user.token}`
+                // }
+            })
+
+            setLanguages(res.data.languages)
+        } catch (err) {
+            console.log(err)
+        }
+
     }
     const customStyles = {
         content : {
@@ -250,17 +257,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </div>
 
                 <div className={styles.formRow}>
-                    <label>Key:
+
                         <KeysDropdown
-                            options={keyOptions}
                             formValue={formValue}
-                            currentKey={song && song.key}
-                            currentMode={song && song.mode}
                             setFormValue={setFormValue}
                         />
 
 
-                    </label>
+
                     <label>Tempo:
                         <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo}/>
                     </label>
