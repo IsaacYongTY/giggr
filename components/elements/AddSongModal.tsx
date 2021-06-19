@@ -4,16 +4,14 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import { loadMusicians, loadRepertoire} from "../../lib/library";
+import { loadMusicians, loadRepertoire, loadLanguages} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
-import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
-
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
 import Musician from "../../lib/types/musician";
 import Song from "../../lib/types/song";
 import LanguagesDropdown from "../LanguagesDropdown";
-import {minorKeyArray, majorKeyArray, noteArray} from "../../lib/data/data";
+
 import SingleArtistDropdown from "../SingleArtistDropdown";
 import KeysDropdown from "../KeysDropdown";
 
@@ -37,7 +35,6 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians }: Props) {
 
-
     const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
 
@@ -48,26 +45,20 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     const [keyOptions, setKeyOptions] = useState<{name: string}[]>([])
     const [languages, setLanguages] = useState([])
 
-    const minorKeyOptions = minorKeyArray.map(key => ({name: key}))
-    const majorKeyOptions = majorKeyArray.map(key => ({name: key}))
+
     let url = `/api/v1/songs`
 
     if(database === 'master') {
         url = `api/v1/admin/songs`
     }
 
-    function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
-        if(e.target.checked) {
-            setKeyOptions(minorKeyOptions)
-            return
-        }
-        setKeyOptions(majorKeyOptions)
-    }
-
     useEffect(() => {
-        console.log('before')
-        getLanguages()
-        console.log('after, mock works')
+
+        loadLanguages().then((languages) => {
+            setLanguages(languages)
+        }).catch((err) => {
+            console.log(err)
+        })
 
 
         if(type === 'edit' && song) {
@@ -105,12 +96,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             setArrangers(song?.arrangers?.map((arranger:any) => ({value: arranger.name, label: arranger.name})))
             setFormValue(value)
 
-            if(song.mode === 0) {
-                setKeyOptions(minorKeyOptions)
-                return
-            }
-
-            setKeyOptions((majorKeyOptions))
         }
 
 
@@ -121,22 +106,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     },[isModalOpen])
 
-    async function getLanguages() {
-
-        try {
-            let res = await axios.get('/api/v1/languages', {
-                withCredentials: true,
-                // headers: {
-                //     "x-auth-token": `Bearer ${req.user.token}`
-                // }
-            })
-
-            setLanguages(res.data.languages)
-        } catch (err) {
-            console.log(err)
-        }
-
-    }
     const customStyles = {
         content : {
             top                   : '50%',
@@ -154,9 +123,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     };
     
     function handleInput(e : any) {
-        setFormValue((prevState : any) => {
-            return {...prevState, [e.target.name]: e.target.value}
-        })
+        setFormValue((prevState : any) => ({...prevState, [e.target.name]: e.target.value}))
     }
 
     function handleCloseModal() {
@@ -228,11 +195,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         } catch (error) {
             console.log(error)
         }
-
-
     }
 
-    console.log(formValue)
     return (
         <Modal
             isOpen={isModalOpen}
