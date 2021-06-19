@@ -7,6 +7,7 @@ import convertKeyModeIntToKey from "../lib/utils/convert-key-mode-int-to-key";
 import convertKeyToKeyModeInt from "../lib/utils/convert-key-to-key-mode-int";
 
 import { majorKeyArray, minorKeyArray } from "../lib/data/data";
+import convertRelativeKey from "../lib/utils/convert-relative-key";
 
 type Props = {
     formValue: any
@@ -31,27 +32,30 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
 
         const currentKeyString = convertKeyModeIntToKey(formValue.key, formValue.mode)
 
-        setKeyOptions(formValue.mode === 0 ? minorKeyOptions : majorKeyOptions)
+        if(!currentKeyString) {
+            if(e.target.checked) {
+                setKeyOptions(minorKeyOptions)
+                return
+            }
+            setKeyOptions(majorKeyOptions)
+            return
+        }
 
 
         if(e.target.checked) {
 
-            const foundIndex = majorKeyArray.findIndex(keyOption => keyOption === currentKeyString)
-            const relativeMinor = minorKeyArray[foundIndex]
-            const [relativeMinorKey, relativeMinorMode] = convertKeyToKeyModeInt(relativeMinor)
-            setKeyOptions(minorKeyOptions)
-            setFormValue((prevState: any) => {
-                return {...prevState, key: relativeMinorKey, mode: relativeMinorMode}
-            })
-        } else {
-            const foundIndex = minorKeyArray.findIndex(keyOption => keyOption === currentKeyString)
-            const relativeMajor = majorKeyArray[foundIndex]
-            const [relativeMajorKey, relativeMajorMode] = convertKeyToKeyModeInt(relativeMajor)
-            setKeyOptions(majorKeyOptions)
-            setFormValue((prevState: any) => {
-                return {...prevState, key: relativeMajorKey, mode: relativeMajorMode}
-            })
+            const relativeMinor = convertRelativeKey(currentKeyString)
+            const [key, mode] = convertKeyToKeyModeInt(relativeMinor)
+
+            setFormValue((prevState: any) => ({...prevState, key, mode}))
+            return
         }
+
+        const relativeMajor = convertRelativeKey(currentKeyString)
+        const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
+
+        setFormValue((prevState: any) => ({...prevState, key, mode}))
+
     }
 
     function handleChange(selectedOption: any) {

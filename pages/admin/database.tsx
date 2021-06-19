@@ -7,6 +7,7 @@ import axios from "axios";
 import AddSongModal from "../../components/elements/AddSongModal";
 import CsvUploadContainer from "../../components/elements/CsvUploadContainer";
 import Song from "../../lib/types/song";
+import styles from "../../assets/scss/pages/_repertoire.module.scss";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
 
@@ -48,7 +49,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
             <Layout user={user} title="Admin View">
 
 
-                <div className="container">
+                <div className={styles.container}>
                     <CsvUploadContainer database="master" />
                     <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
                     <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" musicians={musicians} setMusicians={setMusicians} />
