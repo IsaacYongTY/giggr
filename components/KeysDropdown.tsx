@@ -11,9 +11,6 @@ import convertRelativeKey from "../lib/utils/convert-relative-key";
 
 type Props = {
     formValue: any
-    options: any
-    currentKey?: number,
-    currentMode?: number,
     setFormValue: any
 
 }
@@ -43,6 +40,7 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
             setKeyOptions(majorKeyOptions)
             return
         }
+
 
         if(e.target.checked) {
 
@@ -78,14 +76,16 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
 
     return (
         <div className={styles.container}>
-            <Select
-                name="musician"
-                value={{value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}}
-                options={keyOptions}
-                className="basic-single"
-                onChange={handleChange}
-                isSearchable={false}
-            />
+            <label>Key:
+                <Select
+                    name="musician"
+                    value={{value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}}
+                    options={keyOptions}
+                    className="basic-single"
+                    onChange={handleChange}
+                    isSearchable={false}
+                />
+            </label>
             <label>
                 <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
                 Minor

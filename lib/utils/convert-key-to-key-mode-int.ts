@@ -7,6 +7,9 @@ export default function convertKeyToKeyModeInt(keyString : string) : number[] {
     let note;
     let mode = 1;
 
+    if(!keyString) {
+        return [-1,-1]
+    }
     if (keyString[keyString.length - 1] === 'm') {
         mode = 0
         note = keyString.slice(0, keyString.length - 1)
