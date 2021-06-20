@@ -37,10 +37,8 @@ export default function SingleArtistDropdown({ options, selectedArtist, setFormV
 
 
     useEffect(() => {
-        console.log(selectedArtist)
-        console.log(options)
         setCurrentValue({value: selectedArtist, label: selectedArtist})
-    }, [])
+    }, [selectedArtist])
 
     console.log(currentValue)
     return (
