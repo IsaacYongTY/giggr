@@ -32,8 +32,8 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
 
             console.log(response.data.result)
             let songData = response.data.result
-            songData.key = convertKeyModeIntToKey(songData.key, songData.mode)
-            songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs)
+
+            // songData.artist = { value: songData.artist, label: songData.artist }
             setFormValue({
                 ...songData
             })

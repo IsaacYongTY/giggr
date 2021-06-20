@@ -49,7 +49,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
             </td>
             <td>
-                <div className={`${styles.cell} ${styles.tempoCol}`}>{song.temp? song.tempo : null}</div>
+                <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo? song.tempo : null}</div>
             </td>
             <td>
                 <div className={styles.cell}>{song.durationMs ? convertDurationMsToMinSec(song.durationMs) : null}</div>
@@ -59,6 +59,35 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
             </td>
             <td>
                 <div className={styles.cell}>{capitalizeString(song.language?.name)}</div>
+            </td>
+            <td className={styles.listenCol}>
+
+                    {
+                        song.spotifyLink &&
+                        <a href={song.spotifyLink} target="_blank">
+                            <Image src="/spotify-icon-green.png" width={20} height={20}
+                                   className="z-index-minus-1"/>
+                        </a>
+                    }
+
+                    {   song.youtubeLink &&
+
+                        <a href={song.youtubeLink} target="_blank">
+                            <Image src="/youtube-icon-square.png" width={20} height={20}
+                                   className="z-index-minus-1"/>
+                        </a>
+
+                    }
+
+                    {   song.otherLink &&
+
+                        <a href={song.youtubeLink} target="_blank">
+                            <Image src="/link-icon.png" width={20} height={20}
+                                   className="z-index-minus-1"/>
+                        </a>
+
+                    }
+
             </td>
             <td className={styles.composersCol}>
                 <div className={styles.pillButtonContainer}>
@@ -87,32 +116,35 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                     }
                 </div>
             </td>
-            <td>
-                <div className={styles.cell}>
+            <td className={styles.genresCol}>
+                <div className={styles.pillButtonContainer}>
                     {
-                        song.spotifyLink &&
-                            <a href={song.spotifyLink}>
-                                <Image src="/spotify-icon-green.png" width={20} height={20}
-                                       className="z-index-minus-1"/>
-                            </a>
+                        song.genres?.map((arranger: any) =>(
+                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
+                        ))
                     }
-
-                    {   song.youtubeLink &&
-
-                            <a href={song.youtubeLink}>
-                                <Image src="/youtube-icon-square.png" width={20} height={20}
-                                       className="z-index-minus-1"/>
-                            </a>
-
-                    }
-
-
                 </div>
             </td>
-            <td>
-
-
+            <td className={styles.moodsCol}>
+                <div className={styles.pillButtonContainer}>
+                    {
+                        song.moods?.map((arranger: any) =>(
+                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
+                        ))
+                    }
+                </div>
             </td>
+            <td className={styles.tagsCol}>
+                <div className={styles.pillButtonContainer}>
+                    {
+                        song.tags?.map((arranger: any) =>(
+                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
+                        ))
+                    }
+                </div>
+            </td>
+
+
 
 
         </tr>
