@@ -1,11 +1,9 @@
 @import './_variables';
 
 .btn {
-  //display: block;
   font-size: 1.6rem;
   padding: 1rem 2rem;
   border-radius: 0.3rem;
-  //width: 100%;
   color: $darkgrey;
   cursor: pointer;
   display: flex;
@@ -15,13 +13,19 @@
 }
 
 .btn-primary {
-  background-color: $primary-color;
+  background-color: $blue;
   border: none;
+  color: white;
+
+  &:hover {
+    background-color: darken($blue, 10%);
+  }
 }
 
 .btn-danger {
-  background-color: orangered;
+  background-color: #DD3444;
   border: none;
+  color: white;
 
   &:hover {
     background-color: darken(orangered, 10%);
@@ -56,32 +60,22 @@
   }
 }
 
-.btn-primary:hover  {
-  background-color: darken($primary-color, 10%);
-  cursor: pointer;
-}
 
 
-.btn-outline:hover {
-  background-color: $lightgrey;
-  cursor: pointer;
-}
 
 .btn-link {
   background-color: transparent;
   border: none;
-
   color: $blue;
+
+  &:hover {
+    background-color: $lightgrey;
+    color: $darkgrey;
+  }
+
+  &:active {
+    background-color: darken($lightgrey, 10%);
+    color: $darkgrey;
+  }
 }
 
-.btn-link:hover {
-  background-color: $lightgrey;
-  color: $darkgrey;
-}
-
-.btn-link:active {
-
-  background-color: darken($lightgrey, 10%);
-  color: $darkgrey;
-
-}

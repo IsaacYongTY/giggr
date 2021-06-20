@@ -45,11 +45,6 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
-    function handleOpenModal() {
-        setIsModalOpen(true)
-    }
-
-
     return (
         <>
             <Layout user={user} title="Admin View">

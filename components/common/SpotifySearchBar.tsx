@@ -5,7 +5,14 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 
-export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : any) {
+interface Props {
+    setFormValue: any
+    database: string
+    isContribute: boolean,
+    user: any
+}
+
+export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : Props) {
 
     const [spotifyLink, setSpotifyLink] = useState("");
     const spotifySearchInput = useRef<HTMLInputElement>(null);
@@ -28,6 +35,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
 
         try {
             console.log(url)
+            console.log(`${url}/spotify?trackId=${trackId}`)
             let response = await axios.post(`${url}/spotify?trackId=${trackId}`)
 
             console.log(response.data.result)
@@ -39,13 +47,13 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             })
 
             if(isContribute) {
-                await axios.post(url, songData, {
+                let res = await axios.post(url, songData, {
                     withCredentials: true,
                     headers: {
                         "x-auth-token": `Bearer ${user.tokenString}`
                     }
                 })
-                console.log("Added to database successfully")
+                console.log(res.data.message)
             }
 
         } catch (err) {
