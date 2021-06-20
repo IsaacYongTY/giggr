@@ -4,7 +4,8 @@
   //table-layout: fixed;
   border-collapse: collapse;
   position: relative;
-  width: 100%;
+  max-width: 90rem;
+  //overflow-x: scroll;
 
 
   thead {
@@ -13,7 +14,7 @@
   }
 
   & tbody {
-    overflow-y: auto;
+    overflow-y: scroll;
   }
 
   th {
@@ -28,6 +29,7 @@
   tr {
     position: relative;
     border-bottom: 1px solid lightgray;
+    overflow-x: scroll;
 
   }
   th, tr, td {

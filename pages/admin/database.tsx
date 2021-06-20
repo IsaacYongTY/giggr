@@ -7,7 +7,10 @@ import axios from "axios";
 import AddSongModal from "../../components/elements/AddSongModal";
 import CsvUploadContainer from "../../components/elements/CsvUploadContainer";
 import Song from "../../lib/types/song";
-import styles from "../../assets/scss/pages/_repertoire.module.scss";
+import styles from "../../assets/scss/pages/_database.module.scss";
+import FilterRow from "../../components/repertoire/FilterRow";
+import SearchBar from "../../components/elements/SearchBar";
+import ActionRow from "../../components/repertoire/ActionRow";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
 
@@ -38,6 +41,9 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
     const [musicians, setMusicians] = useState(initialMusicians)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [filter, setFilter] = useState("title")
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
     function handleOpenModal() {
         setIsModalOpen(true)
@@ -47,14 +53,30 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
     return (
         <>
             <Layout user={user} title="Admin View">
-
-
                 <div className={styles.container}>
-                    <CsvUploadContainer database="master" />
-                    <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
-                    <RepertoireTable songs={songs} setSongs={setSongs} user={user} database="master" musicians={musicians} setMusicians={setMusicians} />
-                </div>
+                    <FilterRow setFilter={setFilter} />
 
+                    <SearchBar
+                        songs={songs}
+                        setFilteredSongList={setFilteredSongList}
+                        filter={filter}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                    />
+
+
+                    <ActionRow setIsModalOpen={setIsModalOpen} database="master" />
+
+                    <RepertoireTable
+                        songs={searchTerm ? filteredSongList : songs}
+                        setSongs={setSongs}
+                        user={user}
+                        database="master"
+                        musicians={musicians}
+                        setMusicians={setMusicians}
+                    />
+
+                </div>
             </Layout>
             <AddSongModal
                 isModalOpen={isModalOpen}

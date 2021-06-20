@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
+import styles from "../assets/scss/components/_keys-dropdown.module.scss";
 
 import Select from "react-select";
 
@@ -86,7 +86,7 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
                     isSearchable={false}
                 />
             </label>
-            <label>
+            <label className={styles.checkbox}>
                 <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
                 Minor
             </label>

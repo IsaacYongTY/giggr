@@ -25,7 +25,8 @@ function renderAddSongModal(props) {
     )
     const isMinorCheckbox = utils.getByLabelText(/minor/i)
     const keysDropdown = utils.getByLabelText(/key/i)
-    return {...utils, isMinorCheckbox, keysDropdown}
+    const durationTextbox = utils.getByRole("textbox", { name: /duration/i })
+    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox}
 }
 
 describe("<AddSongModal />", () => {
@@ -131,8 +132,62 @@ describe("KeysDropdown component's behaviours", () => {
         expect(screen.queryByText('Cm')).not.toBeInTheDocument()
         expect(screen.queryByText('Gm')).not.toBeInTheDocument()
     })
+
+    it("should change the selected key to relative major when checkbox is toggled", () => {
+        let { isMinorCheckbox } = renderAddSongModal({
+            song: {
+                key: 1,
+                mode: 0
+            },
+            type: 'edit'
+        })
+
+        expect(screen.getByDisplayValue('C#m')).toBeInTheDocument()
+        userEvent.click(isMinorCheckbox)
+
+        expect(screen.queryByDisplayValue('C#m')).not.toBeInTheDocument()
+        expect(screen.getByDisplayValue('E')).toBeInTheDocument()
+
+
+    })
+
+    it("should change the selected key to relative minor when checkbox is toggled", () => {
+        let { isMinorCheckbox } = renderAddSongModal({
+            song: {
+                key: 6,
+                mode: 1
+            },
+            type: 'edit'
+        })
+
+        expect(screen.getByDisplayValue('Gb')).toBeInTheDocument()
+        userEvent.click(isMinorCheckbox)
+
+        expect(screen.queryByDisplayValue('Gb')).not.toBeInTheDocument()
+        expect(screen.getByDisplayValue('Ebm')).toBeInTheDocument()
+    })
 })
 
+describe("The Duration input textbox", () => {
+    it("should be empty when the modal is opened in Add mode", () => {
+        let { durationTextbox } = renderAddSongModal()
+
+        expect(durationTextbox).toBeInTheDocument()
+        expect(durationTextbox.value).toBe("")
+    })
+
+    it("should show duration in mm:ss format when the modal is opened in Edit mode", () => {
+        let { durationTextbox } = renderAddSongModal({
+            song: { durationMs: 184000},
+            type: "edit"
+        })
+
+        expect(durationTextbox).toBeInTheDocument()
+        expect(durationTextbox.value).toBe("3:04")
+    })
+
+
+})
 
 
 

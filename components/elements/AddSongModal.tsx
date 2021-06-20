@@ -63,12 +63,12 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
         if(type === 'edit' && song) {
             let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature,
-                language, spotifyLink, youtubeLink, composers, arrangers, songwriters, initialism,
+                language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
                 energy, danceability, valence, acousticness, instrumentalness } = song || {}
 
             let value = {
                 title,
-                romTitle: romTitle || undefined,
+                romTitle: romTitle,
                 artist: artist?.name,
                 key,
                 mode,
@@ -77,7 +77,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 timeSignature,
                 language: language?.name,
                 spotifyLink,
-                youtubeLink: youtubeLink || undefined,
+                youtubeLink: youtubeLink,
+                otherLink,
                 composers,
                 arrangers,
                 songwriters,
@@ -87,6 +88,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 valence,
                 acousticness,
                 instrumentalness,
+
 
             }
 
@@ -165,7 +167,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
-
+    console.log(formValue)
     async function handleEditSong(id : number) {
 
         try {
@@ -278,6 +280,16 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                     <label>YouTube Link:
                         <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
+                    </label>
+                </div>
+
+                <div className={styles.formRow}>
+                    <label>Other Link:
+                        <input className="form-control" name="otherLink" onChange={handleInput} value={formValue.otherLink}/>
+                    </label>
+
+                    <label>Genres:
+                        <input className="form-control" name="youtubeLink" onChange={handleInput} />
                     </label>
                 </div>
 
