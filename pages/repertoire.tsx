@@ -7,10 +7,10 @@ import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
 import AddSongModal from "../components/elements/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
-import CsvUploadContainer from "../components/elements/CsvUploadContainer";
 import { loadRepertoire } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
 import axios from "axios";
+import ActionRow from "../components/repertoire/ActionRow";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -51,21 +51,16 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     function handleOpenModal() {
-
         setIsModalOpen(true)
     }
-
-
 
     return (
         <>
 
             <Layout title="My Repertoire" user={user}>
                 <div className={styles.container}>
+
                     <FilterRow setFilter={setFilter} />
-
-                    <CsvUploadContainer database="database1" />
-
 
                     <SearchBar
                         songs={songs}
@@ -75,9 +70,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                         setSearchTerm={setSearchTerm}
                     />
 
-                    <button className="btn btn-primary" onClick={handleOpenModal}>Add Song</button>
-
-
+                    <ActionRow setIsModalOpen={setIsModalOpen} database="database1"/>
 
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : songs}

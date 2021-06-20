@@ -15,7 +15,7 @@ type Props = {
 }
 export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians } : Props) {
 
-    const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language", "Composers", "Songwriters", "Arrangers", "Listen", "Action"]
+    const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language",  "Listen", "Composers", "Songwriters", "Arrangers", "Genres", "Moods", "Tags"]
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
