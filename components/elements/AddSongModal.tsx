@@ -167,7 +167,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
-    console.log(formValue)
     async function handleEditSong(id : number) {
 
         try {
