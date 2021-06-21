@@ -152,3 +152,28 @@ textarea {
 .ReactModal__Overlay {
   z-index: 99;
 }
+
+.error-shake {
+  animation: shake 0.1s linear;
+}
+
+.error-textbox-border {
+  border: 2px solid #fc6f7d;
+  //box-shadow:  0rem 0rem 0.5rem #fc6f7d;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0.3rem, 0);
+  }
+  33% {
+    transform: translate(-0.3rem, 0);
+  }
+  66% {
+    transform: translate(-0.3rem, 0);
+  }
+  100% {
+    transform: translate(0.3rem, 0);
+  }
+
+}

@@ -223,17 +223,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
 
-                        <KeysDropdown
-                            formValue={formValue}
-                            setFormValue={setFormValue}
-                        />
-
-
+                    <KeysDropdown
+                        formValue={formValue}
+                        setFormValue={setFormValue}
+                    />
 
                     <label>Tempo:
                         <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo}/>
                     </label>
-
 
                     <label>Duration:
                         <input className="form-control" name="durationMinSec" onChange={handleInput} value={formValue.durationMinSec}/>
