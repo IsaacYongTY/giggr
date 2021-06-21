@@ -1,12 +1,34 @@
 import React from "react";
-import { screen, render, cleanup } from "@testing-library/react";
+import { screen, render, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AddSongModal from "../components/elements/AddSongModal";
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
 import axios from 'axios'
+import { loadRepertoire, loadMusicians, loadLanguages } from "../lib/library";
 
 jest.mock('axios')
+// jest.mock('../lib/library')
+// console.log(loadLanguages)
+// loadLanguages.mockResolvedValue([
+//     { name: "Mandarin", id: 1 },
+//     { name: "English", id: 2 }
+// ])
+
+let songData = {
+    title: "七天",
+    artist: "Crowd Lu",
+    romTitle: "Qi Tian",
+    key: 2,
+    mode: 1,
+    tempo: 93,
+    durationMinSec: "4:00",
+    durationMs: 240000,
+    time: "4/4",
+    initialism: "qt",
+    language: "mandarin",
+    yearReleased: 2013
+}
 
 function renderAddSongModal(props) {
     const utils = render(
@@ -25,14 +47,14 @@ function renderAddSongModal(props) {
     const isMinorCheckbox = utils.getByLabelText(/minor/i)
     const keysDropdown = utils.getByLabelText(/key/i)
     const durationTextbox = utils.getByRole("textbox", { name: /duration/i })
+
+
     return {...utils, isMinorCheckbox, keysDropdown, durationTextbox}
 }
 
 describe("<AddSongModal />", () => {
     it("should render the component", () => {
-        const setIsModalOpen = jest.fn()
-        const setSongs = jest.fn()
-        const setMusicians = jest.fn()
+
         const getLanguages = jest.fn()
         getLanguages.mockResolvedValue({
             response: {
@@ -41,9 +63,7 @@ describe("<AddSongModal />", () => {
                 }
             }
         })
-        render(<AddSongModal isModalOpen={true} setIsModalOpen={setIsModalOpen} type="add" database="database1"
-                             setSongs={setSongs} musicians={[{name: "test1"}, {name: "test2"}]}
-                             setMusicians={setMusicians}/>)
+        renderAddSongModal()
 
         expect(screen.getByLabelText(/key/i)).toBeInTheDocument()
         expect(screen.getByLabelText(/artist/i)).toBeInTheDocument()
@@ -165,13 +185,51 @@ describe("KeysDropdown component's behaviours", () => {
     })
 })
 
-describe("The Duration input textbox", () => {
+describe("The Duration input textbox in Add mode", () => {
     it("should be empty when the modal is opened in Add mode", () => {
         let { durationTextbox } = renderAddSongModal()
 
         expect(durationTextbox).toBeInTheDocument()
         expect(durationTextbox.value).toBe("")
     })
+
+    it("should be show duration in mm:ss format after getting track info from Spotify in Add mode", async () => {
+        let { durationTextbox } = renderAddSongModal()
+
+        const searchBar = screen.getByPlaceholderText( "https://open.spotify.com/track/....")
+        const getFromSpotifyButton = screen.getByRole("button", { name: /get from spotify/i})
+
+
+        expect(searchBar).toBeInTheDocument()
+        expect(getFromSpotifyButton).toBeInTheDocument()
+
+        axios.post.mockResolvedValue({
+            data: {
+                result: songData,
+                message: "This is a mock resolved value"
+            }
+        })
+
+
+        userEvent.type(searchBar, "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl?si=e840d909c0a643c6")
+        userEvent.click(getFromSpotifyButton)
+
+        expect(axios.post).toBeCalledTimes(1)
+        expect(axios.post).toBeCalledWith('/api/v1/songs/spotify?trackId=54kJUsxhDUMJS3kI2XptLl')
+
+        await waitFor(() => {
+
+            expect(durationTextbox.value).toBe("4:00")
+        })
+
+
+    })
+
+
+})
+
+describe("The Duration input textbox in Edit mode", () => {
+
 
     it("should show duration in mm:ss format when the modal is opened in Edit mode", () => {
         let { durationTextbox } = renderAddSongModal({
@@ -187,10 +245,3 @@ describe("The Duration input textbox", () => {
 })
 
 
-
-
-
-
-
-
-// })
