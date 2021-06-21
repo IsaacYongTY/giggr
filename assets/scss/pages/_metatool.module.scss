@@ -4,16 +4,47 @@
   margin: 0 auto;
 }
 
+
+.pinyinRow {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  //background-color: red;
+
+
+  > label {
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0 1rem;
+    transform: scale(1.3);
+  }
+}
+
+.searchLink{
+  //margin: 1.5rem 0;
+  display: block;
+}
+
+.dropdown {
+  width: 8rem;
+}
+
 .textarea {
   box-sizing: border-box;
   border: 1px solid lightgray;
   padding: 1rem;
   width: 100%;
   height: 35rem;
-  margin: 2rem 0;
+  margin-top: 0.5rem;
   white-space: pre;
   overflow-y: scroll;
   -ms-overflow-style: none;
+  cursor: text;
 
   &::-webkit-scrollbar {
     display: none;
@@ -27,7 +58,7 @@
 
 .buttonRowContainer {
   display: flex;
-
+  margin: 2rem 0;
   > button {
     margin-right: 3rem;
   }
@@ -35,29 +66,18 @@
 
 
 
-.pinyinRow {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  margin-bottom: 1rem;
-  //background-color: red;
-
-  input[type="checkbox"] {
-    margin: 0 1rem;
-    transform: scale(1.3);
-  }
-}
-
-.dropdown {
-  width: 8rem;
-}
-
 .checkboxRowContainer {
   display: flex;
   margin-top: 1rem;
+  align-items: center;
+
   > input[type="checkbox"] {
     transform: scale(1.3);
+    cursor: pointer;
+    margin-right: 1rem;
+  }
 
-    margin-right: 2rem;
+  > label {
+    cursor: pointer;
   }
 }

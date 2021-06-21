@@ -1,6 +1,7 @@
 // @ts-ignore
 import chineseToPinyin from 'chinese-to-pinyin';
 import axios from "axios";
+import {RefObject} from "react";
 
 const removeBrackets = (input: string) => {
 
@@ -64,6 +65,15 @@ export async function loadLanguages() {
 
 }
 
+export function shakeAnimation(ref: RefObject<HTMLInputElement>) {
+
+    ref.current?.classList.add("error-shake")
+    ref.current?.classList.add("error-textbox-border")
+    setTimeout(() => {
+        ref.current?.classList.remove("error-shake")
+    },1000)
+
+}
 
 export function convertMinSecToMs(durationMinSec : string) {
     return parseInt(durationMinSec.split(':')[0]) * 60 + parseInt(durationMinSec.split(':')[1]) * 1000
