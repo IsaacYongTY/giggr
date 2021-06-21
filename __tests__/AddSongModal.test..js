@@ -1,4 +1,3 @@
-import KeysDropdown from "../components/KeysDropdown";
 import React from "react";
 import { screen, render, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -70,9 +69,7 @@ describe("KeysDropdown component's behaviours", () => {
         })
 
 
-        screen.debug(undefined, 12000)
         expect(await screen.findByText("C")).toBeInTheDocument()
-
 
         cleanup()
 
