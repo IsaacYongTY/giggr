@@ -1,10 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {RefObject, useRef, useState} from 'react';
 import axios from "axios";
 import styles from "../../assets/scss/components/common/_spotify-search-bar.module.scss";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
-
+import { shakeAnimation } from "../../lib/library"
 interface Props {
     setFormValue: any
     database: string
@@ -23,25 +23,28 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
         url = `/api/v1/admin/songs`
     }
 
+
+
     async function handleGetFromSpotify() {
+
+        if(!spotifyLink) {
+            shakeAnimation(spotifySearchInput)
+            return
+        }
 
         setFormValue({})
         const trackId : string = getSpotifyTrackId(spotifyLink)
-        console.log(trackId)
 
         if(!trackId) {
+            shakeAnimation(spotifySearchInput)
             return
         }
 
         try {
-            console.log(url)
-            console.log(`${url}/spotify?trackId=${trackId}`)
             let response = await axios.post(`${url}/spotify?trackId=${trackId}`)
 
-            console.log(response.data.result)
             let songData = response.data.result
 
-            // songData.artist = { value: songData.artist, label: songData.artist }
             setFormValue({
                 ...songData
             })
@@ -65,6 +68,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
     function selectText() {
         if(spotifySearchInput.current) {
             spotifySearchInput.current.select()
+            spotifySearchInput.current.classList.remove("error-textbox-border")
         }
     }
 
@@ -81,7 +85,9 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             <button
                 className="btn btn-primary"
                 onClick={handleGetFromSpotify}
-            >Get from Spotify</button>
+            >
+                Get from Spotify
+            </button>
         </div>
     )
 }
