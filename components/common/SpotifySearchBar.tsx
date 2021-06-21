@@ -8,8 +8,8 @@ import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 interface Props {
     setFormValue: any
     database: string
-    isContribute: boolean,
-    user: any
+    isContribute?: boolean,
+    user?: any
 }
 
 export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : Props) {
