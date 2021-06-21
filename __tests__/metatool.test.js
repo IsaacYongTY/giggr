@@ -16,7 +16,7 @@ const renderMetaTool = (props) => {
     const copyToClipboardButton = utils.getByRole("button", { name: /copy to clipboard/i })
     const showPinyinCheckbox = utils.getByRole("checkbox", { name: /pinyin/i})
     const searchBar = utils.getByPlaceholderText("https://open.spotify.com/track/....")
-    const pinyinDropdown = utils.getByDisplayValue(defaultPinyinSyllables)
+    const pinyinDropdown = utils.getByText(defaultPinyinSyllables)
     return {...utils, getFromSpotifyButton, copyToClipboardButton, showPinyinCheckbox, pinyinDropdown, searchBar}
 }
 
@@ -28,42 +28,44 @@ describe("The metatool page", () => {
         expect(searchBar).toBeInTheDocument()
         expect(getFromSpotifyButton).toBeInTheDocument()
         expect(copyToClipboardButton).toBeInTheDocument()
-        // expect(showPinyinCheckbox).toBeInTheDocument()
-        // expect(pinyinDropdown).toBeInTheDocument()
+        expect(showPinyinCheckbox).toBeInTheDocument()
+        expect(pinyinDropdown).toBeInTheDocument()
+    })
+
+    describe("The pinyin toggle", () => {
+        it("should toggle check when clicked", () => {
+            let { showPinyinCheckbox } = renderMetaTool()
+
+            userEvent.click(showPinyinCheckbox)
+            expect(showPinyinCheckbox).not.toBeChecked()
+
+            userEvent.click(showPinyinCheckbox)
+            expect(showPinyinCheckbox).toBeChecked()
+
+        })
+    })
+
+    describe("The pinyin dropdown", () => {
+        it("should open dropdown menu when clicked", () => {
+            let { pinyinDropdown } = renderMetaTool()
+
+            userEvent.click(pinyinDropdown)
+            let option1 = screen.getByText("1")
+            let option2 = screen.getByText(/all/i)
+            expect(option1).toBeInTheDocument()
+            expect(option2).toBeInTheDocument()
+
+            userEvent.click(option1)
+            expect(screen.getByText("1")).toBeInTheDocument()
+
+            userEvent.click(pinyinDropdown)
+            userEvent.click(option2)
+            expect(screen.getByText(/all/i)).toBeInTheDocument()
+
+
+        })
     })
 
 
 })
 
-// describe("The pinyin toggle", () => {
-//     it("should toggle check when clicked", () => {
-//         let { showPinyinCheckbox } = renderMetaTool()
-//
-//         userEvent.click(showPinyinCheckbox)
-//         expect(showPinyinCheckbox).toBeChecked()
-//
-//         userEvent.click(showPinyinCheckbox)
-//         expect(showPinyinCheckbox).not.toBeChecked()
-//
-//     })
-// })
-//
-// describe("The pinyin dropdown", () => {
-//     it("should open dropdown menu when clicked", () => {
-//         let { pinyinDropdown } = renderMetaTool()
-//
-//         let option1 = screen.getByText(/1/)
-//         let option2 = screen.getByText(/all/i)
-//         expect(option1).toBeInTheDocument()
-//         expect(option2).toBeInTheDocument()
-//
-//         userEvent.click(option1)
-//         expect(pinyinDropdown.value).toBe("1")
-//
-//         userEvent.click(pinyinDropdown)
-//         userEvent.click(option2)
-//         expect(pinyinDropdown.value).toBe(/all/i)
-//
-//
-//     })
-// })
