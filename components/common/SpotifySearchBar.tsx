@@ -27,6 +27,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
 
     async function handleGetFromSpotify() {
 
+
         if(!spotifyLink) {
             shakeAnimation(spotifySearchInput)
             return
@@ -42,9 +43,10 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
 
         try {
             let response = await axios.post(`${url}/spotify?trackId=${trackId}`)
-
+            console.log(response)
             let songData = response.data.result
 
+            songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs)
             setFormValue({
                 ...songData
             })

@@ -1,6 +1,6 @@
 import MetaTool from "../pages/utilities/metatool"
 import React from "react";
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import axios from "axios";
@@ -25,7 +25,8 @@ let songData = {
     key: 2,
     mode: 1,
     tempo: 93,
-    duration: "4:00",
+    durationMinSec: "4:00",
+    durationMs: 240000,
     time: "4/4",
     initialism: "qt",
     language: "mandarin",
@@ -108,6 +109,7 @@ describe("The metatool page", () => {
             userEvent.type(searchBar, spotifyUrl)
             expect(searchBar.value).toBe(spotifyUrl)
         })
+
 
         it("should trigger call to get data from spotify if the url is valid, and user is admin", async () => {
             let { searchBar, getFromSpotifyButton } = renderMetaTool({
@@ -202,6 +204,7 @@ describe("The metatool page", () => {
 
         })
 
+        it.todo("should render loader on button if the url is valid")
         it.todo("unable to test Content Editable div at the moment")
     })
 
