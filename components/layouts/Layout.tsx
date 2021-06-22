@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 interface Props {
-    title: string,
-    user: any,
+    title?: string,
+    user?: any,
     children: ReactNode
 }
 export default function Layout({ title, user, children }: Props) {
