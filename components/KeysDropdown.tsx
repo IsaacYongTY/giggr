@@ -12,21 +12,29 @@ import convertRelativeKey from "../lib/utils/convert-relative-key";
 type Props = {
     formValue: any
     setFormValue: any
-
+    defaultKey?: string
+    showIsMinorCheckbox? : boolean
 }
 
 interface OptionType {
     value: string,
-    label: string
+    label: string,
+
 }
 
-export default function KeysDropdown({ formValue, setFormValue }: Props) {
-
-    const [keyOptions, setKeyOptions] = useState<OptionType[]>([])
+export default function KeysDropdown({ formValue, setFormValue, defaultKey, showIsMinorCheckbox=true }: Props) {
 
     const minorKeyOptions = minorKeyArray.map(key => ({value: key, label: key}))
     const majorKeyOptions = majorKeyArray.map(key => ({value: key, label: key}))
 
+    const defaultOption = defaultKey
+        ?
+        majorKeyOptions.find(option => option.value === defaultKey)
+        :
+        {value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}
+
+    const [keyOptions, setKeyOptions] = useState<OptionType[]>([])
+    const [key, setKey] = useState({value: "", label: ""})
 
     function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
 
@@ -47,26 +55,31 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
             const relativeMinor = convertRelativeKey(currentKeyString)
             const [key, mode] = convertKeyToKeyModeInt(relativeMinor)
 
+            setKey({value: relativeMinor, label: relativeMinor })
             setFormValue((prevState: any) => ({...prevState, key, mode}))
             return
         }
 
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
-
+        setKey({value: relativeMajor, label: relativeMajor })
         setFormValue((prevState: any) => ({...prevState, key, mode}))
 
     }
 
     function handleChange(selectedOption: any) {
         let [selectedKey, selectedMode] : number[] = convertKeyToKeyModeInt(selectedOption.value)
+        setKey({value: selectedOption.value, label: selectedOption.label})
         setFormValue((prevState : any) => ({ ...prevState, key: selectedKey, mode: selectedMode }))
     }
 
 
 
     useEffect(() => {
-        if(formValue.mode === 0) {
+
+        const [_, defaultMode] = convertKeyToKeyModeInt(defaultKey || "")
+
+        if(formValue.mode === 0 && defaultMode) {
             setKeyOptions(minorKeyOptions)
             return
         }
@@ -79,17 +92,21 @@ export default function KeysDropdown({ formValue, setFormValue }: Props) {
             <label>Key:
                 <Select
                     name="musician"
-                    value={{value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}}
+                    value={defaultOption}
                     options={keyOptions}
                     className="basic-single"
                     onChange={handleChange}
                     isSearchable={false}
                 />
             </label>
-            <label className={styles.checkbox}>
-                <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
-                Minor
-            </label>
+            {
+                showIsMinorCheckbox &&
+                <label className={styles.checkbox}>
+                    <input type="checkbox" defaultChecked={formValue.mode === 0} onChange={toggleMinor}/>
+                    Minor
+                </label>
+            }
+
 
         </div>
     )
