@@ -1,8 +1,7 @@
-import React, {RefObject, useRef, useState} from 'react';
+import React, { useRef, useState} from 'react';
 import axios from "axios";
 import styles from "../../assets/scss/components/common/_spotify-search-bar.module.scss";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
-import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 import { shakeAnimation } from "../../lib/library"
 interface Props {
@@ -22,8 +21,6 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
     if(database === 'master') {
         url = `/api/v1/admin/songs`
     }
-
-
 
     async function handleGetFromSpotify() {
 
