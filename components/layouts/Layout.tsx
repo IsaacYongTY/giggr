@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import styles from '../../assets/scss/components/layouts/_layout.module.scss';
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-export default function Layout({ title, user, children }: any) {
+interface Props {
+    title: string,
+    user: any,
+    children: ReactNode
+}
+export default function Layout({ title, user, children }: Props) {
 
     const router = useRouter();
 
