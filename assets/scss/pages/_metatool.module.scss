@@ -1,7 +1,24 @@
 .container {
   max-width: 60%;
-  //background-color: blue;
   margin: 0 auto;
+}
+
+.pinyinRow {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  > label {
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0 1rem;
+    transform: scale(1.3);
+  }
 }
 
 .searchLink{
@@ -45,27 +62,10 @@
   }
 }
 
-
-.pinyinRow {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  margin: 2rem 0;
-  //background-color: red;
-
-  input[type="checkbox"] {
-    margin-right: 1rem;
-    transform: scale(1.3);
-  }
-}
-
-.dropdown {
-  width: 8rem;
-}
-
 .checkboxRowContainer {
   display: flex;
   margin-top: 1rem;
+  align-items: center;
 
   > input[type="checkbox"] {
     transform: scale(1.3);

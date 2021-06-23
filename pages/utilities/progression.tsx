@@ -78,7 +78,6 @@ export default function Progression() {
     return (
         <Layout title="Progression Generator" user={user} >
             <div className={styles.container}>
-
                 <div className={styles.inputRow}>
                     <div className={styles.keysDropdownContainer}>
                         <KeysDropdown
@@ -88,7 +87,6 @@ export default function Progression() {
                             showIsMinorCheckbox={false}
                         />
                     </div>
-
 
                     <div className={styles.progDropdownContainer}>
                         <label>
