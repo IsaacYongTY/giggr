@@ -14,7 +14,19 @@ const renderProg = (props) => {
     const textArea = utils.getByLabelText(/result.+/i)
     const fullBarRadio = utils.getByLabelText(/full bar/i)
     const halfBarRadio = utils.getByLabelText(/half bar/i)
-    return { ...utils, generateButton, clearButton, inputTextbox, keysDropdown, commonProgDropdown, textArea, fullBarRadio, halfBarRadio }
+    const spacesDropdown = utils.getByLabelText(/spaces/i)
+    return {
+        ...utils,
+        generateButton,
+        clearButton,
+        inputTextbox,
+        keysDropdown,
+        commonProgDropdown,
+        textArea,
+        fullBarRadio,
+        halfBarRadio,
+        spacesTextbox: spacesDropdown
+    }
 }
 
 let user = { tierId: 4, name: "Isaac"}
@@ -24,13 +36,9 @@ jest.mock("next/router", () => require("next-router-mock"))
 describe("The progression generator page", () => {
     describe("The elements on page", () => {
         it("should render elements on the page", () => {
-
-            let { generateButton, clearButton, inputTextbox } = renderProg()
+            let { generateButton, inputTextbox } = renderProg()
             expect(generateButton).toBeInTheDocument()
-            expect(clearButton).toBeInTheDocument()
             expect(inputTextbox).toBeInTheDocument()
-
-
         })
     })
 
@@ -68,6 +76,8 @@ describe("The progression generator page", () => {
             expect(inputTextbox).toBeInTheDocument()
 
         })
+
+        it.todo("should not accept inputs if they're not 1-7, m, M, b, and #")
     })
 
     describe("The radio buttons for full bar and half bar", () => {
@@ -87,6 +97,45 @@ describe("The progression generator page", () => {
             expect(halfBarRadio).toBeChecked()
             expect(fullBarRadio).not.toBeChecked()
         })
+    })
+
+    describe("The spacing textbox", () => {
+        it("should render correctly", () => {
+            let defaultSpacing = 12
+            let { spacesTextbox } = renderProg()
+            expect(spacesTextbox).toBeInTheDocument()
+            expect(screen.getByText(defaultSpacing)).toBeInTheDocument()
+        })
+
+        it("should change value when number is input",() => {
+            let { spacesTextbox } = renderProg()
+            userEvent.click(spacesTextbox)
+            expect(screen.getByText("8")).toBeInTheDocument()
+            expect(screen.getByText("14")).toBeInTheDocument()
+
+            userEvent.click(screen.getByText("10"))
+            expect(screen.getByText("10")).toBeInTheDocument()
+        })
+    })
+
+    describe("The result textarea", () => {
+        it.todo("should render correctly")
+        it.todo("should be empty at the beginning")
+        it.todo("should render correct result according to key, progression and spacing given")
+        it.todo("should return an error message if any one of key, progression and spacing is missing")
+    })
+
+    describe("The Copy to Clipboard button", () => {
+        it.todo("should render correctly")
+        it.todo("should copy the textarea content to clipboard")
+        it.todo("should show alert when copy to clipboard is executed")
+    })
+    describe("The clear button", () => {
+        it("should render correctly", () => {
+            let { clearButton } = renderProg()
+            expect(clearButton).toBeInTheDocument()
+        })
+        it.todo("should clear the content inside textarea")
     })
 
 })
