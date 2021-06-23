@@ -7,6 +7,7 @@
 .textarea {
   box-sizing: border-box;
   border: 1px solid lightgray;
+  border-radius: 0.4rem;
   padding: 1rem;
   width: 100%;
   height: 35rem;
@@ -27,7 +28,8 @@
 
 .buttonRowContainer {
   display: flex;
-
+  margin-bottom: 1.5rem;
+  //background-color: red;
   > button {
     margin-right: 3rem;
   }
@@ -39,11 +41,11 @@
   display: flex;
   align-items: center;
   gap: 3rem;
-  margin-bottom: 1rem;
+  margin: 2rem 0;
   //background-color: red;
 
   input[type="checkbox"] {
-    margin: 0 1rem;
+    margin-right: 1rem;
     transform: scale(1.3);
   }
 }
@@ -55,6 +57,7 @@
 .checkboxRowContainer {
   display: flex;
   margin-top: 1rem;
+
   > input[type="checkbox"] {
     transform: scale(1.3);
 
