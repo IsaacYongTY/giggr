@@ -1,9 +1,11 @@
 @import './_variables';
 
+$btn-radius: 0.4rem;
+
 .btn {
   font-size: 1.6rem;
   padding: 1rem 2rem;
-  border-radius: 0.3rem;
+  border-radius: $btn-radius;
   color: $darkgrey;
   cursor: pointer;
   display: flex;
@@ -28,24 +30,24 @@
   color: white;
 
   &:hover {
-    background-color: darken(orangered, 10%);
+    background-color: darken(#DD3444, 10%);
   }
 }
 
 .btn-outline {
-  border: 0.1rem solid black;
+  border: $btn-radius solid black;
   background-color: white;
   color: $darkgrey;
 
   &:hover {
-    border: 0.1rem solid black;
+    border: $btn-radius  solid black;
     background-color: $lightgrey;
     color: $darkgrey;
   }
 }
 
 .btn-active {
-  border: 0.1rem solid black;
+  border: $btn-radius solid black;
   background-color: white;
   color: $darkgrey;
 }

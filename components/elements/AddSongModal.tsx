@@ -55,6 +55,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     useEffect(() => {
 
         loadLanguages().then((languages) => {
+            console.log(languages)
             setLanguages(languages)
         }).catch((err) => {
             console.log(err)
@@ -138,7 +139,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             let sendData = { ...formValue}
 
             console.log(formValue)
-            console.log("handle add")
+
             sendData.composers = composers.map(composer => composer.value)
             sendData.songwriters = songwriters.map(arranger => arranger.value)
             sendData.arrangers = arrangers.map(arranger => arranger.value)
@@ -163,11 +164,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
 
         } catch (error) {
+            console.log('wentwrong')
             console.log(error)
         }
     }
 
-    console.log(formValue)
     async function handleEditSong(id : number) {
 
         try {
@@ -224,17 +225,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
 
-                        <KeysDropdown
-                            formValue={formValue}
-                            setFormValue={setFormValue}
-                        />
-
-
+                    <KeysDropdown
+                        formValue={formValue}
+                        setFormValue={setFormValue}
+                    />
 
                     <label>Tempo:
                         <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo}/>
                     </label>
-
 
                     <label>Duration:
                         <input className="form-control" name="durationMinSec" onChange={handleInput} value={formValue.durationMinSec}/>
