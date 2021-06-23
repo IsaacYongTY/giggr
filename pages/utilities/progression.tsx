@@ -78,13 +78,15 @@ export default function Progression() {
     return (
         <Layout title="Progression Generator" user={user} >
             <div className={styles.container}>
-
-
                 <div className={styles.inputRow}>
                     <div className={styles.keysDropdownContainer}>
-                        <KeysDropdown formValue={form} setFormValue={setForm} defaultKey={defaultKey.key} showIsMinorCheckbox={false}/>
+                        <KeysDropdown
+                            formValue={form}
+                            setFormValue={setForm}
+                            defaultKey={defaultKey.key}
+                            showIsMinorCheckbox={false}
+                        />
                     </div>
-
 
                     <div className={styles.progDropdownContainer}>
                         <label>

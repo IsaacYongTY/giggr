@@ -120,12 +120,12 @@ export default function MetaTool({ user } : any) {
 
                 <div className={styles.pinyinRow}>
                     <label>
-                        Pinyin
                         <input
                             type="checkbox"
                             defaultChecked={showPinyin}
                             onChange={() => setShowPinyin(prevState => !prevState)}
                         />
+                        Pinyin
                     </label>
 
                     <div className={styles.dropdown}>

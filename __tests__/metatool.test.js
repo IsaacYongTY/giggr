@@ -136,7 +136,6 @@ describe("The metatool page", () => {
 
             // jest.resetAllMocks()
             axios.post.mockResolvedValueOnce({
-
                 data: {
                     message: "This is a mock resolved value"
                 }
