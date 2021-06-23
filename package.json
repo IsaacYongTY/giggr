@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "jest --config ./jest.config.js --watchAll --coverage",
-    "test:coverage": "yarn test -- --coverage --watchAll=false"
+    "test:ci": "jest --silent",
+    "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
     "@babel/core": "^7.14.2",

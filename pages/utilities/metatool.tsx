@@ -24,6 +24,7 @@ export const getServerSideProps = withAuth(async ({req, res} : any) => {
 })
 
 export default function MetaTool({ user } : any) {
+    const isAdmin = user.tierId === 4
 
     const [formValue, setFormValue] = useState<any>({})
     const [text, setText] = useState("")
@@ -34,11 +35,11 @@ export default function MetaTool({ user } : any) {
 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
-    const [isContribute, setIsContribute] = useState(true)
+    const [isContribute, setIsContribute] = useState(isAdmin)
 
     const textAreaContainer = useRef<HTMLDivElement>(null)
 
-    const isAdmin = user.tierId === 4
+
 
     useEffect(() => {
         let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
@@ -140,18 +141,23 @@ export default function MetaTool({ user } : any) {
                             onChange={handleChange}
                         />
                     </div>
+                    {
+                        searchLink &&
+                        <a href={searchLink} className={styles.searchLink} target="_blank">
+                            Search "{formValue?.title} {formValue?.language === 'mandarin' ? "歌词" : "lyrics"}" on Google
+                        </a>
+                    }
                 </div>
 
-                {
-                    searchLink &&
-                    <a href={searchLink} target="_blank">
-                        Search "{formValue?.title} {formValue?.language === 'mandarin' ? "歌词" : "lyrics"}" on Google
-                    </a>
-                }
 
-                <div contentEditable="true" className={styles.textarea} ref={textAreaContainer}>
-                    { Object.keys(formValue).length ? text : null }
+
+                <div>
+                    <span>Result:</span>
+                    <div role="textbox" contentEditable="true" className={styles.textarea} ref={textAreaContainer}>
+                        { Object.keys(formValue).length ? text : null }
+                    </div>
                 </div>
+
 
                 <div className={styles.buttonRowContainer}>
                     <button className="btn btn-primary" onClick={copyToClipboard}>Copy To Clipboard</button>
