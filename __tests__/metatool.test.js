@@ -90,8 +90,6 @@ describe("The metatool page", () => {
             userEvent.click(pinyinDropdown)
             userEvent.click(option2)
             expect(screen.getByText(/all/i)).toBeInTheDocument()
-
-
         })
     })
 
@@ -107,7 +105,7 @@ describe("The metatool page", () => {
             let { searchBar } = renderMetaTool()
             let spotifyUrl = "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl"
             userEvent.type(searchBar, spotifyUrl)
-            expect(searchBar.value).toBe(spotifyUrl)
+            expect(searchBar).toHaveValue(spotifyUrl)
         })
 
 
