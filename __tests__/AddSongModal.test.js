@@ -238,7 +238,7 @@ describe("The Duration input textbox in Edit mode", () => {
         })
 
         expect(durationTextbox).toBeInTheDocument()
-        expect(durationTextbox.value).toBe("3:04")
+        expect(durationTextbox).toHaveValue("3:04")
     })
 
 

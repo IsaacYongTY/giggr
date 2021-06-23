@@ -16,11 +16,17 @@ interface Form {
     key: number
     progression: string,
     isFullBar: boolean
+    spaces: number
 }
 
 interface OptionType {
     value: string,
     label: string
+}
+
+interface SpacingOptionType {
+    value: number
+    label: number
 }
 
 export default function Progression() {
@@ -29,7 +35,8 @@ export default function Progression() {
     const [form, setForm] = useState<Form>({
         key: defaultKey.id,
         progression: "",
-        isFullBar: true
+        isFullBar: true,
+        spaces: 12
 
     })
 
@@ -62,12 +69,21 @@ export default function Progression() {
     }
 
     function handleGenerateProg() {
-        let { key, progression, isFullBar } = form || {}
-        let spacing = 12
+        let { key, progression, isFullBar,  spaces } = form || {}
         let notesInKeyArray = createChordsInKey(key)
         let chordsProgressionArray = assignChordsToProg(notesInKeyArray,progression)
 
-        setProg(prevState => prevState + "\n" + (isFullBar ? fullBarProg(chordsProgressionArray, spacing) : halfBarProg(chordsProgressionArray, spacing)))
+        setProg(prevState => prevState +
+            (isFullBar ? fullBarProg(chordsProgressionArray, spaces) : halfBarProg(chordsProgressionArray, spaces)) +
+            "\n"
+        )
+    }
+
+    function handleSpacingChanges(selectedOption: ValueType<SpacingOptionType, false>) {
+        if(!selectedOption) {
+            return
+        }
+        setForm(prevState => ({...prevState, spaces: selectedOption.value}))
     }
 
     const user = {
@@ -125,6 +141,24 @@ export default function Progression() {
                         <input type="radio" name="halfBar" onChange={handleRadioChange} checked={!form.isFullBar}/>
                         <span>Half bar</span>
                     </label>
+
+                    <label>
+                        Spaces:
+                        <div className={styles.spacingDropdownContainer}>
+                            <Select
+                                className="basic-single"
+                                value={{value: form.spaces, label: form.spaces}}
+                                name="spaces"
+                                options={[
+                                    {value: 8, label: 8},
+                                    {value: 10, label: 10},
+                                    {value: 12, label: 12},
+                                    {value: 14, label: 14},
+                                ]}
+                                onChange={handleSpacingChanges}
+                            />
+                        </div>
+                    </label>
                 </div>
                 <label>
                     <div>Result:</div>
@@ -137,7 +171,7 @@ export default function Progression() {
 
                 <div className={styles.buttonRow}>
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
-                    <button className={"btn btn-danger"}>Clear</button>
+                    <button className="btn btn-danger">Clear</button>
                 </div>
 
 
