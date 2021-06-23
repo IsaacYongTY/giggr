@@ -24,8 +24,8 @@ jest.mock("next/router", () => require("next-router-mock"))
 describe("The progression generator page", () => {
     describe("The elements on page", () => {
         it("should render elements on the page", () => {
-            let { generateButton, clearButton, inputTextbox, keysDropdown, commonProgDropdown, textArea } = renderProg()
 
+            let { generateButton, clearButton, inputTextbox } = renderProg()
             expect(generateButton).toBeInTheDocument()
             expect(clearButton).toBeInTheDocument()
             expect(inputTextbox).toBeInTheDocument()
