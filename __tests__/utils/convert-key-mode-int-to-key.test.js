@@ -1,4 +1,4 @@
-import convertKeyModeIntToKey from "../lib/utils/convert-key-mode-int-to-key";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
 
 describe("convertKeyModeIntToKey", () => {
     it("should return the key", () => {

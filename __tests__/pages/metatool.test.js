@@ -1,15 +1,15 @@
-import MetaTool from "../pages/utilities/metatool"
+import MetaTool from "../../pages/utilities/metatool"
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import axios from "axios";
 
-import { shakeAnimation } from "../lib/library";
+import { shakeAnimation } from "../../lib/library";
 
 jest.mock("next/router", () => require('next-router-mock'))
 jest.mock('axios')
-jest.mock('../lib/library')
+jest.mock('../../lib/library')
 
 const defaultPinyinSyllables = 2
 
