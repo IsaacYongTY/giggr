@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react"
+import React, {ChangeEvent, useRef, useState} from "react"
 import Layout from "../../components/layouts/Layout";
 import Select from "react-select";
 import KeysDropdown from "../../components/KeysDropdown";
@@ -11,6 +11,7 @@ import {
     halfBarProg,
     keyMap
 } from "../../lib/utils/progression-generator-functions";
+import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 
 interface Form {
     key: number
@@ -41,20 +42,24 @@ export default function Progression() {
     })
 
     const [prog, setProg] = useState("")
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
+
+    const textarea = useRef<HTMLTextAreaElement>(null)
 
     const options = [
         {value: "15654325", label: "Canon Progression (15654325)"},
-        {value: "45362511", label: "Typical Ballad Progression (45362511)"}
+        {value: "45362511", label: "Typical Ballad Progression (45362511)"},
+        {value: "6415", label: "Top 40s 4-Chords 1 (6415)"},
+        {value: "1564", label: "Top 40s 4-Chords 1 (1564)"},
+        {value: "6251", label: "Circle Progression (6251)"}
     ]
 
     function handleChange(selectedOption: ValueType<OptionType, false>) {
-
         if(selectedOption) {
             setForm(prevState => ({...prevState, progression: selectedOption.value}))
         }
     }
-
-    console.log(form)
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
         setForm(prevState => ({...prevState, [e.target.name]: e.target.value}))
@@ -62,10 +67,10 @@ export default function Progression() {
 
     function handleRadioChange(e: ChangeEvent<HTMLInputElement>) {
         if(e.target.name === "fullBar") {
-            setForm(prevState => ({...prevState, isFullBar: true}))
+            setForm(prevState => ({...prevState, spaces: 12, isFullBar: true}))
             return
         }
-        setForm(prevState => ({...prevState, isFullBar: false}))
+        setForm(prevState => ({...prevState, spaces: 14, isFullBar: false}))
     }
 
     function handleGenerateProg() {
@@ -159,19 +164,27 @@ export default function Progression() {
                             />
                         </div>
                     </label>
+
+
                 </div>
-                <label>
-                    <div>Result:</div>
-                    <textarea
-                        className={`${styles.textarea} form-control`}
-                        value={prog}
-                        onChange={(e) => setProg(e.target.value)}
-                    />
-                </label>
+                <div className={styles.textAreaContainer}>
+                    <label>
+                        <div>Result:</div>
+                        <textarea
+                            ref={textarea}
+                            className={`${styles.textarea} form-control`}
+                            value={prog}
+                            onChange={(e) => setProg(e.target.value)}
+                        />
+                    </label>
+                </div>
+
 
                 <div className={styles.buttonRow}>
+                    <button className="btn btn-danger" onClick={() => setProg("")}>Clear</button>
+                    <CopyToClipboardButton sourceRef={textarea} setIsAlertOpen={setIsAlertOpen} setAlertMessage={setAlertMessage} />
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
-                    <button className="btn btn-danger">Clear</button>
+
                 </div>
 
 

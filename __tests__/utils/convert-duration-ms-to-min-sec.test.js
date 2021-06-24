@@ -1,4 +1,4 @@
-import convertDurationMsToMinSec from "../lib/utils/convert-duration-ms-to-min-sec";
+import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 
 describe("convertDurationMsToMinSec", () => {
     it("should convert milliseconds to mm:ss format", () => {

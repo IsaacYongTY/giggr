@@ -27,14 +27,14 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
     const minorKeyOptions = minorKeyArray.map(key => ({value: key, label: key}))
     const majorKeyOptions = majorKeyArray.map(key => ({value: key, label: key}))
 
-    const defaultOption = defaultKey
+    const defaultOption = formValue.key !== undefined && formValue.mode !== undefined
         ?
-        majorKeyOptions.find(option => option.value === defaultKey)
-        :
         {value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}
+        :
+        majorKeyOptions.find(option => option.value === defaultKey)
 
     const [keyOptions, setKeyOptions] = useState<OptionType[]>([])
-    const [key, setKey] = useState({value: "", label: ""})
+    const [key, setKey] = useState(defaultOption)
 
     function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
 
@@ -49,12 +49,12 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
             return
         }
 
-
         if(e.target.checked) {
 
             const relativeMinor = convertRelativeKey(currentKeyString)
             const [key, mode] = convertKeyToKeyModeInt(relativeMinor)
 
+            setKeyOptions(minorKeyOptions)
             setKey({value: relativeMinor, label: relativeMinor })
             setFormValue((prevState: any) => ({...prevState, key, mode}))
             return
@@ -62,6 +62,7 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
 
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
+        setKeyOptions(majorKeyOptions)
         setKey({value: relativeMajor, label: relativeMajor })
         setFormValue((prevState: any) => ({...prevState, key, mode}))
 
@@ -72,7 +73,6 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
         setKey({value: selectedOption.value, label: selectedOption.label})
         setFormValue((prevState : any) => ({ ...prevState, key: selectedKey, mode: selectedMode }))
     }
-
 
 
     useEffect(() => {
@@ -92,7 +92,7 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
             <label>Key:
                 <Select
                     name="musician"
-                    value={defaultOption}
+                    value={key}
                     options={keyOptions}
                     className="basic-single"
                     onChange={handleChange}

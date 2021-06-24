@@ -14,6 +14,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     const router = useRouter();
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+
     let schema = Yup.object().shape({
         email: Yup.string()
             .required("Please provide email")
@@ -33,16 +34,11 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     }
 
     async function handleSignup(values : MyFormValues) {
-        console.log(values)
-        console.log('in signup')
+
         try {
             let response = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
-            console.log('working')
             await router.push('/dashboard')
         } catch (err) {
-            console.log('in error')
-            console.log(err.response)
-            console.log(err.response.data.message)
             setIsShowErrorMessage(true)
             setErrorMessage(err.response.data.message)
         }

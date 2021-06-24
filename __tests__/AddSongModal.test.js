@@ -83,11 +83,11 @@ describe("KeysDropdown component's behaviours", () => {
 
     it("should render the component with song's key if exist and in Edit mode", async () => {
 
+
         renderAddSongModal({
             song: {key: 0, mode: 1},
             type: "edit"
         })
-
 
         expect(await screen.findByText("C")).toBeInTheDocument()
 
@@ -99,8 +99,8 @@ describe("KeysDropdown component's behaviours", () => {
         })
 
         expect(screen.getByDisplayValue("Bm")).toBeInTheDocument()
-
     })
+
 
     it("should toggle the dropdown menu and render key options accordingly", () => {
         const { keysDropdown } = renderAddSongModal()
@@ -122,7 +122,7 @@ describe("KeysDropdown component's behaviours", () => {
 
     })
 
-    it("should toggle the isMinor checkbox", () => {
+    it("should toggle the isMinor checkbox when the default is empty", () => {
         let { keysDropdown, isMinorCheckbox } = renderAddSongModal()
 
         userEvent.click(keysDropdown)
@@ -149,6 +149,41 @@ describe("KeysDropdown component's behaviours", () => {
         expect(screen.queryByText('Cm')).not.toBeInTheDocument()
         expect(screen.queryByText('Gm')).not.toBeInTheDocument()
     })
+
+    it("should toggle the isMinor checkbox even when key is selected", () => {
+        let { keysDropdown, isMinorCheckbox } = renderAddSongModal({
+            type: "edit",
+            song: { key: 3, mode: 1}
+        })
+
+        expect(screen.getByText('Eb')).toBeInTheDocument()
+
+        userEvent.click(keysDropdown)
+        expect(screen.getByText('C')).toBeInTheDocument()
+        expect(screen.getByText('Bb')).toBeInTheDocument()
+
+        userEvent.click(isMinorCheckbox)
+        expect(isMinorCheckbox).toBeChecked()
+
+        expect(screen.getByText('Cm')).toBeInTheDocument()
+
+        userEvent.click(keysDropdown)
+        expect(screen.getByText('Gm')).toBeInTheDocument()
+        expect(screen.getByText('Am')).toBeInTheDocument()
+        //use query only if the element cannot be found
+        expect(screen.queryByText('C')).not.toBeInTheDocument()
+        expect(screen.queryByText('G')).not.toBeInTheDocument()
+
+        userEvent.click(isMinorCheckbox)
+        userEvent.click(keysDropdown)
+
+        expect(isMinorCheckbox).not.toBeChecked()
+        expect(screen.getByText('A')).toBeInTheDocument()
+        expect(screen.getByText('D')).toBeInTheDocument()
+        expect(screen.queryByText('Cm')).not.toBeInTheDocument()
+        expect(screen.queryByText('Gm')).not.toBeInTheDocument()
+    })
+
 
     it("should change the selected key to relative major when checkbox is toggled", () => {
         let { isMinorCheckbox } = renderAddSongModal({

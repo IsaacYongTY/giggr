@@ -1,4 +1,4 @@
-import convertRelativeKey from "../lib/utils/convert-relative-key";
+import convertRelativeKey from "../../lib/utils/convert-relative-key";
 
 describe("convertRelativeKey", () => {
     it("should convert major to minor key", () => {
