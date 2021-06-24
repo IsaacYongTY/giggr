@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
 import styles from '../../assets/scss/components/layouts/_sidebar.module.scss'
 import SidebarRow from "./SidebarRow";
 import Link from "next/link";
@@ -14,15 +14,27 @@ type Props = {
 export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : Props) {
 
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
+    const sidebar = useRef<HTMLDivElement>(null)
 
     function handleToggleSidebar() {
-        setIsOpen((prevState: Boolean) => !prevState)
+        if(!isOpen) {
+            setIsOpen(true)
+            sidebar?.current?.classList.add(styles.open)
+            sidebar?.current?.classList.remove(styles.close)
+            return
+        }
+
+        setIsOpen(false)
+        sidebar?.current?.classList.add(styles.close)
+        sidebar?.current?.classList.remove(styles.add)
+
     }
 
     return (
         <>
             <div
-                className={`${styles.sidebar} ${isOpen ? styles.open : styles.close}`}
+                className={`${styles.sidebar}`}
+                ref={sidebar}
             >
                 <div className={styles.sidebarHeader}>
                     <div className="material-icons text-white menu-button" onClick={handleToggleSidebar}>

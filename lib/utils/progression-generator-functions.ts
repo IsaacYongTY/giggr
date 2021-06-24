@@ -1,13 +1,13 @@
-const spaceChar = " "
-
-export const renderSpacing = (spacing : number, chordLength : number) => spaceChar.repeat(spacing - (chordLength - 1))
-
-
 interface KeyInfo {
     id: number
     key: string
     degree: number
     isSharp: boolean
+}
+
+export const renderSpacing = (spacing : number, chord : string, spaceChar = " ") => {
+    if(chord.length > spacing || spacing < 0 ) return ""
+    return spaceChar.repeat(spacing - (chord.length - 1))
 }
 
 export const keyMap : KeyInfo[] = [
@@ -181,21 +181,19 @@ export const createChordsInKey = (inputKey: number) : string[] => {
     let resultString = ''
 
     // Generate string
-    for( let index = 0; index !== chords.length; index++) {
-        resultString = resultString + `|\xa0`
+    chords.forEach((chord, index) => {
+        resultString += `|\xa0`
 
-        resultString += `[${chords[index]}]` + renderSpacing(space, chords[index].length)
+        resultString += `[${chord}]` + renderSpacing(space, chord)
 
        if((index + 1) % 4 === 0 && index < chords.length) {
-       resultString += `|\n` // Close and go to next line
+            resultString += `|\n` // Close and go to next line
        }
-    }
+    })
 
     // For ending
     if (chords.length > 0 && chords.length % 4 !== 0) {
-       resultString += `|\n\n`
-    }  else {
-       resultString += `\n`
+        resultString += `|`
     }
 
     return resultString
@@ -203,45 +201,45 @@ export const createChordsInKey = (inputKey: number) : string[] => {
 
 export const halfBarProg = function (chords : string[], space : number) {
     const halfSpace = Math.ceil((space/2))
+
     let resultString = ''
 
     // Generate string
-    for(let index = 0; index < chords.length; index++) {
+    chords.forEach((chord, index) => {
     
     // Extra 'if' code for half bar program
        if ((index + 1) % 2 !== 0) {
-          resultString = resultString + '|\xa0'
+          resultString += '|\xa0'
        }
-    // 
+    //
+        resultString += `[${chord}]` + renderSpacing(halfSpace, chord,)
 
-        if (chords[index].length === 1) {
-            resultString += `[${chords[index]}]` + renderSpacing(halfSpace, 0)
-        } else {
-                resultString += `[${chords[index]}]` + renderSpacing(halfSpace, chords[index].length - 1) 
-        }
-       
-       if((index + 1) % 4 === 0 && index < chords.length) {
+
+        if((index + 1) % 4 === 0 && index < chords.length) {
             resultString += `|\n` // Ending bar line every 4 chords
         }   
-    }
+    })
     
     // For ending
-    if(chords.length > 0) {
-       
-        if(chords.length % 2 !== 0) {
-            resultString += `${renderSpacing(halfSpace + 3 ,0)}|\n\n`
-            // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
-            // For position 2,4,6...
-        } else if ((chords.length + 1) % 2 !== 0 && chords.length % 4 !== 0) {
-                resultString += `|\n\n`
-                
-                // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
-                // For position 1,5,9...
-        } else {
-            resultString += `\n`
-        }
-    }  
+    if(chords.length <= 0) {
+        return resultString
+    }
+
+    if(chords.length % 2 !== 0) {
+        return resultString += `${renderSpacing(halfSpace + 3 ,chords[chords.length - 1])}|\n\n`
+        // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
+        // For position 2,4,6...
+    }
+
+    if ((chords.length + 1) % 2 !== 0 && chords.length % 4 !== 0) {
+        return resultString += `|`
+        // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
+        // For position 1,5,9...
+    }
 
     return resultString
+
+
+
 }
 

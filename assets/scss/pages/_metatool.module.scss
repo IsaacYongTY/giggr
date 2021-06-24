@@ -55,17 +55,18 @@
 
 .buttonRowContainer {
   display: flex;
-  margin-bottom: 1.5rem;
+  margin: 2rem 0;
+  gap: 3rem;
+  justify-content: flex-end;
 
-  > button {
-    margin-right: 3rem;
-  }
+
 }
 
 .checkboxRowContainer {
   display: flex;
   margin-top: 1rem;
   align-items: center;
+  justify-content: flex-end;
 
   > input[type="checkbox"] {
     transform: scale(1.3);
