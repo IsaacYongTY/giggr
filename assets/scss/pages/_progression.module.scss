@@ -1,26 +1,53 @@
 @import "../variables";
 
 .container {
-  width: 75%;
+  width: 50%;
   margin: 2rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputRow {
+  width: 100%;
+  display: flex;
+  gap: 3rem;
+  margin: 1rem 0;
+}
+
+.radioRow {
+  display: flex;
+  width:100%;
+  gap: 3rem;
+  //margin: 1rem 0;
+  align-items: flex-end;
+
+  label {
+    cursor: pointer;
+  }
+
+  input[type="radio"] {
+    cursor: pointer;
+    margin-right: 0.5rem;
+    margin-left: 0;
+    margin-bottom: 1.2rem;
+  }
+
+  button {
+    margin-left: auto;
+  }
+
 }
 
 .buttonRow {
   display: flex;
+  width: 100%;
   gap: 2rem;
-}
-
-
-.inputRow {
-  display: flex;
-  gap: 3rem;
-  margin: 1rem 0;
-  //align-items: center;
-
+  justify-content: flex-end;
 }
 
 .keysDropdownContainer {
-  width: 8rem;
+  min-width: 8rem;
 }
 
 .progDropdownContainer {
@@ -31,34 +58,19 @@
 
 }
 
-.radioRow {
 
-  display: flex;
-  gap: 3rem;
-  margin: 1rem 0;
-  align-items: center;
-
-  label {
-    cursor: pointer;
-  }
-
-  input[type="radio"] {
-    cursor: pointer;
-    margin: 1rem 0.5rem 1rem 0;
-  }
-
-}
 
 .spacingDropdownContainer {
   width: 8rem;
 }
 
 .textAreaContainer {
-  margin: 2rem 0;
+  margin: 1rem 0;
+  width: 100%;
 }
 
 .textarea {
-  width: 80rem;
+  width: 100%;
   height: 40rem;
   border-radius: 0.4rem;
   margin: 1rem 0;

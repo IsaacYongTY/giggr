@@ -1,4 +1,4 @@
-import getSpotifyTrackId from "../lib/utils/get-spotify-track-id";
+import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id";
 
 describe("getSpotifyTrackId", () => {
     it("should return the ID if link is passed", () => {

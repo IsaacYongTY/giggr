@@ -8,6 +8,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Select from "react-select";
 import { ValueType } from "react-select/";
+import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 
 interface Option {
     value: number,
@@ -62,37 +63,6 @@ export default function MetaTool({ user } : any) {
         }
 
     }, [formValue, pinyinSyllable])
-
-    function copyToClipboard() {
-        if(textAreaContainer.current) {
-            let sel: any;
-            let range: any;
-            let el = textAreaContainer.current; //get element id
-            if (window.getSelection && document.createRange) { //Browser compatibility
-                sel = window.getSelection();
-                console.log(sel.toString())
-                if (sel.toString() === '') { //no text selection
-                    window.setTimeout(function () {
-                        range = document.createRange(); //range object
-                        range.selectNodeContents(el); //sets Range
-                        sel.removeAllRanges(); //remove all ranges from selection
-                        sel.addRange(range);//add Range to a Selection.
-
-                        document.execCommand('copy')
-                        sel.removeAllRanges()
-
-                        setIsAlertOpen(true)
-                        setAlertMessage("Copied to clipboard!")
-
-                    }, 1);
-                }
-            }
-
-            document.execCommand('copy')
-            setIsAlertOpen(true)
-            sel.removeAllRanges()
-        }
-    }
 
     function clearSelection() {
         if(textAreaContainer.current) {
@@ -153,15 +123,24 @@ export default function MetaTool({ user } : any) {
 
                 <div>
                     <span>Result:</span>
-                    <div role="textbox" contentEditable="true" className={styles.textarea} ref={textAreaContainer}>
+                    <div
+                        contentEditable="true"
+                        className={styles.textarea}
+                        ref={textAreaContainer}
+                        suppressContentEditableWarning={true}
+                    >
                         { Object.keys(formValue).length ? text : null }
                     </div>
                 </div>
 
 
                 <div className={styles.buttonRowContainer}>
-                    <button className="btn btn-primary" onClick={copyToClipboard}>Copy To Clipboard</button>
                     <button className="btn btn-danger" onClick={clearSelection}>Clear</button>
+                    <CopyToClipboardButton
+                        sourceRef={textAreaContainer}
+                        setIsAlertOpen={setIsAlertOpen}
+                        setAlertMessage={setAlertMessage}
+                    />
                 </div>
 
                 {

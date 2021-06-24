@@ -1,4 +1,4 @@
-import convertEnharmonic from "../lib/utils/convert-enharmonic";
+import convertEnharmonic from "../../lib/utils/convert-enharmonic";
 
 describe("convertEnharmonic", () => {
     it("should return the same value if there's no enharmonic equivalent", () => {
