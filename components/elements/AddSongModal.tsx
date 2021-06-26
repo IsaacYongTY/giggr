@@ -174,7 +174,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            width: '80rem',
+            width: '85rem',
             height: '80rem',
             padding: '5rem',
         }
@@ -263,7 +263,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             <div className={styles.container}>
                 <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
-                { type === "add" ? <SpotifySearchBar setFormValue={setFormValue} database={database}/> : <button className="btn btn-primary">Sync from Spotify</button>}
+                { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
 
                 <div className={styles.formRow}>
                     <label>Artist:
@@ -308,47 +308,45 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers} setFormValue={setFormValue} role="composers" />
-                </div>
-
-                <div className={styles.formRow}>
                     <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters} setFormValue={setFormValue} role="songwriters"/>
                 </div>
 
                 <div className={styles.formRow}>
                     <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers} setFormValue={setFormValue} role="arranger"/>
-                </div>
-
-                <div className={styles.formRow}>
                     <CategoriesDropdown label="Genres" options={musicians} selectedCategories={formValue.genres} setFormValue={() => console.log("clicked")}/>
                 </div>
 
                 <div className={styles.formRow}>
                     <CategoriesDropdown label="Moods" options={musicians} selectedCategories={formValue.moods} setFormValue={() => console.log("clicked")}/>
-                </div>
-
-                <div className={styles.formRow}>
                     <CategoriesDropdown label="Tags" options={musicians} selectedCategories={formValue.tags} setFormValue={() => console.log("clicked")}/>
                 </div>
 
 
 
 
-                <div className={styles.formRow}>
+
+                <div className={`${styles.formRow} ${styles.flexEnd}`}>
                     <label>Spotify Link:
                         <input className="form-control" name="spotifyLink" onChange={handleInput} value={formValue.spotifyLink}/>
-                    </label>
 
-                    <label>YouTube Link:
-                        <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
                     </label>
+                    {
+                        type === "edit" &&
+                        <div className={styles.syncCol}>
+                            <button className="btn btn-primary">Sync from Spotify</button>
+                            <button className="btn btn-primary">Sync from Database</button>
+                        </div>
+                    }
                 </div>
 
                 <div className={styles.formRow}>
+                    <label>YouTube Link:
+                        <input className="form-control" name="youtubeLink" onChange={handleInput} value={formValue.youtubeLink}/>
+                    </label>
+
                     <label>Other Link:
                         <input className="form-control" name="otherLink" onChange={handleInput} value={formValue.otherLink}/>
                     </label>
-
-
                 </div>
 
                 <br />
