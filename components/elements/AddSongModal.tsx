@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import { loadMusicians, loadRepertoire, loadLanguages} from "../../lib/library";
+import { loadMusicians, loadUserRepertoire, loadLanguages} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
@@ -151,7 +151,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             setIsAlertOpen(true)
 
-            let refreshedSongs = await loadRepertoire(database)
+            let refreshedSongs = await loadUserRepertoire(database)
             let refreshedMusicians = await loadMusicians(database)
             setSongs(refreshedSongs)
             setMusicians(refreshedMusicians)
@@ -183,7 +183,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 withCredentials: true,
             })
 
-            let refreshedSongs = await loadRepertoire(database)
+            let refreshedSongs = await loadUserRepertoire(database)
             let refreshedMusicians = await loadMusicians(database)
 
             setSongs(refreshedSongs)
