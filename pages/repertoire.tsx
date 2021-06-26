@@ -7,28 +7,38 @@ import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
 import AddSongModal from "../components/elements/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
-import { loadRepertoire } from "../lib/library";
+import { loadUserRepertoire } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
 import axios from "axios";
 import ActionRow from "../components/repertoire/ActionRow";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
+    try {
 
-    let initialSongs = await loadRepertoire()
-    let { data: { musicians }} = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
-        withCredentials: true,
-        headers: {
-            "x-auth-token": `Bearer ${req.user.token}`
+        let initialSongs = await loadUserRepertoire()
+        let { data: { musicians }} = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
+            withCredentials: true,
+            headers: {
+                "x-auth-token": `Bearer ${req.user.token}`
+            }
+        })
+
+        return {
+            props: {
+                initialSongs,
+                initialMusicians: musicians,
+
+                user: req.user
+            }
         }
-    })
 
-    return {
-        props: {
-            initialSongs,
-            initialMusicians: musicians,
-
-            user: req.user
+    } catch (error) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/error500"
+            }
         }
     }
 })
@@ -36,7 +46,6 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 type Props = {
     initialSongs: Array<Song>,
     initialMusicians: any,
-
     user: any
 }
 
