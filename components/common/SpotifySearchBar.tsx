@@ -45,7 +45,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             })
 
             if(isContribute) {
-                let res = await axios.post(url, songData, {
+                await axios.post(url, songData, {
                     withCredentials: true,
                     headers: {
                         "x-auth-token": `Bearer ${user.tokenString}`

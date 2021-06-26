@@ -31,16 +31,13 @@ export default function withAuth(WrappedComponent: any) {
             }
         }
 
-        console.log(token)
         const tokenString : string = token.split(' ')[1]
 
         const decoded : any = decodeToken(tokenString)
 
-        console.log(decoded)
-        console.log('here')
         context.req.user = {...decoded.user, tokenString}
 
-        return await WrappedComponent(context)
+        return WrappedComponent(context)
 
     }
 

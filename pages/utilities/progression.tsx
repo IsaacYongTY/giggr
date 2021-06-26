@@ -1,12 +1,10 @@
 import React, {ChangeEvent, useRef, useState} from "react"
 import Layout from "../../components/layouts/Layout";
-import Select from "react-select";
+import Select, { ValueType } from "react-select";
 import KeysDropdown from "../../components/KeysDropdown";
-import {ValueType} from "react-select";
 import styles from "../../assets/scss/pages/_progression.module.scss";
 import {
     assignKeyToProgression,
-    getNotesInKey,
     fullBarProg,
     halfBarProg,
     keyMap

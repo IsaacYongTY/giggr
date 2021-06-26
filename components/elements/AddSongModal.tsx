@@ -9,16 +9,54 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
 import Musician from "../../lib/types/musician";
-import Song from "../../lib/types/song";
+import Song, {Artist} from "../../lib/types/song";
 import LanguagesDropdown from "../LanguagesDropdown";
 
 import SingleArtistDropdown from "../SingleArtistDropdown";
 import KeysDropdown from "../KeysDropdown";
+import CategoriesDropdown from "../CategoriesDropdown";
 
 
 type Option = {
     value: string,
     label: string
+}
+
+interface Form {
+    [key: string] : any
+    title: string
+    romTitle: string
+    artist: string
+
+    key: number
+    mode: number
+    tempo: number,
+
+    durationMinSec: string
+    timeSignature: string
+    language: string
+
+    spotifyLink: string
+    youtubeLink: string
+    otherLink: string
+
+    composers: Option[]
+    songwriters: Option[]
+    arrangers: Option[]
+
+    initialism: string
+
+    acousticness: number
+    danceability: number
+    energy: number
+    instrumentalness: number
+    valence: number
+
+    moods: Option[]
+    genres: Option[]
+    tags: Option[]
+
+
 }
 
 type Props = {
@@ -35,15 +73,41 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians }: Props) {
 
-    const [formValue, setFormValue] = useState<any>({})
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-
-    const [composers, setComposers] = useState<Musician[]>([])
-    const [songwriters, setSongwriters] = useState<Musician[]>([])
-    const [arrangers, setArrangers] = useState<Musician[]>([])
-    const [options, setOptions] = useState<Option[]>([])
-    const [keyOptions, setKeyOptions] = useState<{name: string}[]>([])
     const [languages, setLanguages] = useState([])
+    const [formValue, setFormValue] = useState<Form>({
+        title: "",
+        romTitle: "",
+        artist: "",
+
+        key: -1,
+        mode: -1,
+        tempo: 0,
+
+        durationMinSec: "",
+        timeSignature: "",
+        language: "",
+
+        spotifyLink: "",
+        youtubeLink: "",
+        otherLink: "",
+
+        composers: [],
+        songwriters: [],
+        arrangers: [],
+
+        initialism: "",
+        acousticness: 0,
+        danceability: 0,
+        energy: 0,
+        instrumentalness: 0,
+        valence: 0,
+        moods: [],
+        genres: [],
+        tags: [],
+
+    })
+
 
 
     let url = `/api/v1/songs`
@@ -54,9 +118,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     useEffect(() => {
 
-        loadLanguages().then((languages) => {
-            console.log(languages)
-            setLanguages(languages)
+        loadLanguages().then((dbLanguages) => {
+            setLanguages(dbLanguages)
         }).catch((err) => {
             console.log(err)
         })
@@ -65,63 +128,55 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         if(type === 'edit' && song) {
             let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
-                energy, danceability, valence, acousticness, instrumentalness } = song || {}
+                energy, danceability, valence, acousticness, instrumentalness, genres, moods, tags } = song
 
-            let value = {
+            let value : Form = {
                 title,
-                romTitle: romTitle,
+                romTitle,
                 artist: artist?.name,
+
                 key,
                 mode,
                 tempo,
+
                 durationMinSec: convertDurationMsToMinSec(durationMs),
                 timeSignature,
                 language: language?.name,
+
                 spotifyLink,
-                youtubeLink: youtubeLink,
+                youtubeLink,
                 otherLink,
-                composers,
-                arrangers,
-                songwriters,
+                composers: composers?.map((composer:any) => ({value: composer.name, label: composer.name})),
+                arrangers: arrangers?.map((arranger:any) => ({value: arranger.name, label: arranger.name})),
+                songwriters: songwriters?.map((songwriter:any) => ({value: songwriter.name, label: songwriter.name})),
                 initialism,
                 energy,
                 danceability,
                 valence,
                 acousticness,
                 instrumentalness,
-
+                genres,
+                moods,
+                tags,
 
             }
 
-            setComposers(song?.composers?.map((composer:any) => ({value: composer.name, label: composer.name})))
-
-            setSongwriters(song?.songwriters?.map((songwriter:any) => ({value: songwriter.name, label: songwriter.name})))
-            setArrangers(song?.arrangers?.map((arranger:any) => ({value: arranger.name, label: arranger.name})))
             setFormValue(value)
-
         }
-
-
-        setOptions(musicians?.map((musician: Musician) => ({
-            value: musician.name,
-            label: musician.name
-        })))
 
     },[isModalOpen])
 
     const customStyles = {
         content : {
-            top                   : '50%',
-            left                  : '50%',
-            right                 : 'auto',
-            bottom                : 'auto',
-            marginRight           : '-50%',
-            transform             : 'translate(-50%, -50%)',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
             width: '80rem',
             height: '80rem',
             padding: '5rem',
-
-
         }
     };
     
@@ -130,21 +185,19 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     function handleCloseModal() {
-        setFormValue({})
+        // setFormValue({})
         setIsModalOpen(false)
     }
 
     async function handleAddSong() {
         try {
-            let sendData = { ...formValue}
 
-            console.log(formValue)
-
-            sendData.composers = composers.map(composer => composer.value)
-            sendData.songwriters = songwriters.map(arranger => arranger.value)
-            sendData.arrangers = arrangers.map(arranger => arranger.value)
-
-            let response = await axios.post(url, sendData, {
+            await axios.post(url, {
+                ...formValue,
+                composers: formValue.composers?.map((composer: Option) => composer.value),
+                songwriters: formValue.songwriters?.map((songwriter : Option) => songwriter.value),
+                arrangers: formValue.arrangers?.map((arranger : Option) => arranger.value)
+            }, {
                 withCredentials: true,
 
             })
@@ -172,14 +225,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     async function handleEditSong(id : number) {
 
         try {
-            let sendData = { ...formValue}
-            console.log(url)
 
-            sendData.composers = composers.map(composer => composer.value)
-            sendData.songwriters = songwriters.map(arranger => arranger.value)
-            sendData.arrangers = arrangers.map(arranger => arranger.value)
-
-            await axios.patch(`${url}/${id}`, sendData, {
+            await axios.patch(`${url}/${id}`, {
+                ...formValue,
+                composers: formValue.composers?.map(composer => composer.value),
+                songwriters: formValue.songwriters?.map(arranger => arranger.value),
+                arrangers: formValue.arrangers?.map(arranger => arranger.value)
+            }, {
                 withCredentials: true,
             })
 
@@ -200,6 +252,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
+
     return (
         <Modal
             isOpen={isModalOpen}
@@ -210,11 +263,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             <div className={styles.container}>
                 <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
-                { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
+                { type === "add" ? <SpotifySearchBar setFormValue={setFormValue} database={database}/> : <button className="btn btn-primary">Sync from Spotify</button>}
 
                 <div className={styles.formRow}>
                     <label>Artist:
-                        <SingleArtistDropdown options={options} selectedArtist={formValue.artist} setFormValue={setFormValue}/>
+                        <SingleArtistDropdown options={musicians} selectedArtist={formValue.artist} setFormValue={setFormValue}/>
                     </label>
 
                     <label>
@@ -231,15 +284,15 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     />
 
                     <label>Tempo:
-                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo}/>
+                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo > 0 ? formValue.tempo : ""} />
                     </label>
 
                     <label>Duration:
-                        <input className="form-control" name="durationMinSec" onChange={handleInput} value={formValue.durationMinSec}/>
+                        <input className="form-control" name="durationMinSec" onChange={handleInput} placeholder="m:ss" value={formValue.durationMinSec}/>
                     </label>
 
                     <label>Time Signature:
-                        <input className="form-control" name="timeSignature" onChange={handleInput} value={formValue.timeSignature}/>
+                        <input className="form-control" name="timeSignature" onChange={handleInput} placeholder="4/4" value={formValue.timeSignature}/>
                     </label>
                 </div>
 
@@ -254,22 +307,31 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </div>
 
                 <div className={styles.formRow}>
-                    <label>Composer:
-                        <ReactMusiciansDropdown options={options} selectedMusicians={composers} setSelectedMusicians={setComposers}/>
-                    </label>
+                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers} setFormValue={setFormValue} role="composers" />
                 </div>
 
                 <div className={styles.formRow}>
-                    <label>Songwriters:
-                        <ReactMusiciansDropdown options={options} selectedMusicians={songwriters} setSelectedMusicians={setSongwriters}/>
-                    </label>
+                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters} setFormValue={setFormValue} role="songwriters"/>
                 </div>
 
                 <div className={styles.formRow}>
-                    <label>Arrangers:
-                        <ReactMusiciansDropdown options={options} selectedMusicians={arrangers} setSelectedMusicians={setArrangers}/>
-                    </label>
+                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers} setFormValue={setFormValue} role="arranger"/>
                 </div>
+
+                <div className={styles.formRow}>
+                    <CategoriesDropdown label="Genres" options={musicians} selectedCategories={formValue.genres} setFormValue={() => console.log("clicked")}/>
+                </div>
+
+                <div className={styles.formRow}>
+                    <CategoriesDropdown label="Moods" options={musicians} selectedCategories={formValue.moods} setFormValue={() => console.log("clicked")}/>
+                </div>
+
+                <div className={styles.formRow}>
+                    <CategoriesDropdown label="Tags" options={musicians} selectedCategories={formValue.tags} setFormValue={() => console.log("clicked")}/>
+                </div>
+
+
+
 
                 <div className={styles.formRow}>
                     <label>Spotify Link:
@@ -286,9 +348,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                         <input className="form-control" name="otherLink" onChange={handleInput} value={formValue.otherLink}/>
                     </label>
 
-                    <label>Genres:
-                        <input className="form-control" name="youtubeLink" onChange={handleInput} />
-                    </label>
+
                 </div>
 
                 <br />

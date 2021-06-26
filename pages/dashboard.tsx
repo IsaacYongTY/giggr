@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/layouts/Layout';
-import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import { GetServerSideProps } from "next";
 import DashboardCardList from "../components/dashboard/DashboardCardList";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";

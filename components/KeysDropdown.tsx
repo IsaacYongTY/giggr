@@ -27,7 +27,7 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
     const minorKeyOptions = minorKeyArray.map(key => ({value: key, label: key}))
     const majorKeyOptions = majorKeyArray.map(key => ({value: key, label: key}))
 
-    const defaultOption = formValue.key !== undefined && formValue.mode !== undefined
+    const defaultOption = formValue.key > -1 && formValue.mode > -1
         ?
         {value: convertKeyModeIntToKey(formValue.key, formValue.mode), label: convertKeyModeIntToKey(formValue.key, formValue.mode)}
         :
@@ -79,7 +79,7 @@ export default function KeysDropdown({ formValue, setFormValue, defaultKey, show
 
         const [_, defaultMode] = convertKeyToKeyModeInt(defaultKey || "")
 
-        if(formValue.mode === 0 && defaultMode) {
+        if(formValue.mode === 0 && defaultMode === undefined) {
             setKeyOptions(minorKeyOptions)
             return
         }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import Layout from "../components/layouts/Layout";
 import styles from "../assets/scss/pages/_gigs.module.scss";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSideProps } from "next";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";
 import FullCalendar from "@fullcalendar/react";
@@ -40,9 +40,7 @@ export default function Gigs({ gigs } : any) {
     },[])
     return (
         <Layout>
-            <div className="container">
-
-
+            <div className={styles.container}>
                     <FullCalendar
                         plugins={[ dayGridPlugin, interactionPlugin ]}
                         initialView="dayGridMonth"
