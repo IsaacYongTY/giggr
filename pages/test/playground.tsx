@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../../components/layouts/Layout';
-
-import ReactMusiciansDropdown from "../../components/ReactMusiciansDropdown";
 import axios from "axios";
 import Musician from "../../lib/types/musician";
 
@@ -38,7 +36,6 @@ export default function Playground() {
         <Layout title="Playground">
             <div>something here</div>
 
-            {/*<MusiciansDropdown />*/}
         </Layout>
     )
 }
