@@ -15,16 +15,29 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, re
         }
     }
 
-    let response = await axios.get(`/api/v1/gigs`, config)
-    let songsResponse = await axios.get(`/api/v1/songs?number=5&category=createdAt&order=DESC`, config)
+    try {
+        let response = await axios.get(`/api/v1/gigs`, config)
+        let songsResponse = await axios.get(`/api/v1/songs?number=5&category=createdAt&order=DESC`, config)
 
-    return {
-        props: {
-            gigs: response.data.gigs,
-            songs: songsResponse.data.songs,
-            user: req.user
+        return {
+            props: {
+                gigs: response.data.gigs,
+                songs: songsResponse.data.songs,
+                user: req.user
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/error500"
+            }
         }
     }
+
+
 })
 
 function Dashboard({ gigs, songs, user } : any) {
