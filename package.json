@@ -6,7 +6,8 @@
     "dev": "next dev -p 5001",
     "build": "next build",
     "start": "next start",
-    "test": "jest --config ./jest.config.js --watchAll --coverage",
+    "test": "jest --config ./jest.config.js",
+    "test:dev": "jest --config ./jest.config.js --watchAll",
     "test:ci": "jest --silent",
     "test:coverage": "yarn test --coverage"
   },
