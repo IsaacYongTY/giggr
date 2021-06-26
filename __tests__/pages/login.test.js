@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, waitFor} from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
-
+import { parseCookies, setCookie } from "nookies"
 import LoginPage from "../../pages/accounts/login"
 
 import '@testing-library/jest-dom/extend-expect'
@@ -10,6 +10,9 @@ import router from "next/router"
 
 jest.mock('next/router', () => require('next-router-mock'))
 jest.mock('axios')
+
+console.log(parseCookies)
+console.log(setCookie)
 
 describe("The login page", () => {
     let loginButton, emailInput, passwordInput;
@@ -50,11 +53,17 @@ describe("The login page", () => {
         userEvent.type(passwordInput, input.password)
         userEvent.click(loginButton)
 
-        axios.post.mockResolvedValueOnce()
+        axios.post.mockResolvedValueOnce({
+            data: {
+                token: "Bearer test-token"
+            }
+        })
         await waitFor(async () => {
             expect(router.pathname).toBe('/dashboard')
         })
     })
+
+    it.todo("should set the cookie if username and password is correct")
 
 
     it("should show error message if no username or password is provided", async () => {

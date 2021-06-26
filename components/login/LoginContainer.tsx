@@ -1,14 +1,15 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import styles from "../../assets/scss/components/login/_login-container.module.scss";
-import Link from "next/link";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { parseCookies, setCookie } from "nookies";
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>
 }
+
 
 export default function LoginContainer({ setIsLoginPage } : Props) {
 
@@ -38,8 +39,16 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
 
         try {
 
-            await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
-
+            let res = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
+            const cookies = parseCookies()
+            console.log({ cookies})
+            console.log(res)
+            console.log(res.data.token)
+            setCookie(null, "x-auth-token", `Bearer ${res.data.token}`, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+            })
+            console.log('here')
             setIsShowErrorMessage(false)
             router.push('/dashboard')
 

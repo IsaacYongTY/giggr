@@ -23,14 +23,12 @@ export default function SingleArtistDropdown({ options, selectedArtist, setFormV
 
 
     function handleChange(selectedOption: ValueType<Option, false>) {
-        console.log(selectedOption)
         if(!selectedOption) {
             return
         }
 
         setCurrentValue(selectedOption)
         setFormValue(prevState => {
-            console.log(prevState)
             return {...prevState, artist: selectedOption.value }
         })
     }
@@ -40,7 +38,7 @@ export default function SingleArtistDropdown({ options, selectedArtist, setFormV
         setCurrentValue({value: selectedArtist, label: selectedArtist})
     }, [selectedArtist])
 
-    console.log(currentValue)
+
     return (
         <div className={styles.container}>
             <CreatableSelect
