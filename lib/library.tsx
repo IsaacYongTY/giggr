@@ -27,15 +27,31 @@ export const getRomTitle = (title :string) => {
 
 }
 
-export const loadRepertoire = async(database = 'database1') => {
+export const loadUserRepertoire = async(database = 'database1') => {
 
     let response;
 
-    if(database === 'master') {
-        response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`)
-    } else {
+    try {
         response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
+
+        return response.data.songs
+    } catch (error) {
+        console.log(error)
+        return error.response
     }
+
+
+}
+
+export const loadDatabaseRepertoire = async() => {
+
+    let response;
+
+
+        response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`)
+
+
+
 
     return response.data.songs
 }
