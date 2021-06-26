@@ -91,7 +91,7 @@ export const keyMap : KeyInfo[] = [
     },
 ]
 
-export const createChordsInKey = (inputKey: number) : string[] => {
+export const getNotesInKey = (inputKey: number) : string[] => {
 
     const resultKey = keyMap.find(element => element.id === inputKey)
 
@@ -134,46 +134,61 @@ export const createChordsInKey = (inputKey: number) : string[] => {
     return reshuffledNotes
 }
 
- export const assignChordsToProg = function (notesInKeyArray : string[], progression : string) : string[] {
+ export const assignKeyToProgression = function (key : number, progression : string) : string[] {
 
-     let progressionArray = progression.match(/(b[1-7])|([1-7]m)|([1-7]M)|\d/g)
+    if(key < 0 || key > 12) {
+        return []
+    }
 
-     if(!progressionArray) {
-         return []
+    let validInputRegex = /[^1-7b#Mm(dim7)]/g
+    let containInvalidInput = progression.search(validInputRegex) > -1
+
+    if(containInvalidInput) {
+        return []
+    }
+
+    let progressionArray = progression.match(/(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g)
+
+    if(!progressionArray) {
+        return []
+    }
+
+    let notesInKeyArray = getNotesInKey(key)
+    return progressionArray.map((chordNum: string) => {
+     // If explicitly specified
+     if (chordNum.length > 1) {
+         if(chordNum[0] === 'b') {
+             return notesInKeyArray[parseInt(chordNum[1]) - 1] + 'b'
+         }
+
+         if(chordNum[1] === 'm') {
+             return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'm'
+         }
+
+         if(chordNum[1] === 'M') {
+             return notesInKeyArray[parseInt(chordNum[0]) - 1].replace(/m/, '')
+         }
+
+         if(chordNum.slice(1) === 'dim7') {
+             return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'dim7'
+         }
+         return ""
      }
-     return progressionArray.map((chordNum: string) => {
-         // If explicitly specified
-         if (chordNum.length > 1) {
 
-             if (chordNum[0] === 'b') {
-                 return notesInKeyArray[parseInt(chordNum[1]) - 1] + 'b'
-             }
+     //default family chords
+     if(parseInt(chordNum[0]) === 3 || parseInt(chordNum[0]) === 6) {
+         return notesInKeyArray[parseInt(chordNum) - 1] + 'm'
+     }
 
-             if (chordNum[1] === 'm') {
-                 return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'm'
-             }
+     if(parseInt(chordNum[0]) === 2) {
+         return notesInKeyArray[parseInt(chordNum) - 1] + 'm7'
+     }
+     if(parseInt(chordNum[0]) === 7) {
+         return notesInKeyArray[parseInt(chordNum) - 1] + 'dim7'
+     }
+     return notesInKeyArray[parseInt(chordNum[0]) - 1]
 
-             if (chordNum[1] === 'M') {
-                 return notesInKeyArray[parseInt(chordNum[0]) - 1].replace(/m/, '')
-             }
-             return ""
-
-         }
-
-         //default family chords
-         if(parseInt(chordNum[0]) === 3 || parseInt(chordNum[0]) === 6) {
-             return notesInKeyArray[parseInt(chordNum) - 1] + 'm'
-         }
-
-         if(parseInt(chordNum[0]) === 2) {
-             return notesInKeyArray[parseInt(chordNum) - 1] + 'm7'
-         }
-         if(parseInt(chordNum[0]) === 7) {
-             return notesInKeyArray[parseInt(chordNum) - 1] + 'dim7'
-         }
-         return notesInKeyArray[parseInt(chordNum[0]) - 1]
-
-     })
+    })
 
  }
 
@@ -183,12 +198,11 @@ export const createChordsInKey = (inputKey: number) : string[] => {
     // Generate string
     chords.forEach((chord, index) => {
         resultString += `|\xa0`
-
         resultString += `[${chord}]` + renderSpacing(space, chord)
 
-       if((index + 1) % 4 === 0 && index < chords.length) {
+        if((index + 1) % 4 === 0 && index < chords.length) {
             resultString += `|\n` // Close and go to next line
-       }
+        }
     })
 
     // For ending
