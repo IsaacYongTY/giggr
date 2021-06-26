@@ -228,7 +228,6 @@ export const halfBarProg = function (chords : string[], space : number) {
     //
         resultString += `[${chord}]` + renderSpacing(halfSpace, chord,)
 
-
         if((index + 1) % 4 === 0 && index < chords.length) {
             resultString += `|\n` // Ending bar line every 4 chords
         }   
@@ -240,13 +239,13 @@ export const halfBarProg = function (chords : string[], space : number) {
     }
 
     if(chords.length % 2 !== 0) {
-        return resultString += `${renderSpacing(halfSpace + 3 ,chords[chords.length - 1])}|\n\n`
+        return resultString + `${renderSpacing(halfSpace + 3 ,chords[chords.length - 1])}|\n\n`
         // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
         // For position 2,4,6...
     }
 
     if ((chords.length + 1) % 2 !== 0 && chords.length % 4 !== 0) {
-        return resultString += `|`
+        return resultString + `|`
         // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
         // For position 1,5,9...
     }

@@ -1,8 +1,7 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
-import Musician from "../lib/types/musician";
 import CreatableSelect from "react-select/creatable";
-import {ActionMeta, ValueType } from "react-select/";
+import { ValueType } from "react-select/";
 
 type Option = {
     value: string
@@ -13,7 +12,7 @@ type Props = {
 
     options: any
     selectedArtist: string
-    setFormValue: Dispatch<SetStateAction<Musician[]>>
+    setFormValue: Dispatch<SetStateAction<any>>
 }
 
 
@@ -21,14 +20,13 @@ export default function SingleArtistDropdown({ options, selectedArtist, setFormV
 
     const [currentValue, setCurrentValue] = useState({value: "", label: ""})
 
-
     function handleChange(selectedOption: ValueType<Option, false>) {
         if(!selectedOption) {
             return
         }
 
         setCurrentValue(selectedOption)
-        setFormValue(prevState => {
+        setFormValue((prevState : any) => {
             return {...prevState, artist: selectedOption.value }
         })
     }

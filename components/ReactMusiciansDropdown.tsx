@@ -2,35 +2,55 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
 import Musician from "../lib/types/musician";
 import CreatableSelect from "react-select/creatable";
+import {ValueType} from "react-select/";
 
 type Props = {
+    label: string
+    selectedMusicians: Option[]
+    setFormValue: Dispatch<SetStateAction<any>>
+    musicians: Musician[]
+    role: string
+}
 
-    options: any
-    selectedMusicians: Musician[]
-    setSelectedMusicians: Dispatch<SetStateAction<Musician[]>>
+interface Option {
+    value: string,
+    label: string
 }
 
 
-export default function ReactMusiciansDropdown({ options, selectedMusicians, setSelectedMusicians }: Props) {
+export default function ReactMusiciansDropdown({ label, selectedMusicians, setFormValue, musicians, role }: Props) {
 
-    function handleChange(selectedOptions: any) {
-        setSelectedMusicians(selectedOptions)
+    const [options, setOptions] = useState<Option[]>([])
+
+    function handleChange(selectedOptions: ValueType<Option, true>) {
+        console.log(selectedOptions)
+        console.log(selectedMusicians)
+        setFormValue((prevState : any) => ({...prevState, [role]: selectedOptions}))
     }
+
+
+    useEffect(() => {
+
+        setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name })))
+    },[])
 
     return (
         <div className={styles.container}>
-            <CreatableSelect
-                name="musician"
-                // closeMenuOnSelect={false}
-                value={selectedMusicians}
-                isMulti
-                options={options}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={handleChange}
-                // value={options.find(option => option.value === musician)}
+            <label>
+                <p>{label}:</p>
+                <CreatableSelect
+                    name="musician"
+                    // closeMenuOnSelect={false}
+                    value={selectedMusicians}
+                    isMulti
+                    options={options}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={handleChange}
+                    // value={options.find(option => option.value === musician)}
 
-            />
+                />
+            </label>
 
         </div>
     )

@@ -1,4 +1,3 @@
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles.scss';
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -12,7 +11,6 @@ import '@fullcalendar/timegrid/main.css' // @fullcalendar/timegrid is a direct i
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL
 
 export default function MyApp({ Component, pageProps}) {
-
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>

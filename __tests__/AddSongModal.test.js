@@ -47,9 +47,12 @@ function renderAddSongModal(props) {
     const isMinorCheckbox = utils.getByLabelText(/minor/i)
     const keysDropdown = utils.getByLabelText(/key/i)
     const durationTextbox = utils.getByRole("textbox", { name: /duration/i })
+    const genresDropdown = utils.getByLabelText(/genres/i)
+    const moodsDropdown = utils.getByLabelText(/moods/i)
+    const tagsDropdown = utils.getByLabelText(/tags/i)
 
 
-    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox}
+    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown, moodsDropdown, tagsDropdown}
 }
 
 describe("<AddSongModal />", () => {
@@ -73,10 +76,13 @@ describe("<AddSongModal />", () => {
 
 describe("KeysDropdown component's behaviours", () => {
     it("should render the component", () => {
-        const { keysDropdown, isMinorCheckbox } = renderAddSongModal()
+        const { keysDropdown, isMinorCheckbox, genresDropdown, moodsDropdown, tagsDropdown } = renderAddSongModal()
 
         expect(keysDropdown).toBeInTheDocument()
         expect(isMinorCheckbox).toBeInTheDocument()
+        expect(genresDropdown).toBeInTheDocument()
+        expect(moodsDropdown).toBeInTheDocument()
+        expect(tagsDropdown).toBeInTheDocument()
 
     })
 
@@ -129,6 +135,7 @@ describe("KeysDropdown component's behaviours", () => {
         expect(screen.getByText('C')).toBeInTheDocument()
         expect(screen.getByText('Bb')).toBeInTheDocument()
 
+        screen.debug()
         userEvent.click(isMinorCheckbox)
         expect(isMinorCheckbox).toBeChecked()
 

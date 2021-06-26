@@ -5,7 +5,6 @@ import RepertoireTable from "../../components/repertoire/RepertoireTable";
 import withAuth from "../../middlewares/withAuth";
 import axios from "axios";
 import AddSongModal from "../../components/elements/AddSongModal";
-import CsvUploadContainer from "../../components/elements/CsvUploadContainer";
 import Song from "../../lib/types/song";
 import styles from "../../assets/scss/pages/_database.module.scss";
 import FilterRow from "../../components/repertoire/FilterRow";

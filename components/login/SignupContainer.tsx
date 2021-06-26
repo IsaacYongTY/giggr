@@ -1,6 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import styles from "../../assets/scss/components/login/_signup-container.module.scss";
-import Link from "next/link";
 import {useRouter} from "next/router";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -36,7 +35,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     async function handleSignup(values : MyFormValues) {
 
         try {
-            let response = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
+            await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
             await router.push('/dashboard')
         } catch (err) {
             setIsShowErrorMessage(true)
