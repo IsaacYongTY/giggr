@@ -19,7 +19,7 @@ export default function withAuth(WrappedComponent: any) {
 
         let token : string = context.req.cookies["x-auth-token"]
 
-        if(!token) {
+        if(!token || !token.includes("Bearer")) {
             console.log("You are not logged in")
 
             return {
