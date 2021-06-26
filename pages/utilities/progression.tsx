@@ -5,8 +5,8 @@ import KeysDropdown from "../../components/KeysDropdown";
 import {ValueType} from "react-select";
 import styles from "../../assets/scss/pages/_progression.module.scss";
 import {
-    assignChordsToProg,
-    createChordsInKey,
+    assignKeyToProgression,
+    getNotesInKey,
     fullBarProg,
     halfBarProg,
     keyMap
@@ -75,8 +75,8 @@ export default function Progression() {
 
     function handleGenerateProg() {
         let { key, progression, isFullBar,  spaces } = form || {}
-        let notesInKeyArray = createChordsInKey(key)
-        let chordsProgressionArray = assignChordsToProg(notesInKeyArray,progression)
+
+        let chordsProgressionArray = assignKeyToProgression(key, progression)
 
         setProg(prevState => prevState +
             (isFullBar ? fullBarProg(chordsProgressionArray, spaces) : halfBarProg(chordsProgressionArray, spaces)) +
