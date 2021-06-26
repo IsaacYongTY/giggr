@@ -12,7 +12,7 @@ describe("convertDurationMsToMinSec", () => {
     })
 
     it("should return undefined if value provided is negative", () => {
-        expect(convertDurationMsToMinSec(-300000)).toBe(undefined)
-        expect(convertDurationMsToMinSec(-1)).toBe(undefined)
+        expect(convertDurationMsToMinSec(-300000)).toBe("")
+        expect(convertDurationMsToMinSec(-1)).toBe("")
     })
 })

@@ -11,36 +11,47 @@ export interface Artist {
 
 export default interface Song {
         [key: string] : any,
+        id: number,
         title: string,
+        romTitle: string,
+        artist: Artist
         artistId: number,
-        acousticness: number,
-        bpm: number,
+
+        tempo: number,
+
         createdAt: Date,
         updatedAt: Date,
-        danceability: number,
         dateReleased: Date,
         durationMinSec: string,
         durationMs: number,
-        energy: number,
-        id: number,
+        timeSignature: string,
+
         initialism: string,
-        instrumentalness: number,
+
         key: number,
+        myKey?: string,
         languageId: number,
         mode: number,
+
+        spotifyLink: string,
+        youtubeLink: string,
+        otherLink: string,
+
+        acousticness: number,
+        valence: number,
+        instrumentalness: number,
+        danceability: number,
+        energy: number,
+
+        verified: boolean,
+
+
+
         mood: any,
         genre: any,
-        myKey: string,
-        performStatus: string,
-        romTitle: string,
-        spotifyLink: string,
-        status: string,
-        timeSignature: string,
-        valence: number,
-        verified: boolean,
-        youtubeLink: string,
-        artist: Artist
-
+        tags: any,
+        performStatus?: string,
+        status?: string,
         // enName: string,
 
 }
