@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useRef } from "react"
 import axios from "axios";
 import FormData from "form-data";
-import styles from "../../assets/scss/components/_csv-row.module.scss"
+import styles from "../../assets/scss/components/_csv-upload-modal.module.scss"
 import Modal from "react-modal";
 
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {

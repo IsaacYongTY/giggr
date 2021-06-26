@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { useState } from "react"
 import CsvRow from "../../components/elements/CsvUploadModal";
 
 export default function Csv() {
