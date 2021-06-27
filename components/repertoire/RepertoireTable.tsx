@@ -12,7 +12,7 @@ type Props = {
     database: string,
     musicians: any
     setMusicians: any
-    data: any
+    data?: any
 }
 export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians, data } : Props) {
 
