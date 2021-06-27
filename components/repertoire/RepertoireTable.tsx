@@ -87,6 +87,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                 setSongs={setSongs}
                 musicians={musicians}
                 setMusicians={setMusicians}
+                user={user}
             />
         </>
     )
