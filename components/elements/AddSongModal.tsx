@@ -24,37 +24,37 @@ type Option = {
 
 interface Form {
     [key: string] : any
-    title: string
-    romTitle: string
-    artist: string
+    title?: string
+    romTitle?: string
+    artist?: string
 
-    key: number
-    mode: number
-    tempo: number,
+    key?: number
+    mode?: number
+    tempo?: number,
 
-    durationMinSec: string
-    timeSignature: string
-    language: string
+    durationMinSec?: string
+    timeSignature?: string
+    language?: string
 
-    spotifyLink: string
-    youtubeLink: string
-    otherLink: string
+    spotifyLink?: string
+    youtubeLink?: string
+    otherLink?: string
 
-    composers: Option[]
-    songwriters: Option[]
-    arrangers: Option[]
+    composers?: Option[]
+    songwriters?: Option[]
+    arrangers?: Option[]
 
-    initialism: string
+    initialism?: string
 
-    acousticness: number
-    danceability: number
-    energy: number
-    instrumentalness: number
-    valence: number
+    acousticness?: number
+    danceability?: number
+    energy?: number
+    instrumentalness?: number
+    valence?: number
 
-    moods: Option[]
-    genres: Option[]
-    tags: Option[]
+    moods?: Option[]
+    genres?: Option[]
+    tags?: Option[]
 
 
 }
@@ -76,38 +76,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [languages, setLanguages] = useState([])
-    const [formValue, setFormValue] = useState<Form>({
-        title: "",
-        romTitle: "",
-        artist: "",
-
-        key: -1,
-        mode: -1,
-        tempo: 0,
-
-        durationMinSec: "",
-        timeSignature: "",
-        language: "",
-
-        spotifyLink: "",
-        youtubeLink: "",
-        otherLink: "",
-
-        composers: [],
-        songwriters: [],
-        arrangers: [],
-
-        initialism: "",
-        acousticness: 0,
-        danceability: 0,
-        energy: 0,
-        instrumentalness: 0,
-        valence: 0,
-        moods: [],
-        genres: [],
-        tags: [],
-
-    })
+    const [formValue, setFormValue] = useState<Form>({})
 
 
 
@@ -277,7 +246,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Artist:
-                        <SingleArtistDropdown options={musicians} selectedArtist={formValue.artist} setFormValue={setFormValue}/>
+                        <SingleArtistDropdown options={musicians} selectedArtist={formValue.artist || ""} setFormValue={setFormValue}/>
                     </label>
 
                     <label>
@@ -294,7 +263,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     />
 
                     <label>Tempo:
-                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo > 0 ? formValue.tempo : ""} />
+                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo || ""} />
                     </label>
 
                     <label>Duration:
@@ -308,7 +277,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Language:
-                        <LanguagesDropdown options={languages} currentSelection={formValue.language} setFormValue={setFormValue}  />
+                        <LanguagesDropdown options={languages} currentSelection={formValue.language || ""} setFormValue={setFormValue}  />
                     </label>
 
                     <label>Initialism:
@@ -317,18 +286,18 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers} setFormValue={setFormValue} role="composers" />
-                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters} setFormValue={setFormValue} role="songwriters"/>
+                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers || []} setFormValue={setFormValue} role="composers" />
+                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters || []} setFormValue={setFormValue} role="songwriters"/>
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers} setFormValue={setFormValue} role="arranger"/>
-                    <CategoriesDropdown label="Genres" options={musicians} selectedCategories={formValue.genres} setFormValue={() => console.log("clicked")}/>
+                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers || []} setFormValue={setFormValue} role="arranger"/>
+                    <CategoriesDropdown label="Genres" options={musicians} selectedCategories={formValue.genres || []} setFormValue={() => console.log("clicked")}/>
                 </div>
 
                 <div className={styles.formRow}>
-                    <CategoriesDropdown label="Moods" options={musicians} selectedCategories={formValue.moods} setFormValue={() => console.log("clicked")}/>
-                    <CategoriesDropdown label="Tags" options={musicians} selectedCategories={formValue.tags} setFormValue={() => console.log("clicked")}/>
+                    <CategoriesDropdown label="Moods" options={musicians} selectedCategories={formValue.moods || []} setFormValue={() => console.log("clicked")}/>
+                    <CategoriesDropdown label="Tags" options={musicians} selectedCategories={formValue.tags || []} setFormValue={() => console.log("clicked")}/>
                 </div>
 
 
