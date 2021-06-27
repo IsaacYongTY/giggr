@@ -12,14 +12,15 @@ type Props = {
     database: string,
     musicians: any
     setMusicians: any
+    data: any
 }
-export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians } : Props) {
+export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians, data } : Props) {
 
     const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language",  "Listen", "Composers", "Songwriters", "Arrangers", "Genres", "Moods", "Tags"]
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
-
+    console.log(songs)
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 
@@ -88,6 +89,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                 musicians={musicians}
                 setMusicians={setMusicians}
                 user={user}
+                data={data}
             />
         </>
     )

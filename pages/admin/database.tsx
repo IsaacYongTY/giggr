@@ -34,6 +34,7 @@ type Props = {
     initialSongs: Song[]
     initialMusicians: any
 }
+
 export default function DatabasePage({user, initialSongs, initialMusicians} : Props) {
 
     const [songs, setSongs] = useState(initialSongs)
