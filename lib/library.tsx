@@ -29,18 +29,17 @@ export const getRomTitle = (title :string) => {
 
 export const loadUserRepertoire = async(user : any) => {
 
-    let response;
-
     try {
-        response = await axios.get(`/api/v1/songs?category=id&order=ASC`, {
+        const response = await axios.get(`/api/v1/songs?category=id&order=ASC`, {
             withCredentials: true,
             headers: {
                 "x-auth-token": `Bearer ${user.tokenString}`
             }
         })
 
-        return response.data.songs
+        return response.data
     } catch (error) {
+        console.log('er')
         console.log(error)
         return error.response
     }
