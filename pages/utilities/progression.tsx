@@ -74,11 +74,11 @@ export default function Progression() {
     function handleGenerateProg() {
         let { key, progression, isFullBar,  spaces } = form || {}
 
-        let chordsProgressionArray = assignKeyToProgression(key, progression)
+
 
         setProg(prevState => prevState +
-            (isFullBar ? fullBarProg(chordsProgressionArray, spaces) : halfBarProg(chordsProgressionArray, spaces)) +
-            "\n"
+            (isFullBar ? fullBarProg(key, progression, spaces) : halfBarProg(key, progression, spaces)) +
+            "\n\n"
         )
     }
 
