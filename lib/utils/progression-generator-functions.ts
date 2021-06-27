@@ -172,7 +172,6 @@ export const getNotesInKey = (inputKey: number) : string[] => {
          if(chordNum.slice(1) === 'dim7') {
              return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'dim7'
          }
-         return ""
      }
 
      //default family chords
@@ -183,76 +182,87 @@ export const getNotesInKey = (inputKey: number) : string[] => {
      if(parseInt(chordNum[0]) === 2) {
          return notesInKeyArray[parseInt(chordNum) - 1] + 'm7'
      }
+
      if(parseInt(chordNum[0]) === 7) {
          return notesInKeyArray[parseInt(chordNum) - 1] + 'dim7'
      }
      return notesInKeyArray[parseInt(chordNum[0]) - 1]
 
-    })
+    }).map(chord => chord.replace("#b", ""))
 
  }
 
- export const fullBarProg = function (chords : string[], space: number) {
+ export const fullBarProg = function (key : number, progression: string, space: number) {
+     if(key < 0 || key > 12 || space < 0 || !progression) {
+         return ""
+     }
+
+    let chordProgression = assignKeyToProgression(key, progression)
     let resultString = ''
 
     // Generate string
-    chords.forEach((chord, index) => {
-        resultString += `|\xa0`
+    chordProgression.forEach((chord, index) => {
+        resultString += `| `
         resultString += `[${chord}]` + renderSpacing(space, chord)
 
-        if((index + 1) % 4 === 0 && index < chords.length) {
+        if((index + 1) % 4 === 0 && index + 1 < chordProgression.length) {
             resultString += `|\n` // Close and go to next line
         }
     })
 
     // For ending
-    if (chords.length > 0 && chords.length % 4 !== 0) {
-        resultString += `|`
-    }
+
+    resultString += `|`
 
     return resultString
  }
 
-export const halfBarProg = function (chords : string[], space : number) {
+export const halfBarProg = function (key : number, progression : string, space : number) {
+    if(key < 0 || key > 12 || space < 0 || !progression) {
+        return ""
+    }
+    let chordProgression = assignKeyToProgression(key, progression)
     const halfSpace = Math.ceil((space/2))
 
     let resultString = ''
 
     // Generate string
-    chords.forEach((chord, index) => {
+    chordProgression.forEach((chord, index) => {
     
     // Extra 'if' code for half bar program
        if ((index + 1) % 2 !== 0) {
-          resultString += '|\xa0'
+          resultString += '| '
        }
     //
-        resultString += `[${chord}]` + renderSpacing(halfSpace, chord,)
+        resultString += `[${chord}]` + renderSpacing(halfSpace, chord)
 
-        if((index + 1) % 4 === 0 && index < chords.length) {
+        if((index + 1) % 4 === 0 && index + 1 < chordProgression.length) {
             resultString += `|\n` // Ending bar line every 4 chords
         }   
     })
     
     // For ending
-    if(chords.length <= 0) {
+    if(chordProgression.length <= 0) {
         return resultString
     }
 
-    if(chords.length % 2 !== 0) {
-        return resultString + `${renderSpacing(halfSpace + 3 ,chords[chords.length - 1])}|\n\n`
+    if(chordProgression.length % 2 !== 0) {
+        const placeholderChord = "[ ]"
+        const lastChord = chordProgression[chordProgression.length - 1]
+
+        const totalSpace =  space + placeholderChord.length
+
+        return resultString.trimEnd() + `${renderSpacing(totalSpace, lastChord)}|`
         // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
         // For position 2,4,6...
     }
 
-    if ((chords.length + 1) % 2 !== 0 && chords.length % 4 !== 0) {
+    if ((chordProgression.length + 1) % 2 !== 0 && chordProgression.length % 4 !== 0) {
         return resultString + `|`
         // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
         // For position 1,5,9...
     }
 
-    return resultString
-
-
-
+    return resultString + '|'
 }
 
