@@ -14,9 +14,8 @@
 
 .container {
   padding: 2rem 3rem;
-//position:absolute;
-//  z-index: 99;
 }
+
 .titleInput {
   border: none;
   border-bottom: 0.1rem solid gray;
@@ -38,7 +37,6 @@
   width: 100%;
   margin: 1rem 0;
   gap: 2rem;
-  //align-items: center;
 
   > label {
     width: 100%;
@@ -46,6 +44,16 @@
     //min-width: 25%;
   }
 
+}
+
+.flexEnd {
+  align-items: flex-end;
+}
+
+.syncCol {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .buttonRow {
