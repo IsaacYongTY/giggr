@@ -80,6 +80,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
                 database="master"
                 musicians={musicians}
                 setMusicians={setMusicians}
+                user={user}
             />
         </>
 
