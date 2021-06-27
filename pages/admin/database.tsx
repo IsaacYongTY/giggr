@@ -23,7 +23,8 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res
         props: {
             initialSongs: songsResponse.data.songs,
             initialMusicians: musiciansResponse.data.musicians,
-            user: req.user
+            user: req.user,
+            data: {}
         }
 
     }
@@ -33,9 +34,10 @@ type Props = {
     user: any,
     initialSongs: Song[]
     initialMusicians: any
+    data: any
 }
 
-export default function DatabasePage({user, initialSongs, initialMusicians} : Props) {
+export default function DatabasePage({user, initialSongs, initialMusicians, data} : Props) {
 
     const [songs, setSongs] = useState(initialSongs)
     const [musicians, setMusicians] = useState(initialMusicians)
@@ -82,6 +84,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians} : Pr
                 musicians={musicians}
                 setMusicians={setMusicians}
                 user={user}
+                data={data}
             />
         </>
 
