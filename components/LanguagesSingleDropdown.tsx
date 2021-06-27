@@ -4,15 +4,13 @@ import styles from "../assets/scss/components/_react-musicians-dropdown.module.s
 import { capitalizeString } from "../lib/library";
 import CreatableSelect from "react-select/creatable";
 
-
 type Props = {
     options: any
     currentSelection: string,
     setFormValue: any
 }
 
-
-export default function LanguagesDropdown({ options, currentSelection, setFormValue }: Props) {
+export default function LanguagesSingleDropdown({ options, currentSelection, setFormValue }: Props) {
 
     function handleChange(selectedOption: any) {
         setFormValue((prevState : any) => ({ ...prevState, language: selectedOption.value}))
@@ -23,7 +21,7 @@ export default function LanguagesDropdown({ options, currentSelection, setFormVa
             <CreatableSelect
                 name="musician"
                 value={{value: currentSelection, label: capitalizeString(currentSelection)}}
-                options={options.map((option: any) => ({ value: option.name, label: capitalizeString(option.name)}))}
+                options={options?.map((option: any) => ({ value: option.name, label: capitalizeString(option.name)}))}
                 className="basic-single"
                 onChange={handleChange}
             />

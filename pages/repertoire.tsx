@@ -15,20 +15,19 @@ import ActionRow from "../components/repertoire/ActionRow";
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
     try {
-
-        let initialSongs = await loadUserRepertoire()
-        let { data: { musicians }} = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
+        console.log(req.user)
+        let data = await loadUserRepertoire(req.user)
+        let { data: { musicians} } = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
             withCredentials: true,
             headers: {
-                "x-auth-token": `Bearer ${req.user.token}`
+                "x-auth-token": `Bearer ${req.user.tokenString}`
             }
         })
-
         return {
             props: {
-                initialSongs,
+                initialSongs: data.songs,
                 initialMusicians: musicians,
-
+                initialData: data,
                 user: req.user
             }
         }
@@ -46,22 +45,26 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 type Props = {
     initialSongs: Array<Song>,
     initialMusicians: any,
+    initialData: any
     user: any
 }
 
-export default function Repertoire({ initialSongs, initialMusicians, user }: Props) {
+export default function Repertoire({ initialSongs, initialMusicians, initialData, user }: Props) {
 
     const [songs, setSongs] = useState(initialSongs)
     const [musicians, setMusicians] = useState(initialMusicians)
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
-
+    const [data, setData] = useState(initialData)
+    console.log(data)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     function handleOpenModal() {
         setIsModalOpen(true)
     }
+
+    console.log(initialData)
 
     return (
         <>
@@ -88,6 +91,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                         database="database1"
                         musicians={musicians}
                         setMusicians={setMusicians}
+                        data={data}
                     />
                 </div>
 
@@ -103,6 +107,8 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                     setSongs={setSongs}
                     musicians={musicians}
                     setMusicians={setMusicians}
+                    data={data}
+                    user={user}
 
 
                 />
