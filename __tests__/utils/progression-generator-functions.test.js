@@ -127,17 +127,18 @@ describe("halfBarProg", () => {
         expect(halfBarProg(4, "251", 14))
             .toBe("| [F#m7]    [B]       | [E]                 |")
         expect(halfBarProg(0, "15451", 14))
-            .toBe("| [C]       [G]       | [F]       [G]       |\n" +
-                           "| [C]                 |"
+            .toBe(  "| [C]       [G]       | [F]       [G]       |\n" +
+                    "| [C]                 |"
             )
         expect(halfBarProg(7, "64151", 14))
-            .toBe("| [Em]      [C]       | [G]       [D]       |\n" +
-                           "| [G]                 |"
+            .toBe(  "| [Em]      [C]       | [G]       [D]       |\n" +
+                    "| [G]                 |"
             )
         expect(halfBarProg(9, "4536251", 14))
-            .toBe("| [D]       [E]       | [C#m]     [F#m]     |\n" +
-                           "| [Bm7]     [E]       | [A]                 |"
+            .toBe(  "| [D]       [E]       | [C#m]     [F#m]     |\n" +
+                    "| [Bm7]     [E]       | [A]                 |"
             )
+
         expect(halfBarProg(10, "453625114", 14))
             .toBe("| [Eb]      [F]       | [Dm]      [Gm]      |\n" +
                            "| [Cm7]     [F]       | [Bb]      [Bb]      |\n" +
@@ -161,6 +162,25 @@ describe("halfBarProg", () => {
         expect(halfBarProg(6, "", 10)).toBe("")
         expect(halfBarProg(6, undefined, 10)).toBe("")
         expect(halfBarProg(-1, undefined, -1)).toBe("")
+    })
+
+    it("should round up to next number of spacing if odd is provided", () => {
+        expect(halfBarProg(0, "4536", 11))
+            .toBe("| [F]      [G]      | [Em]     [Am]     |")
+        expect(halfBarProg(2, "45362511", 11))
+            .toBe("| [G]      [A]      | [F#m]    [Bm]     |\n" +
+                "| [Em7]    [A]      | [D]      [D]      |"
+            )
+        expect(halfBarProg(3, "2", 11))
+            .toBe("| [Fm7]             |")
+        expect(halfBarProg(11, "23M4m", 13))
+            .toBe("| [C#m7]    [D#]      | [Em]                |")
+        expect(halfBarProg(4, "251", 13))
+            .toBe("| [F#m7]    [B]       | [E]                 |")
+        expect(halfBarProg(0, "15451", 13))
+            .toBe(  "| [C]       [G]       | [F]       [G]       |\n" +
+                "| [C]                 |"
+            )
     })
 })
 

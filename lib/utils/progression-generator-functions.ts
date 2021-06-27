@@ -134,61 +134,77 @@ export const getNotesInKey = (inputKey: number) : string[] => {
     return reshuffledNotes
 }
 
- export const assignKeyToProgression = function (key : number, progression : string) : string[] {
 
-    if(key < 0 || key > 12) {
-        return []
+
+export function modifyChordSuffix(chordString: string, key: number) : string {
+    let notesInKeyArray = getNotesInKey(key)
+    if(chordString[0] === 'b') {
+        let [ accidental, chordNum ] = chordString.split('')
+        let keyIndex = parseInt(chordNum) - 1
+
+        return (notesInKeyArray[keyIndex] + accidental).replace(/(#b)|(b#)/, "")
     }
+
+    let chordNum = chordString.slice(0,1)
+    let suffix = chordString.slice(1)
+    let keyIndex = parseInt(chordNum) - 1
+
+    if(suffix === 'm') {
+        return notesInKeyArray[keyIndex] + suffix
+    }
+
+    if(suffix === 'M') {
+        return notesInKeyArray[keyIndex].replace(/m/, '')
+    }
+
+    if(suffix === 'dim7') {
+        return notesInKeyArray[keyIndex] + 'dim7'
+    }
+
+    return ""
+}
+
+export const addFamilyChordSuffix = function(chordNum : number, key: number) {
+    let notesInKeyArray = getNotesInKey(key)
+    let keyIndex = chordNum - 1
+    if(chordNum === 3 || chordNum === 6) {
+        return notesInKeyArray[keyIndex] + 'm'
+    }
+
+    if(chordNum === 2) {
+        return notesInKeyArray[keyIndex] + 'm7'
+    }
+
+    if(chordNum === 7) {
+        return notesInKeyArray[keyIndex] + 'dim7'
+    }
+
+    return notesInKeyArray[keyIndex]
+
+}
+
+export function assignKeyToProgression(key : number, progression : string) : string[] {
 
     let validInputRegex = /[^1-7b#Mm(dim7)]/g
     let containInvalidInput = progression.search(validInputRegex) > -1
-
-    if(containInvalidInput) {
-        return []
-    }
-
     let progressionArray = progression.match(/(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g)
 
-    if(!progressionArray) {
+    if(key < 0 || key > 12 || containInvalidInput || !progressionArray) {
         return []
     }
 
-    let notesInKeyArray = getNotesInKey(key)
-    return progressionArray.map((chordNum: string) => {
-     // If explicitly specified
-     if (chordNum.length > 1) {
-         if(chordNum[0] === 'b') {
-             return notesInKeyArray[parseInt(chordNum[1]) - 1] + 'b'
-         }
+    return progressionArray.map((chordString: string) => {
+    // If explicitly specified
+    if (chordString.length > 1) {
+        return modifyChordSuffix(chordString, key)
+    }
 
-         if(chordNum[1] === 'm') {
-             return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'm'
-         }
+    let chordNum = parseInt(chordString)
 
-         if(chordNum[1] === 'M') {
-             return notesInKeyArray[parseInt(chordNum[0]) - 1].replace(/m/, '')
-         }
+    //default family chords
+    return addFamilyChordSuffix(chordNum, key)
 
-         if(chordNum.slice(1) === 'dim7') {
-             return notesInKeyArray[parseInt(chordNum[0]) - 1] + 'dim7'
-         }
-     }
-
-     //default family chords
-     if(parseInt(chordNum[0]) === 3 || parseInt(chordNum[0]) === 6) {
-         return notesInKeyArray[parseInt(chordNum) - 1] + 'm'
-     }
-
-     if(parseInt(chordNum[0]) === 2) {
-         return notesInKeyArray[parseInt(chordNum) - 1] + 'm7'
-     }
-
-     if(parseInt(chordNum[0]) === 7) {
-         return notesInKeyArray[parseInt(chordNum) - 1] + 'dim7'
-     }
-     return notesInKeyArray[parseInt(chordNum[0]) - 1]
-
-    }).map(chord => chord.replace("#b", ""))
+    })
 
  }
 
@@ -198,69 +214,58 @@ export const getNotesInKey = (inputKey: number) : string[] => {
      }
 
     let chordProgression = assignKeyToProgression(key, progression)
-    let resultString = ''
 
-    // Generate string
-    chordProgression.forEach((chord, index) => {
-        resultString += `| `
-        resultString += `[${chord}]` + renderSpacing(space, chord)
+    let resultString = chordProgression.reduce((acc, chord, index) => {
+        let barString = `| [${chord}]` + renderSpacing(space, chord)
 
-        if((index + 1) % 4 === 0 && index + 1 < chordProgression.length) {
-            resultString += `|\n` // Close and go to next line
+        if((index + 1) % 4 === 0 && index < chordProgression.length - 1) {
+            barString += `|\n` // Close and go to next line
         }
-    })
 
-    // For ending
+        return acc + barString
+    }, "")
 
-    resultString += `|`
-
-    return resultString
+    return resultString + "|"
  }
 
 export const halfBarProg = function (key : number, progression : string, space : number) {
     if(key < 0 || key > 12 || space < 0 || !progression) {
         return ""
     }
+
+    if(space % 2 === 1) {
+        space += 1
+    }
+
     let chordProgression = assignKeyToProgression(key, progression)
     const halfSpace = Math.ceil((space/2))
 
-    let resultString = ''
+    let resultString = chordProgression.reduce((acc,chord, index) => {
+        const isFirstChordInBar = index % 2 === 0
 
-    // Generate string
-    chordProgression.forEach((chord, index) => {
-    
-    // Extra 'if' code for half bar program
-       if ((index + 1) % 2 !== 0) {
-          resultString += '| '
-       }
-    //
-        resultString += `[${chord}]` + renderSpacing(halfSpace, chord)
+        let barString = ""
 
-        if((index + 1) % 4 === 0 && index + 1 < chordProgression.length) {
-            resultString += `|\n` // Ending bar line every 4 chords
-        }   
-    })
-    
-    // For ending
-    if(chordProgression.length <= 0) {
-        return resultString
-    }
+        if (isFirstChordInBar) {
+            barString += '| '
+        }
 
-    if(chordProgression.length % 2 !== 0) {
+        barString += `[${chord}]` + renderSpacing(halfSpace, chord)
+
+        if((index + 1) % 4 === 0 && index < chordProgression.length - 1) {
+            barString += `|\n` // Ending bar line every 4 chords
+        }
+
+        return acc + barString
+    }, "")
+
+    const isOddLength = chordProgression.length % 2 !== 0
+
+    if(isOddLength) {
         const placeholderChord = "[ ]"
         const lastChord = chordProgression[chordProgression.length - 1]
-
         const totalSpace =  space + placeholderChord.length
 
         return resultString.trimEnd() + `${renderSpacing(totalSpace, lastChord)}|`
-        // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
-        // For position 2,4,6...
-    }
-
-    if ((chordProgression.length + 1) % 2 !== 0 && chordProgression.length % 4 !== 0) {
-        return resultString + `|`
-        // Note: in [Xyyy] halfBarSpace,  included __yyy_KK, y + K = halfBarSpace, empty space = constant = 3
-        // For position 1,5,9...
     }
 
     return resultString + '|'
