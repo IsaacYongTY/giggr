@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import { loadMusicians, loadUserRepertoire, loadLanguages} from "../../lib/library";
+import { loadUserMusicians, loadUserRepertoire, loadUserLanguages} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
@@ -68,10 +68,11 @@ type Props = {
     setSongs: Dispatch<SetStateAction<Song[]>>
     musicians: Musician[]
     setMusicians: Dispatch<SetStateAction<Musician[]>>
+    user: any
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, user }: Props) {
 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [languages, setLanguages] = useState([])
@@ -118,7 +119,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     useEffect(() => {
 
-        loadLanguages().then((dbLanguages) => {
+        loadUserLanguages(user).then((dbLanguages) => {
             setLanguages(dbLanguages)
         }).catch((err) => {
             console.log(err)
@@ -190,8 +191,10 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     async function handleAddSong() {
+        console.log('lalala')
         try {
-
+            console.log('addsong')
+            console.log(user.tokenString)
             await axios.post(url, {
                 ...formValue,
                 composers: formValue.composers?.map((composer: Option) => composer.value),
@@ -199,13 +202,16 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 arrangers: formValue.arrangers?.map((arranger : Option) => arranger.value)
             }, {
                 withCredentials: true,
-
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
             })
 
             setIsAlertOpen(true)
 
-            let refreshedSongs = await loadUserRepertoire(database)
-            let refreshedMusicians = await loadMusicians(database)
+            let refreshedSongs = await loadUserRepertoire(user)
+            let refreshedMusicians = await loadUserMusicians(user)
+            setFormValue({})
             setSongs(refreshedSongs)
             setMusicians(refreshedMusicians)
 
@@ -225,7 +231,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     async function handleEditSong(id : number) {
 
         try {
-
+            console.log('hhh')
             await axios.patch(`${url}/${id}`, {
                 ...formValue,
                 composers: formValue.composers?.map(composer => composer.value),
@@ -233,10 +239,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 arrangers: formValue.arrangers?.map(arranger => arranger.value)
             }, {
                 withCredentials: true,
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
+
             })
 
             let refreshedSongs = await loadUserRepertoire(database)
-            let refreshedMusicians = await loadMusicians(database)
+            let refreshedMusicians = await loadUserMusicians(database)
 
             setSongs(refreshedSongs)
             setMusicians(refreshedMusicians)

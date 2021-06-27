@@ -15,12 +15,12 @@ import ActionRow from "../components/repertoire/ActionRow";
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
     try {
-
-        let initialSongs = await loadUserRepertoire()
+        console.log(req.user)
+        let initialSongs = await loadUserRepertoire(req.user)
         let { data: { musicians }} = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
             withCredentials: true,
             headers: {
-                "x-auth-token": `Bearer ${req.user.token}`
+                "x-auth-token": `Bearer ${req.user.tokenString}`
             }
         })
 
@@ -103,6 +103,7 @@ export default function Repertoire({ initialSongs, initialMusicians, user }: Pro
                     setSongs={setSongs}
                     musicians={musicians}
                     setMusicians={setMusicians}
+                    user={user}
 
 
                 />
