@@ -27,15 +27,19 @@ export const getRomTitle = (title :string) => {
 
 }
 
-export const loadUserRepertoire = async(database = 'database1') => {
-
-    let response;
+export const loadUserRepertoire = async(user : any) => {
 
     try {
-        response = await axios.get(`/api/v1/songs?category=id&order=ASC`)
+        const response = await axios.get(`/api/v1/songs?category=id&order=ASC`, {
+            withCredentials: true,
+            headers: {
+                "x-auth-token": `Bearer ${user.tokenString}`
+            }
+        })
 
-        return response.data.songs
+        return response.data
     } catch (error) {
+        console.log('er')
         console.log(error)
         return error.response
     }
@@ -56,25 +60,32 @@ export const loadDatabaseRepertoire = async() => {
     return response.data.songs
 }
 
-export const loadMusicians = async(database = 'database1') => {
+export const loadUserMusicians = async(user: any) => {
 
-    let response;
-    if(database === 'master') {
-        response = await axios.get(`/api/v1/admin/musicians?category=name&order=ASC`)
-    } else {
-        response = await axios.get(`/api/v1/musicians?category=name&order=ASC`)
-    }
+
+    const response = await axios.get(`/api/v1/musicians?category=name&order=ASC`, {
+        withCredentials: true,
+        headers: {
+            "x-auth-token": `Bearer ${user.tokenString}`
+        }
+    })
+
 
     return response.data.musicians
 }
 
+export const loadDatabaseMusicians = async() => {
+    const response = await axios.get(`/api/v1/admin/musicians?category=name&order=ASC`)
 
-export async function loadLanguages() {
+    return response.data.musicians
+}
+
+export async function loadUserLanguages(user : any) {
     let res = await axios.get('/api/v1/languages', {
         withCredentials: true,
-        // headers: {
-        //     "x-auth-token": `Bearer ${req.user.token}`
-        // }
+        headers: {
+            "x-auth-token": `Bearer ${user.token}`
+        }
     })
 
     return res.data.languages

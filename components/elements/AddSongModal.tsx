@@ -1,18 +1,18 @@
-import React, {useState, useEffect, Dispatch, SetStateAction, ChangeEvent} from "react";
+import React, {useState, useEffect, Dispatch, SetStateAction } from "react";
 import SpotifySearchBar from "../common/SpotifySearchBar";
 import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import { loadMusicians, loadUserRepertoire, loadLanguages} from "../../lib/library";
+import { loadUserMusicians, loadUserRepertoire, loadUserLanguages} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
 import Musician from "../../lib/types/musician";
-import Song, {Artist} from "../../lib/types/song";
-import LanguagesDropdown from "../LanguagesDropdown";
+import Song from "../../lib/types/song";
+import LanguagesSingleDropdown from "../LanguagesSingleDropdown";
 
-import SingleArtistDropdown from "../SingleArtistDropdown";
+import ArtistsSingleDropdown from "../ArtistsSingleDropdown";
 import KeysDropdown from "../KeysDropdown";
 import CategoriesDropdown from "../CategoriesDropdown";
 
@@ -24,37 +24,37 @@ type Option = {
 
 interface Form {
     [key: string] : any
-    title: string
-    romTitle: string
-    artist: string
+    title?: string
+    romTitle?: string
+    artist?: string
 
-    key: number
-    mode: number
-    tempo: number,
+    key?: number
+    mode?: number
+    tempo?: number,
 
-    durationMinSec: string
-    timeSignature: string
-    language: string
+    durationMinSec?: string
+    timeSignature?: string
+    language?: string
 
-    spotifyLink: string
-    youtubeLink: string
-    otherLink: string
+    spotifyLink?: string
+    youtubeLink?: string
+    otherLink?: string
 
-    composers: Option[]
-    songwriters: Option[]
-    arrangers: Option[]
+    composers?: Option[]
+    songwriters?: Option[]
+    arrangers?: Option[]
 
-    initialism: string
+    initialism?: string
 
-    acousticness: number
-    danceability: number
-    energy: number
-    instrumentalness: number
-    valence: number
+    acousticness?: number
+    danceability?: number
+    energy?: number
+    instrumentalness?: number
+    valence?: number
 
-    moods: Option[]
-    genres: Option[]
-    tags: Option[]
+    moods?: Option[]
+    genres?: Option[]
+    tags?: Option[]
 
 
 }
@@ -68,45 +68,16 @@ type Props = {
     setSongs: Dispatch<SetStateAction<Song[]>>
     musicians: Musician[]
     setMusicians: Dispatch<SetStateAction<Musician[]>>
+    user: any
+    data: any
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, data, user }: Props) {
 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
-    const [languages, setLanguages] = useState([])
-    const [formValue, setFormValue] = useState<Form>({
-        title: "",
-        romTitle: "",
-        artist: "",
 
-        key: -1,
-        mode: -1,
-        tempo: 0,
-
-        durationMinSec: "",
-        timeSignature: "",
-        language: "",
-
-        spotifyLink: "",
-        youtubeLink: "",
-        otherLink: "",
-
-        composers: [],
-        songwriters: [],
-        arrangers: [],
-
-        initialism: "",
-        acousticness: 0,
-        danceability: 0,
-        energy: 0,
-        instrumentalness: 0,
-        valence: 0,
-        moods: [],
-        genres: [],
-        tags: [],
-
-    })
+    const [formValue, setFormValue] = useState<Form>({})
 
 
 
@@ -118,18 +89,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     useEffect(() => {
 
-        loadLanguages().then((dbLanguages) => {
-            setLanguages(dbLanguages)
-        }).catch((err) => {
-            console.log(err)
-        })
 
 
         if(type === 'edit' && song) {
             let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
                 energy, danceability, valence, acousticness, instrumentalness, genres, moods, tags } = song
-
+            console.log(song)
             let value : Form = {
                 title,
                 romTitle,
@@ -155,9 +121,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 valence,
                 acousticness,
                 instrumentalness,
-                genres,
-                moods,
-                tags,
+                genres: genres?.map((genre:any) => ({value: genre.name, label: genre.name})),
+                moods : moods?.map((mood:any) => ({value: mood.name, label: mood.name})),
+                tags: tags?.map((tag:any) => ({value: tag.name, label: tag.name})),
 
             }
 
@@ -191,21 +157,26 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     async function handleAddSong() {
         try {
-
             await axios.post(url, {
                 ...formValue,
                 composers: formValue.composers?.map((composer: Option) => composer.value),
                 songwriters: formValue.songwriters?.map((songwriter : Option) => songwriter.value),
-                arrangers: formValue.arrangers?.map((arranger : Option) => arranger.value)
+                arrangers: formValue.arrangers?.map((arranger : Option) => arranger.value),
+                genres: formValue.arrangers?.map((genre : Option) => genre.value),
+                moods: formValue.arrangers?.map((mood : Option) => mood.value),
+                tags: formValue.arrangers?.map((tag : Option) => tag.value)
             }, {
                 withCredentials: true,
-
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
             })
 
             setIsAlertOpen(true)
 
-            let refreshedSongs = await loadUserRepertoire(database)
-            let refreshedMusicians = await loadMusicians(database)
+            let refreshedSongs = await loadUserRepertoire(user)
+            let refreshedMusicians = await loadUserMusicians(user)
+            setFormValue({})
             setSongs(refreshedSongs)
             setMusicians(refreshedMusicians)
 
@@ -222,23 +193,31 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
+    console.log(data)
     async function handleEditSong(id : number) {
 
         try {
-
             await axios.patch(`${url}/${id}`, {
                 ...formValue,
                 composers: formValue.composers?.map(composer => composer.value),
                 songwriters: formValue.songwriters?.map(arranger => arranger.value),
-                arrangers: formValue.arrangers?.map(arranger => arranger.value)
+                arrangers: formValue.arrangers?.map(arranger => arranger.value),
+                genres: formValue.genres?.map(genre => genre.value),
+                moods: formValue.moods?.map(mood => mood.value),
+                tags: formValue.tags?.map(tag => tag.value)
             }, {
                 withCredentials: true,
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
+
             })
 
-            let refreshedSongs = await loadUserRepertoire(database)
-            let refreshedMusicians = await loadMusicians(database)
+            let data = await loadUserRepertoire(user)
+            console.log(data)
+            let refreshedMusicians = await loadUserMusicians(user)
 
-            setSongs(refreshedSongs)
+            setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
             handleCloseModal()
@@ -267,7 +246,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Artist:
-                        <SingleArtistDropdown options={musicians} selectedArtist={formValue.artist} setFormValue={setFormValue}/>
+                        <ArtistsSingleDropdown options={musicians} selectedArtist={formValue.artist || ""} setFormValue={setFormValue}/>
                     </label>
 
                     <label>
@@ -284,7 +263,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     />
 
                     <label>Tempo:
-                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo > 0 ? formValue.tempo : ""} />
+                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={formValue.tempo || ""} />
                     </label>
 
                     <label>Duration:
@@ -298,7 +277,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Language:
-                        <LanguagesDropdown options={languages} currentSelection={formValue.language} setFormValue={setFormValue}  />
+                        <LanguagesSingleDropdown options={data?.languages} currentSelection={formValue.language || ""} setFormValue={setFormValue}  />
                     </label>
 
                     <label>Initialism:
@@ -307,18 +286,18 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers} setFormValue={setFormValue} role="composers" />
-                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters} setFormValue={setFormValue} role="songwriters"/>
+                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers || []} setFormValue={setFormValue} role="composers" />
+                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters || []} setFormValue={setFormValue} role="songwriters"/>
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers} setFormValue={setFormValue} role="arranger"/>
-                    <CategoriesDropdown label="Genres" options={musicians} selectedCategories={formValue.genres} setFormValue={() => console.log("clicked")}/>
+                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers || []} setFormValue={setFormValue} role="arrangers"/>
+                    <CategoriesDropdown label="Genres" options={data?.genres} selectedCategories={formValue.genres || []} setFormValue={setFormValue} role="genres"/>
                 </div>
 
                 <div className={styles.formRow}>
-                    <CategoriesDropdown label="Moods" options={musicians} selectedCategories={formValue.moods} setFormValue={() => console.log("clicked")}/>
-                    <CategoriesDropdown label="Tags" options={musicians} selectedCategories={formValue.tags} setFormValue={() => console.log("clicked")}/>
+                    <CategoriesDropdown label="Moods" options={data?.moods} selectedCategories={formValue.moods || []} setFormValue={setFormValue} role="moods"/>
+                    <CategoriesDropdown label="Tags" options={data?.tags} selectedCategories={formValue.tags || []} setFormValue={setFormValue} role="tags"/>
                 </div>
 
 
