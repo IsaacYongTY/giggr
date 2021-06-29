@@ -47,17 +47,26 @@ export const loadUserRepertoire = async(user : any) => {
 
 }
 
-export const loadDatabaseRepertoire = async() => {
+export const loadDatabaseData = async(tokenString : string) => {
 
-    let response;
+    try {
+        console.log('in funciton')
+        console.log(tokenString)
+        const response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, {
+            withCredentials: true,
+            headers: {
+                "x-auth-token": `Bearer ${tokenString}`
+            }
+        })
+
+        return response.data
+    } catch (error) {
+        console.log('er')
+        // console.log(error)
+        return error.response
+    }
 
 
-        response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`)
-
-
-
-
-    return response.data.songs
 }
 
 export const loadUserMusicians = async(user: any) => {
