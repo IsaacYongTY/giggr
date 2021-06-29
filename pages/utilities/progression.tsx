@@ -4,12 +4,12 @@ import Select, { ValueType } from "react-select";
 import KeysDropdown from "../../components/KeysDropdown";
 import styles from "../../assets/scss/pages/_progression.module.scss";
 import {
-    assignKeyToProgression,
     fullBarProg,
     halfBarProg,
     keyMap
 } from "../../lib/utils/progression-generator-functions";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
+import AlertBox from "../../components/common/AlertBox";
 
 interface Form {
     key: number
@@ -184,7 +184,9 @@ export default function Progression() {
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
 
                 </div>
-
+                {
+                    isAlertOpen && <AlertBox message={alertMessage} timeout={3} setIsAlertOpen={setIsAlertOpen}/>
+                }
 
             </div>
         </Layout>
