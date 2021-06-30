@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import { loadUserMusicians, loadUserRepertoire, loadUserLanguages} from "../../lib/library";
+import {loadDatabaseData, loadUserMusicians, loadUserRepertoire} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
@@ -151,7 +151,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     function handleCloseModal() {
-        // setFormValue({})
+        setFormValue({})
         setIsModalOpen(false)
     }
 
@@ -162,9 +162,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 composers: formValue.composers?.map((composer: Option) => composer.value),
                 songwriters: formValue.songwriters?.map((songwriter : Option) => songwriter.value),
                 arrangers: formValue.arrangers?.map((arranger : Option) => arranger.value),
-                genres: formValue.arrangers?.map((genre : Option) => genre.value),
-                moods: formValue.arrangers?.map((mood : Option) => mood.value),
-                tags: formValue.arrangers?.map((tag : Option) => tag.value)
+                genres: formValue.genres?.map((genre : Option) => genre.value),
+                moods: formValue.moods?.map((mood : Option) => mood.value),
+                tags: formValue.tags?.map((tag : Option) => tag.value)
             }, {
                 withCredentials: true,
                 headers: {
@@ -174,10 +174,10 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             setIsAlertOpen(true)
 
-            let refreshedSongs = await loadUserRepertoire(user)
+            let data = database === "database1" ? await loadUserRepertoire(user) : await loadDatabaseData(user.tokenString)
             let refreshedMusicians = await loadUserMusicians(user)
             setFormValue({})
-            setSongs(refreshedSongs)
+            setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
             handleCloseModal()
@@ -213,10 +213,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             })
 
-            let data = await loadUserRepertoire(user)
+            let data = database === "database1" ? await loadUserRepertoire(user) : await loadDatabaseData(user.tokenString)
             console.log(data)
-            let refreshedMusicians = await loadUserMusicians(user)
 
+            let refreshedMusicians = await loadUserMusicians(user)
+            console.log(refreshedMusicians)
             setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
@@ -242,7 +243,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             <div className={styles.container}>
                 <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={formValue.title}/>
 
-                { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database}/> }
+                { type === "add" && <SpotifySearchBar setFormValue={setFormValue} database={database} user={user}/> }
 
                 <div className={styles.formRow}>
                     <label>Artist:
@@ -299,10 +300,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     <CategoriesDropdown label="Moods" options={data?.moods} selectedCategories={formValue.moods || []} setFormValue={setFormValue} role="moods"/>
                     <CategoriesDropdown label="Tags" options={data?.tags} selectedCategories={formValue.tags || []} setFormValue={setFormValue} role="tags"/>
                 </div>
-
-
-
-
 
                 <div className={`${styles.formRow} ${styles.flexEnd}`}>
                     <label>Spotify Link:
