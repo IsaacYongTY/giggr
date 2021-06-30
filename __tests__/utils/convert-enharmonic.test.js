@@ -29,12 +29,12 @@ describe("convertEnharmonic", () => {
         expect(convertEnharmonic("Abm")).toBe("G#m")
     })
 
-    it("should return undefined if input is invalid",() => {
-        expect(convertEnharmonic("agfg")).toBe(undefined)
-        expect(convertEnharmonic("##")).toBe(undefined)
-        expect(convertEnharmonic("H")).toBe(undefined)
-        expect(convertEnharmonic("Z#")).toBe(undefined)
-        expect(convertEnharmonic("JJb")).toBe(undefined)
-        expect(convertEnharmonic("Bbb")).toBe(undefined)
+    it("should return empty string if input is invalid",() => {
+        expect(convertEnharmonic("agfg")).toBe("")
+        expect(convertEnharmonic("##")).toBe("")
+        expect(convertEnharmonic("H")).toBe("")
+        expect(convertEnharmonic("Z#")).toBe("")
+        expect(convertEnharmonic("JJb")).toBe("")
+        expect(convertEnharmonic("Bbb")).toBe("")
     })
 })

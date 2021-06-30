@@ -16,7 +16,7 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         const setFormValue = jest.fn()
         const utils = render(<KeysDropdown formValue={{}} setFormValue={setFormValue} {...props} />)
         const isMinorCheckbox = utils.getByRole("checkbox")
-        const keysDropdown = utils.getByRole("textbox")
+        const keysDropdown = utils.getByLabelText(/key/i)
         return {...utils, isMinorCheckbox, keysDropdown}
     }
 
@@ -56,22 +56,36 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
     })
 
     it("should toggle the dropdown menu and render key options accordingly", () => {
-        const { keysDropdown } = renderKeysDropdown()
+        const { keysDropdown, rerender } = renderKeysDropdown()
 
         expect(keysDropdown).toBeInTheDocument()
 
         userEvent.click(keysDropdown)
 
-        // use arrow down to simulate opening the dropdown menu via clicking
-        userEvent.type(keysDropdown,'{arrowdown}')
         userEvent.click(screen.getByText('C'))
 
-        expect(screen.getByDisplayValue('C')).toBeInTheDocument()
+        rerender(<KeysDropdown
+            formValue={{
+                key: 0,
+                mode: 1,
+            }}
+            setFormValue={jest.fn()}
+        />)
 
-        userEvent.type(keysDropdown,'{arrowdown}')
-        // screen.debug(undefined, 10000)
+        expect(screen.getByText('C')).toBeInTheDocument()
+
+        userEvent.click(keysDropdown)
         userEvent.click(screen.getByText('Eb'))
-        expect(screen.getByDisplayValue('Eb')).toBeInTheDocument()
+
+        rerender(<KeysDropdown
+            formValue={{
+                key: 3,
+                mode: 1,
+            }}
+            setFormValue={jest.fn()}
+        />)
+
+        expect(screen.getByText('Eb')).toBeInTheDocument()
 
     })
 

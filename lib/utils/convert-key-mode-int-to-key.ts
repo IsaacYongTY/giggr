@@ -1,10 +1,10 @@
 import convertEnharmonic from "./convert-enharmonic";
 import { noteArray } from "../data/data";
 
-export default function convertKeyModeIntToKey(key: number, mode : number) {
+export default function convertKeyModeIntToKey(key: number, mode : number) : string {
 
     if(key > 11 || key < 0 || mode > 1 || mode < 0 || key === undefined) {
-        return
+        return ""
     }
 
     let keyString = noteArray[key]

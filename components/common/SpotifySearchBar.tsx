@@ -16,7 +16,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
     const [spotifyLink, setSpotifyLink] = useState("");
     const spotifySearchInput = useRef<HTMLInputElement>(null);
 
-    const url = database === 'master' ? `/api/v1/admin/songs` : `/api/v1/songs`
+    const url = `/api/v1/songs`
 
     async function handleGetFromSpotify() {
 
@@ -35,7 +35,13 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
         }
 
         try {
-            let response = await axios.post(`${url}/spotify?trackId=${trackId}`)
+            console.log(user.tokenString)
+            let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`,{},{
+                withCredentials: true,
+                headers: {
+                    "x-auth-token": `Bearer ${user.tokenString}`
+                }
+            })
 
             let songData = response.data.result
 
@@ -45,7 +51,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             })
 
             if(isContribute) {
-                await axios.post(url, songData, {
+                await axios.post("/api/v1/admin/songs", songData, {
                     withCredentials: true,
                     headers: {
                         "x-auth-token": `Bearer ${user.tokenString}`

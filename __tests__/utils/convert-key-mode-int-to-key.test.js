@@ -8,12 +8,12 @@ describe("convertKeyModeIntToKey", () => {
     })
 
     it("should return undefined if no input is provided", () => {
-        expect(convertKeyModeIntToKey()).toBe(undefined)
+        expect(convertKeyModeIntToKey()).toBe("")
     })
 
-    it("should return undefined if wrong input is provided", () => {
-        expect(convertKeyModeIntToKey(0,2)).toBe(undefined)
-        expect(convertKeyModeIntToKey(-1, 1)).toBe(undefined)
+    it("should return empty string if wrong input is provided", () => {
+        expect(convertKeyModeIntToKey(0,2)).toBe("")
+        expect(convertKeyModeIntToKey(-1, 1)).toBe("")
     })
 
     it("should return the correct enharmonic key", () => {
