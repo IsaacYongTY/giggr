@@ -1,5 +1,4 @@
-import MetaTool from "../../pages/utilities/metatool"
-import React from "react";
+import MetaTool, { Props } from "../../pages/utilities/metatool"
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
@@ -33,9 +32,12 @@ let songData = {
     yearReleased: 2013
 }
 
-const renderMetaTool = (props) => {
+function renderMetaTool(props : Partial<Props> = {}) {
 
-    const utils = render(<MetaTool user={mockUser} {...props} />)
+    const defaultProps : Props = {
+        user: { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
+    }
+    const utils = render(<MetaTool {...defaultProps} {...props} />);
 
     const getFromSpotifyButton = utils.getByRole("button", { name: /get from spotify/i })
     const copyToClipboardButton = utils.getByRole("button", { name: /copy to clipboard/i })
@@ -98,7 +100,7 @@ describe("The metatool page", () => {
 
         it("should have empty input when it first render", () => {
             let { searchBar } = renderMetaTool()
-            expect(searchBar.value).toBe("")
+            expect(searchBar).toHaveValue("")
         })
 
         it("should display the url typed into the textbox", () => {
