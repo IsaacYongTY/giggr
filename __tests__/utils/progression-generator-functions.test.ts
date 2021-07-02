@@ -106,8 +106,8 @@ describe("fullBarProg", () => {
         expect(fullBarProg(6, "4536", -1)).toBe("")
         expect(fullBarProg(6, "4536", -1)).toBe("")
         expect(fullBarProg(6, "", 10)).toBe("")
-        expect(fullBarProg(6, undefined, 10)).toBe("")
-        expect(fullBarProg(-1, undefined, -1)).toBe("")
+        // expect(fullBarProg(6, undefined, 10)).toBe("")
+        // expect(fullBarProg(-1, undefined, -1)).toBe("")
     })
 
 })
@@ -160,8 +160,8 @@ describe("halfBarProg", () => {
         expect(halfBarProg(6, "4536", -1)).toBe("")
         expect(halfBarProg(6, "4536", -1)).toBe("")
         expect(halfBarProg(6, "", 10)).toBe("")
-        expect(halfBarProg(6, undefined, 10)).toBe("")
-        expect(halfBarProg(-1, undefined, -1)).toBe("")
+        // expect(halfBarProg(6, undefined, 10)).toBe("")
+        // expect(halfBarProg(-1, undefined, -1)).toBe("")
     })
 
     it("should round up to next number of spacing if odd is provided", () => {

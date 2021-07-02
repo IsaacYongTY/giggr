@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom"
 import ProgGenerator from "../../pages/utilities/progression"
 
-const renderProg = (props) => {
+const renderProg = () => {
     const utils = render(<ProgGenerator />)
     const generateButton = utils.getByRole("button", { name: /generate/i })
     const clearButton = utils.getByRole("button", { name: /clear/i })
