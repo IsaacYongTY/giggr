@@ -5,7 +5,7 @@ import AddSongModal from "../components/elements/AddSongModal";
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
 import axios from 'axios'
-import { loadUserRepertoire, loadUserMusicians, loadUserLanguages } from "../lib/library";
+import { loadUserData, loadUserMusicians, loadUserLanguages } from "../lib/library";
 
 jest.mock('axios')
 // jest.mock('../lib/library')
@@ -45,6 +45,14 @@ function renderAddSongModal(props) {
             musicians={[{name: "test1"}, {name: "test2"}]}
             setMusicians={jest.fn()}
             user={mockUser}
+            data={{
+                songs: [],
+                genres: [],
+                musicians:[],
+                tags: [],
+                moods: [],
+                languages: []
+            }}
 
             {...props}
         />

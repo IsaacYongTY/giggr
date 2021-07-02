@@ -10,12 +10,13 @@ interface Option {
 
 type Props = {
 
-    options: any
+    categories: any
     label: string
     selectedCategories: Option[]
     setFormValue: Dispatch<SetStateAction<any>>
     role: string
 }
+
 
 interface Option {
     value: string,
@@ -23,7 +24,7 @@ interface Option {
 }
 
 
-export default function CategoriesDropdown({ options, label, selectedCategories, setFormValue, role }: Props) {
+export default function CategoriesDropdown({ categories, label, selectedCategories, setFormValue, role }: Props) {
 
     const [ops, setOps] = useState<Option[]>([])
     function handleChange(selectedOptions: any) {
@@ -36,9 +37,9 @@ export default function CategoriesDropdown({ options, label, selectedCategories,
 
     useEffect(() => {
 
-        setOps(options?.map((option : any) => ({ value: option.name, label: option.name })))
+        setOps(categories?.map((category : any) => ({ value: category.name, label: category.name })))
     },[])
-
+    console.log(ops)
 
     return (
         <div className={styles.container}>
