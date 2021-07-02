@@ -24,7 +24,14 @@ export const getServerSideProps = withAuth(async ({req, res} : any) => {
     }
 })
 
-export default function MetaTool({ user } : any) {
+export interface Props {
+    user: {
+        tierId: number,
+        name: string,
+        tokenString: string
+    }
+}
+export default function MetaTool({ user } : Props) {
     const isAdmin = user.tierId === 4
 
     const [formValue, setFormValue] = useState<any>({})
@@ -77,7 +84,7 @@ export default function MetaTool({ user } : any) {
         setPinyinSyllable(selectedOption)
     }
 
-
+    console.log(formValue)
     return (
         <Layout user={user}>
             <div className={styles.container}>

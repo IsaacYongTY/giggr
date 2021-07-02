@@ -18,19 +18,16 @@ interface Option {
 }
 
 
-export default function ReactMusiciansDropdown({ label, selectedMusicians, setFormValue, musicians, role }: Props) {
+export default function ReactMusiciansDropdown({ musicians, label, selectedMusicians, setFormValue, role }: Props) {
 
     const [options, setOptions] = useState<Option[]>([])
 
     function handleChange(selectedOptions: ValueType<Option, true>) {
-        console.log(selectedOptions)
-        console.log(selectedMusicians)
         setFormValue((prevState : any) => ({...prevState, [role]: selectedOptions}))
     }
 
 
     useEffect(() => {
-
         setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name })))
     },[])
 
