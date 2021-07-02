@@ -28,11 +28,13 @@ export interface Props {
     user: {
         tierId: number,
         name: string,
-        tokenString: string
+        tokenString: string,
+        isAdmin: boolean
     }
 }
+
 export default function MetaTool({ user } : Props) {
-    const isAdmin = user.tierId === 4
+
 
     const [formValue, setFormValue] = useState<any>({})
     const [text, setText] = useState("")
@@ -43,7 +45,7 @@ export default function MetaTool({ user } : Props) {
 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
-    const [isContribute, setIsContribute] = useState(isAdmin)
+    const [isContribute, setIsContribute] = useState(user.isAdmin)
 
     const textAreaContainer = useRef<HTMLDivElement>(null)
 
@@ -151,7 +153,7 @@ export default function MetaTool({ user } : Props) {
                 </div>
 
                 {
-                    isAdmin &&
+                    user.isAdmin &&
                     <div className={styles.checkboxRowContainer}>
                         <input
                             type="checkbox"

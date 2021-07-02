@@ -21,6 +21,7 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
 
     const [currentValue, setCurrentValue] = useState({value: "", label: ""})
     const [options, setOptions] = useState<Option[]>([])
+
     function handleChange(selectedOption: ValueType<Option, false>) {
         if(!selectedOption) {
             return
@@ -32,13 +33,10 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
         })
     }
 
-
     useEffect(() => {
-        console.log(selectedArtist)
         setCurrentValue({value: selectedArtist, label: selectedArtist})
         setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name})))
     }, [selectedArtist])
-    console.log(currentValue)
 
     return (
         <div className={styles.container}>
@@ -50,8 +48,6 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
                 className="basic-single"
                 classNamePrefix="select"
                 onChange={handleChange}
-                // value={options.find(option => option.value === musician)}
-
             />
 
         </div>
