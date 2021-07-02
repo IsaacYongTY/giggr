@@ -2,12 +2,14 @@ import MetaTool, { Props } from "../../pages/utilities/metatool"
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
+
 import axios from "axios";
+jest.mock('axios')
+const mockAxios = axios as jest.Mocked<typeof axios>
 
 import { shakeAnimation } from "../../lib/library";
 
 jest.mock("next/router", () => require('next-router-mock'))
-jest.mock('axios')
 jest.mock('../../lib/library')
 
 const defaultPinyinSyllables = 2
@@ -116,7 +118,7 @@ describe("The metatool page", () => {
                 user: mockAdmin
             })
 
-            axios.post.mockResolvedValueOnce({
+            mockAxios.post.mockResolvedValueOnce({
                 data: {
                         result: songData,
                         message: "This is a mock resolved value"
@@ -137,7 +139,7 @@ describe("The metatool page", () => {
         it("should not contribute to the database if user is not admin", async () => {
             let { searchBar, getFromSpotifyButton } = renderMetaTool()
 
-            axios.post.mockResolvedValueOnce({
+            mockAxios.post.mockResolvedValueOnce({
                 data: {
                     result: songData,
                     message: "This is a mock resolved value"

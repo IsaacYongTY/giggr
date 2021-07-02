@@ -7,26 +7,22 @@ import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
 import AddSongModal from "../components/elements/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
-import { loadUserRepertoire } from "../lib/library";
+import { loadUserData } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
 import axios from "axios";
 import ActionRow from "../components/repertoire/ActionRow";
+import Musician from "../lib/types/musician";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
     try {
         console.log(req.user)
-        let data = await loadUserRepertoire(req.user)
-        let { data: { musicians} } = await axios.get('/api/v1/musicians/?category=name&order=ASC', {
-            withCredentials: true,
-            headers: {
-                "x-auth-token": `Bearer ${req.user.tokenString}`
-            }
-        })
+        let data = await loadUserData(req.user)
+
         return {
             props: {
                 initialSongs: data.songs,
-                initialMusicians: musicians,
+                initialMusicians: data.musicians,
                 initialData: data,
                 user: req.user
             }
@@ -44,15 +40,40 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 
 type Props = {
     initialSongs: Array<Song>,
-    initialMusicians: any,
-    initialData: any
+    initialMusicians: Musician[],
+    initialData: {
+        songs: Song[]
+        musicians: Musician[]
+        genres: {
+            id: number,
+            name: string
+        },
+        tags: {
+            id: number,
+            name: string
+        },
+        moods: {
+            id: number,
+            name: string
+        },
+        languages: {
+            id: number,
+            name: string
+        },
+    }
     user: any
 }
 
 export default function Repertoire({ initialSongs, initialMusicians, initialData, user }: Props) {
-
+    console.log(initialData.musicians)
     const [songs, setSongs] = useState(initialSongs)
-    const [musicians, setMusicians] = useState(initialMusicians)
+    const [musicians, setMusicians] = useState(initialData.musicians)
+    const [genres, setGenres] = useState(initialData.genres)
+    const [tags, setTags] = useState(initialData.tags)
+    const [moods, setMoods] = useState(initialData.moods)
+    const [languages, setLanguages] = useState(initialData.languages)
+
+
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
