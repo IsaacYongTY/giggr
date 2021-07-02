@@ -2,6 +2,7 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
 import CreatableSelect from "react-select/creatable";
 import { ValueType } from "react-select/";
+import Musician from "../lib/types/musician";
 
 type Option = {
     value: string
@@ -10,16 +11,16 @@ type Option = {
 
 type Props = {
 
-    options: any
+    musicians: Musician[]
     selectedArtist: string
     setFormValue: Dispatch<SetStateAction<any>>
 }
 
 
-export default function SingleArtistDropdown({ options, selectedArtist, setFormValue }: Props) {
+export default function SingleArtistDropdown({ musicians, selectedArtist, setFormValue }: Props) {
 
     const [currentValue, setCurrentValue] = useState({value: "", label: ""})
-
+    const [options, setOptions] = useState<Option[]>([])
     function handleChange(selectedOption: ValueType<Option, false>) {
         if(!selectedOption) {
             return
@@ -33,9 +34,11 @@ export default function SingleArtistDropdown({ options, selectedArtist, setFormV
 
 
     useEffect(() => {
+        console.log(selectedArtist)
         setCurrentValue({value: selectedArtist, label: selectedArtist})
+        setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name})))
     }, [selectedArtist])
-
+    console.log(currentValue)
 
     return (
         <div className={styles.container}>
