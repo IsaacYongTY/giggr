@@ -28,9 +28,7 @@ export default function CategoriesDropdown({ categories, label, selectedCategori
 
     const [ops, setOps] = useState<Option[]>([])
     function handleChange(selectedOptions: any) {
-        console.log(selectedOptions)
         setFormValue((prevState : any) => {
-            console.log(prevState)
             return ({...prevState, [role]: selectedOptions})
         })
     }
@@ -39,7 +37,6 @@ export default function CategoriesDropdown({ categories, label, selectedCategori
 
         setOps(categories?.map((category : any) => ({ value: category.name, label: category.name })))
     },[])
-    console.log(ops)
 
     return (
         <div className={styles.container}>

@@ -14,8 +14,8 @@ jest.mock('../../lib/library')
 
 const defaultPinyinSyllables = 2
 
-let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
-let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring" }
+let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring", isAdmin: false }
+let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring", isAdmin: true }
 
 let validUrl = "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl"
 
