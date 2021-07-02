@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
-import {loadDatabaseData, loadUserMusicians, loadUserRepertoire} from "../../lib/library";
+import {loadDatabaseData, loadUserMusicians, loadUserData} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
 
@@ -174,9 +174,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             setIsAlertOpen(true)
 
-            let data = database === "database1" ? await loadUserRepertoire(user) : await loadDatabaseData(user.tokenString)
+            let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
             let refreshedMusicians = await loadUserMusicians(user)
-            setFormValue({})
+
             setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
@@ -213,7 +213,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             })
 
-            let data = database === "database1" ? await loadUserRepertoire(user) : await loadDatabaseData(user.tokenString)
+            let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
             console.log(data)
 
             let refreshedMusicians = await loadUserMusicians(user)
@@ -247,7 +247,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Artist:
-                        <ArtistsSingleDropdown options={musicians} selectedArtist={formValue.artist || ""} setFormValue={setFormValue}/>
+                        <ArtistsSingleDropdown
+                            musicians={musicians}
+                            selectedArtist={formValue.artist || ""}
+                            setFormValue={setFormValue}
+                        />
                     </label>
 
                     <label>
@@ -278,7 +282,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                 <div className={styles.formRow}>
                     <label>Language:
-                        <LanguagesSingleDropdown options={data?.languages} currentSelection={formValue.language || ""} setFormValue={setFormValue}  />
+                        <LanguagesSingleDropdown
+                            options={data.languages}
+                            currentSelection={formValue.language || ""}
+                            setFormValue={setFormValue}
+                        />
                     </label>
 
                     <label>Initialism:
@@ -287,18 +295,56 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Composers" musicians={musicians} selectedMusicians={formValue.composers || []} setFormValue={setFormValue} role="composers" />
-                    <ReactMusiciansDropdown label="Songwriters" musicians={musicians} selectedMusicians={formValue.songwriters || []} setFormValue={setFormValue} role="songwriters"/>
+                    <ReactMusiciansDropdown
+                        label="Composers"
+                        role="composers"
+                        musicians={musicians}
+                        selectedMusicians={formValue.composers || []}
+                        setFormValue={setFormValue}
+                    />
+                    <ReactMusiciansDropdown
+                        label="Songwriters"
+                        role="songwriters"
+                        musicians={musicians}
+                        selectedMusicians={formValue.songwriters || []}
+                        setFormValue={setFormValue}
+                    />
                 </div>
 
                 <div className={styles.formRow}>
-                    <ReactMusiciansDropdown label="Arrangers" musicians={musicians} selectedMusicians={formValue.arrangers || []} setFormValue={setFormValue} role="arrangers"/>
-                    <CategoriesDropdown label="Genres" options={data?.genres} selectedCategories={formValue.genres || []} setFormValue={setFormValue} role="genres"/>
+                    <ReactMusiciansDropdown
+                        label="Arrangers"
+                        role="arrangers"
+                        musicians={musicians}
+                        selectedMusicians={formValue.arrangers || []}
+                        setFormValue={setFormValue}
+                    />
+                    <CategoriesDropdown
+                        label="Genres"
+                        role="genres"
+                        categories={data.genres}
+                        selectedCategories={formValue.genres || []}
+                        setFormValue={setFormValue}
+                    />
                 </div>
 
                 <div className={styles.formRow}>
-                    <CategoriesDropdown label="Moods" options={data?.moods} selectedCategories={formValue.moods || []} setFormValue={setFormValue} role="moods"/>
-                    <CategoriesDropdown label="Tags" options={data?.tags} selectedCategories={formValue.tags || []} setFormValue={setFormValue} role="tags"/>
+                    <CategoriesDropdown
+                        label="Moods"
+                        role="moods"
+                        categories={data.moods}
+                        selectedCategories={formValue.moods || []}
+                        setFormValue={setFormValue}
+
+                    />
+                    <CategoriesDropdown
+                        label="Tags"
+                        role="tags"
+                        categories={data.tags}
+                        selectedCategories={formValue.tags || []}
+                        setFormValue={setFormValue}
+
+                    />
                 </div>
 
                 <div className={`${styles.formRow} ${styles.flexEnd}`}>

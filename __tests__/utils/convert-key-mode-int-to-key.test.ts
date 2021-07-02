@@ -7,10 +7,6 @@ describe("convertKeyModeIntToKey", () => {
         expect(convertKeyModeIntToKey(5, 1)).toBe('F')
     })
 
-    it("should return undefined if no input is provided", () => {
-        expect(convertKeyModeIntToKey()).toBe("")
-    })
-
     it("should return empty string if wrong input is provided", () => {
         expect(convertKeyModeIntToKey(0,2)).toBe("")
         expect(convertKeyModeIntToKey(-1, 1)).toBe("")

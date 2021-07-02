@@ -27,10 +27,10 @@ export const getRomTitle = (title :string) => {
 
 }
 
-export const loadUserRepertoire = async(user : any) => {
+export const loadUserData = async(user : any) => {
 
     try {
-        const response = await axios.get(`/api/v1/songs?category=id&order=ASC`, {
+        const response = await axios.get(`/api/v1/users?category=id&order=ASC`, {
             withCredentials: true,
             headers: {
                 "x-auth-token": `Bearer ${user.tokenString}`

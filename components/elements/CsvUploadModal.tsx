@@ -3,6 +3,7 @@ import axios from "axios";
 import FormData from "form-data";
 import styles from "../../assets/scss/components/_csv-upload-modal.module.scss"
 import Modal from "react-modal";
+import {parseCookies} from "nookies";
 
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {
 
@@ -34,9 +35,12 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
 
             let formData = new FormData()
             formData.append("file", csvFile)
+
+            const cookies = parseCookies()
             await axios.post(url, formData, {
                 withCredentials: true,
                 headers: {
+                    "x-auth-token": cookies["x-auth-token"],
                     "Content-Type": "multipart/form-data"
                 }
             })

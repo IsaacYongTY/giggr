@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import axios from "axios";
+import { setCookie } from "nookies"
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>
@@ -35,7 +36,13 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     async function handleSignup(values : MyFormValues) {
 
         try {
-            await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
+            let { data } = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
+
+            setCookie(null, "x-auth-token", `Bearer ${data.token}`, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+            })
+
             await router.push('/dashboard')
         } catch (err) {
             setIsShowErrorMessage(true)

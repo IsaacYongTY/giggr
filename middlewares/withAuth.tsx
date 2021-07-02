@@ -34,7 +34,6 @@ export default function withAuth(WrappedComponent: any) {
         const tokenString : string = token.split(' ')[1]
 
         const decoded : any = decodeToken(tokenString)
-
         context.req.user = {...decoded.user, tokenString}
 
         return WrappedComponent(context)
