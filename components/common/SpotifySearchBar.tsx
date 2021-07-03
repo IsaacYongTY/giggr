@@ -37,7 +37,6 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
         setIsLoading(true)
 
         try {
-            console.log(user.tokenString)
             let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`,{},{
                 withCredentials: true,
                 headers: {
@@ -88,12 +87,12 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
                 placeholder="https://open.spotify.com/track/...."
             />
             <button
-                className="btn btn-primary"
+                className={`${styles.button} btn btn-primary`}
                 onClick={handleGetFromSpotify}
                 disabled={isLoading}
             >
                 <div>Get from Spotify</div>
-                {isLoading &&  <Loader />}
+                {isLoading && <Loader />}
 
             </button>
         </div>

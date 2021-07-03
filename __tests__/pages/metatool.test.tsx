@@ -77,6 +77,8 @@ describe("The metatool page", () => {
             expect(showPinyinCheckbox).toBeChecked()
 
         })
+
+
     })
 
     describe("The pinyin dropdown", () => {
@@ -177,6 +179,7 @@ describe("The metatool page", () => {
 
         it.todo("should render loader on button if the url is valid")
         it.todo("unable to test Content Editable div at the moment")
+        it.todo("should not render pinyin before title if pinyin checkbox is not checked")
     })
 
 
