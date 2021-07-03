@@ -8,6 +8,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Select, { ValueType }  from "react-select";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
+import Loader from "../../components/common/Loader";
 
 interface Option {
     value: number,
@@ -166,6 +167,8 @@ export default function MetaTool({ user } : Props) {
                     isAlertOpen &&
                     <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                 }
+
+
             </div>
         </Layout>
     )
