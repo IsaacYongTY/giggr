@@ -1,5 +1,5 @@
 import React from "react";
-import {fireEvent, render, screen, waitFor, waitForElementToBeRemoved} from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom"
 import ProgGenerator from "../../pages/utilities/progression"
@@ -152,45 +152,80 @@ describe("The progression generator page", () => {
             expect(textArea).toHaveValue("| [Ab]             | [Bb]             | [Gm]             | [Cm]             |\n\n")
         })
 
-        it("should return an error message if any one of key, progression and spacing is missing", () => {
+        it("should return an error message if progression is missing", () => {
             let { generateButton, textArea } = renderProg()
             let errorMessage = /please input progression.*/i
+
             expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
 
             userEvent.click(generateButton)
 
             expect(screen.getByText(errorMessage)).toBeInTheDocument()
-
             expect(textArea).toHaveValue("")
         })
 
         it("should hide error message once a valid input is provided when Generate button is clicked", () => {
             let { generateButton, inputTextbox } = renderProg()
-            let errorMessage = /please input progression.*/i
+            let errorMessage = /^.*please input progression.*/i
 
             userEvent.click(generateButton)
 
             expect(screen.getByText(errorMessage)).toBeInTheDocument()
-            userEvent.type(inputTextbox, "1")
 
+            userEvent.type(inputTextbox, "1")
             userEvent.click(generateButton)
 
             expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
         })
 
-        it("should show error message if input textbox contains invalid characters", () => {
-            let { generateButton, inputTextbox } = renderProg()
-            let errorMessage = "Input is invalid. valid inputs are 1-7, b, #, m, and M"
+        describe("the behaviour of error handling if input is invalid", () => {
 
-            userEvent.type(inputTextbox, "15mb70")
-            userEvent.click(generateButton)
+            it("should show error message if input textbox contains invalid characters '0' ", () => {
+                const { generateButton, inputTextbox } = renderProg()
+                const errorMessage = /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i
+                userEvent.type(inputTextbox, "15mb70")
+                userEvent.click(generateButton)
 
-            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+                expect(screen.getByText(errorMessage)).toBeInTheDocument()
 
-            userEvent.type(inputTextbox, "1x7")
-            userEvent.click(generateButton)
+            })
 
-            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            it("should show error message if input textbox contains invalid characters 'x", () => {
+                const { generateButton, inputTextbox } = renderProg()
+                const errorMessage = /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i
+                userEvent.type(inputTextbox, "1x7")
+                userEvent.click(generateButton)
+
+                expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            })
+
+            it("should show error message if input textbox contains mM or Mm", () => {
+                const { generateButton, inputTextbox } = renderProg()
+                const errorMessage = /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i
+                userEvent.type(inputTextbox, "2mM")
+                userEvent.click(generateButton)
+
+                expect(screen.getByText(errorMessage)).toBeInTheDocument()
+
+            })
+
+            it("should show error message if input ends with b or #", () => {
+                const { generateButton, inputTextbox } = renderProg()
+                const errorMessage = /^.*"b" and "#" must come before a number/i
+                userEvent.type(inputTextbox, "312b")
+                userEvent.click(generateButton)
+
+                expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            })
+
+            it("should show error message if input starts with m or M", () => {
+                const { generateButton, inputTextbox } = renderProg()
+                const errorMessage = /^.*"m" and "M" must come after a number/
+                userEvent.type(inputTextbox, "m34M")
+                userEvent.click(generateButton)
+
+                expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            })
         })
     })
 
@@ -212,7 +247,6 @@ describe("The progression generator page", () => {
 
             expect(await screen.findByText(/copied to clipboard.*/i)).toBeInTheDocument()
 
-
             await waitFor(() => {
                 expect(screen.queryByText(/copied to clipboard.+/i)).not.toBeInTheDocument()
             }, {
@@ -223,13 +257,29 @@ describe("The progression generator page", () => {
 
     describe("The clear button", () => {
 
-        it("should clear the content inside textarea", () => {
-            let { clearButton, textArea } = renderProg()
+        it("should clear the content inside textarea and input textbox", () => {
+            const { clearButton, textArea, inputTextbox } = renderProg()
             userEvent.type(textArea, "random things to be cleared")
+            userEvent.type(inputTextbox, "12345")
             userEvent.click(clearButton)
 
             expect(textArea).toHaveValue("")
+            expect(inputTextbox).toHaveValue("")
         })
+
+        it("should remove error message if it is present", () => {
+            const { clearButton, generateButton, inputTextbox } = renderProg()
+            const errorMessage = /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i
+            userEvent.type(inputTextbox, "invalid input")
+            userEvent.click(generateButton)
+
+            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+
+            userEvent.click(clearButton)
+
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
+        })
+
     })
 
 })

@@ -1,11 +1,10 @@
-import React, {Dispatch, RefObject, SetStateAction} from "react"
+import React, {Dispatch, RefObject, SetStateAction } from "react"
 
 interface Props {
     sourceRef:  RefObject<HTMLDivElement |HTMLTextAreaElement>
-    setIsAlertOpen: Dispatch<SetStateAction<boolean>>
     setAlertMessage: Dispatch<SetStateAction<string>>
 }
-export default function CopyToClipboardButton({sourceRef, setIsAlertOpen, setAlertMessage} : Props) {
+export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Props) {
 
     function copyToClipboard(sourceRef : RefObject<HTMLDivElement | HTMLTextAreaElement>) {
         if(sourceRef.current) {
@@ -25,7 +24,6 @@ export default function CopyToClipboardButton({sourceRef, setIsAlertOpen, setAle
                         document.execCommand('copy')
                         sel.removeAllRanges()
 
-                        setIsAlertOpen(true)
                         setAlertMessage("Copied to clipboard!")
 
                     }, 1);
@@ -33,8 +31,13 @@ export default function CopyToClipboardButton({sourceRef, setIsAlertOpen, setAle
             }
 
             document.execCommand('copy')
-            setIsAlertOpen(true)
             sel.removeAllRanges()
+
+
+            setTimeout(() => {
+                setAlertMessage("")
+            }, 3000)
+
         }
     }
 
