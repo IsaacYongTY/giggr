@@ -32,3 +32,4 @@ yarn-error.log*
 
 .scannerwork
 sonar-project.properties
+coverage
