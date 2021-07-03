@@ -38,7 +38,7 @@ let songData = {
 function renderMetaTool(props : Partial<Props> = {}) {
 
     const defaultProps : Props = {
-        user: { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
+        user: { tierId: 2, name: "Isaac", tokenString: "faketokenstring", isAdmin: false }
     }
     const utils = render(<MetaTool {...defaultProps} {...props} />);
 
