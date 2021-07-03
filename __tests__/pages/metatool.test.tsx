@@ -15,8 +15,8 @@ jest.mock('../../lib/library')
 
 const defaultPinyinSyllables = 2
 
-let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
-let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring" }
+let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring", isAdmin: false }
+let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring", isAdmin: true }
 
 let validUrl = "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl"
 
@@ -38,7 +38,7 @@ let songData = {
 function renderMetaTool(props : Partial<Props> = {}) {
 
     const defaultProps : Props = {
-        user: { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
+        user: { tierId: 2, name: "Isaac", tokenString: "faketokenstring", isAdmin: false }
     }
     const utils = render(<MetaTool {...defaultProps} {...props} />);
 
@@ -77,6 +77,8 @@ describe("The metatool page", () => {
             expect(showPinyinCheckbox).toBeChecked()
 
         })
+
+
     })
 
     describe("The pinyin dropdown", () => {
@@ -177,6 +179,7 @@ describe("The metatool page", () => {
 
         it.todo("should render loader on button if the url is valid")
         it.todo("unable to test Content Editable div at the moment")
+        it.todo("should not render pinyin before title if pinyin checkbox is not checked")
     })
 
 

@@ -23,6 +23,11 @@ $btn-radius: 0.4rem;
   &:hover {
     background-color: darken($blue, 10%);
   }
+
+  &:disabled {
+    background-color: lighten($blue, 15%);
+    cursor: not-allowed;
+  }
 }
 
 .btn-danger {

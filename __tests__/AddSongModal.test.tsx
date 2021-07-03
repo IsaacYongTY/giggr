@@ -8,12 +8,7 @@ import axios from 'axios'
 import { loadUserData, loadUserMusicians, loadUserLanguages } from "../lib/library";
 
 jest.mock('axios')
-// jest.mock('../lib/library')
-// console.log(loadLanguages)
-// loadLanguages.mockResolvedValue([
-//     { name: "Mandarin", id: 1 },
-//     { name: "English", id: 2 }
-// ])
+const mockAxios = axios as jest.Mocked<typeof axios>
 
 let songData = {
     title: "七天",
@@ -34,7 +29,7 @@ let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
 let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring" }
 
 
-function renderAddSongModal(props) {
+function renderAddSongModal(props = {}) {
     const utils = render(
         <AddSongModal
             isModalOpen={true}
@@ -42,7 +37,7 @@ function renderAddSongModal(props) {
             type="add"
             database="database1"
             setSongs={jest.fn()}
-            musicians={[{name: "test1"}, {name: "test2"}]}
+            musicians={[{name: "test1", romName: "", spotifyName: ""}, {name: "test2", romName: "", spotifyName: ""}]}
             setMusicians={jest.fn()}
             user={mockUser}
             data={{
@@ -242,7 +237,7 @@ describe("<AddSongModal />", () => {
             let { durationTextbox } = renderAddSongModal()
 
             expect(durationTextbox).toBeInTheDocument()
-            expect(durationTextbox.value).toBe("")
+            expect(durationTextbox).toHaveValue("")
         })
 
         it("should be show duration in mm:ss format after getting track info from Spotify in Add mode", async () => {
@@ -255,7 +250,7 @@ describe("<AddSongModal />", () => {
             expect(searchBar).toBeInTheDocument()
             expect(getFromSpotifyButton).toBeInTheDocument()
 
-            axios.post.mockResolvedValue({
+            mockAxios.post.mockResolvedValue({
                 data: {
                     result: songData,
                     message: "This is a mock resolved value"
@@ -307,7 +302,7 @@ describe("<AddSongModal />", () => {
 
             const validSpotifyUrl = "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl"
 
-            axios.mockResolvedValueOnce({
+            mockAxios.post.mockResolvedValueOnce({
                 data: {
                     result: songData,
                 }

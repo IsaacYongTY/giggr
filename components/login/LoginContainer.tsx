@@ -40,9 +40,7 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
         try {
 
             let res = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
-            const cookies = parseCookies()
-            console.log({ cookies})
-            console.log(res)
+
             console.log(res.data.token)
             setCookie(null, "x-auth-token", `Bearer ${res.data.token}`, {
                 maxAge: 30 * 24 * 60 * 60,

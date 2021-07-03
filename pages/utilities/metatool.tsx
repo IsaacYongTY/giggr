@@ -8,6 +8,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Select, { ValueType }  from "react-select";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
+import Loader from "../../components/common/Loader";
 
 interface Option {
     value: number,
@@ -27,11 +28,13 @@ export interface Props {
     user: {
         tierId: number,
         name: string,
-        tokenString: string
+        tokenString: string,
+        isAdmin: boolean
     }
 }
+
 export default function MetaTool({ user } : Props) {
-    const isAdmin = user.tierId === 4
+
 
     const [formValue, setFormValue] = useState<any>({})
     const [text, setText] = useState("")
@@ -40,9 +43,8 @@ export default function MetaTool({ user } : Props) {
     const [pinyinSyllable, setPinyinSyllable] = useState({ value: 2, label: "2"})
     const [showPinyin, setShowPinyin] = useState(true)
 
-    const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
-    const [isContribute, setIsContribute] = useState(isAdmin)
+    const [isContribute, setIsContribute] = useState(user.isAdmin)
 
     const textAreaContainer = useRef<HTMLDivElement>(null)
 
@@ -52,7 +54,7 @@ export default function MetaTool({ user } : Props) {
         let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
 
         let yearReleased = dateReleased?.slice(0,4)
-        let romTitleDisplayed = romTitle ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
+        let romTitleDisplayed = romTitle && showPinyin ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
 
         setText(`${romTitleDisplayed}${title}\n` +
             `${artist}\n` +
@@ -68,12 +70,11 @@ export default function MetaTool({ user } : Props) {
             setSearchLink(`https://www.google.com/search?q=${title}%20${language === 'mandarin' ? "歌词" : "lyrics"}`)
         }
 
-    }, [formValue, pinyinSyllable])
+    }, [formValue, pinyinSyllable, showPinyin])
 
     function clearSelection() {
         if(textAreaContainer.current) {
             textAreaContainer.current.innerHTML = ""
-            setIsAlertOpen(true)
             setAlertMessage("Content cleared")
         }
     }
@@ -148,7 +149,7 @@ export default function MetaTool({ user } : Props) {
                 </div>
 
                 {
-                    isAdmin &&
+                    user.isAdmin &&
                     <div className={styles.checkboxRowContainer}>
                         <input
                             type="checkbox"
@@ -161,9 +162,11 @@ export default function MetaTool({ user } : Props) {
                 }
 
                 {
-                    isAlertOpen &&
+                    alertMessage &&
                     <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                 }
+
+
             </div>
         </Layout>
     )
