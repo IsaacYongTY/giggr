@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from "react"
+import React, { Dispatch, SetStateAction} from "react"
 import styles from "../../assets/scss/components/common/_alert-box.module.scss"
 
-export default function AlertBox({ message, timeout, setIsAlertOpen } : any) {
+interface Props {
+    alertMessage: string
+    setAlertMessage: Dispatch<SetStateAction<string>>
+}
+export default function AlertBox({ alertMessage, setAlertMessage } : Props) {
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsAlertOpen(false)
-        }, timeout * 1000)
-    }, [])
-
-   const [isOpen, setIsOpen] = useState(true)
     return (
         <>
             {
 
                 <div className={`${styles.alertBox} ${styles.success} `}>
-                    {message}
+                    {alertMessage}
                     <span
                         className={`${styles.cross} material-icons`}
-                        onClick={() => setIsAlertOpen(false)}
+                        onClick={() => setAlertMessage("")}
                     >
                         close
                     </span>

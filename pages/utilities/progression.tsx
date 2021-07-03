@@ -40,9 +40,10 @@ export default function Progression() {
     })
 
     const [prog, setProg] = useState("")
-    const [isAlertOpen, setIsAlertOpen] = useState(false)
+
     const [alertMessage, setAlertMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+
     const textarea = useRef<HTMLTextAreaElement>(null)
 
     const options = [
@@ -80,11 +81,30 @@ export default function Progression() {
             return
         }
 
-        const invalidCharactersRegex = new RegExp("[^1-7#bmM]")
+        const invalidCharactersRegex = /[^1-7#bmM]/
         const isInvalidProgression = invalidCharactersRegex.test(progression)
 
-        if(isInvalidProgression) {
-            setErrorMessage("Input is invalid. valid inputs are 1-7, b, #, m, and M")
+        const invalidGroupingRegex = /(mm)|(b#)|(#b)|(7m)/i
+        const isInvalidGrouping = invalidGroupingRegex.test(progression)
+
+        const invalidStartChar = /^[mM].+/
+        const isInvalidStartChar = invalidStartChar.test(progression)
+
+        const invalidEndChar = /^.+[b#]$/
+        const isInvalidEndChar = invalidEndChar.test(progression)
+
+        if(isInvalidProgression || isInvalidGrouping) {
+            setErrorMessage("Input is invalid. Valid characters are 1-7, b, #, m, and M")
+            return
+        }
+
+        if(isInvalidEndChar) {
+            setErrorMessage("\"b\" and \"#\" must come before a number")
+            return
+        }
+
+        if(isInvalidStartChar) {
+            setErrorMessage("\"m\" and \"M\" must come after a number")
             return
         }
 
@@ -101,6 +121,12 @@ export default function Progression() {
             return
         }
         setForm(prevState => ({...prevState, spaces: selectedOption.value}))
+    }
+
+    function handleClear() {
+        setProg("")
+        setForm(prevState => ({...prevState, progression: ""}))
+        setErrorMessage("")
     }
 
     const user = {
@@ -135,7 +161,7 @@ export default function Progression() {
 
                     <div className={styles.inputContainer}>
                         <label>
-                            Input:
+                            <div>Input:</div>
                             <input
                                 className="form-control"
                                 type="text"
@@ -144,14 +170,16 @@ export default function Progression() {
                                 name="progression"
                                 onChange={(e) => handleInputChange(e)}
                             />
+
+                            {
+                                errorMessage && <div className="error-message">* {errorMessage}</div>
+                            }
                         </label>
                     </div>
 
                 </div>
 
-                {
-                    errorMessage && <div>{errorMessage}</div>
-                }
+
                 <div className={styles.radioRow}>
                     <label>
                         <input type="radio" name="fullBar" onChange={handleRadioChange} checked={form.isFullBar} />
@@ -179,9 +207,8 @@ export default function Progression() {
                             />
                         </div>
                     </label>
-
-
                 </div>
+
                 <div className={styles.textAreaContainer}>
                     <label>
                         <div>Result:</div>
@@ -196,13 +223,12 @@ export default function Progression() {
 
 
                 <div className={styles.buttonRow}>
-                    <button className="btn btn-danger" onClick={() => setProg("")}>Clear</button>
-                    <CopyToClipboardButton sourceRef={textarea} setIsAlertOpen={setIsAlertOpen} setAlertMessage={setAlertMessage} />
+                    <button className="btn btn-danger" onClick={handleClear}>Clear</button>
+                    <CopyToClipboardButton sourceRef={textarea} setAlertMessage={setAlertMessage} />
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
-
                 </div>
                 {
-                    isAlertOpen && <AlertBox message={alertMessage} timeout={3} setIsAlertOpen={setIsAlertOpen}/>
+                    alertMessage && <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                 }
 
             </div>
