@@ -1,20 +1,27 @@
 import KeysDropdown from "../components/KeysDropdown";
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import { screen, render, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
-import axios from 'axios'
 
-jest.mock('axios')
+interface Props {
+    formValue: any,
+    setFormValue: Dispatch<SetStateAction<any>>
+}
 
 describe("The behaviour of key dropdowns <KeysDropdown />", () => {
 
-    function renderKeysDropdown(props) {
+    function renderKeysDropdown(props = {}) {
 
         const setFormValue = jest.fn()
-        const utils = render(<KeysDropdown formValue={{}} setFormValue={setFormValue} {...props} />)
+
+        const defaultProps : Props = {
+            formValue: {},
+            setFormValue: setFormValue
+        }
+
+        const utils = render(<KeysDropdown {...defaultProps} {...props} />)
         const isMinorCheckbox = utils.getByRole("checkbox")
         const keysDropdown = utils.getByLabelText(/key/i)
         return {...utils, isMinorCheckbox, keysDropdown}

@@ -4,6 +4,7 @@ import styles from "../../assets/scss/components/common/_spotify-search-bar.modu
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 import { shakeAnimation } from "../../lib/library"
+import Loader from "./Loader";
 interface Props {
     setFormValue: any
     database: string
@@ -14,19 +15,18 @@ interface Props {
 export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : Props) {
 
     const [spotifyLink, setSpotifyLink] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
     const spotifySearchInput = useRef<HTMLInputElement>(null);
-
-    const url = `/api/v1/songs`
 
     async function handleGetFromSpotify() {
 
-
+        setFormValue({})
         if(!spotifyLink) {
             shakeAnimation(spotifySearchInput)
             return
         }
 
-        setFormValue({})
+
         const trackId : string = getSpotifyTrackId(spotifyLink)
 
         if(!trackId) {
@@ -34,8 +34,9 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             return
         }
 
+        setIsLoading(true)
+
         try {
-            console.log(user.tokenString)
             let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`,{},{
                 withCredentials: true,
                 headers: {
@@ -59,7 +60,10 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
                 })
             }
 
+            setIsLoading(false)
+
         } catch (err) {
+            setIsLoading(false)
             console.log(err)
         }
 
@@ -76,17 +80,20 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
         <div className={styles.container}>
             <input
                 name="spotifySearch"
-                className="form-control"
+                className={`${styles.searchBar} form-control`}
                 onChange={(e) => setSpotifyLink(e.target.value)}
                 ref={spotifySearchInput}
                 onClick={selectText}
                 placeholder="https://open.spotify.com/track/...."
             />
             <button
-                className="btn btn-primary"
+                className={`${styles.button} btn btn-primary`}
                 onClick={handleGetFromSpotify}
+                disabled={isLoading}
             >
-                Get from Spotify
+                <div>Get from Spotify</div>
+                {isLoading && <Loader />}
+
             </button>
         </div>
     )
