@@ -55,7 +55,7 @@ export default function MetaTool({ user } : Props) {
         let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
 
         let yearReleased = dateReleased?.slice(0,4)
-        let romTitleDisplayed = romTitle ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
+        let romTitleDisplayed = romTitle && showPinyin ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
 
         setText(`${romTitleDisplayed}${title}\n` +
             `${artist}\n` +
@@ -71,7 +71,7 @@ export default function MetaTool({ user } : Props) {
             setSearchLink(`https://www.google.com/search?q=${title}%20${language === 'mandarin' ? "歌词" : "lyrics"}`)
         }
 
-    }, [formValue, pinyinSyllable])
+    }, [formValue, pinyinSyllable, showPinyin])
 
     function clearSelection() {
         if(textAreaContainer.current) {
@@ -164,7 +164,7 @@ export default function MetaTool({ user } : Props) {
                 }
 
                 {
-                    isAlertOpen &&
+                    alertMessage &&
                     <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                 }
 
