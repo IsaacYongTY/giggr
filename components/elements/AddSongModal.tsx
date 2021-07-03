@@ -75,7 +75,7 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, data, user }: Props) {
 
-    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
 
     const [formValue, setFormValue] = useState<Form>({})
 
@@ -172,7 +172,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 }
             })
 
-            setIsAlertOpen(true)
+            setAlertMessage("added successfully")
 
             let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
             let refreshedMusicians = await loadUserMusicians(user)
@@ -183,7 +183,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             handleCloseModal()
 
             setTimeout(() => {
-                setIsAlertOpen(false)
+               setAlertMessage("")
             }, 5000)
 
 
@@ -224,7 +224,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             handleCloseModal()
 
             setTimeout(() => {
-                setIsAlertOpen(false)
+                setAlertMessage("")
             }, 5000)
 
         } catch (error) {
@@ -418,8 +418,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
                     <button className="btn btn-primary" onClick={() => console.log("generate metadata head")}>Generate Metadata Head</button>
                     {
-                        isAlertOpen &&
-                        <AlertBox message="added successfully" timeout={5} setIsAlertOpen={setIsAlertOpen}/>
+                        alertMessage &&
+                        <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                     }
                 </div>
 
