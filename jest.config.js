@@ -1,9 +1,9 @@
 module.exports = {
   verbose: true,
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'jsdom',
   transform: {
-    "^.+\\.(ts|js)x?$": "ts-jest"
+    "^.+\\.(ts|js)x?$": "babel-jest"
   },
   moduleNameMapper: {
     "\\.scss$": "identity-obj-proxy",
