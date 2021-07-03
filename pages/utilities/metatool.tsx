@@ -6,8 +6,7 @@ import AlertBox from "../../components/common/AlertBox";
 import withAuth from "../../middlewares/withAuth";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
-import Select from "react-select";
-import { ValueType } from "react-select/";
+import Select, { ValueType }  from "react-select";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 
 interface Option {
@@ -86,7 +85,6 @@ export default function MetaTool({ user } : Props) {
         setPinyinSyllable(selectedOption)
     }
 
-    console.log(formValue)
     return (
         <Layout user={user}>
             <div className={styles.container}>
@@ -147,7 +145,6 @@ export default function MetaTool({ user } : Props) {
                     <button className="btn btn-danger" onClick={clearSelection}>Clear</button>
                     <CopyToClipboardButton
                         sourceRef={textAreaContainer}
-                        setIsAlertOpen={setIsAlertOpen}
                         setAlertMessage={setAlertMessage}
                     />
                 </div>
@@ -167,7 +164,7 @@ export default function MetaTool({ user } : Props) {
 
                 {
                     isAlertOpen &&
-                    <AlertBox message={alertMessage} timeout={5} setIsAlertOpen={setIsAlertOpen}/>
+                    <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
                 }
             </div>
         </Layout>

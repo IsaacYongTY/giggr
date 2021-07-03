@@ -146,7 +146,6 @@ describe("<AddSongModal />", () => {
             expect(screen.getByText('C')).toBeInTheDocument()
             expect(screen.getByText('Bb')).toBeInTheDocument()
 
-            screen.debug()
             userEvent.click(isMinorCheckbox)
             expect(isMinorCheckbox).toBeChecked()
 
