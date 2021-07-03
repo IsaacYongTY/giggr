@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, waitFor} from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
-import { parseCookies, setCookie } from "nookies"
 import LoginPage from "../../pages/accounts/login"
 
 import '@testing-library/jest-dom/extend-expect'
@@ -10,9 +9,6 @@ import router from "next/router"
 
 jest.mock('next/router', () => require('next-router-mock'))
 jest.mock('axios')
-
-console.log(parseCookies)
-console.log(setCookie)
 
 describe("The login page", () => {
     let loginButton, emailInput, passwordInput;
