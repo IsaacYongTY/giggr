@@ -43,7 +43,6 @@ export default function MetaTool({ user } : Props) {
     const [pinyinSyllable, setPinyinSyllable] = useState({ value: 2, label: "2"})
     const [showPinyin, setShowPinyin] = useState(true)
 
-    const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [isContribute, setIsContribute] = useState(user.isAdmin)
 
@@ -76,7 +75,6 @@ export default function MetaTool({ user } : Props) {
     function clearSelection() {
         if(textAreaContainer.current) {
             textAreaContainer.current.innerHTML = ""
-            setIsAlertOpen(true)
             setAlertMessage("Content cleared")
         }
     }
