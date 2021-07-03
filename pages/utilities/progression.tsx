@@ -42,7 +42,7 @@ export default function Progression() {
     const [prog, setProg] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
-
+    const [errorMessage, setErrorMessage] = useState("")
     const textarea = useRef<HTMLTextAreaElement>(null)
 
     const options = [
@@ -60,7 +60,8 @@ export default function Progression() {
     }
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-        setForm(prevState => ({...prevState, [e.target.name]: e.target.value}))
+        let newValue = e.target.value
+        setForm(prevState => ({...prevState, [e.target.name]: newValue}))
     }
 
     function handleRadioChange(e: ChangeEvent<HTMLInputElement>) {
@@ -74,12 +75,25 @@ export default function Progression() {
     function handleGenerateProg() {
         let { key, progression, isFullBar,  spaces } = form || {}
 
+        if(!progression) {
+            setErrorMessage("Please input progression")
+            return
+        }
 
+        const invalidCharactersRegex = new RegExp("[^1-7#bmM]")
+        const isInvalidProgression = invalidCharactersRegex.test(progression)
+
+        if(isInvalidProgression) {
+            setErrorMessage("Input is invalid. valid inputs are 1-7, b, #, m, and M")
+            return
+        }
 
         setProg(prevState => prevState +
             (isFullBar ? fullBarProg(key, progression, spaces) : halfBarProg(key, progression, spaces)) +
             "\n\n"
         )
+
+        setErrorMessage("")
     }
 
     function handleSpacingChanges(selectedOption: ValueType<SpacingOptionType, false>) {
@@ -128,13 +142,16 @@ export default function Progression() {
                                 placeholder="1b73M4m5251..."
                                 value={form.progression}
                                 name="progression"
-                                onChange={handleInputChange}
+                                onChange={(e) => handleInputChange(e)}
                             />
                         </label>
                     </div>
 
                 </div>
 
+                {
+                    errorMessage && <div>{errorMessage}</div>
+                }
                 <div className={styles.radioRow}>
                     <label>
                         <input type="radio" name="fullBar" onChange={handleRadioChange} checked={form.isFullBar} />

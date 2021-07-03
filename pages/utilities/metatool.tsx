@@ -84,7 +84,6 @@ export default function MetaTool({ user } : Props) {
         setPinyinSyllable(selectedOption)
     }
 
-    console.log(formValue)
     return (
         <Layout user={user}>
             <div className={styles.container}>
