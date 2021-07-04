@@ -5,6 +5,7 @@ import DashboardCardList from "../components/dashboard/DashboardCardList";
 import axios from "axios";
 import withAuth from "../middlewares/withAuth";
 import styles from "../assets/scss/pages/_dashboard.module.scss";
+import { Switch } from "@material-ui/core";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 
@@ -45,6 +46,9 @@ function Dashboard({ gigs, songs, user } : any) {
         <Layout title="Dashboard" user={user}>
             <div className={styles.container}>
                 <h2>Welcome!</h2>
+                <Switch
+                    color="primary"
+                />
                 <DashboardCardList gigs={gigs} songs={songs}/>
             </div>
 
