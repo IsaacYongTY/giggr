@@ -30,6 +30,21 @@ $btn-radius: 0.4rem;
   }
 }
 
+.btn-secondary {
+  background-color: white;
+  border: 1px solid darken($blue,10%);
+  color: darken($blue,10%);
+
+  &:hover {
+    background-color: darken(white, 10%);
+  }
+
+  &:disabled {
+    background-color: lighten($blue, 15%);
+    cursor: not-allowed;
+  }
+}
+
 .btn-danger {
   background-color: #DD3444;
   border: none;
@@ -37,6 +52,28 @@ $btn-radius: 0.4rem;
 
   &:hover {
     background-color: darken(#DD3444, 10%);
+  }
+}
+
+.btn-outline {
+  border: $btn-radius solid black;
+  background-color: white;
+  color: $darkgrey;
+
+  &:hover {
+    border: $btn-radius  solid black;
+    background-color: $lightgrey;
+    color: $darkgrey;
+  }
+}
+
+.btn-danger-outlined {
+  background-color: white;
+  border: 1px solid #DD3444;
+  color: #DD3444;
+
+  &:hover {
+    background-color: darken(white, 10%);
   }
 }
 

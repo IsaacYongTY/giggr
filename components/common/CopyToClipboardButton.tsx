@@ -44,7 +44,7 @@ export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Pro
 
     return(
         <button
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={() => copyToClipboard(sourceRef)}
         >
             Copy To Clipboard
