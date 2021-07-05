@@ -36,8 +36,6 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     async function handleSignup(values : MyFormValues) {
 
         try {
-            console.log("values")
-            console.log(values)
             let { data } = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
 
             setCookie(null, "x-auth-token", `Bearer ${data.token}`, {

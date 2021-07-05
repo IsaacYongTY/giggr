@@ -95,7 +95,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             let { title, artist, romTitle, key, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
                 energy, danceability, valence, acousticness, instrumentalness, genres, moods, tags } = song
-            console.log(song)
+
             let value : Form = {
                 title,
                 romTitle,
@@ -193,7 +193,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
-    console.log(data)
     async function handleEditSong(id : number) {
 
         try {
@@ -214,10 +213,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             })
 
             let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
-            console.log(data)
 
             let refreshedMusicians = await loadUserMusicians(user)
-            console.log(refreshedMusicians)
+
             setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
