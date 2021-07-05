@@ -9,6 +9,8 @@ import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Select, { ValueType }  from "react-select";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 import Loader from "../../components/common/Loader";
+import convertRelativeKey from "../../lib/utils/convert-relative-key";
+import convertKeyToKeyModeInt from "../../lib/utils/convert-key-to-key-mode-int";
 
 interface Option {
     value: number,
@@ -47,15 +49,22 @@ export default function MetaTool({ user } : Props) {
     const [isContribute, setIsContribute] = useState(user.isAdmin)
 
     const textAreaContainer = useRef<HTMLDivElement>(null)
+    const [originalTempo, setOriginalTempo] = useState(0)
 
 
+    const threeFourToggleRef = useRef<HTMLButtonElement>(null)
+    const twelveEightToggleRef = useRef<HTMLButtonElement>(null)
 
+    let buttonTimeSignature;
     useEffect(() => {
         let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
 
         let yearReleased = dateReleased?.slice(0,4)
         let romTitleDisplayed = romTitle && showPinyin ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
 
+        setOriginalTempo(tempo)
+
+        buttonTimeSignature = timeSignature
         setText(`${romTitleDisplayed}${title}\n` +
             `${artist}\n` +
             `Key: ${convertKeyModeIntToKey(key, mode)}\n` +
@@ -82,6 +91,32 @@ export default function MetaTool({ user } : Props) {
     function handleChange(selectedOption: ValueType<Option, false>) {
         if(!selectedOption) return
         setPinyinSyllable(selectedOption)
+    }
+
+    function convertToTwelveEight() {
+
+        if(formValue.timeSignature === "12/8") return
+
+        twelveEightToggleRef?.current?.classList.add(styles.selected)
+        threeFourToggleRef?.current?.classList.remove(styles.selected)
+        setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo / 3, timeSignature: "12/8"}))
+    }
+
+
+    function convertToThreeFour() {
+        if(formValue.timeSignature === "3/4") return
+
+        threeFourToggleRef?.current?.classList.add(styles.selected)
+        twelveEightToggleRef?.current?.classList.remove(styles.selected)
+        setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo * 3, timeSignature: "3/4"}))
+    }
+
+    function toggleRelativeKey() {
+        const keyString = convertKeyModeIntToKey(formValue.key, formValue.mode)
+        const relativeKey = convertRelativeKey(keyString)
+        let [key, mode] = convertKeyToKeyModeInt(relativeKey)
+
+        setFormValue((prevState : any) => ({...prevState, key, mode}))
     }
 
     return (
@@ -119,10 +154,39 @@ export default function MetaTool({ user } : Props) {
                     </div>
                     {
                         searchLink &&
-                        <a href={searchLink} className={styles.searchLink} target="_blank">
-                            Search "{formValue?.title} {formValue?.language === 'mandarin' ? "歌词" : "lyrics"}" on Google
-                        </a>
+                            <>
+                                <a href={searchLink} className={styles.searchLink} target="_blank">
+                                    Search "{formValue?.title} {formValue?.language === 'mandarin' ? "歌词" : "lyrics"}" on Google
+                                </a>
+                                <label>
+                                    <input type="checkbox" onClick={toggleRelativeKey}/>
+                                    Toggle Relative Key
+                                </label>
+
+                            </>
+
                     }
+
+                    {
+                        (formValue.timeSignature === "3/4" || formValue.timeSignature === "12/8") &&
+                        <div className={styles.timeSignatureToggleGroup}>
+                            <button
+                                className={styles.timeSignatureToggle}
+                                ref={threeFourToggleRef}
+                                onClick={convertToThreeFour}
+                            >
+                                3/4
+                            </button>
+                            <button
+                                className={styles.timeSignatureToggle}
+                                ref={twelveEightToggleRef}
+                                onClick={convertToTwelveEight}
+                            >
+                                12/8
+                            </button>
+                        </div>
+                    }
+
                 </div>
 
 
@@ -141,7 +205,7 @@ export default function MetaTool({ user } : Props) {
 
 
                 <div className={styles.buttonRowContainer}>
-                    <button className="btn btn-danger" onClick={clearSelection}>Clear</button>
+                    <button className="btn btn-danger-outlined" onClick={clearSelection}>Clear</button>
                     <CopyToClipboardButton
                         sourceRef={textAreaContainer}
                         setAlertMessage={setAlertMessage}
