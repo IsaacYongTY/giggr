@@ -45,7 +45,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
             })
 
             let songData = response.data.result
-            console.log(response)
+
             songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs)
             setFormValue({
                 ...songData

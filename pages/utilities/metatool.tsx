@@ -103,12 +103,17 @@ export default function MetaTool({ user } : Props) {
     }
 
 
-    function convertToThreeFour() {
-        if(formValue.timeSignature === "3/4") return
+    function toggleTempoAndTimeSignature() {
+        if(formValue.timeSignature === "12/8") {
+            threeFourToggleRef?.current?.classList.add(styles.selected)
+            twelveEightToggleRef?.current?.classList.remove(styles.selected)
+            setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo * 3, timeSignature: "3/4"}))
+            return
+        }
 
-        threeFourToggleRef?.current?.classList.add(styles.selected)
-        twelveEightToggleRef?.current?.classList.remove(styles.selected)
-        setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo * 3, timeSignature: "3/4"}))
+        twelveEightToggleRef?.current?.classList.add(styles.selected)
+        threeFourToggleRef?.current?.classList.remove(styles.selected)
+        setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo / 3, timeSignature: "12/8"}))
     }
 
     function toggleRelativeKey() {
@@ -173,14 +178,14 @@ export default function MetaTool({ user } : Props) {
                             <button
                                 className={styles.timeSignatureToggle}
                                 ref={threeFourToggleRef}
-                                onClick={convertToThreeFour}
+                                onClick={toggleTempoAndTimeSignature}
                             >
                                 3/4
                             </button>
                             <button
                                 className={styles.timeSignatureToggle}
                                 ref={twelveEightToggleRef}
-                                onClick={convertToTwelveEight}
+                                onClick={toggleTempoAndTimeSignature}
                             >
                                 12/8
                             </button>
