@@ -65,42 +65,6 @@ describe("The metatool page", () => {
         })
     })
 
-
-    describe("The pinyin toggle", () => {
-        it("should toggle check when clicked", () => {
-            let { showPinyinCheckbox } = renderMetaTool()
-
-            userEvent.click(showPinyinCheckbox)
-            expect(showPinyinCheckbox).not.toBeChecked()
-
-            userEvent.click(showPinyinCheckbox)
-            expect(showPinyinCheckbox).toBeChecked()
-
-        })
-
-
-    })
-
-    describe("The pinyin dropdown", () => {
-        it("should open dropdown menu when clicked", () => {
-            let { pinyinDropdown } = renderMetaTool()
-
-            userEvent.click(pinyinDropdown)
-            let option1 = screen.getByText("1")
-            let option2 = screen.getByText(/all/i)
-            expect(option1).toBeInTheDocument()
-            expect(option2).toBeInTheDocument()
-
-            userEvent.click(option1)
-            expect(screen.getByText("1")).toBeInTheDocument()
-
-            userEvent.click(pinyinDropdown)
-            userEvent.click(option2)
-            expect(screen.getByText(/all/i)).toBeInTheDocument()
-        })
-    })
-
-
     describe("The Spotify search bar", () => {
 
         it("should have empty input when it first render", () => {
@@ -123,8 +87,8 @@ describe("The metatool page", () => {
 
             mockAxios.post.mockResolvedValueOnce({
                 data: {
-                        result: songData,
-                        message: "This is a mock resolved value"
+                    result: songData,
+                    message: "This is a mock resolved value"
                 }
             })
 
@@ -154,13 +118,10 @@ describe("The metatool page", () => {
 
             await waitFor(() => {
                 expect(axios.post).toBeCalledTimes(1)
+                jest.resetAllMocks()
             })
 
-
             // Unable to test content editable fiv
-
-
-
         })
 
         it("should trigger shake animation and red border if input is empty or invalid", async () => {
@@ -183,6 +144,135 @@ describe("The metatool page", () => {
     })
 
 
+
+    describe("The pinyin toggle", () => {
+        it("should toggle check when clicked", () => {
+            let { showPinyinCheckbox } = renderMetaTool()
+
+            userEvent.click(showPinyinCheckbox)
+            expect(showPinyinCheckbox).not.toBeChecked()
+
+            userEvent.click(showPinyinCheckbox)
+            expect(showPinyinCheckbox).toBeChecked()
+
+        })
+
+    })
+
+    describe("The pinyin dropdown", () => {
+        it("should open dropdown menu when clicked", () => {
+            let { pinyinDropdown } = renderMetaTool()
+
+            userEvent.click(pinyinDropdown)
+            let option1 = screen.getByText("1")
+            let option2 = screen.getByText(/all/i)
+            expect(option1).toBeInTheDocument()
+            expect(option2).toBeInTheDocument()
+
+            userEvent.click(option1)
+            expect(screen.getByText("1")).toBeInTheDocument()
+
+            userEvent.click(pinyinDropdown)
+            userEvent.click(option2)
+            expect(screen.getByText(/all/i)).toBeInTheDocument()
+        })
+    })
+
+    describe("Toggle time signature feature", () => {
+
+
+
+        let validUrl = "https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7"
+        const songDataInTwelveEight = {
+            title: '深夜',
+            artist: 'Isaac Yong',
+            key: 1,
+            mode: 0,
+            tempo: 171,
+            spotifyLink: 'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7',
+            durationMs: 263390,
+            timeSignature: '3/4',
+            energy: 0.409,
+            danceability: 0.408,
+            valence: 0.279,
+            acousticness: 0.74,
+            instrumentalness: 0,
+            verified: false,
+            dateReleased: '2019-09-19',
+            romTitle: 'Shen Ye',
+            language: 'mandarin',
+            initialism: 'sy'
+        }
+
+
+        it("should show time signature toggle if time signature is 3/4", async () => {
+            let { searchBar, getFromSpotifyButton } = renderMetaTool()
+
+
+            mockAxios.post.mockResolvedValueOnce({
+                data: {
+                    result: songDataInTwelveEight,
+                    message: "This is a mock 222"
+                }
+            })
+
+            userEvent.type(searchBar, validUrl)
+            userEvent.click(getFromSpotifyButton)
+
+            expect(await screen.findByRole("button", { name: "12/8"})).toBeInTheDocument()
+            expect(await screen.findByRole("button", { name: "3/4" })).toBeInTheDocument()
+
+
+        })
+
+        it("should render song's original time signature on button toggle", async () => {
+            let { searchBar, getFromSpotifyButton } = renderMetaTool()
+
+
+            mockAxios.post.mockResolvedValueOnce({
+                data: {
+                    result: songDataInTwelveEight,
+                    message: "This is a mock 222"
+                }
+            })
+
+            userEvent.type(searchBar, validUrl)
+            userEvent.click(getFromSpotifyButton)
+
+            const twelveEightButton = await screen.findByRole("button", { name: "12/8"})
+            const threeFourButton = await screen.findByRole("button", { name: "3/4" })
+
+            expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument()
+
+            userEvent.click(twelveEightButton)
+            expect(screen.getByText(/^.*Tempo: 57.*/)).toBeInTheDocument()
+
+            userEvent.click(threeFourButton)
+            expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument()
+
+        })
+
+        //contentEditable div not testable at the moment
+        it("should toggle time signature displayed", async () => {
+            let { searchBar, getFromSpotifyButton } = renderMetaTool()
+
+            // userEvent.type(searchBar, validUrl)
+            // userEvent.click(getFromSpotifyButton)
+            //
+            // mockAxios.post.mockResolvedValueOnce({
+            //     data: {
+            //         result: songDataInTwelveEight
+            //     }
+            // })
+            // await waitFor(() => {
+            //     expect(screen.getByText("Tempo: 171")).toBeInTheDocument()
+            // })
+            // userEvent.click(twelveEightButton)
+
+        })
+
+
+    })
 
     describe("The contribution checkbox", () => {
 
@@ -219,6 +309,52 @@ describe("The metatool page", () => {
 
     })
 
+    describe("The relative key checkbox", () => {
+        it("should show only after after clicking Get From Spotify button, with uncheck as default", async () => {
+            const { searchBar, getFromSpotifyButton } = renderMetaTool()
+
+            mockAxios.post.mockResolvedValueOnce({
+                data: {
+                    result: songData,
+                    message: "This is a mock resolved value"
+                }
+            })
+
+            userEvent.type(searchBar, validUrl)
+            userEvent.click(getFromSpotifyButton)
+
+            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /toggle relative key/i})
+            expect(relativeKeyCheckbox).toBeInTheDocument()
+            expect(relativeKeyCheckbox).not.toBeChecked()
+        })
+
+        it("should be unchecked as default, and toggle check and relative key value when clicked", async () => {
+            const { searchBar, getFromSpotifyButton } = renderMetaTool()
+
+            mockAxios.post.mockResolvedValueOnce({
+                data: {
+                    result: songData,
+                    message: "This is a mock resolved value"
+                }
+            })
+
+            userEvent.type(searchBar, validUrl)
+            userEvent.click(getFromSpotifyButton)
+
+            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /toggle relative key/i})
+
+            expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument()
+
+            userEvent.click(relativeKeyCheckbox)
+            expect(relativeKeyCheckbox).toBeChecked()
+            expect(screen.getByText(/^.+Key: Bm.+/)).toBeInTheDocument()
+
+            userEvent.click(relativeKeyCheckbox)
+            expect(relativeKeyCheckbox).not.toBeChecked()
+            expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument()
+        })
+
+    })
     describe("Copy to Clipboard button", () => {
         it.todo("should copy text in content editable div to clipboard")
     })

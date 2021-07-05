@@ -168,7 +168,7 @@ export default function Progression() {
                                 placeholder="1b73M4m5251..."
                                 value={form.progression}
                                 name="progression"
-                                onChange={(e) => handleInputChange(e)}
+                                onChange={handleInputChange}
                             />
 
                             {
@@ -223,7 +223,7 @@ export default function Progression() {
 
 
                 <div className={styles.buttonRow}>
-                    <button className="btn btn-danger" onClick={handleClear}>Clear</button>
+                    <button className="btn btn-danger-outlined" onClick={handleClear}>Clear</button>
                     <CopyToClipboardButton sourceRef={textarea} setAlertMessage={setAlertMessage} />
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
                 </div>
