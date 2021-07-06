@@ -8,7 +8,10 @@ import {parseCookies} from "nookies";
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {
 
     const [csvFile, setCsvFile] = useState<File>()
-    const fileUploadInput = useRef(null);
+    const fileUploadInput = useRef<HTMLInputElement>(null);
+    const [errorMessage, setErrorMessage] = useState("")
+    const [successMessage, setSuccessMessage] = useState("")
+
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
 
         if(e.target.files) {
@@ -18,23 +21,41 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
     }
 
     function handleCloseModal() {
+        setCsvFile(undefined)
+        setErrorMessage("")
+        setSuccessMessage("")
         setIsModalOpen(false)
     }
 
 
 
     async function handleCsvSubmit() {
-        console.log(csvFile)
 
-        if(csvFile) {
-            let url = `/api/v1/songs/csv`
 
-            if(database === 'master') {
-                url = `/api/v1/admin/songs/csv`
-            }
+        if(!csvFile) {
+            setErrorMessage("Please select a .csv file before submitting")
+            return
+        }
 
+        setErrorMessage("")
+
+        let url = `/api/v1/songs/csv`
+
+
+        if(database === 'master') {
+            url = `/api/v1/admin/songs/csv`
+        }
+
+
+
+        try {
             let formData = new FormData()
-            formData.append("file", csvFile)
+
+
+            if(!fileUploadInput.current) {
+                return
+            }
+            formData.append("file", fileUploadInput.current.files)
 
             const cookies = parseCookies()
             await axios.post(url, formData, {
@@ -44,9 +65,17 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                     "Content-Type": "multipart/form-data"
                 }
             })
+            console.log('suceess')
+            setSuccessMessage("CSV uploaded successfully!")
+            setCsvFile(undefined)
+        } catch(error) {
+            console.log(error)
         }
 
+
+
     }
+
 
 
     return (
@@ -58,12 +87,15 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                 <span className={`material-icons ${styles.cancelButton}`} onClick={handleCloseModal}>
                     close
                 </span>
-                <label  className={styles.customUpload} ref={fileUploadInput}>
-                    <input  ref={fileUploadInput} type="file" name="file" onChange={handleOnChange} accept=".csv"/>
+                <label  className={styles.customUpload}>
+                    <input  ref={fileUploadInput} type="file" onChange={handleOnChange} name="file" accept="text/csv"/>
                     <span className="material-icons">
                         file_upload
                     </span>
-                    <div>{csvFile ? csvFile.name : "Click to Upload CSV"}</div>
+                    <div>Click to Upload CSV</div>
+                    {csvFile && <div> {csvFile.name}</div> }
+                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                    {successMessage && <div>{successMessage}</div>}
                 </label>
 
 

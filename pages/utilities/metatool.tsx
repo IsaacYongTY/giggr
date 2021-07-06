@@ -56,6 +56,7 @@ export default function MetaTool({ user } : Props) {
     const twelveEightToggleRef = useRef<HTMLButtonElement>(null)
 
     let buttonTimeSignature;
+
     useEffect(() => {
         let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
 
@@ -93,16 +94,6 @@ export default function MetaTool({ user } : Props) {
         setPinyinSyllable(selectedOption)
     }
 
-    function convertToTwelveEight() {
-
-        if(formValue.timeSignature === "12/8") return
-
-        twelveEightToggleRef?.current?.classList.add(styles.selected)
-        threeFourToggleRef?.current?.classList.remove(styles.selected)
-        setFormValue((prevState : any) => ({ ...prevState, tempo: originalTempo / 3, timeSignature: "12/8"}))
-    }
-
-
     function toggleTempoAndTimeSignature() {
         if(formValue.timeSignature === "12/8") {
             threeFourToggleRef?.current?.classList.add(styles.selected)
@@ -127,12 +118,15 @@ export default function MetaTool({ user } : Props) {
     return (
         <Layout user={user}>
             <div className={styles.container}>
+                <div className={styles.searchBarContainer}>
+
                 <SpotifySearchBar
                     setFormValue={setFormValue}
                     isContribute={isContribute}
                     user={user}
                     database="master"
                 />
+                </div>
 
                 <div className={styles.pinyinRow}>
                     <label>
@@ -158,7 +152,7 @@ export default function MetaTool({ user } : Props) {
                         />
                     </div>
                     {
-                        searchLink &&
+                        formValue.title &&
                             <>
                                 <a href={searchLink} className={styles.searchLink} target="_blank">
                                     Search "{formValue?.title} {formValue?.language === 'mandarin' ? "歌词" : "lyrics"}" on Google
