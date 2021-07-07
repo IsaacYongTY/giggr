@@ -11,12 +11,14 @@
   margin: auto auto;
 
   border: 1px solid lightgray;
+  border-radius: 1rem;
   box-shadow: #b7b7b7 0 0 1.5rem;
   left: 50%;
   right: auto;
   top: 50%;
   bottom: auto;
   transform: translate(-50%, -50%);
+
 }
 
 .container {
@@ -43,6 +45,7 @@
 .customUpload {
 
   border: 1rem dashed variables.$blue;
+  border-radius: 0.5rem;
   height: 100%;
   cursor: pointer;
   margin-bottom: 2rem;
@@ -50,6 +53,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+  background-color: darken(white, 5%);
+
+    span {
+      animation: arrow-grow 0.3s 0.1s forwards ease-out;
+    }
+
+
+}
 
 
   span {
@@ -68,6 +81,16 @@
 
   &:hover {
     color: darken(#333333, 10%);
+  }
+}
+
+@keyframes arrow-grow {
+  0% {
+    transform: scale(2);
+  }
+
+  100% {
+    transform: scale(2.4);
   }
 }
 

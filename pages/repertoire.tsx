@@ -9,7 +9,6 @@ import AddSongModal from "../components/elements/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
 import { loadUserData } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
-import axios from "axios";
 import ActionRow from "../components/repertoire/ActionRow";
 import Musician from "../lib/types/musician";
 
@@ -22,7 +21,6 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
         return {
             props: {
                 initialSongs: data.songs,
-                initialMusicians: data.musicians,
                 initialData: data,
                 user: req.user
             }
@@ -40,39 +38,33 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 
 type Props = {
     initialSongs: Array<Song>,
-    initialMusicians: Musician[],
     initialData: {
         songs: Song[]
         musicians: Musician[]
         genres: {
             id: number,
             name: string
-        },
+        }[],
         tags: {
             id: number,
             name: string
-        },
+        }[],
         moods: {
             id: number,
             name: string
-        },
+        }[],
         languages: {
             id: number,
             name: string
-        },
+        }[],
     }
     user: any
 }
 
-export default function Repertoire({ initialSongs, initialMusicians, initialData, user }: Props) {
-    console.log(initialData.musicians)
+export default function Repertoire({ initialSongs, initialData, user }: Props) {
+
     const [songs, setSongs] = useState(initialSongs)
     const [musicians, setMusicians] = useState(initialData.musicians)
-    const [genres, setGenres] = useState(initialData.genres)
-    const [tags, setTags] = useState(initialData.tags)
-    const [moods, setMoods] = useState(initialData.moods)
-    const [languages, setLanguages] = useState(initialData.languages)
-
 
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
@@ -80,10 +72,6 @@ export default function Repertoire({ initialSongs, initialMusicians, initialData
     const [data, setData] = useState(initialData)
     console.log(data)
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    function handleOpenModal() {
-        setIsModalOpen(true)
-    }
 
     console.log(initialData)
 
@@ -130,8 +118,6 @@ export default function Repertoire({ initialSongs, initialMusicians, initialData
                     setMusicians={setMusicians}
                     data={data}
                     user={user}
-
-
                 />
 
         </>
