@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useRef } from "react"
+import React, {ChangeEvent, useState, useRef, useEffect} from "react"
 import axios from "axios";
 import FormData from "form-data";
 import styles from "../../assets/scss/components/_csv-upload-modal.module.scss"
@@ -13,7 +13,6 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
     const [successMessage, setSuccessMessage] = useState("")
 
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-
         if(e.target.files) {
             console.log(e.target.files[0])
             setCsvFile(e.target.files[0])
@@ -26,8 +25,6 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
         setSuccessMessage("")
         setIsModalOpen(false)
     }
-
-
 
     async function handleCsvSubmit() {
 
@@ -55,7 +52,7 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
             if(!fileUploadInput.current) {
                 return
             }
-            formData.append("file", fileUploadInput.current.files)
+            formData.append("file", csvFile)
 
             const cookies = parseCookies()
             await axios.post(url, formData, {
@@ -65,23 +62,21 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                     "Content-Type": "multipart/form-data"
                 }
             })
-            console.log('suceess')
+
             setSuccessMessage("CSV uploaded successfully!")
             setCsvFile(undefined)
         } catch(error) {
             console.log(error)
+            setErrorMessage("Upload failed. Please try again later.")
         }
-
-
-
     }
-
 
 
     return (
         <Modal
             isOpen={isModalOpen}
             className={styles.modal}
+            ariaHideApp={false}
         >
             <div className={`${styles.container}`}>
                 <span className={`material-icons ${styles.cancelButton}`} onClick={handleCloseModal}>
