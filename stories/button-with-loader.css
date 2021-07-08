@@ -1,0 +1,25 @@
+.btn-primary {
+    background-color: #52ABCD;
+    border: none;
+    color: white;
+    font-size: 1.6rem;
+    height: 4rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+
+}
+
+.btn-primary:hover {
+     background-color: #4998b6;
+ }
+
+.btn-primary:disabled {
+     background-color: #56b4d7;
+
+     cursor: not-allowed;
+ }
