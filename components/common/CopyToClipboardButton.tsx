@@ -13,7 +13,7 @@ export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Pro
             let el = sourceRef.current; //get element id
             if (window.getSelection && document.createRange) { //Browser compatibility
                 sel = window.getSelection();
-                console.log(sel.toString())
+
                 if (sel.toString() === '') { //no text selection
                     window.setTimeout(function () {
                         range = document.createRange(); //range object

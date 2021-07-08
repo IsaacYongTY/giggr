@@ -1,15 +1,17 @@
+import Musician from "./musician";
+
 export interface Artist {
         [key : string] : any,
         name: string,
         romName: string,
-        enName: string
+        spotifyName: string
 
 
 }
 
 
 export default interface Song {
-        [key: string] : any,
+        // [key: string] : any,
         id: number,
         title: string,
         romTitle: string,
@@ -20,7 +22,7 @@ export default interface Song {
 
         createdAt: Date,
         updatedAt: Date,
-        dateReleased: Date,
+        dateReleased: string,
         durationMinSec: string,
         durationMs: number,
         timeSignature: string,
@@ -30,6 +32,7 @@ export default interface Song {
         key: number,
         myKey?: string,
         languageId: number,
+        language: { id: number, name: string}
         mode: number,
 
         spotifyLink: string,
@@ -44,13 +47,15 @@ export default interface Song {
 
         verified: boolean,
 
-
-
-        mood: any,
-        genre: any,
-        tags: any,
         performStatus?: string,
         status?: string,
+
+        composers: Musician[],
+        songwriters: Musician[],
+        arrangers: Musician[],
+        genres: { id: number, name: string}[]
+        moods: { id: number, name: string}[]
+        tags: { id: number, name: string}[]
         // enName: string,
 
 }

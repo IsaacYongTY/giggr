@@ -1,5 +1,5 @@
 import Form from "../../lib/types/Form"
-import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
+import generateMetaData from "../../lib/utils/generate-metadata";
 
 const sampleForm : Form = {
     title: "不遗憾",
@@ -36,30 +36,6 @@ const sampleForm2 : Form = {
     tags: [{value: "guitar", label: "guitar"}]
 
 }
-function generateMetaData(form: Form, pinyinSyllableNum = 0) : string {
-
-    let { title, romTitle, artist, key, mode, tempo, durationMinSec,
-        timeSignature, dateReleased, initialism, language } = form
-
-    const displayedPinyin = pinyinSyllableNum && romTitle
-        ? romTitle.split(' ').slice(0,pinyinSyllableNum).join(' ')
-        : ""
-
-    const keyString = key !== undefined && mode !== undefined
-        ? convertKeyModeIntToKey(key, mode)
-        : ""
-
-    const yearReleased = dateReleased?.slice(0,4)
-
-    return `${displayedPinyin} ${title}\n` +
-    `${artist}\n` +
-    `Key: ${keyString}\n` +
-    `Tempo: ${tempo}\n` +
-    `Duration: ${durationMinSec}\n` +
-    `Time: ${timeSignature}\n`+
-    `Keywords: ${initialism}, ${language}\n\n` +
-    `Year Released: ${yearReleased}`
-}
 
 describe("generateMetaData", () => {
     it("should return metadata in OnSong format", () => {
@@ -91,6 +67,43 @@ describe("generateMetaData", () => {
             "Time: 4/4\n" +
             "Keywords: wan, mandarin\n\n" +
             "Year Released: 2008"
+        )
+    })
+
+    it("should return empty string if the parameters are not present", () => {
+        expect(generateMetaData( {
+            title: "我爱你"
+        }, 99)).toBe("我爱你\n" +
+            "Key: \n" +
+            "Tempo: \n" +
+            "Duration: \n" +
+            "Time: \n" +
+            "Keywords: \n\n" +
+            "Year Released: "
+        )
+
+        expect(generateMetaData( {
+            title: "我爱你",
+            language: "mandarin"
+        })).toBe("我爱你\n" +
+            "Key: \n" +
+            "Tempo: \n" +
+            "Duration: \n" +
+            "Time: \n" +
+            "Keywords: mandarin\n\n" +
+            "Year Released: "
+        )
+
+        expect(generateMetaData( {
+            title: "我爱你",
+            initialism: "wan"
+        })).toBe("我爱你\n" +
+            "Key: \n" +
+            "Tempo: \n" +
+            "Duration: \n" +
+            "Time: \n" +
+            "Keywords: wan\n\n" +
+            "Year Released: "
         )
     })
 })
