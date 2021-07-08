@@ -1,0 +1,15 @@
+.btn-primary {
+    background-color: blue;
+    border: none;
+    color: white;
+
+  &:hover {
+       background-color: darken(blue, 10%);
+   }
+
+  &:disabled {
+       background-color: lighten(blue, 15%);
+
+       cursor: not-allowed;
+   }
+}
