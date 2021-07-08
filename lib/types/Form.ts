@@ -1,0 +1,42 @@
+interface Option {
+    value: string,
+    label: string
+}
+
+export default interface Form {
+
+    title?: string
+    romTitle?: string
+    artist?: string
+
+    key?: number
+    mode?: number
+    tempo?: number,
+
+    durationMinSec?: string
+    timeSignature?: string
+    language?: string
+
+    spotifyLink?: string
+    youtubeLink?: string
+    otherLink?: string
+
+    composers?: Option[]
+    songwriters?: Option[]
+    arrangers?: Option[]
+
+    initialism?: string
+
+    acousticness?: number
+    danceability?: number
+    energy?: number
+    instrumentalness?: number
+    valence?: number
+
+    moods?: Option[]
+    genres?: Option[]
+    tags?: Option[]
+
+    dateReleased?: string
+
+}
