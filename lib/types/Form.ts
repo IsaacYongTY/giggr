@@ -39,4 +39,9 @@ export default interface Form {
 
     dateReleased?: string
 
+    // temporary until I understand how to make type flexible
+    progression?: string
+    isFullBar?: boolean,
+    spaces?: number
+
 }
