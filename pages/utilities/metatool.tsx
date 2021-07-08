@@ -4,13 +4,14 @@ import SpotifySearchBar from "../../components/common/SpotifySearchBar";
 import styles from "../../assets/scss/pages/_metatool.module.scss";
 import AlertBox from "../../components/common/AlertBox";
 import withAuth from "../../middlewares/withAuth";
-import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Select, { ValueType }  from "react-select";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 import Loader from "../../components/common/Loader";
 import convertRelativeKey from "../../lib/utils/convert-relative-key";
 import convertKeyToKeyModeInt from "../../lib/utils/convert-key-to-key-mode-int";
+import generateMetaData from "../../lib/utils/generate-metadata";
+import Form from "../../lib/types/Form";
 
 interface Option {
     value: number,
@@ -55,26 +56,17 @@ export default function MetaTool({ user } : Props) {
     const threeFourToggleRef = useRef<HTMLButtonElement>(null)
     const twelveEightToggleRef = useRef<HTMLButtonElement>(null)
 
-    let buttonTimeSignature;
+
 
     useEffect(() => {
-        let { title, romTitle, artist, key, mode, tempo, durationMs, timeSignature, initialism, language, dateReleased } : any = formValue || {}
+        let { title, tempo, language } : Form = formValue
 
-        let yearReleased = dateReleased?.slice(0,4)
-        let romTitleDisplayed = romTitle && showPinyin ? romTitle.split(' ').slice(0, pinyinSyllable.value).join(' ') + " " : ""
+        if(tempo) {
+            setOriginalTempo(tempo)
+        }
 
-        setOriginalTempo(tempo)
-
-        buttonTimeSignature = timeSignature
-        setText(`${romTitleDisplayed}${title}\n` +
-            `${artist}\n` +
-            `Key: ${convertKeyModeIntToKey(key, mode)}\n` +
-            `Tempo: ${tempo}\n` +
-            `Duration: ${convertDurationMsToMinSec(durationMs)}\n` +
-            `Time: ${timeSignature}\n` +
-            `Keywords: ${initialism}, ${language}\n\n` +
-            `Year Released: ${yearReleased}`
-        )
+        const metaData = generateMetaData(formValue, pinyinSyllable.value)
+        setText(metaData)
 
         if(title) {
             setSearchLink(`https://www.google.com/search?q=${title}%20${language === 'mandarin' ? "歌词" : "lyrics"}`)

@@ -35,7 +35,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                     "x-auth-token": `Bearer ${user.tokenString}`
                 }
             })
-            setSongs((prevState : Song) => prevState.filter((song: Song) => song.id !== id))
+            setSongs((prevState: Song[]) => prevState.filter((song: Song) => song.id !== id))
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")
