@@ -12,7 +12,7 @@ import Form from "../lib/types/Form";
 
 type Props = {
     form: Form
-    setForm: Dispatch<SetStateAction<Form>>
+    setForm: Dispatch<SetStateAction<any>>
     defaultKey?: string
     showIsMinorCheckbox? : boolean
 }
@@ -57,7 +57,7 @@ export default function KeysDropdown({ form, setForm, defaultKey, showIsMinorChe
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
         setKeyOptions(majorKeyOptions)
-        setForm(prevState => ({...prevState, key, mode}))
+        setForm((prevState: any) => ({...prevState, key, mode}))
 
     }
 
@@ -75,7 +75,7 @@ export default function KeysDropdown({ form, setForm, defaultKey, showIsMinorChe
 
             if(foundKey) {
                 let [key, mode] = convertKeyToKeyModeInt(foundKey.value)
-                setForm(prevState => ({...prevState, key, mode }))
+                setForm((prevState: any) => ({...prevState, key, mode }))
                 // setKey(foundKey)
             }
         }
