@@ -1,5 +1,7 @@
 import React from "react"
-import "./button-with-loader.css";
+
+import Loader from "./Loader";
+import styles from "../../assets/scss/components/common/_button-with-loader.module.scss";
 
 interface ButtonProps {
     /**
@@ -22,6 +24,7 @@ interface ButtonProps {
      * Optional click handler
      */
     onClick?: () => void;
+    isLoading: boolean
 }
 
 
@@ -30,10 +33,20 @@ export default function ButtonWithLoader({
      size = 'medium',
      backgroundColor,
      label,
+     onClick,
+    isLoading,
      ...props
  }: ButtonProps) {
 
     return (
-        <button className="btn-primary">testing</button>
+        <button
+            className={`${styles.btnPrimary} btn btn-primary`}
+            onClick={onClick}
+            disabled={isLoading}
+        >
+            <div>{label}</div>
+            {isLoading && <Loader />}
+
+        </button>
     )
 }
