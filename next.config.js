@@ -1,4 +1,5 @@
 const path = require('path')
+
 const withTM = require('next-transpile-modules')([
     '@fullcalendar/common',
     '@fullcalendar/daygrid',
@@ -6,12 +7,13 @@ const withTM = require('next-transpile-modules')([
     '@fullcalendar/timegrid'
 ])
 
+
 module.exports = withTM({
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')]
     },
-    future: {
-        webpack5: true,
-    }
+    // future: {
+    //     webpack5: true,
+    // }
 
 })

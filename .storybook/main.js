@@ -1,4 +1,3 @@
-const path = require("path")
 
 module.exports = {
   "stories": [
@@ -9,7 +8,6 @@ module.exports = {
     "@storybook/preset-scss",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-
-  ],
-
+    "storybook-addon-material-ui"
+  ]
 }

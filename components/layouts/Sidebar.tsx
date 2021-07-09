@@ -3,6 +3,7 @@ import styles from '../../assets/scss/components/layouts/_sidebar.module.scss'
 import SidebarRow from "./SidebarRow";
 import Link from "next/link";
 import Submenu from "./Submenu";
+import Image from "next/image";
 
 type Props = {
     isOpen: boolean
@@ -44,7 +45,9 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     {
                         isOpen &&
                         <Link href="/dashboard">
-                            <div className="logo logo-white" />
+                            <div className="logo">
+                                <Image src={"/img/logos/giggr-logo-white-600x250.png"} alt="white giggr logo" width={650} height={500} />
+                            </div>
                         </Link>
                     }
                 </div>
