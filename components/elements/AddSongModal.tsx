@@ -18,6 +18,7 @@ import KeysDropdown from "../KeysDropdown";
 import CategoriesDropdown from "../CategoriesDropdown";
 
 import generateMetaData from "../../lib/utils/generate-metadata";
+import ButtonWithLoader from "../common/ButtonWithLoader";
 
 type Option = {
     value: string,
@@ -44,6 +45,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     const [alertMessage, setAlertMessage] = useState("")
     const [form, setForm] = useState<Form>({})
+    const [isLoading, setIsLoading] = useState(false)
 
     let url = `/api/v1/songs`
 
@@ -118,6 +120,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     async function handleAddSong() {
+        setIsLoading(true)
         try {
             let { composers, songwriters, arrangers, genres, moods, tags } = form
             await axios.post(url, {
@@ -145,12 +148,16 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             handleCloseModal()
 
+            setIsLoading(false)
+
             setTimeout(() => {
                setAlertMessage("")
             }, 5000)
 
 
+
         } catch (error) {
+            setIsLoading(false)
             console.log('wentwrong')
             console.log(error)
         }
@@ -381,19 +388,18 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     {
                         type === 'edit' && song
                             ?
-                            <button
-                                className="btn btn-primary"
+                            <ButtonWithLoader
                                 onClick={() => handleEditSong(song.id)}
-                            >
-                                Confirm Edit
-                            </button>
+                                isLoading={isLoading}
+                                label="Confirm Edit"
+                            />
                             :
-                            <button
-                                className="btn btn-primary"
+                            <ButtonWithLoader
                                 onClick={handleAddSong}
-                            >
-                                Add
-                            </button>
+                                isLoading={isLoading}
+                                label="Add"
+                            />
+
                     }
                     <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
                     <button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>
