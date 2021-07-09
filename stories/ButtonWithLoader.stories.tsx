@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import ButtonWithLoader from "./ButtonWithLoader";
+import ButtonWithLoader from "../components/common/ButtonWithLoader";
 
 export default {
     title: 'Example/ButtonWithLoader',

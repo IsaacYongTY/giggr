@@ -1,5 +1,7 @@
-.btn-primary {
-    background-color: #52ABCD;
+@import "../../variables";
+
+.btnPrimary {
+    background-color: $blue;
     border: none;
     color: white;
     font-size: 1.6rem;
@@ -12,14 +14,15 @@
     align-items: center;
     white-space: nowrap;
 
+    &:hover {
+        background-color: darken($blue, 10%);
+    }
+
+    &:disabled {
+    background-color: lighten($blue, 15%);
+
+    cursor: not-allowed;
 }
 
-.btn-primary:hover {
-     background-color: #4998b6;
- }
+}
 
-.btn-primary:disabled {
-     background-color: #56b4d7;
-
-     cursor: not-allowed;
- }
