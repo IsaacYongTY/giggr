@@ -323,7 +323,7 @@ describe("The metatool page", () => {
             userEvent.type(searchBar, validUrl)
             userEvent.click(getFromSpotifyButton)
 
-            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /toggle relative key/i})
+            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /relative key/i})
             expect(relativeKeyCheckbox).toBeInTheDocument()
             expect(relativeKeyCheckbox).not.toBeChecked()
         })
@@ -341,7 +341,7 @@ describe("The metatool page", () => {
             userEvent.type(searchBar, validUrl)
             userEvent.click(getFromSpotifyButton)
 
-            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /toggle relative key/i})
+            const relativeKeyCheckbox = await screen.findByRole("checkbox", { name: /relative key/i})
 
             expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument()
 

@@ -10,6 +10,9 @@ import {
 } from "../../lib/utils/progression-generator-functions";
 import CopyToClipboardButton from "../../components/common/CopyToClipboardButton";
 import AlertBox from "../../components/common/AlertBox";
+import {GetServerSideProps} from "next";
+import withAuth from "../../middlewares/withAuth";
+import {loadUserData} from "../../lib/library";
 
 interface Form {
     key: number
@@ -28,7 +31,21 @@ interface SpacingOptionType {
     label: number
 }
 
-export default function Progression() {
+interface Props {
+    user: any
+}
+
+export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
+
+    return {
+        props: {
+            user: req.user
+        }
+    }
+
+})
+
+export default function Progression({ user } : Props) {
     const defaultKey = keyMap[0]
 
     const [form, setForm] = useState<Form>({
@@ -42,6 +59,7 @@ export default function Progression() {
     const [prog, setProg] = useState("")
 
     const [alertMessage, setAlertMessage] = useState("")
+    const [alertType, setAlertType] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
 
     const textarea = useRef<HTMLTextAreaElement>(null)
@@ -128,10 +146,6 @@ export default function Progression() {
         setErrorMessage("")
     }
 
-    const user = {
-        email: "isaac@gmail.com",
-        tierId: 4
-    }
 
     return (
         <Layout title="Progression Generator" user={user} >
@@ -223,11 +237,20 @@ export default function Progression() {
 
                 <div className={styles.buttonRow}>
                     <button className="btn btn-danger-outlined" onClick={handleClear}>Clear</button>
-                    <CopyToClipboardButton sourceRef={textarea} setAlertMessage={setAlertMessage} />
+                    <CopyToClipboardButton
+                        sourceRef={textarea}
+                        setAlertMessage={setAlertMessage}
+                        setAlertType={setAlertType}
+                    />
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
                 </div>
                 {
-                    alertMessage && <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
+                    alertMessage &&
+                    <AlertBox
+                        alertMessage={alertMessage}
+                        setAlertMessage={setAlertMessage}
+                        type={alertType}
+                    />
                 }
 
             </div>
