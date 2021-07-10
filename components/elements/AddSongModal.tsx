@@ -21,6 +21,7 @@ import generateMetaData from "../../lib/utils/generate-metadata";
 import ButtonWithLoader from "../common/ButtonWithLoader";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import MetadataBody from "../MetadataBody";
 
 
 type Option = {
@@ -418,32 +419,41 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                             }
                             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-
-                            {
-                                alertMessage &&
-                                <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
-                            }
                         </div>
 
                     </TabPanel>
                     <TabPanel>
-                        <div>
-                            {/*<button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>*/}
+                        <MetadataBody
+                            formValue={form}
+                            setFormValue={setForm}
+                            setAlertMessage={setAlertMessage}
+                            setAlertType={setAlertType}
+                        />
 
-                            <label>
-                                <div>Result:</div>
-                                <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>
-                            </label>
-
-
+                        <div className={styles.buttonRow}>
                             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-
                         </div>
+
+                        {/*<div>*/}
+                        {/*    /!*<button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>*!/*/}
+
+                        {/*    <label>*/}
+                        {/*        <div>Result:</div>*/}
+                        {/*        <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>*/}
+                        {/*    </label>*/}
+
+
+
+
+                        {/*</div>*/}
                     </TabPanel>
                 </Tabs>
 
 
-
+                {
+                    alertMessage &&
+                    <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
+                }
 
 
 

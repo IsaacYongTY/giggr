@@ -383,7 +383,7 @@ describe("<AddSongModal />", () => {
     describe("The behaviour of Generate Metadata button",  () => {
 
         it("should display the metadata head", async () => {
-            let { generateMetaDataTab } = renderAddSongModal({
+            let {generateMetaDataTab} = renderAddSongModal({
                 type: "edit",
 
                 song: {
@@ -423,18 +423,16 @@ describe("<AddSongModal />", () => {
             userEvent.click(generateMetaDataTab)
 
 
-            const textarea = screen.getByRole("textbox", { name: /result.*/i })
-            expect(textarea).toHaveValue("Wo Ai 我爱你\n" +
-                "Crowd Lu\n" +
-                "Key: Bm\n" +
-                "Tempo: 93\n" +
-                "Duration: 4:45\n" +
-                "Time: 4/4\n" +
-                "Keywords: wan, mandarin\n\n" +
-                "Year Released: 2008")
-            })
+            expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument()
+            expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument()
+            expect(screen.getByText(/Key: Bm/i)).toBeInTheDocument()
+            expect(screen.getByText(/Tempo: 93/i)).toBeInTheDocument()
+            expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument()
+            expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument()
+            expect(screen.getByText(/Keywords: wan, mandarin/i)).toBeInTheDocument()
+            expect(screen.getByText(/Year Released: 2008/i)).toBeInTheDocument()
 
-
+        })
 
     })
 })
