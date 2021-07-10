@@ -3,8 +3,9 @@ import React, {Dispatch, RefObject, SetStateAction } from "react"
 interface Props {
     sourceRef:  RefObject<HTMLDivElement |HTMLTextAreaElement>
     setAlertMessage: Dispatch<SetStateAction<string>>
+    setAlertType: Dispatch<SetStateAction<string>>
 }
-export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Props) {
+export default function CopyToClipboardButton({sourceRef, setAlertMessage, setAlertType} : Props) {
 
     function copyToClipboard(sourceRef : RefObject<HTMLDivElement | HTMLTextAreaElement>) {
 
@@ -27,6 +28,7 @@ export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Pro
                         sel.removeAllRanges()
 
                         setAlertMessage("Copied to clipboard!")
+                        setAlertType("success")
 
                     }, 1);
                 }
@@ -38,6 +40,7 @@ export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Pro
 
             setTimeout(() => {
                 setAlertMessage("")
+                setAlertType("")
             }, 3000)
 
         }
