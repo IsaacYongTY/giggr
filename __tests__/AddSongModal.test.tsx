@@ -89,12 +89,12 @@ function renderAddSongModal(props = {}) {
     const genresDropdown = utils.getByLabelText(/genres/i)
     const moodsDropdown = utils.getByLabelText(/moods/i)
     const tagsDropdown = utils.getByLabelText(/tags/i)
-    const generateMetaDataButton = utils.getByRole("button", { name: /generate metadata.*/i })
+    const generateMetaDataTab = utils.getByText(/generate metadata.*/i)
 
 
 
     return {...utils, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown,
-        moodsDropdown, tagsDropdown, generateMetaDataButton
+        moodsDropdown, tagsDropdown, generateMetaDataTab
     }
 }
 
@@ -383,7 +383,7 @@ describe("<AddSongModal />", () => {
     describe("The behaviour of Generate Metadata button",  () => {
 
         it("should display the metadata head", async () => {
-            let { generateMetaDataButton } = renderAddSongModal({
+            let { generateMetaDataTab } = renderAddSongModal({
                 type: "edit",
 
                 song: {
@@ -420,7 +420,7 @@ describe("<AddSongModal />", () => {
             // userEvent.click(getFromSpotifyButton)
             //
 
-            userEvent.click(generateMetaDataButton)
+            userEvent.click(generateMetaDataTab)
 
 
             const textarea = screen.getByRole("textbox", { name: /result.*/i })

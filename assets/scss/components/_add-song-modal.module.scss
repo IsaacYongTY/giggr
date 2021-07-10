@@ -13,7 +13,7 @@
 //}
 
 .container {
-  padding: 2rem 3rem;
+  padding: 0 2rem;
 }
 
 .titleInput {
@@ -21,6 +21,7 @@
   border-bottom: 0.1rem solid gray;
   font-size: 3.6rem;
   width: 100%;
+  margin-bottom: 2rem;
 
   &:focus {
     outline: none;

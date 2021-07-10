@@ -7,9 +7,11 @@ interface Props {
 export default function CopyToClipboardButton({sourceRef, setAlertMessage} : Props) {
 
     function copyToClipboard(sourceRef : RefObject<HTMLDivElement | HTMLTextAreaElement>) {
+
         if(sourceRef.current) {
             let sel: any;
             let range: any;
+
             let el = sourceRef.current; //get element id
             if (window.getSelection && document.createRange) { //Browser compatibility
                 sel = window.getSelection();
