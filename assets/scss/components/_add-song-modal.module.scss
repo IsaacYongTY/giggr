@@ -58,9 +58,10 @@
 }
 
 .buttonRow {
-  margin-top: 5rem;
+  margin-top: 2rem;
   display: flex;
   gap: 2rem;
+  justify-content: flex-end;
 }
 
 .metaDataTextArea {
