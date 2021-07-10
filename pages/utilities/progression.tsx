@@ -125,7 +125,6 @@ export default function Progression() {
 
     function handleClear() {
         setProg("")
-        setForm(prevState => ({...prevState, progression: ""}))
         setErrorMessage("")
     }
 
