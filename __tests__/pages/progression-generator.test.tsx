@@ -5,7 +5,7 @@ import "@testing-library/jest-dom"
 import ProgGenerator from "../../pages/utilities/progression"
 
 const renderProg = () => {
-    const utils = render(<ProgGenerator />)
+    const utils = render(<ProgGenerator user={{id: 1, name: "test"}}/>)
     const generateButton = utils.getByRole("button", { name: /generate/i })
     const clearButton = utils.getByRole("button", { name: /clear/i })
     const inputTextbox = utils.getByRole("textbox", { name: /input.*/i })
