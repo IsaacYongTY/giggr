@@ -1,6 +1,7 @@
 import React, {CSSProperties, useEffect, useState} from 'react'
 import styles from "../../assets/scss/components/layouts/_sidebar-row.module.scss";
 import { useRouter } from 'next/router';
+import {Redirect} from "@reach/router";
 
 export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setIsSubmenuOpen, currentPathName }: any ) {
 
@@ -19,8 +20,7 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
     }
 
     useEffect(() => {
-
-        if (currentPathName === link) {
+        if(currentPathName.includes(link)) {
             setIsActive(true)
         }
     }, [])
@@ -32,7 +32,7 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
             onMouseEnter={handleOpenSubmenu}
             onMouseLeave={handleCloseSubmenu}
         >
-            <a href={link}>
+            <a href={hasSubmenu ? "#" : link}>
                 <div className="material-icons">
                     {icon}
                 </div>
