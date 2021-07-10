@@ -45,7 +45,7 @@ function renderMetaTool(props : Partial<Props> = {}) {
     const getFromSpotifyButton = utils.getByRole("button", { name: /get from spotify/i })
     const copyToClipboardButton = utils.getByRole("button", { name: /copy to clipboard/i })
     const showPinyinCheckbox = utils.getByRole("checkbox", { name: /pinyin/i})
-    const searchBar = utils.getByPlaceholderText(/^https:\/\/open.spotify.com.+/)
+    const searchBar = utils.getByPlaceholderText(/^https:\/\/open.spotify.com.*/)
     const pinyinDropdown = utils.getByText(defaultPinyinSyllables)
 
     return {...utils, getFromSpotifyButton, copyToClipboardButton, showPinyinCheckbox, pinyinDropdown, searchBar }

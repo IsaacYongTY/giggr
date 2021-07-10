@@ -10,10 +10,19 @@ export default {
 
 const Template: ComponentStory<typeof AlertBox> = (args) => <AlertBox{...args} />;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
+export const Default = Template.bind({});
+Default.args = {
 
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const Success = Template.bind({});
+Success.args = {
+    alertMessage: "Success message",
+    type: "success"
+};
+
+export const Fail = Template.bind({});
+Fail.args = {
+    alertMessage: "Fail message",
+    type: "fail"
+};

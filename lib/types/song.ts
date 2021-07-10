@@ -20,10 +20,10 @@ export default interface Song {
 
         tempo: number,
 
-        createdAt: Date,
-        updatedAt: Date,
+        createdAt?: Date,
+        updatedAt?: Date,
         dateReleased: string,
-        durationMinSec: string,
+        // durationMinSec: string,
         durationMs: number,
         timeSignature: string,
 
