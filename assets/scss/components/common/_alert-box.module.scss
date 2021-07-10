@@ -1,26 +1,29 @@
 .alertBox {
-  width: 70rem;
   height: 5rem;
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 10rem;
 
   bottom: 1rem;
   left: 50%;
-  background-color: red;
   border-radius: 0.5rem;
   border: 1px solid lightgray;
   transform: translateX(-50%);
 
-
-  .fail {
-    background-color: red;
-  }
 }
 
 .success {
-  background-color: lightgreen;
+  background-color: #D4EDD9;
+  color: #145824;
+  border: 1px solid #C3E6CB;
+}
+
+.fail {
+  background-color: #F8D7D9;
+  color: #7A262D;
+  border: 1px solid #F5C6CA;
 }
 
 .cross {

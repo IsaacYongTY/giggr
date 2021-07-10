@@ -6,23 +6,54 @@ import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
 import axios from 'axios'
 import { loadUserData, loadUserMusicians, loadUserLanguages } from "../lib/library";
+import Form from "../lib/types/Form";
+import Song from "../lib/types/song";
+import Musician from "../lib/types/musician";
 
 jest.mock('axios')
+
 const mockAxios = axios as jest.Mocked<typeof axios>
 
-let songData = {
+let songData : Song= {
+    id:5,
     title: "七天",
-    artist: "Crowd Lu",
+    artist: {
+        id: 1,
+        name: "Crowd Lu",
+        romName: "",
+        spotifyName: ""
+    },
+    artistId: 1,
     romTitle: "Qi Tian",
     key: 2,
     mode: 1,
     tempo: 93,
-    durationMinSec: "4:00",
     durationMs: 240000,
-    time: "4/4",
+    timeSignature: "4/4",
     initialism: "qt",
-    language: "mandarin",
-    yearReleased: 2013
+    language: {
+        id: 1,
+        name: "mandarin",
+    },
+    languageId: 1,
+    dateReleased: "2013-01-01",
+    spotifyLink: "",
+    youtubeLink: "",
+    otherLink: "",
+
+    acousticness: 0,
+    valence: 0,
+    instrumentalness: 0,
+    danceability: 0,
+    energy: 0,
+
+    verified: false,
+    composers: [],
+    songwriters: [],
+    arrangers: [],
+    genres: [],
+    moods: [],
+    tags: []
 }
 
 let mockUser = { tierId: 2, name: "Isaac", tokenString: "faketokenstring" }
@@ -52,15 +83,19 @@ function renderAddSongModal(props = {}) {
             {...props}
         />
     )
-    const isMinorCheckbox = utils.getByLabelText(/minor/i)
+    const isMinorCheckbox = utils.getByRole("checkbox", { name: /minor/i })
     const keysDropdown = utils.getByLabelText(/key/i)
     const durationTextbox = utils.getByRole("textbox", { name: /duration/i })
     const genresDropdown = utils.getByLabelText(/genres/i)
     const moodsDropdown = utils.getByLabelText(/moods/i)
     const tagsDropdown = utils.getByLabelText(/tags/i)
+    const generateMetaDataButton = utils.getByRole("button", { name: /generate metadata.*/i })
 
 
-    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown, moodsDropdown, tagsDropdown}
+
+    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown,
+        moodsDropdown, tagsDropdown, generateMetaDataButton
+    }
 }
 
 describe("<AddSongModal />", () => {
@@ -252,7 +287,19 @@ describe("<AddSongModal />", () => {
 
             mockAxios.post.mockResolvedValue({
                 data: {
-                    result: songData,
+                    result: {
+                        title: "七天",
+                        artist: "Crowd Lu",
+                        romTitle: "Qi Tian",
+                        key: 2,
+                        mode: 1,
+                        tempo: 93,
+                        durationMs: 240000,
+                        timeSignature: "4/4",
+                        initialism: "qt",
+                        language: "mandarin",
+                        dateReleased: "2013-01-01"
+                    },
                     message: "This is a mock resolved value"
                 }
             })
@@ -267,7 +314,6 @@ describe("<AddSongModal />", () => {
                 expect(axios.post).toBeCalledTimes(1)
                 expect(axios.post).toBeCalledWith('/api/v1/songs/spotify?trackId=54kJUsxhDUMJS3kI2XptLl', {}, {headers: {"x-auth-token": "Bearer faketokenstring"}, withCredentials: true})
                 expect(durationTextbox).toHaveValue("4:00")
-                // jest.resetAllMocks()
             })
         })
 
@@ -302,19 +348,30 @@ describe("<AddSongModal />", () => {
 
             const validSpotifyUrl = "https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl"
 
-            mockAxios.post.mockResolvedValueOnce({
+            mockAxios.post.mockResolvedValue({
                 data: {
-                    result: songData,
+                    result: {
+                        title: "七天",
+                        artist: "Crowd Lu",
+                        romTitle: "Qi Tian",
+                        key: 2,
+                        mode: 1,
+                        tempo: 93,
+                        durationMs: 240000,
+                        timeSignature: "4/4",
+                        initialism: "qt",
+                        language: "mandarin",
+                        dateReleased: "2013-01-01"
+                    },
                 }
             })
 
             userEvent.type(spotifySearchBar, validSpotifyUrl)
             userEvent.click(getFromSpotifyButton)
 
-            await waitFor(() => {
-                expect(screen.getByText("D")).toBeInTheDocument()
 
-            })
+            expect(await screen.findByText("D")).toBeInTheDocument()
+
 
         })
     })
@@ -323,6 +380,63 @@ describe("<AddSongModal />", () => {
         it.todo("should be empty every time it's opened after submitting once")
     })
 
+    describe("The behaviour of Generate Metadata button",  () => {
+
+        it("should display the metadata head", async () => {
+            let { generateMetaDataButton } = renderAddSongModal({
+                type: "edit",
+
+                song: {
+                    title: "我爱你",
+                    artist: {
+                        id: 1,
+                        name: "Crowd Lu",
+                        romName: "",
+                        spotifyName: ""
+                    },
+                    romTitle: "Wo Ai Ni",
+                    key: 11,
+                    mode: 0,
+                    tempo: 93,
+                    durationMs: 285000,
+                    timeSignature: "4/4",
+                    initialism: "wan",
+                    language: {
+                        id: 1,
+                        name: "mandarin",
+                    },
+                    dateReleased: "2008-01-01"
+                }
+            })
+            // const searchBar = screen.getByPlaceholderText(/^https:\/\/open.spotify.com.*/)
+            // const getFromSpotifyButton = screen.getByRole("button", { name: /get from spotify.*/i })
+            //
+            // mockAxios.post.mockResolvedValue({
+            //     data: {
+            //         result: songData
+            //     }
+            // })
+            // userEvent.type(searchBar, "https://open.spotify.com/track/6CKLOHuoNU6hfAxlQVzRlL?si=df60f78eef2240e3")
+            // userEvent.click(getFromSpotifyButton)
+            //
+
+            userEvent.click(generateMetaDataButton)
+
+
+            const textarea = screen.getByRole("textbox", { name: /result.*/i })
+            expect(textarea).toHaveValue("Wo Ai 我爱你\n" +
+                "Crowd Lu\n" +
+                "Key: Bm\n" +
+                "Tempo: 93\n" +
+                "Duration: 4:45\n" +
+                "Time: 4/4\n" +
+                "Keywords: wan, mandarin\n\n" +
+                "Year Released: 2008")
+            })
+
+
+
+    })
 })
 
 

@@ -44,8 +44,10 @@ type Props = {
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, data, user }: Props) {
 
     const [alertMessage, setAlertMessage] = useState("")
+    const [alertType, setAlertType] = useState("")
     const [form, setForm] = useState<Form>({})
     const [isLoading, setIsLoading] = useState(false)
+    const [metadata, setMetadata] = useState("")
 
     let url = `/api/v1/songs`
 
@@ -117,6 +119,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     function handleCloseModal() {
         setForm({})
         setIsModalOpen(false)
+        setMetadata("")
     }
 
     async function handleAddSong() {
@@ -138,8 +141,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 }
             })
 
-            setAlertMessage("added successfully")
-
             let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
             let refreshedMusicians = await loadUserMusicians(user)
 
@@ -149,6 +150,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             handleCloseModal()
 
             setIsLoading(false)
+
+            setAlertMessage("added successfully")
+            setAlertType("success")
 
             setTimeout(() => {
                setAlertMessage("")
@@ -163,10 +167,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     }
 
+
     function handleGenerateMetaData() {
         console.log(form)
-        let metaData = generateMetaData(form)
-        console.log(metaData)
+        setMetadata(generateMetaData(form, 2))
+        console.log(generateMetaData(form, 2))
     }
 
     async function handleEditSong(id : number) {
@@ -402,11 +407,24 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                     }
                     <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-                    <button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>
+
                     {
                         alertMessage &&
-                        <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage}/>
+                        <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
                     }
+                </div>
+
+                <div>
+                    <button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>
+                    {
+                        metadata &&
+                        <label>
+                            <div>Result:</div>
+                            <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>
+                        </label>
+                    }
+
+
                 </div>
 
             </div>
