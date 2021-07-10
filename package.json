@@ -9,7 +9,9 @@
     "test": "jest --config ./jest.config.js",
     "test:dev": "jest --config ./jest.config.js --watchAll",
     "test:ci": "jest --silent",
-    "test:coverage": "yarn test --coverage"
+    "test:coverage": "yarn test --coverage",
+    "storybook": "start-storybook -p 6006 -s ./public",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@babel/core": "^7.14.2",
@@ -23,6 +25,7 @@
     "@fullcalendar/timegrid": "^5.7.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/pickers": "3.2.0",
+    "@storybook/preset-scss": "^1.0.3",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/react-select": "^4.0.15",
     "axios": "^0.21.1",
@@ -45,10 +48,15 @@
     "react-dom": "17.0.1",
     "react-modal": "^3.13.1",
     "react-select": "^4.3.1",
-    "sass": "^1.32.8",
+    "sass": "^1.35.2",
+    "storybook-addon-react-docgen": "^1.2.42",
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-links": "^6.3.4",
+    "@storybook/react": "^6.3.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
@@ -56,8 +64,15 @@
     "@types/react": "^17.0.5",
     "@types/react-modal": "^3.12.0",
     "babel-plugin-styled-components": "^1.12.0",
+    "css-loader": "^5.2.6",
+    "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
     "next-router-mock": "^0.1.3",
+    "react-docgen-typescript": "^2.0.0",
+    "react-docgen-typescript-plugin": "^1.0.0",
+    "sass-loader": "^10.1.1",
+    "storybook-addon-material-ui": "^0.9.0-alpha.24",
+    "style-loader": "^2.0.0",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.5"
   }

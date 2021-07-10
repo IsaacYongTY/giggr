@@ -15,14 +15,18 @@ export default function SettingsDropdown() {
     }
 
     return (
+        <>
 
         <div className={`${styles.container} noselect`}>
-            <div
+            <button
                 className={`material-icons ${styles.gearIcon} }`}
                 onClick={() => setIsOpen(prevState => !prevState)}
+                onBlurCapture={() => setIsOpen(false)}
+
             >
                 settings
-            </div>
+            </button>
+        </div>
 
             {
                 isOpen &&
@@ -33,7 +37,8 @@ export default function SettingsDropdown() {
                 </div>
             }
 
-        </div>
+
+        </>
 
     )
 }
