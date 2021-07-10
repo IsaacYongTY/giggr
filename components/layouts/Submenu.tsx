@@ -11,8 +11,8 @@ export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {
             onMouseEnter={() => setIsSubmenuOpen(true)}
             onMouseLeave={() => setIsSubmenuOpen(false)}
         >
-            <MenuRow title="Progression Generator" link="/utilities/progression" />
             <MenuRow title="Spotify Meta Tool" link="/utilities/metatool" />
+            <MenuRow title="Progression Generator" link="/utilities/progression" />
             <MenuRow title="BPM Tools" link="/utilities/bpm" />
             <MenuRow title="Lead Sheet Generator" link="/utilities/leadsheetspacing" />
 

@@ -55,7 +55,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                 <SidebarRow icon="dashboard" title="Dashboard" link="/dashboard" isOpen={isOpen} currentPathName={currentPathName} />
                 <SidebarRow icon="music_note" title="My Repertoire" link="/repertoire" isOpen={isOpen} currentPathName={currentPathName} />
                 <SidebarRow icon="work" title="My Gigs" link="/gigs" isOpen={isOpen} currentPathName={currentPathName} />
-                <SidebarRow icon="handyman" title="Utilities" hasSubmenu={true} isOpen={isOpen} setIsSubmenuOpen={setIsSubmenuOpen} currentPathName={currentPathName}/>
+                <SidebarRow icon="handyman" title="Utilities" link="/utilities" hasSubmenu={true} isOpen={isOpen} setIsSubmenuOpen={setIsSubmenuOpen} currentPathName={currentPathName}/>
                 <SidebarRow icon="insights" title="Stats" link="/stats" isOpen={isOpen} currentPathName={currentPathName} />
                 {
                     user?.tierId === 4 &&
