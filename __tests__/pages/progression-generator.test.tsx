@@ -257,14 +257,14 @@ describe("The progression generator page", () => {
 
     describe("The clear button", () => {
 
-        it("should clear the content inside textarea and input textbox", () => {
+        it("should clear the content inside textarea", () => {
             const { clearButton, textArea, inputTextbox } = renderProg()
             userEvent.type(textArea, "random things to be cleared")
             userEvent.type(inputTextbox, "12345")
             userEvent.click(clearButton)
 
             expect(textArea).toHaveValue("")
-            expect(inputTextbox).toHaveValue("")
+            expect(inputTextbox).toHaveValue("12345")
         })
 
         it("should remove error message if it is present", () => {
