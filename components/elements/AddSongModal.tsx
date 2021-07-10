@@ -19,6 +19,9 @@ import CategoriesDropdown from "../CategoriesDropdown";
 
 import generateMetaData from "../../lib/utils/generate-metadata";
 import ButtonWithLoader from "../common/ButtonWithLoader";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
 
 type Option = {
     value: string,
@@ -221,211 +224,228 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             ariaHideApp={false}
         >
 
+
             <div className={styles.container}>
+
                 <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={form.title}/>
 
-                { type === "add" && <SpotifySearchBar setFormValue={setForm} database={database} user={user}/> }
+                <Tabs>
+                    <TabList>
+                        <Tab>Details</Tab>
+                        <Tab onClick={() => handleGenerateMetaData()}>Generate Metadata</Tab>
+                    </TabList>
 
-                <div className={styles.formRow}>
-                    <label>Artist:
-                        <ArtistsSingleDropdown
-                            musicians={musicians}
-                            selectedArtist={form.artist || ""}
-                            setFormValue={setForm}
-                        />
-                    </label>
+                    <TabPanel>
+                        { type === "add" && <SpotifySearchBar setFormValue={setForm} database={database} user={user}/> }
+
+                        <div className={styles.formRow}>
+                            <label>Artist:
+                                <ArtistsSingleDropdown
+                                    musicians={musicians}
+                                    selectedArtist={form.artist || ""}
+                                    setFormValue={setForm}
+                                />
+                            </label>
 
 
-                </div>
-
-                <div className={styles.formRow}>
-
-                    <KeysDropdown
-                        form={form}
-                        setForm={setForm}
-                    />
-
-                    <label>Tempo:
-                        <input className="form-control" name="tempo" type="number" onChange={handleInput} value={form.tempo || ""} />
-                    </label>
-
-                    <label>Duration:
-                        <input className="form-control" name="durationMinSec" onChange={handleInput} placeholder="m:ss" value={form.durationMinSec}/>
-                    </label>
-
-                    <label>Time Signature:
-                        <input className="form-control" name="timeSignature" onChange={handleInput} placeholder="4/4" value={form.timeSignature}/>
-                    </label>
-                </div>
-
-                <div className={styles.formRow}>
-                    <label>Language:
-                        <LanguagesSingleDropdown
-                            options={data.languages}
-                            currentSelection={form.language || ""}
-                            setFormValue={setForm}
-                        />
-                    </label>
-
-                    <label>
-                        Romanized Title:
-                        <input className="form-control" name="romTitle" onChange={handleInput} value={form.romTitle} />
-                    </label>
-
-                    <label>Initialism:
-                        <input className="form-control" name="initialism" onChange={handleInput} value={form.initialism}/>
-                    </label>
-
-                    <label>Date Released:
-                        <input className="form-control" name="dateReleased" onChange={handleInput} value={form.dateReleased}/>
-                    </label>
-                </div>
-
-                <div className={styles.formRow}>
-                    <ReactMusiciansDropdown
-                        label="Composers"
-                        role="composers"
-                        musicians={musicians}
-                        selectedMusicians={form.composers || []}
-                        setFormValue={setForm}
-                    />
-                    <ReactMusiciansDropdown
-                        label="Songwriters"
-                        role="songwriters"
-                        musicians={musicians}
-                        selectedMusicians={form.songwriters || []}
-                        setFormValue={setForm}
-                    />
-                </div>
-
-                <div className={styles.formRow}>
-                    <ReactMusiciansDropdown
-                        label="Arrangers"
-                        role="arrangers"
-                        musicians={musicians}
-                        selectedMusicians={form.arrangers || []}
-                        setFormValue={setForm}
-                    />
-                    <CategoriesDropdown
-                        label="Genres"
-                        role="genres"
-                        categories={data.genres}
-                        selectedCategories={form.genres || []}
-                        setFormValue={setForm}
-                    />
-                </div>
-
-                <div className={styles.formRow}>
-                    <CategoriesDropdown
-                        label="Moods"
-                        role="moods"
-                        categories={data.moods}
-                        selectedCategories={form.moods || []}
-                        setFormValue={setForm}
-
-                    />
-                    <CategoriesDropdown
-                        label="Tags"
-                        role="tags"
-                        categories={data.tags}
-                        selectedCategories={form.tags || []}
-                        setFormValue={setForm}
-
-                    />
-                </div>
-
-                <div className={`${styles.formRow} ${styles.flexEnd}`}>
-                    <label>Spotify Link:
-                        <input className="form-control" name="spotifyLink" onChange={handleInput} value={form.spotifyLink}/>
-
-                    </label>
-                    {
-                        type === "edit" &&
-                        <div className={styles.syncCol}>
-                            <button className="btn btn-primary">Sync from Spotify</button>
-                            <button className="btn btn-primary">Sync from Database</button>
                         </div>
-                    }
-                </div>
 
-                <div className={styles.formRow}>
-                    <label>YouTube Link:
-                        <input className="form-control" name="youtubeLink" onChange={handleInput} value={form.youtubeLink}/>
-                    </label>
+                        <div className={styles.formRow}>
 
-                    <label>Other Link:
-                        <input className="form-control" name="otherLink" onChange={handleInput} value={form.otherLink}/>
-                    </label>
-                </div>
-
-                <div className={styles.formRow}>
-
-
-                </div>
-
-                <br />
-                <div className={styles.formRow}>
-                    <label>
-                        Energy:
-                        <input type="number" name="energy" disabled={true} className="form-control" value={form.energy} />
-                    </label>
-                    <label>
-                        Danceability:
-                        <input type="number" name="danceability" disabled={true} className="form-control" value={form.danceability} />
-                    </label>
-                    <label>
-                        Valence:
-                        <input type="number" name="valence" disabled={true} className="form-control" value={form.valence} />
-                    </label>
-                    <label>
-                        Acousticness:
-                        <input type="number" name="acousticness" disabled={true} className="form-control" value={form.acousticness} />
-                    </label>
-                    <label>
-                        Instrumentalness:
-                        <input type="number" name="instrumentalness" disabled={true} className="form-control" value={form.instrumentalness} />
-                    </label>
-
-
-                </div>
-
-                <div className={styles.buttonRow}>
-                    {
-                        type === 'edit' && song
-                            ?
-                            <ButtonWithLoader
-                                onClick={() => handleEditSong(song.id)}
-                                isLoading={isLoading}
-                                label="Confirm Edit"
-                            />
-                            :
-                            <ButtonWithLoader
-                                onClick={handleAddSong}
-                                isLoading={isLoading}
-                                label="Add"
+                            <KeysDropdown
+                                form={form}
+                                setForm={setForm}
                             />
 
-                    }
-                    <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+                            <label>Tempo:
+                                <input className="form-control" name="tempo" type="number" onChange={handleInput} value={form.tempo || ""} />
+                            </label>
 
-                    {
-                        alertMessage &&
-                        <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
-                    }
-                </div>
+                            <label>Duration:
+                                <input className="form-control" name="durationMinSec" onChange={handleInput} placeholder="m:ss" value={form.durationMinSec}/>
+                            </label>
 
-                <div>
-                    <button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>
-                    {
-                        metadata &&
-                        <label>
-                            <div>Result:</div>
-                            <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>
-                        </label>
-                    }
+                            <label>Time Signature:
+                                <input className="form-control" name="timeSignature" onChange={handleInput} placeholder="4/4" value={form.timeSignature}/>
+                            </label>
+                        </div>
+
+                        <div className={styles.formRow}>
+                            <label>Language:
+                                <LanguagesSingleDropdown
+                                    options={data.languages}
+                                    currentSelection={form.language || ""}
+                                    setFormValue={setForm}
+                                />
+                            </label>
+
+                            <label>
+                                Romanized Title:
+                                <input className="form-control" name="romTitle" onChange={handleInput} value={form.romTitle} />
+                            </label>
+
+                            <label>Initialism:
+                                <input className="form-control" name="initialism" onChange={handleInput} value={form.initialism}/>
+                            </label>
+
+                            <label>Date Released:
+                                <input className="form-control" name="dateReleased" onChange={handleInput} value={form.dateReleased}/>
+                            </label>
+                        </div>
+
+                        <div className={styles.formRow}>
+                            <ReactMusiciansDropdown
+                                label="Composers"
+                                role="composers"
+                                musicians={musicians}
+                                selectedMusicians={form.composers || []}
+                                setFormValue={setForm}
+                            />
+                            <ReactMusiciansDropdown
+                                label="Songwriters"
+                                role="songwriters"
+                                musicians={musicians}
+                                selectedMusicians={form.songwriters || []}
+                                setFormValue={setForm}
+                            />
+                        </div>
+
+                        <div className={styles.formRow}>
+                            <ReactMusiciansDropdown
+                                label="Arrangers"
+                                role="arrangers"
+                                musicians={musicians}
+                                selectedMusicians={form.arrangers || []}
+                                setFormValue={setForm}
+                            />
+                            <CategoriesDropdown
+                                label="Genres"
+                                role="genres"
+                                categories={data.genres}
+                                selectedCategories={form.genres || []}
+                                setFormValue={setForm}
+                            />
+                        </div>
+
+                        <div className={styles.formRow}>
+                            <CategoriesDropdown
+                                label="Moods"
+                                role="moods"
+                                categories={data.moods}
+                                selectedCategories={form.moods || []}
+                                setFormValue={setForm}
+
+                            />
+                            <CategoriesDropdown
+                                label="Tags"
+                                role="tags"
+                                categories={data.tags}
+                                selectedCategories={form.tags || []}
+                                setFormValue={setForm}
+
+                            />
+                        </div>
+
+                        <div className={`${styles.formRow} ${styles.flexEnd}`}>
+                            <label>Spotify Link:
+                                <input className="form-control" name="spotifyLink" onChange={handleInput} value={form.spotifyLink}/>
+
+                            </label>
+                            {
+                                type === "edit" &&
+                                <div className={styles.syncCol}>
+                                    <button className="btn btn-primary">Sync from Spotify</button>
+                                    <button className="btn btn-primary">Sync from Database</button>
+                                </div>
+                            }
+                        </div>
+
+                        <div className={styles.formRow}>
+                            <label>YouTube Link:
+                                <input className="form-control" name="youtubeLink" onChange={handleInput} value={form.youtubeLink}/>
+                            </label>
+
+                            <label>Other Link:
+                                <input className="form-control" name="otherLink" onChange={handleInput} value={form.otherLink}/>
+                            </label>
+                        </div>
+
+                        <div className={styles.formRow}>
 
 
-                </div>
+                        </div>
+
+                        <br />
+                        <div className={styles.formRow}>
+                            <label>
+                                Energy:
+                                <input type="number" name="energy" disabled={true} className="form-control" value={form.energy} />
+                            </label>
+                            <label>
+                                Danceability:
+                                <input type="number" name="danceability" disabled={true} className="form-control" value={form.danceability} />
+                            </label>
+                            <label>
+                                Valence:
+                                <input type="number" name="valence" disabled={true} className="form-control" value={form.valence} />
+                            </label>
+                            <label>
+                                Acousticness:
+                                <input type="number" name="acousticness" disabled={true} className="form-control" value={form.acousticness} />
+                            </label>
+                            <label>
+                                Instrumentalness:
+                                <input type="number" name="instrumentalness" disabled={true} className="form-control" value={form.instrumentalness} />
+                            </label>
+
+                        </div>
+
+                        <div className={styles.buttonRow}>
+                            {
+                                type === 'edit' && song
+                                    ?
+                                    <ButtonWithLoader
+                                        onClick={() => handleEditSong(song.id)}
+                                        isLoading={isLoading}
+                                        label="Confirm Edit"
+                                    />
+                                    :
+                                    <ButtonWithLoader
+                                        onClick={handleAddSong}
+                                        isLoading={isLoading}
+                                        label="Add"
+                                    />
+
+                            }
+                            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+
+                            {
+                                alertMessage &&
+                                <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
+                            }
+                        </div>
+
+                    </TabPanel>
+                    <TabPanel>
+                        <div>
+                            {/*<button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>*/}
+
+                            <label>
+                                <div>Result:</div>
+                                <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>
+                            </label>
+
+
+                            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+
+                        </div>
+                    </TabPanel>
+                </Tabs>
+
+
+
+
+
 
             </div>
 
