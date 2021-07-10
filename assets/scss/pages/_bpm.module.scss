@@ -1,0 +1,45 @@
+@import "../variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tempoDisplayContainer {
+  margin-top: 5rem;
+  //background-color: #5BD9D5;
+  width: 30rem;
+  height: 30rem;
+  background: linear-gradient(-45deg, #58B3D4 0%, #B3ECFF 100%);
+  box-shadow: 0 0 20px #B4EAFC;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+.tempoDisplay {
+  font-size: 9.6rem;
+
+}
+
+.buttonRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 3rem;
+  margin: 1rem 0;
+
+  > div {
+    width: 15rem;
+  }
+
+  button {
+    width: 100%;
+  }
+
+}
+
