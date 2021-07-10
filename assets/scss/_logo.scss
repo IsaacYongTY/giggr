@@ -1,19 +1,18 @@
 .logo {
   min-width: 9rem;
-  height: 3.5rem;
-  background-repeat: no-repeat;
-  background-size: cover;
+  height: 5rem;
+  width: 5rem;
+
   z-index: 2;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.logo-blue {
-  background-image: url("../../public/img/logos/giggr-logo-blue-600x250.png");
-  width: 5rem;
-}
 
 .logo-white {
-  background-image: url("../../public/img/logos/giggr-logo-white-600x250.png");
+  background-image: url("/public/img/logos/giggr-logo-white-600x250.png");
 }
 
 .logo-lg {

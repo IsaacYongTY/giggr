@@ -32,12 +32,7 @@ export default function Layout({ title, user, children }: Props) {
                 </div>
 
                 <div className={`${styles.layoutContent}`}>
-                {/*<div className={`${styles.layoutContent} ${isOpen ? styles.contentOpen : styles.contentClose}`}>*/}
-
-                        {children}
-
-
-
+                    {children}
                 </div>
 
             </div>

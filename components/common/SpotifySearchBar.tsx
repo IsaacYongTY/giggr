@@ -5,6 +5,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 import { shakeAnimation } from "../../lib/library"
 import Loader from "./Loader";
+import ButtonWithLoader from "./ButtonWithLoader";
 interface Props {
     setFormValue: any
     database: string
@@ -86,15 +87,11 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
                 onClick={selectText}
                 placeholder="https://open.spotify.com/track/...."
             />
-            <button
-                className={`${styles.button} btn btn-primary`}
+            <ButtonWithLoader
+                label="Get From Spotify"
                 onClick={handleGetFromSpotify}
-                disabled={isLoading}
-            >
-                <div>Get from Spotify</div>
-                {isLoading && <Loader />}
-
-            </button>
+                isLoading={isLoading}
+            />
         </div>
     )
 }

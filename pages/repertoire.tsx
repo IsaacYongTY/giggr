@@ -37,7 +37,7 @@ export const getServerSideProps : GetServerSideProps = withAuth( async({ req, re
 })
 
 type Props = {
-    initialSongs: Array<Song>,
+    initialSongs: Song[],
     initialData: {
         songs: Song[]
         musicians: Musician[]

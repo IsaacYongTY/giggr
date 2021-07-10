@@ -4,21 +4,21 @@ import { screen, render, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
+import Form from "../lib/types/Form";
 
 interface Props {
-    formValue: any,
-    setFormValue: Dispatch<SetStateAction<any>>
+    form: Form,
+    setForm: Dispatch<SetStateAction<Form>>
 }
 
 describe("The behaviour of key dropdowns <KeysDropdown />", () => {
-
+    it.todo("problem with this")
     function renderKeysDropdown(props = {}) {
 
-        const setFormValue = jest.fn()
 
         const defaultProps : Props = {
-            formValue: {},
-            setFormValue: setFormValue
+            form: {},
+            setForm: jest.fn()
         }
 
         const utils = render(<KeysDropdown {...defaultProps} {...props} />)
@@ -36,14 +36,14 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
 
     })
 
-    it("should render the component with song's key if exist", () => {
+    it("should render the component with song's key if exist", async () => {
 
         renderKeysDropdown({
-            formValue: {
+            form: {
                 key: 0,
                 mode: 1
             },
-            setFormValue: jest.fn()
+            setForm: jest.fn()
         })
 
         expect(screen.getByDisplayValue("C")).toBeInTheDocument()
@@ -51,11 +51,11 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         cleanup()
 
         renderKeysDropdown({
-            formValue: {
+            form: {
                 key: 11,
                 mode: 0
             },
-            setFormValue: jest.fn()
+            setForm: jest.fn()
         })
 
         expect(screen.getByDisplayValue("Bm")).toBeInTheDocument()
@@ -72,11 +72,11 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         userEvent.click(screen.getByText('C'))
 
         rerender(<KeysDropdown
-            formValue={{
+            form={{
                 key: 0,
                 mode: 1,
             }}
-            setFormValue={jest.fn()}
+            setForm={jest.fn()}
         />)
 
         expect(screen.getByText('C')).toBeInTheDocument()
@@ -85,11 +85,11 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         userEvent.click(screen.getByText('Eb'))
 
         rerender(<KeysDropdown
-            formValue={{
+            form={{
                 key: 3,
                 mode: 1,
             }}
-            setFormValue={jest.fn()}
+            setForm={jest.fn()}
         />)
 
         expect(screen.getByText('Eb')).toBeInTheDocument()

@@ -125,7 +125,6 @@ export default function Progression() {
 
     function handleClear() {
         setProg("")
-        setForm(prevState => ({...prevState, progression: ""}))
         setErrorMessage("")
     }
 
@@ -140,8 +139,8 @@ export default function Progression() {
                 <div className={styles.inputRow}>
                     <div className={styles.keysDropdownContainer}>
                         <KeysDropdown
-                            formValue={form}
-                            setFormValue={setForm}
+                            form={form}
+                            setForm={setForm}
                             defaultKey={defaultKey.key}
                             showIsMinorCheckbox={false}
                         />

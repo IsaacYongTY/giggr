@@ -6,7 +6,8 @@
 
 .menu {
   position: relative;
-  left: 2rem;
+  top: 4.5rem;
+  right: 15rem;
   border: 1px solid lightgrey;
   width: 18rem;
   border-radius: 0.3rem;
@@ -22,4 +23,6 @@
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
+  background-color: white;
+  border: none;
 }
