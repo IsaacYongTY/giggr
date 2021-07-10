@@ -422,7 +422,6 @@ describe("<AddSongModal />", () => {
 
             userEvent.click(generateMetaDataTab)
 
-
             expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument()
             expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument()
             expect(screen.getByText(/Key: Bm/i)).toBeInTheDocument()
