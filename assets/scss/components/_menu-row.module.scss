@@ -1,7 +1,21 @@
 @import '../variables';
 
+
+
+.container {
+  box-sizing: border-box;
+  text-align: left;
+  width: 100%;
+
+  > a {
+    text-decoration: none;
+  }
+
+}
+
 .row {
   cursor: pointer;
+  margin: 0;
   padding: 0 2rem;
   height: $sidebar-row-height;
   //border: 1px solid red;
@@ -11,17 +25,26 @@
 
   text-decoration: none;
   color: $darkgrey;
+
+  //background-color: yellow;
+
 }
 
 .row:hover {
   background-color: $blue;
   text-decoration: none;
   color: white;
+
 }
 
 .title {
-  min-width: 10rem;
-  margin-left: 1rem;
+  //min-width: 10rem;
+  //margin-left: 1rem;
+  text-align: left;
+}
+
+.icon {
+  margin-right: 1rem;
 }
 
 

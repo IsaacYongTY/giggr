@@ -4,13 +4,22 @@ import styles from "../../assets/scss/components/_menu-row.module.scss";
 export default function MenuRow({ icon, link, title, action }: any) {
 
     return (
-        <a href={link} className={styles.row} onClick={action}>
 
-                <div className="material-icons">
-                    {icon}
-                </div>
+        <div className={styles.container} >
 
-                <div className={`${styles.title}`}>{title}</div>
-        </a>
+            <a href={link} className={styles.row} onClick={action}>
+
+
+                    { icon &&
+                        <div className={`${styles.icon} material-icons`}>
+                            {icon}
+                        </div>
+                    }
+
+                    <div className={`${styles.title}`}>{title}</div>
+
+
+            </a>
+        </div>
     )
 }
