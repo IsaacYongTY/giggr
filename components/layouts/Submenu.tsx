@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import MenuRow from "../elements/MenuRow";
 import styles from "../../assets/scss/components/layouts/_submenu.module.scss";
 
-export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {
+interface Props {
+    index?: number,
+    isOpen: boolean,
+    setIsSubmenuOpen: Dispatch<SetStateAction<boolean>>
+    options: { title: string, link: string}[]
+}
+export default function Submenu({ index, isOpen, setIsSubmenuOpen, options }: Props) {
 
+    const posY = `pos${index}`
 
     return (
         <div
-            className={`${styles.submenu} ${isOpen ? styles.open : styles.close}`}
+            className={`${styles.submenu} ${isOpen ? styles.open : styles.close} ${index && index > -1 ? styles[posY] : ""}`}
             onMouseEnter={() => setIsSubmenuOpen(true)}
             onMouseLeave={() => setIsSubmenuOpen(false)}
         >
-            <MenuRow title="Spotify Meta Tool" link="/utilities/metatool" />
-            <MenuRow title="Progression Generator" link="/utilities/progression" />
-            <MenuRow title="BPM Tools" link="/utilities/bpm" />
-            <MenuRow title="Lead Sheet Generator" link="/utilities/leadsheetspacing" />
+            {
+                options.map(option => (
+                    <MenuRow title={option.title} link={option.link} />
+                ))
+            }
 
         </div>
     )

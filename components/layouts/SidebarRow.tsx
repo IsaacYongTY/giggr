@@ -1,22 +1,37 @@
 import React, {CSSProperties, useEffect, useState} from 'react'
 import styles from "../../assets/scss/components/layouts/_sidebar-row.module.scss";
-import { useRouter } from 'next/router';
-import {Redirect} from "@reach/router";
+import Submenu from "./Submenu";
 
-export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setIsSubmenuOpen, currentPathName }: any ) {
+interface Props {
+    index?: number
+    icon: string,
+    title: string,
+    link: string,
+    isOpen: boolean
+    hasSubmenu?: boolean
+    currentPathName: string
+    options?: { title: string, link: string}[]
+
+}
+export default function SidebarRow({ index, icon, title, link, isOpen, hasSubmenu = false, currentPathName, options  }: Props ) {
 
     const [isActive, setIsActive] = useState(false);
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
 
     const removePadding: CSSProperties = {
          paddingRight: '0'
     }
 
     function handleOpenSubmenu() {
-       hasSubmenu && setIsSubmenuOpen(true)
+        if(hasSubmenu && setIsSubmenuOpen) {
+            setIsSubmenuOpen(true)
+        }
     }
 
     function handleCloseSubmenu() {
-        hasSubmenu && setIsSubmenuOpen(false)
+        if(hasSubmenu && setIsSubmenuOpen) {
+            setIsSubmenuOpen(false)
+        }
     }
 
     useEffect(() => {
@@ -26,32 +41,43 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
     }, [])
 
     return(
+        <>
+            <a
+                href={hasSubmenu ? "#" : link}
+                className={`${styles.sidebarRow} ${isActive && styles.active}`}
+                style={ !isOpen ? removePadding : {}}
+                onMouseEnter={handleOpenSubmenu}
+                onMouseLeave={handleCloseSubmenu}
+            >
 
-        <a
-            href={hasSubmenu ? "#" : link}
-            className={`${styles.sidebarRow} ${isActive && styles.active}`}
-            style={ !isOpen ? removePadding : {}}
-            onMouseEnter={handleOpenSubmenu}
-            onMouseLeave={handleCloseSubmenu}
-        >
+                    <div className="material-icons">
+                        {icon}
+                    </div>
 
-                <div className="material-icons">
-                    {icon}
-                </div>
+                    {
+                        isOpen &&
+                        <div className={`${styles.sidebarTitle}`}>{title}</div>
+                    }
+
 
                 {
-                    isOpen &&
-                    <div className={`${styles.sidebarTitle}`}>{title}</div>
+                    hasSubmenu &&
+                    <div className={`${isOpen && styles.navigateNext} material-icons`} >
+                        navigate_next
+                    </div>
                 }
 
+            </a>
 
             {
-                hasSubmenu &&
-                <div className={`${isOpen && styles.navigateNext} material-icons`} >
-                    navigate_next
-                </div>
+                (isSubmenuOpen && setIsSubmenuOpen && options) &&
+                <Submenu
+                    index={index}
+                    isOpen={isOpen}
+                    setIsSubmenuOpen={setIsSubmenuOpen}
+                    options={options}
+                />
             }
-
-        </a>
+    </>
     )
 }
