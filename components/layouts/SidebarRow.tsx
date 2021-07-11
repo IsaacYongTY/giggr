@@ -43,7 +43,7 @@ export default function SidebarRow({ index, icon, title, link, isOpen, hasSubmen
     return(
         <>
             <a
-                href={hasSubmenu ? "#" : link}
+                href={link}
                 className={`${styles.sidebarRow} ${isActive && styles.active}`}
                 style={ !isOpen ? removePadding : {}}
                 onMouseEnter={handleOpenSubmenu}
