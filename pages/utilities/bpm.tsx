@@ -43,17 +43,22 @@ export default function Bpm({ user } : Props) {
 
     useEffect(() => {
         const keyPressHandler = (e: KeyboardEvent) => {
+            console.log(e.key)
             if(e.key === " ") {
                 setCount(prevState => prevState + 1)
             }
             if(e.key === "p") {
                 setIsPlaying(prevState => !prevState)
             }
+            if(e.key === "Enter") {
+
+                handleSetTempo()
+            }
         }
         window.addEventListener("keydown", keyPressHandler)
 
         return () => window.removeEventListener('keydown', keyPressHandler);
-    },[])
+    },[userTempo])
 
     useEffect(() => {
         const metronomeSound = new Audio( "/audios/metronome-sound.mp3")
@@ -68,6 +73,8 @@ export default function Bpm({ user } : Props) {
         const interval = (1 / tempo) * 60 * 1000
 
         if(isPlaying) {
+
+            if(audio) audio.play()
 
             timer = setInterval(() => {
                 if(audio) {
@@ -150,8 +157,8 @@ export default function Bpm({ user } : Props) {
             return
         }
 
-        setTempo(parseInt(userTempo))
-        setDisplayTempo(Math.round(parseInt(userTempo)))
+        setTempo(parseFloat(userTempo))
+        setDisplayTempo(Math.round(parseFloat(userTempo)))
         setUserTempo("")
         setErrorMessage("")
     }
@@ -163,6 +170,7 @@ export default function Bpm({ user } : Props) {
         setUserTempo(e.target.value)
     }
 
+    console.log(userTempo)
     return (
         <Layout user={user}>
             <div className={styles.container}>
@@ -181,6 +189,16 @@ export default function Bpm({ user } : Props) {
                 </button>
 
                 <div className={styles.buttonRow}>
+
+
+                    <div>
+
+                        <label>
+                            <div>Count:</div>
+                            <input type="number" disabled value={count} readOnly className="form-control"/>
+                        </label>
+                    </div>
+
                     <div>
                         <button
                             className="btn btn-primary"
@@ -190,18 +208,17 @@ export default function Bpm({ user } : Props) {
                             Tap Tempo
                         </button>
                     </div>
-
-                    <div>
-
-                        <label>
-                            <div>Count:</div>
-                            <input type="number" disabled value={count} readOnly className="form-control"/>
-                        </label>
-                    </div>
                 </div>
 
 
                 <div className={styles.buttonRow}>
+                    <div>
+                        <label>
+                            <span>Input:</span> { errorMessage && <span className="error-message">* {errorMessage}</span>}
+                            <input value={userTempo} className="form-control" onChange={handleUserTempoInput}/>
+                        </label>
+                    </div>
+
                     <div>
                         <button
                             className="btn btn-primary"
@@ -211,17 +228,6 @@ export default function Bpm({ user } : Props) {
                             Set Tempo
                         </button>
                     </div>
-
-                    <div>
-
-                        <label>
-                            <span>Input:</span> { errorMessage && <span className="error-message">* {errorMessage}</span>}
-                            <input value={userTempo} className="form-control" onChange={handleUserTempoInput}/>
-                        </label>
-
-
-                    </div>
-
                 </div>
 
                 <div className={`${styles.buttonRow} pt-1-5`}>
