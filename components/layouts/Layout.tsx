@@ -24,7 +24,7 @@ export default function Layout({ title, user, children }: Props) {
             </Head>
 
 
-            <Header title={title} setIsOpen={setIsOpen}/>
+            <Header title={title} setIsOpen={setIsOpen} isOpen={isOpen}/>
 
             <div className={`${styles.layoutSidebar} ${isOpen ? styles.open : styles.close}`}>
                 <div>
