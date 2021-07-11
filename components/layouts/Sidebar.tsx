@@ -70,7 +70,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     index={3}
                     icon="handyman"
                     title="Utilities"
-                    link="/utilities"
+                    link="#"
                     hasSubmenu={true}
                     isOpen={isOpen}
                     currentPathName={currentPathName}
