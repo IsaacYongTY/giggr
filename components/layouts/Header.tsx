@@ -3,7 +3,7 @@ import styles from '../../assets/scss/components/layouts/_header.module.scss';
 import SettingsDropdown from "../elements/SettingsDropdown";
 import Image from "next/image";
 
-const Header = ({ title, setIsOpen }: any) => {
+const Header = ({ title, setIsOpen, isOpen }: any) => {
 
     return (
         <div className={styles.header}>
@@ -14,7 +14,7 @@ const Header = ({ title, setIsOpen }: any) => {
             <div className={`${styles.headerLogoPosition} logo `}>
                 <Image src={"/img/logos/giggr-logo-blue-600x250.png"} alt="blue-giggr-logo" width={600} height={250} />
             </div>
-            <p>{title}</p>
+            <p className={`${styles.title} ${isOpen ? styles.sidebarOpenOffset : ""}`}>{title}</p>
             <SettingsDropdown />
 
         </div>

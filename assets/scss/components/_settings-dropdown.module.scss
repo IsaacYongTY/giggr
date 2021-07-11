@@ -1,3 +1,5 @@
+@import "../variables";
+
 .container {
     position:absolute;
     top: 1.8rem;
@@ -6,8 +8,8 @@
 
 .menu {
   position: relative;
-  top: 4.5rem;
-  right: 15rem;
+  top: $header-height + 4.5rem;
+  //right: 15rem;
   border: 1px solid lightgrey;
   width: 18rem;
   border-radius: 0.3rem;
