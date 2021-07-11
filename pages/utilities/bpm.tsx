@@ -224,7 +224,7 @@ export default function Bpm({ user } : Props) {
 
                 </div>
 
-                <div className={styles.buttonRow}>
+                <div className={`${styles.buttonRow} pt-1-5`}>
                     <div>
                         <button
                             className={ isDecimal ? "btn btn-primary": "btn btn-secondary"}
