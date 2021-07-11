@@ -1,11 +1,10 @@
 import React from "react"
-import {fireEvent, render, screen, waitFor} from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import RepertoirePage from "../../pages/repertoire"
 import axios from "axios";
-import router from "next/router"
-import {upload} from "@testing-library/user-event/dist/upload";
+
 jest.mock("next/router", () => require("next-router-mock"))
 jest.mock("axios")
 
