@@ -294,6 +294,18 @@ describe("The bpm page", () => {
 
         })
 
+        it("should set user tempo when 'Enter' key is pressed", () => {
+            const { tempoInput } = renderBpmPage()
+
+            userEvent.keyboard("{enter}")
+            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+
+            userEvent.type(tempoInput, "120")
+            userEvent.keyboard("{enter}")
+
+            expect(screen.getByText("120")).toBeInTheDocument()
+        })
+
     })
 
 })
