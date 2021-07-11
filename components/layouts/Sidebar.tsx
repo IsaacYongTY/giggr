@@ -92,7 +92,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                 />
 
                 {
-                    user.isAdmin &&
+                    user?.isAdmin &&
                     <SidebarRow
                         icon="admin_panel_settings"
                         title="Admin"
@@ -100,6 +100,11 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                         isOpen={isOpen}
                         currentPathName={currentPathName}
                         hasSubmenu={true}
+                        options={[
+                            { title: "Manage Database", link: "/admin/database" },
+                            { title: "Playground", link: "/test/playground" },
+                            { title: "Gig Form", link: "/test/gigform" },
+                        ]}
                     />
 
                 }
