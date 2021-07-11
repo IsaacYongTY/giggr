@@ -7,9 +7,9 @@
 }
 
 .menu {
-  position: relative;
-  top: $header-height + 4.5rem;
-  //right: 15rem;
+  position: absolute;
+  top: 4.5rem;
+  right: 2rem;
   border: 1px solid lightgrey;
   width: 18rem;
   border-radius: 0.3rem;
