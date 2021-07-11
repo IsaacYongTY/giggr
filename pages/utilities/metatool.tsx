@@ -58,10 +58,6 @@ export default function MetaTool({ user } : Props) {
                     setAlertType={setAlertType}
                 />
 
-
-
-
-
                 {
                     user.isAdmin &&
                     <div className={styles.checkboxRowContainer}>
