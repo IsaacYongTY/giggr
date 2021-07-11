@@ -9,8 +9,20 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import axios from "axios";
+import withAuth from "../../middlewares/withAuth";
 
-export default function GigForm() {
+export const getServerSideProps = withAuth(async({req, res} : any) => {
+    return {
+        props: {
+            user: req.user
+        }
+    }
+})
+
+interface Props {
+    user: any
+}
+export default function GigForm( {user} :Props ) {
 
     const [isRepeated, setIsRepeated] = useState(false)
     const customDatePickerTheme = createMuiTheme({
@@ -107,7 +119,7 @@ export default function GigForm() {
     }
     return (
 
-        <Layout>
+        <Layout user={user}>
 
             <div className={styles.container}>
 

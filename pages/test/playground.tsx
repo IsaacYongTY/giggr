@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Layout from '../../components/layouts/Layout';
 import axios from "axios";
 import Musician from "../../lib/types/musician";
+import withAuth from "../../middlewares/withAuth";
 
 
 type Option = {
@@ -9,8 +10,16 @@ type Option = {
     label: string
 }
 
+export const getServerSideProps = withAuth(async({req, res} : any) => {
+    return {
+        props: {
+            user: req.user
+        }
+    }
+})
 
-export default function Playground() {
+
+export default function Playground({ user }: any) {
 
     const [selectedMusicians, setSelectedMusicians] = useState<Musician[]>([])
     const [options, setOptions] = useState<Option[]>([])
@@ -33,7 +42,7 @@ export default function Playground() {
     },[])
 
     return (
-        <Layout title="Playground">
+        <Layout user={user} title="Playground">
             <div>something here</div>
 
         </Layout>
