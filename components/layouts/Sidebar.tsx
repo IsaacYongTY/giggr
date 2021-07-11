@@ -1,9 +1,9 @@
-import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import styles from '../../assets/scss/components/layouts/_sidebar.module.scss'
 import SidebarRow from "./SidebarRow";
 import Link from "next/link";
-import Submenu from "./Submenu";
 import Image from "next/image";
+
 
 type Props = {
     isOpen: boolean
@@ -14,7 +14,7 @@ type Props = {
 
 export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : Props) {
 
-    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
+
     const sidebar = useRef<HTMLDivElement>(null)
 
     function handleToggleSidebar() {
@@ -53,12 +53,46 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                 </div>
 
                 <SidebarRow icon="dashboard" title="Dashboard" link="/dashboard" isOpen={isOpen} currentPathName={currentPathName} />
-                <SidebarRow icon="music_note" title="My Repertoire" link="/repertoire" isOpen={isOpen} currentPathName={currentPathName} />
+                <SidebarRow
+                    index={1}
+                    icon="music_note"
+                    title="My Repertoire"
+                    link="/repertoire"
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+                    hasSubmenu={true}
+                    options={[
+                        { title: "Manage Artist", link: "#" },
+                    ]}
+                />
                 <SidebarRow icon="work" title="My Gigs" link="/gigs" isOpen={isOpen} currentPathName={currentPathName} />
-                <SidebarRow icon="handyman" title="Utilities" link="/utilities" hasSubmenu={true} isOpen={isOpen} setIsSubmenuOpen={setIsSubmenuOpen} currentPathName={currentPathName}/>
-                <SidebarRow icon="insights" title="Stats" link="/stats" isOpen={isOpen} currentPathName={currentPathName} />
+                <SidebarRow
+                    index={3}
+                    icon="handyman"
+                    title="Utilities"
+                    link="/utilities"
+                    hasSubmenu={true}
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+                    options={[
+                        { title: "Spotify Meta Tool", link: "/utilities/metatool" },
+                        { title: "Progression Generator", link: "/utilities/progression" },
+                        { title: "BPM Tools", link: "/utilities/bpm" },
+                        { title: "Lead Sheet Generator", link:"/utilities/leadsheetspacing" },
+                    ]}
+                />
+
+                <SidebarRow
+                    icon="insights"
+                    title="Stats"
+                    link="/stats"
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+
+                />
+
                 {
-                    user?.tierId === 4 &&
+                    user.isAdmin &&
                     <SidebarRow
                         icon="admin_panel_settings"
                         title="Admin"
@@ -66,18 +100,15 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                         isOpen={isOpen}
                         currentPathName={currentPathName}
                         hasSubmenu={true}
-                        setIsSubmenuOpen={setIsSubmenuOpen}
-                        submenuContent={<Submenu />}/>
+                    />
+
                 }
 
 
 
 
             </div>
-            {
-                isSubmenuOpen &&
-                <Submenu isOpen={isOpen} setIsSubmenuOpen={setIsSubmenuOpen} />
-            }
+
 
         </>
 
