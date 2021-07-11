@@ -3,21 +3,37 @@ import userEvent from "@testing-library/user-event";
 import {render, screen, waitFor} from "@testing-library/react"
 import "@testing-library/jest-dom"
 import BpmPage from "../../pages/utilities/bpm";
-
 const defaultTempo = 69
+
 jest.mock("next/router", () => require("next-router-mock"))
 
 function renderBpmPage() {
-    const utils = render(<BpmPage />)
+    const defaultProps = {
+        user: {
+            id: 1,
+            firstName: "Isaac",
+            tierId: 4
+        }
+    }
+    const utils = render(<BpmPage {...defaultProps} />)
     const bpmDisplay = utils.getByText(defaultTempo)
-    const tapButton = utils.getByRole("button", { name: /tap/i})
+    const tapButton = utils.getByRole("button", { name: /tap tempo/i})
+    const setTempoButton = utils.getByRole("button", { name: /set tempo/i})
+    const tempoInput = utils.getByLabelText(/input.*/i)
     const toggleDecimalButton = utils.getByRole("button", { name: /toggle decimal/i})
     const resetButton = utils.getByRole("button", { name: /reset/i})
     const countInput = utils.getByRole("spinbutton", {name: /count.*/i})
 
-    return {...utils, tapButton, toggleDecimalButton, bpmDisplay, countInput, resetButton}
+    return {...utils, tapButton, setTempoButton, tempoInput, toggleDecimalButton, bpmDisplay, countInput, resetButton}
 }
+
 describe("The bpm page", () => {
+
+    let errorMessage = /please enter tempo of range 40 - 200/i
+
+    beforeEach(() => {
+        jest.useFakeTimers()
+    })
 
     it("should render correctly", () => {
         const { countInput } = renderBpmPage()
@@ -57,11 +73,9 @@ describe("The bpm page", () => {
     })
 
     it("should not change for the first 2 tap", async() => {
-        jest.useFakeTimers()
+
 
         const { countInput, tapButton } = renderBpmPage()
-        const numberOfTaps = 2
-        const tapInterval = 1000
 
         userEvent.click(tapButton)
         jest.advanceTimersByTime(1000)
@@ -75,7 +89,6 @@ describe("The bpm page", () => {
     })
 
     it("should display tempo value 3rd tap onwards", () => {
-        jest.useFakeTimers()
 
         const { countInput, tapButton } = renderBpmPage()
 
@@ -93,27 +106,37 @@ describe("The bpm page", () => {
 
     })
 
-    it("should reset tempo to default value and count to 0", () => {
+    describe("The reset button", () => {
+        it("should hide error message if there is one", () => {
+            const { setTempoButton, resetButton } = renderBpmPage()
 
-        const { countInput, tapButton, resetButton } = renderBpmPage()
+            userEvent.click(setTempoButton)
 
-        userEvent.click(tapButton)
-        userEvent.click(tapButton)
-        userEvent.click(tapButton)
-        userEvent.click(tapButton)
+            userEvent.click(resetButton)
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
+        })
 
-        expect(countInput).toHaveValue(4)
+        it("should reset tempo to default value and count to 0", () => {
+            const { countInput, tapButton, resetButton } = renderBpmPage()
+
+            userEvent.click(tapButton)
+            userEvent.click(tapButton)
+            userEvent.click(tapButton)
+            userEvent.click(tapButton)
+
+            expect(countInput).toHaveValue(4)
 
 
-        userEvent.click(resetButton)
+            userEvent.click(resetButton)
 
-        expect(countInput).toHaveValue(0)
-        expect(screen.getByText(defaultTempo)).toBeInTheDocument()
+            expect(countInput).toHaveValue(0)
+            expect(screen.getByText(defaultTempo)).toBeInTheDocument()
 
+        })
     })
 
+
     it("should display correct tempo after Tap button is tapped more than 2 times", () => {
-        jest.useFakeTimers()
 
         const { countInput, tapButton } = renderBpmPage()
 
@@ -133,7 +156,6 @@ describe("The bpm page", () => {
     })
 
     it("should display correct tempo after Space bar is pressed more than 2 times", () => {
-        jest.useFakeTimers()
 
         const { countInput, tapButton } = renderBpmPage()
 
@@ -153,10 +175,10 @@ describe("The bpm page", () => {
     })
 
     it("should reset the count to 0 and default tempo on Tap after idling for 2 seconds", () => {
-        jest.useFakeTimers()
 
         const { countInput, tapButton } = renderBpmPage()
 
+        jest.useFakeTimers()
         userEvent.keyboard("{space}")
         jest.advanceTimersByTime(500)
         userEvent.keyboard("{space}")
@@ -190,7 +212,7 @@ describe("The bpm page", () => {
             jest.advanceTimersByTime(500)
             userEvent.click(tapButton)
             jest.advanceTimersByTime(495)
-//120.4
+
             expect(screen.getByText("120")).toBeInTheDocument()
 
         })
@@ -213,6 +235,65 @@ describe("The bpm page", () => {
             userEvent.click(toggleDecimalButton)
             expect(screen.getByText("120")).toBeInTheDocument()
         })
+    })
+
+    describe("The behaviour of Tap to play", () => {
+        it("should render text correctly", () => {
+             renderBpmPage()
+            userEvent.click(screen.getByRole("button", { name: /tap to play/i }))
+            expect(screen.getByText(/tap to stop/i)).toBeInTheDocument()
+
+            userEvent.click(screen.getByText(/tap to stop/i))
+            expect(screen.getByText(/tap to play/i)).toBeInTheDocument()
+        })
+
+        it.todo("should play sound at interval when Play button is pressed")
+    })
+
+    describe("The behaviour of Set Tempo Button", () => {
+
+        it("should render correctly", () => {
+            const { tempoInput } = renderBpmPage()
+
+            expect(tempoInput).toHaveValue("")
+        })
+
+        it("should set the tempo to Tempo Display", () => {
+            const { setTempoButton, tempoInput } = renderBpmPage()
+
+            userEvent.type(tempoInput, "120")
+            expect(tempoInput).toHaveValue("120")
+
+            userEvent.click(setTempoButton)
+            expect(tempoInput).toHaveValue("")
+            expect(screen.queryByText(defaultTempo)).not.toBeInTheDocument()
+            expect(screen.getByText("120")).toBeInTheDocument()
+        })
+
+        it("should show error message if input is empty", () => {
+            const { setTempoButton } = renderBpmPage()
+
+
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
+            userEvent.click(setTempoButton)
+            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            expect(screen.getByText(defaultTempo)).toBeInTheDocument()
+
+        })
+
+        it("should clear error message if input is valid", () => {
+            const { setTempoButton, tempoInput } = renderBpmPage()
+
+            userEvent.click(setTempoButton)
+
+            userEvent.type(tempoInput, "120")
+            userEvent.click(setTempoButton)
+
+            expect(screen.getByText("120")).toBeInTheDocument()
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
+
+        })
+
     })
 
 })

@@ -26,13 +26,15 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
     }, [])
 
     return(
-        <div
+
+        <a
+            href={hasSubmenu ? "#" : link}
             className={`${styles.sidebarRow} ${isActive && styles.active}`}
             style={ !isOpen ? removePadding : {}}
             onMouseEnter={handleOpenSubmenu}
             onMouseLeave={handleCloseSubmenu}
         >
-            <a href={hasSubmenu ? "#" : link}>
+
                 <div className="material-icons">
                     {icon}
                 </div>
@@ -41,7 +43,7 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
                     isOpen &&
                     <div className={`${styles.sidebarTitle}`}>{title}</div>
                 }
-            </a>
+
 
             {
                 hasSubmenu &&
@@ -50,6 +52,6 @@ export default function SidebarRow({ icon, title, link, hasSubmenu, isOpen, setI
                 </div>
             }
 
-        </div>
+        </a>
     )
 }

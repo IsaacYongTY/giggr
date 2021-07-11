@@ -16,7 +16,6 @@ export default function Submenu({ isOpen, setIsSubmenuOpen }: any) {
             <MenuRow title="BPM Tools" link="/utilities/bpm" />
             <MenuRow title="Lead Sheet Generator" link="/utilities/leadsheetspacing" />
 
-
         </div>
     )
 }
