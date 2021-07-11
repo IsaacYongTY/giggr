@@ -11,8 +11,9 @@
   background-color: white;
   border-bottom: 1px solid #DDDDDD;
   box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
-  display: grid;
-  grid-template-columns: $sidebar-close-width 65rem 1fr $sidebar-close-width;
+  //display: grid;
+  //grid-template-columns: $sidebar-close-width ($sidebar-open-width - $sidebar-close-width) 1fr $sidebar-close-width ;
+  display: flex;
   z-index: 3;
 
 }
@@ -20,10 +21,20 @@
 .menuButton {
   justify-self: center;
   align-self: center;
+  width: $sidebar-close-width
 
 }
 
 .headerLogoPosition {
   margin-left: 2rem;
+}
+
+.title {
+  width: 80%;
+  text-align: center;
+}
+
+.sidebarOpenOffset {
+  margin-left: ( $sidebar-open-width - $sidebar-close-width ) /2
 }
 
