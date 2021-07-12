@@ -11,7 +11,8 @@ function renderLeadSheetSpacing() {
     const resultTextArea = screen.getByLabelText(/result.*/i)
     const processButton = screen.getByRole("button", { name: /process/i})
     const clearAllButton = screen.getByRole("button", { name: /clear all/i})
-    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton}
+    const clearResultButton = screen.getByRole("button", { name: /clear result/i})
+    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton}
 }
 
 describe("The Lead Sheet Spacing page", () => {
@@ -96,6 +97,19 @@ describe("The Lead Sheet Spacing page", () => {
             userEvent.click(clearAllButton)
 
             expect(inputTextArea).toHaveValue("")
+            expect(resultTextArea).toHaveValue("")
+        })
+    })
+
+    describe("Clear Result button", () => {
+        it("should clear the content inside result textarea", () => {
+            const { clearResultButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+
+            userEvent.type(inputTextArea, "testing in input textarea")
+            userEvent.type(resultTextArea, "testing in output textarea")
+            userEvent.click(clearResultButton)
+
+            expect(inputTextArea).toHaveValue("testing in input textarea")
             expect(resultTextArea).toHaveValue("")
         })
     })

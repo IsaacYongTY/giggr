@@ -1,8 +1,7 @@
 import React, {useState} from "react"
 import Layout from "../../components/layouts/Layout";
 import addSpaceBetweenChineseWords from "../../lib/utils/add-space-between-chinese-words";
-
-
+import styles from "../../assets/scss/pages/_lead-sheet-spacing.module.scss";
 
 export default function LeadSheetSpacing() {
 
@@ -18,21 +17,39 @@ export default function LeadSheetSpacing() {
         setInputText("")
         setResultText("")
     }
+
+    function handleClearResult() {
+        setResultText("")
+    }
+
     return (
-        <Layout user={{ id: 1, isAdmin: false }}>
-            Lead Sheet Spacing
-            <label>
-                <div>Input:</div>
-                <textarea value={inputText} onChange={(e) => setInputText(e.target.value)}/>
-            </label>
+        <Layout user={{ id: 1, isAdmin: false }} title="Lead Sheet Spacing">
+            <div className={styles.container}>
+                <div className={styles.textAreaContainer}>
+                    <div>
+                        <label>
+                            <div>Input:</div>
+                            <textarea value={inputText} onChange={(e) => setInputText(e.target.value)}/>
+                        </label>
 
-            <label>
-                <div>Result:</div>
-                <textarea value={resultText} onChange={(e) => setResultText(e.target.value)}/>
-            </label>
+                        <div className={styles.buttonRow}>
+                            <button className="btn btn-primary" onClick={handleProcessText}>Process</button>
+                            <button className="btn btn-danger-outlined" onClick={handleClearAll}>Clear All</button>
+                        </div>
+                    </div>
 
-            <button onClick={handleProcessText}>Process</button>
-            <button onClick={handleClearAll}>Clear All</button>
+                    <div>
+                        <label>
+                            <div>Result:</div>
+                            <textarea value={resultText} onChange={(e) => setResultText(e.target.value)}/>
+                        </label>
+
+                        <div className={styles.buttonRow}>
+                            <button className="btn btn-danger-outlined" onClick={handleClearResult}>Clear Result</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Layout>
     )
 }
