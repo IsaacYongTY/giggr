@@ -104,12 +104,12 @@ export default function Bpm({ user } : Props) {
     function handleTapTempo() {
 
         const idleTime = 2000
-
         const isIdleMoreThanIdleTime = Date.now() - startTime.current > idleTime
 
         if(isIdleMoreThanIdleTime && startTime.current > 0) {
 
-            handleReset()
+            reset()
+
             setCount(1)
             return
         }
@@ -133,17 +133,19 @@ export default function Bpm({ user } : Props) {
         startTime.current = Date.now()
 
     }
-    function handleReset() {
+
+
+    function reset() {
         setCount(0)
-
-        if(!tempo || !displayTempo) {
-            setTempo(defaultTempo)
-            setDisplayTempo(defaultTempo)
-        }
-
         setErrorMessage("")
         totalTimeLapsed.current = 0
         startTime.current = 0
+    }
+
+    function handleReset() {
+        reset()
+        setTempo(defaultTempo)
+        setDisplayTempo(defaultTempo)
     }
 
     function handleToggleDecimal() {
