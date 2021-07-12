@@ -15,5 +15,14 @@ module.exports = withTM({
     // future: {
     //     webpack5: true,
     // }
+    async redirects() {
+        return [
+            {
+                source: '/utilities',
+                destination: '/utilities/metatool',
+                permanent: true,
+            },
+        ]
+    },
 
 })
