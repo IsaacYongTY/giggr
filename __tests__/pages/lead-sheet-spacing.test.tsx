@@ -166,6 +166,86 @@ describe("The Lead Sheet Spacing page", () => {
         })
     })
 
+
+    describe("The behaviour of add string to remove textbox", () => {
+        it("should add and display added string on the page", () => {
+            const {addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+            expect(addStringTextbox).toHaveValue("#")
+
+            userEvent.click(addStringButton)
+            expect(addStringTextbox).toHaveValue("")
+
+            expect(screen.getByText("#")).toBeInTheDocument()
+            expect(screen.getByText("clear")).toBeInTheDocument()
+        })
+
+        it("should be empty after the add button is clicked", () => {
+            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+
+            userEvent.click(addStringButton)
+            expect(addStringTextbox).toHaveValue("")
+        })
+
+        it("should not add string if it already existed", () => {
+            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            expect(screen.getByText("#")).toBeInTheDocument()
+        })
+
+        it("should be able to add multiple strings", () => {
+            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "＃")
+            userEvent.click(addStringButton)
+
+            expect(screen.getByText("#")).toBeInTheDocument()
+            expect(screen.getByText("*")).toBeInTheDocument()
+            expect(screen.getByText("＃")).toBeInTheDocument()
+
+            const deleteButtonArray = screen.getAllByText("clear")
+            expect(deleteButtonArray).toHaveLength(3)
+
+
+        })
+
+        it("should delete the string if delete button for the string is clicked", () => {
+            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "＃")
+            userEvent.click(addStringButton)
+
+            const deleteButtonArray = screen.getAllByText("clear")
+            userEvent.click(deleteButtonArray[1])
+
+            expect(screen.queryByText("*")).not.toBeInTheDocument()
+
+
+        })
+    })
+
+
     describe("Toggle the removal of characters", () => {
         it("should be checked by default", () => {
             const { removeStringsCheckbox } = renderLeadSheetSpacing()
@@ -183,14 +263,26 @@ describe("The Lead Sheet Spacing page", () => {
         })
 
         it("should remove specified strings from the result if checkbox is checked", () => {
-            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            const { addStringButton, addStringTextbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
             userEvent.type(inputTextArea, "#Verse *Chorus")
             userEvent.click(processButton)
             expect(resultTextArea).toHaveValue("Verse Chorus")
         })
 
         it("should return the same strings if checkbox is not checked", () => {
-            const { removeStringsCheckbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            const { addStringButton, addStringTextbox, removeStringsCheckbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
             userEvent.type(inputTextArea, "#not *changed")
             userEvent.click(removeStringsCheckbox)
             userEvent.click(processButton)
@@ -198,18 +290,5 @@ describe("The Lead Sheet Spacing page", () => {
         })
 
 
-    })
-
-    describe("The add unwanted string textbox", () => {
-        it("should add and display added string on the page", () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
-
-            userEvent.type(addStringTextbox, "#")
-            expect(addStringTextbox).toHaveValue("#")
-
-            userEvent.click(addStringButton)
-
-            expect(addStringTextbox).toHaveValue("")
-        })
     })
 })
