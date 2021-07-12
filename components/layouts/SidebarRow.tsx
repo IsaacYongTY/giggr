@@ -35,9 +35,6 @@ export default function SidebarRow({ index, icon, title, link, isOpen, hasSubmen
     }
 
     useEffect(() => {
-        console.log(currentPathName)
-        console.log(link)
-        console.log(currentPathName.includes(link))
         if(currentPathName.includes(link)) {
             setIsActive(true)
         }
