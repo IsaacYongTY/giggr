@@ -1,7 +1,7 @@
 export default function addSpaceBetweenChineseWords(str : string) : string {
 
     const alphaNumRegex = /[A-z]/
-    const spacesRegex = / +/g
+    const spacesRegex = /[ 　]+/g
     const lineArray = str.split("\n")
 
     const resultArray = lineArray.map(line =>{

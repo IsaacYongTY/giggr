@@ -30,6 +30,7 @@ describe("addSpaceBetweenChineseWords", () => {
 
     it("should remove tab characters", () => {
         expect(addSpaceBetweenChineseWords("同样的     天空  下 还是同样     一天")).toBe("同 样 的 天 空 下 还 是 同 样 一 天")
+        expect(addSpaceBetweenChineseWords("同样的天空下　还是同样一天")).toBe("同 样 的 天 空 下 还 是 同 样 一 天")
     })
 
     it("should remove trailing white spaces of input", () => {
