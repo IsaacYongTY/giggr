@@ -287,7 +287,7 @@ describe("The bpm page", () => {
             userEvent.click(setTempoButton)
 
             expect(screen.getByText("79")).toBeInTheDocument()
-            jest.advanceTimersByTime(2000)
+            jest.advanceTimersByTime(2500)
 
             userEvent.click(tapButton)
             expect(screen.getByText("79")).toBeInTheDocument()
@@ -311,7 +311,7 @@ describe("The bpm page", () => {
             expect(countInput).toHaveValue(4)
             expect(screen.getByText("120")).toBeInTheDocument()
 
-            jest.advanceTimersByTime(2000)
+            jest.advanceTimersByTime(2500)
 
             userEvent.keyboard("{space}")
             jest.advanceTimersByTime(1000)
