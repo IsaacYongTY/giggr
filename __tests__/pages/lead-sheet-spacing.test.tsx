@@ -2,8 +2,14 @@ import LeadSheetSpacing from "../../pages/utilities/leadsheetspacing";
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
+import { hyphenateSync} from "hyphen/en-gb";
 
 jest.mock("next/router", () => require("next-router-mock"))
+jest.mock("hyphen/en-gb", () => (
+    {
+        hyphenateSync: jest.fn((input) => input)
+    }
+))
 
 function renderLeadSheetSpacing() {
     const utils = render(<LeadSheetSpacing />)
@@ -12,10 +18,15 @@ function renderLeadSheetSpacing() {
     const processButton = screen.getByRole("button", { name: /process/i})
     const clearAllButton = screen.getByRole("button", { name: /clear all/i})
     const clearResultButton = screen.getByRole("button", { name: /clear result/i})
-    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton}
+    const addHyphenCheckbox = screen.getByRole("checkbox", { name: /add hyphen between syllables.*/i})
+    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton, addHyphenCheckbox}
 }
 
 describe("The Lead Sheet Spacing page", () => {
+
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
     it("should render correctly", () => {
         renderLeadSheetSpacing()
     })
@@ -86,6 +97,7 @@ describe("The Lead Sheet Spacing page", () => {
                 "所 希 望 被 破 灭 被 你 否 定")
 
         })
+
     })
 
     describe("Clear All button", () => {
@@ -112,5 +124,46 @@ describe("The Lead Sheet Spacing page", () => {
             expect(inputTextArea).toHaveValue("testing in input textarea")
             expect(resultTextArea).toHaveValue("")
         })
+    })
+
+    describe("Add Hyphen Between Syllables checkbox", () => {
+
+        it("should be checked by default", () => {
+            const { addHyphenCheckbox } = renderLeadSheetSpacing()
+
+            expect(addHyphenCheckbox).toBeChecked()
+        })
+
+        it("should be able to toggle", () => {
+            const { addHyphenCheckbox } = renderLeadSheetSpacing()
+
+            userEvent.click(addHyphenCheckbox)
+            expect(addHyphenCheckbox).not.toBeChecked()
+
+            userEvent.click(addHyphenCheckbox)
+            expect(addHyphenCheckbox).toBeChecked()
+        })
+
+        it("hyphenate function should be called if the checkbox is checked", () => {
+
+            const { processButton } = renderLeadSheetSpacing()
+            userEvent.click(processButton)
+
+            expect(hyphenateSync).toBeCalledTimes(1)
+        })
+
+        it("hyphenate function should not be called if the checkbox is not checked", () => {
+
+            const { addHyphenCheckbox, processButton } = renderLeadSheetSpacing()
+            userEvent.click(addHyphenCheckbox)
+            expect(addHyphenCheckbox).not.toBeChecked()
+
+            userEvent.click(processButton)
+            expect(hyphenateSync).not.toBeCalled()
+        })
+    })
+
+    describe("Toggle the removal of characters", () => {
+
     })
 })
