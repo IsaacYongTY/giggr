@@ -174,32 +174,6 @@ describe("The bpm page", () => {
 
     })
 
-    it("should reset the count to 0 and default tempo on Tap after idling for 2 seconds", () => {
-
-        const { countInput, tapButton } = renderBpmPage()
-
-        jest.useFakeTimers()
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-
-        expect(countInput).toHaveValue(4)
-        expect(screen.getByText("120")).toBeInTheDocument()
-
-        jest.advanceTimersByTime(2000)
-
-        userEvent.keyboard("{space}")
-        expect(countInput).toHaveValue(0)
-        expect(screen.getByText(defaultTempo)).toBeInTheDocument()
-
-
-    })
-
     describe("The behaviour of Toggle Decimal button", () => {
         it("should default as without decimal", () => {
             let { tapButton } = renderBpmPage()
@@ -306,6 +280,53 @@ describe("The bpm page", () => {
             expect(screen.getByText("120")).toBeInTheDocument()
         })
 
+
+        it("should stay with the previous value for the first two beats when tempo is set manually", () => {
+            const { tapButton, tempoInput, setTempoButton } = renderBpmPage()
+            userEvent.type(tempoInput, "79")
+            userEvent.click(setTempoButton)
+
+            expect(screen.getByText("79")).toBeInTheDocument()
+            jest.advanceTimersByTime(2000)
+
+            userEvent.click(tapButton)
+            expect(screen.getByText("79")).toBeInTheDocument()
+
+        })
+    })
+
+    describe("The behaviour of the metronome upon resetting after idle time", () => {
+        it("should stay with the previous value for the first two beats when idle time is more than 2s", () => {
+            const { tapButton, countInput,  tempoInput, setTempoButton } = renderBpmPage()
+
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(500)
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(500)
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(500)
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(500)
+
+            expect(countInput).toHaveValue(4)
+            expect(screen.getByText("120")).toBeInTheDocument()
+
+            jest.advanceTimersByTime(2000)
+
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(1000)
+            expect(countInput).toHaveValue(1)
+            expect(screen.getByText("120")).toBeInTheDocument()
+
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(1000)
+            expect(screen.getByText("120")).toBeInTheDocument()
+
+            userEvent.keyboard("{space}")
+            jest.advanceTimersByTime(1000)
+            expect(screen.getByText("60")).toBeInTheDocument()
+
+        })
     })
 
 })
