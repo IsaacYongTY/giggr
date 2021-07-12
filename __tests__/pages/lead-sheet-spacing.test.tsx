@@ -12,14 +12,18 @@ jest.mock("hyphen/en-gb", () => (
 ))
 
 function renderLeadSheetSpacing() {
-    const utils = render(<LeadSheetSpacing />)
+    const utils = render(<LeadSheetSpacing user={{id: 1, firstName: "Isaac", isAdmin: false}} />)
     const inputTextArea = screen.getByLabelText(/input.*/i)
     const resultTextArea = screen.getByLabelText(/result.*/i)
     const processButton = screen.getByRole("button", { name: /process/i})
     const clearAllButton = screen.getByRole("button", { name: /clear all/i})
     const clearResultButton = screen.getByRole("button", { name: /clear result/i})
     const addHyphenCheckbox = screen.getByRole("checkbox", { name: /add hyphen between syllables.*/i})
-    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton, addHyphenCheckbox}
+    const removeStringsCheckbox = screen.getByRole("checkbox", { name: /remove selected strings.*/i})
+    const addStringTextbox = screen.getByRole("textbox", { name: /add string to remove.*/i})
+    const addStringButton = screen.getByRole("button", { name: /add/i})
+    return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton,
+        addHyphenCheckbox, removeStringsCheckbox, addStringTextbox, addStringButton}
 }
 
 describe("The Lead Sheet Spacing page", () => {
@@ -125,7 +129,6 @@ describe("The Lead Sheet Spacing page", () => {
             expect(resultTextArea).toHaveValue("")
         })
     })
-
     describe("Add Hyphen Between Syllables checkbox", () => {
 
         it("should be checked by default", () => {
@@ -164,6 +167,49 @@ describe("The Lead Sheet Spacing page", () => {
     })
 
     describe("Toggle the removal of characters", () => {
+        it("should be checked by default", () => {
+            const { removeStringsCheckbox } = renderLeadSheetSpacing()
+            expect(removeStringsCheckbox).toBeChecked()
+        })
 
+        it("should be able to toggle", () => {
+            const { removeStringsCheckbox } = renderLeadSheetSpacing()
+
+            userEvent.click(removeStringsCheckbox)
+            expect(removeStringsCheckbox).not.toBeChecked()
+
+            userEvent.click(removeStringsCheckbox)
+            expect(removeStringsCheckbox).toBeChecked()
+        })
+
+        it("should remove specified strings from the result if checkbox is checked", () => {
+            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(inputTextArea, "#Verse *Chorus")
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("Verse Chorus")
+        })
+
+        it("should return the same strings if checkbox is not checked", () => {
+            const { removeStringsCheckbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(inputTextArea, "#not *changed")
+            userEvent.click(removeStringsCheckbox)
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("#not *changed")
+        })
+
+
+    })
+
+    describe("The add unwanted string textbox", () => {
+        it("should add and display added string on the page", () => {
+            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing()
+
+            userEvent.type(addStringTextbox, "#")
+            expect(addStringTextbox).toHaveValue("#")
+
+            userEvent.click(addStringButton)
+
+            expect(addStringTextbox).toHaveValue("")
+        })
     })
 })
