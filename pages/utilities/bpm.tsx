@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from "react"
+import React, {ChangeEvent, useEffect, useRef, useState} from "react"
 import calculateBpmFromTimeLapsedAndBeat from "../../lib/utils/calculate-bpm-from-time-lapsed-and-beats";
 import Layout from "../../components/layouts/Layout";
 import styles from "../../assets/scss/pages/_bpm.module.scss";
@@ -43,7 +43,6 @@ export default function Bpm({ user } : Props) {
 
     useEffect(() => {
         const keyPressHandler = (e: KeyboardEvent) => {
-            console.log(e.key)
             if(e.key === " ") {
                 setCount(prevState => prevState + 1)
             }
@@ -51,7 +50,6 @@ export default function Bpm({ user } : Props) {
                 setIsPlaying(prevState => !prevState)
             }
             if(e.key === "Enter") {
-
                 handleSetTempo()
             }
         }
@@ -110,7 +108,9 @@ export default function Bpm({ user } : Props) {
         const isIdleMoreThanIdleTime = Date.now() - startTime.current > idleTime
 
         if(isIdleMoreThanIdleTime && startTime.current > 0) {
+
             handleReset()
+            setCount(1)
             return
         }
 
@@ -135,8 +135,12 @@ export default function Bpm({ user } : Props) {
     }
     function handleReset() {
         setCount(0)
-        setTempo(defaultTempo)
-        setDisplayTempo(defaultTempo)
+
+        if(!tempo || !displayTempo) {
+            setTempo(defaultTempo)
+            setDisplayTempo(defaultTempo)
+        }
+
         setErrorMessage("")
         totalTimeLapsed.current = 0
         startTime.current = 0
@@ -170,7 +174,6 @@ export default function Bpm({ user } : Props) {
         setUserTempo(e.target.value)
     }
 
-    console.log(userTempo)
     return (
         <Layout user={user}>
             <div className={styles.container}>
@@ -189,10 +192,7 @@ export default function Bpm({ user } : Props) {
                 </button>
 
                 <div className={styles.buttonRow}>
-
-
                     <div>
-
                         <label>
                             <div>Count:</div>
                             <input type="number" disabled value={count} readOnly className="form-control"/>
