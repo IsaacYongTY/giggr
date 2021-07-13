@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../../assets/scss/components/layouts/_header.module.scss';
-import SettingsDropdown from "../elements/SettingsDropdown";
+import SettingsDropdown from "./SettingsDropdown";
 import Image from "next/image";
 
 const Header = ({ title, setIsOpen, isOpen }: any) => {

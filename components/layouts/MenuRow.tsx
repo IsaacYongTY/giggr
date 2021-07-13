@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "../../assets/scss/components/_menu-row.module.scss";
+import styles from "../../assets/scss/components/layouts/_menu-row.module.scss";
 
 export default function MenuRow({ icon, link, title, action }: any) {
 

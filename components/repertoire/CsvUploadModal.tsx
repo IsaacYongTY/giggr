@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState, useRef, useEffect} from "react"
 import axios from "axios";
 import FormData from "form-data";
-import styles from "../../assets/scss/components/_csv-upload-modal.module.scss"
+import styles from "../../assets/scss/components/repertoire/_csv-upload-modal.module.scss"
 import Modal from "react-modal";
 import {parseCookies} from "nookies";
 

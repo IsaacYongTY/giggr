@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "../../assets/scss/components/dashboard/_dashboard-card.module.scss";
-import GigItemRow from "../elements/GigItemRow";
+import GigItemRow from "./GigItemRow";
 import Link from "next/link";
 
 export default function GigsCard({ gigs } : any) {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Layout from "../components/layouts/Layout";
-import SearchBar from "../components/elements/SearchBar";
+import SearchBar from "../components/common/SearchBar";
 import RepertoireTable from "../components/repertoire/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
-import AddSongModal from "../components/elements/AddSongModal";
+import AddSongModal from "../components/repertoire/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
 import { loadUserData } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";

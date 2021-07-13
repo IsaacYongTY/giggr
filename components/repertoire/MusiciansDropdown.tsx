@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import axios from "axios";
-import styles from "../assets/scss/components/_musicians-dropdown.module.scss";
-import PillButton from "./PillButton";
-import Musician from "../lib/types/musician";
+import styles from "../../assets/scss/components/repertoire/_musicians-dropdown.module.scss";
+import PillButton from "../common/PillButton";
+import Musician from "../../lib/types/musician";
 
 export default function MusiciansDropdown() {
 
