@@ -23,6 +23,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import MetaToolForm from "../common/MetaToolForm";
 import Metronome from "../common/Metronome";
+import Link from "next/link";
 
 
 type Option = {
@@ -431,6 +432,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             setAlertMessage={setAlertMessage}
                             setAlertType={setAlertType}
                         />
+                        <div className={styles.link}>
+                            <a href="/utilities/progression" target="_blank">Progression Generator {">"}</a>
+                        </div>
 
                         <div className={styles.buttonRow}>
                             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
