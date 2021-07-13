@@ -1,14 +1,14 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../assets/scss/components/_keys-dropdown.module.scss";
+import styles from "../../assets/scss/components/common/_keys-dropdown.module.scss";
 
 import Select from "react-select";
 
-import convertKeyModeIntToKey from "../lib/utils/convert-key-mode-int-to-key";
-import convertKeyToKeyModeInt from "../lib/utils/convert-key-to-key-mode-int";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
+import convertKeyToKeyModeInt from "../../lib/utils/convert-key-to-key-mode-int";
 
-import { majorKeyArray, minorKeyArray } from "../lib/data/data";
-import convertRelativeKey from "../lib/utils/convert-relative-key";
-import Form from "../lib/types/Form";
+import { majorKeyArray, minorKeyArray } from "../../lib/data/data";
+import convertRelativeKey from "../../lib/utils/convert-relative-key";
+import Form from "../../lib/types/Form";
 
 type Props = {
     form: Form

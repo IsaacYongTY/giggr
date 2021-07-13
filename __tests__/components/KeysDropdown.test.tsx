@@ -1,10 +1,10 @@
-import KeysDropdown from "../components/KeysDropdown";
+import KeysDropdown from "../../components/repertoire/KeysDropdown";
 import React, {Dispatch, SetStateAction} from "react";
 import { screen, render, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
-import Form from "../lib/types/Form";
+import Form from "../../lib/types/Form";
 
 interface Props {
     form: Form,

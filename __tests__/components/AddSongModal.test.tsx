@@ -1,14 +1,11 @@
 import React from "react";
 import { screen, render, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import AddSongModal from "../components/elements/AddSongModal";
+import AddSongModal from "../../components/repertoire/AddSongModal";
 import "@testing-library/jest-dom"
 import '@testing-library/jest-dom/extend-expect'
 import axios from 'axios'
-import { loadUserData, loadUserMusicians, loadUserLanguages } from "../lib/library";
-import Form from "../lib/types/Form";
-import Song from "../lib/types/song";
-import Musician from "../lib/types/musician";
+import Song from "../../lib/types/song";
 
 jest.mock('axios')
 

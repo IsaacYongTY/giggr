@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useRef, useState} from "react"
 import Layout from "../../components/layouts/Layout";
 import Select, { ValueType } from "react-select";
-import KeysDropdown from "../../components/KeysDropdown";
+import KeysDropdown from "../../components/repertoire/KeysDropdown";
 import styles from "../../assets/scss/pages/_progression.module.scss";
 import {
     fullBarProg,

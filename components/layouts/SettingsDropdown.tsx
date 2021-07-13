@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import MenuRow from "./MenuRow";
-import styles from "../../assets/scss/components/_settings-dropdown.module.scss";
+import styles from "../../assets/scss/components/layouts/_settings-dropdown.module.scss";
 import { useRouter } from "next/router";
 
 export default function SettingsDropdown() {

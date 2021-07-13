@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
+import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
 import CreatableSelect from "react-select/creatable";
 import { ValueType } from "react-select/";
-import Musician from "../lib/types/musician";
+import Musician from "../../lib/types/musician";
 
 type Option = {
     value: string

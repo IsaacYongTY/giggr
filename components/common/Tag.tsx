@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from "react";
-import styles from "../assets/scss/pages/_lead-sheet-spacing.module.scss";
+import styles from "../../assets/scss/pages/_lead-sheet-spacing.module.scss";
 
 interface Props {
     label: string
