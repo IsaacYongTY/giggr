@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from "react"
-import CsvUploadContainer from "../elements/CsvUploadContainer";
+import CsvUploadContainer from "./CsvUploadContainer";
 
 interface Props {
     setIsModalOpen: Dispatch<SetStateAction<boolean>>

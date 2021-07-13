@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import MenuRow from "../elements/MenuRow";
+import MenuRow from "./MenuRow";
 import styles from "../../assets/scss/components/layouts/_submenu.module.scss";
 
 interface Props {

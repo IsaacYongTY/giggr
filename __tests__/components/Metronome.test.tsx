@@ -1,21 +1,18 @@
 import React from "react"
 import userEvent from "@testing-library/user-event";
-import {render, screen, waitFor} from "@testing-library/react"
+import {render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import BpmPage from "../../pages/utilities/bpm";
+import Metronome from "../../components/common/Metronome";
 const defaultTempo = 69
 
 jest.mock("next/router", () => require("next-router-mock"))
 
-function renderBpmPage() {
+function renderMetronome() {
     const defaultProps = {
-        user: {
-            id: 1,
-            firstName: "Isaac",
-            tierId: 4
-        }
+        defaultTempo: defaultTempo
     }
-    const utils = render(<BpmPage {...defaultProps} />)
+
+    const utils = render(<Metronome {...defaultProps} />)
     const bpmDisplay = utils.getByText(defaultTempo)
     const tapButton = utils.getByRole("button", { name: /tap tempo/i})
     const setTempoButton = utils.getByRole("button", { name: /set tempo/i})
@@ -36,12 +33,12 @@ describe("The bpm page", () => {
     })
 
     it("should render correctly", () => {
-        const { countInput } = renderBpmPage()
+        const { countInput } = renderMetronome()
         expect(countInput).toBeDisabled()
     })
 
     it("should increase the count according to the amount of times Tap button tapped", () => {
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
         expect(countInput).toHaveValue(0)
 
         userEvent.click(tapButton)
@@ -51,7 +48,7 @@ describe("The bpm page", () => {
     })
 
     it("should increase the count according to the amount of times Space is tapped", () => {
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
         expect(countInput).toHaveValue(0)
 
         userEvent.keyboard("{space}")
@@ -62,7 +59,7 @@ describe("The bpm page", () => {
     })
 
     it("should not change the count if keys other than Space is tapped", () => {
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
         expect(countInput).toHaveValue(0)
 
         userEvent.keyboard("k")
@@ -75,7 +72,7 @@ describe("The bpm page", () => {
     it("should not change for the first 2 tap", async() => {
 
 
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
 
         userEvent.click(tapButton)
         jest.advanceTimersByTime(1000)
@@ -90,7 +87,7 @@ describe("The bpm page", () => {
 
     it("should display tempo value 3rd tap onwards", () => {
 
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
 
         userEvent.click(tapButton)
         jest.advanceTimersByTime(1000)
@@ -108,7 +105,7 @@ describe("The bpm page", () => {
 
     describe("The reset button", () => {
         it("should hide error message if there is one", () => {
-            const { setTempoButton, resetButton } = renderBpmPage()
+            const { setTempoButton, resetButton } = renderMetronome()
 
             userEvent.click(setTempoButton)
 
@@ -117,7 +114,7 @@ describe("The bpm page", () => {
         })
 
         it("should reset tempo to default value and count to 0", () => {
-            const { countInput, tapButton, resetButton } = renderBpmPage()
+            const { countInput, tapButton, resetButton } = renderMetronome()
 
             userEvent.click(tapButton)
             userEvent.click(tapButton)
@@ -138,7 +135,7 @@ describe("The bpm page", () => {
 
     it("should display correct tempo after Tap button is tapped more than 2 times", () => {
 
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
 
         userEvent.click(tapButton)
         jest.advanceTimersByTime(500)
@@ -157,7 +154,7 @@ describe("The bpm page", () => {
 
     it("should display correct tempo after Space bar is pressed more than 2 times", () => {
 
-        const { countInput, tapButton } = renderBpmPage()
+        const { countInput, tapButton } = renderMetronome()
 
         userEvent.keyboard("{space}")
         jest.advanceTimersByTime(500)
@@ -176,7 +173,7 @@ describe("The bpm page", () => {
 
     describe("The behaviour of Toggle Decimal button", () => {
         it("should default as without decimal", () => {
-            let { tapButton } = renderBpmPage()
+            let { tapButton } = renderMetronome()
 
             userEvent.click(tapButton)
             jest.advanceTimersByTime(500)
@@ -192,7 +189,7 @@ describe("The bpm page", () => {
         })
 
         it("should toggle between decimal and round number when clicked", () => {
-            let { tapButton, toggleDecimalButton } = renderBpmPage()
+            let { tapButton, toggleDecimalButton } = renderMetronome()
 
             userEvent.click(tapButton)
             jest.advanceTimersByTime(500)
@@ -213,7 +210,7 @@ describe("The bpm page", () => {
 
     describe("The behaviour of Tap to play", () => {
         it("should render text correctly", () => {
-             renderBpmPage()
+             renderMetronome()
             userEvent.click(screen.getByRole("button", { name: /tap to play/i }))
             expect(screen.getByText(/tap to stop/i)).toBeInTheDocument()
 
@@ -227,13 +224,13 @@ describe("The bpm page", () => {
     describe("The behaviour of Set Tempo Button", () => {
 
         it("should render correctly", () => {
-            const { tempoInput } = renderBpmPage()
+            const { tempoInput } = renderMetronome()
 
             expect(tempoInput).toHaveValue("")
         })
 
         it("should set the tempo to Tempo Display", () => {
-            const { setTempoButton, tempoInput } = renderBpmPage()
+            const { setTempoButton, tempoInput } = renderMetronome()
 
             userEvent.type(tempoInput, "120")
             expect(tempoInput).toHaveValue("120")
@@ -245,7 +242,7 @@ describe("The bpm page", () => {
         })
 
         it("should show error message if input is empty", () => {
-            const { setTempoButton } = renderBpmPage()
+            const { setTempoButton } = renderMetronome()
 
 
             expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
@@ -256,7 +253,7 @@ describe("The bpm page", () => {
         })
 
         it("should clear error message if input is valid", () => {
-            const { setTempoButton, tempoInput } = renderBpmPage()
+            const { setTempoButton, tempoInput } = renderMetronome()
 
             userEvent.click(setTempoButton)
 
@@ -269,7 +266,7 @@ describe("The bpm page", () => {
         })
 
         it("should set user tempo when 'Enter' key is pressed", () => {
-            const { tempoInput } = renderBpmPage()
+            const { tempoInput } = renderMetronome()
 
             userEvent.keyboard("{enter}")
             expect(screen.getByText(errorMessage)).toBeInTheDocument()
@@ -282,12 +279,12 @@ describe("The bpm page", () => {
 
 
         it("should stay with the previous value for the first two beats when tempo is set manually", () => {
-            const { tapButton, tempoInput, setTempoButton } = renderBpmPage()
+            const { tapButton, tempoInput, setTempoButton } = renderMetronome()
             userEvent.type(tempoInput, "79")
             userEvent.click(setTempoButton)
 
             expect(screen.getByText("79")).toBeInTheDocument()
-            jest.advanceTimersByTime(2000)
+            jest.advanceTimersByTime(2500)
 
             userEvent.click(tapButton)
             expect(screen.getByText("79")).toBeInTheDocument()
@@ -297,7 +294,7 @@ describe("The bpm page", () => {
 
     describe("The behaviour of the metronome upon resetting after idle time", () => {
         it("should stay with the previous value for the first two beats when idle time is more than 2s", () => {
-            const { tapButton, countInput,  tempoInput, setTempoButton } = renderBpmPage()
+            const { tapButton, countInput,  tempoInput, setTempoButton } = renderMetronome()
 
             userEvent.keyboard("{space}")
             jest.advanceTimersByTime(500)
@@ -311,7 +308,7 @@ describe("The bpm page", () => {
             expect(countInput).toHaveValue(4)
             expect(screen.getByText("120")).toBeInTheDocument()
 
-            jest.advanceTimersByTime(2000)
+            jest.advanceTimersByTime(2500)
 
             userEvent.keyboard("{space}")
             jest.advanceTimersByTime(1000)

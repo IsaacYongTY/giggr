@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../assets/scss/components/_pill-button.module.scss"
+import styles from "../../assets/scss/components/common/_pill-button.module.scss"
 
 type Props = {
     composer: any

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import CsvRow from "../../components/elements/CsvUploadModal";
+import CsvRow from "../../components/repertoire/CsvUploadModal";
 
 export default function Csv() {
 
