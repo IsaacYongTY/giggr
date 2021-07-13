@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../../assets/scss/components/_search-bar.module.scss";
+import styles from "../../assets/scss/components/repertoire/_search-bar.module.scss";
 import Song, { Artist } from "../../lib/types/song";
 
 interface Props {

@@ -1,1 +1,6 @@
-@use "../../variables";
+.container {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  gap: 1rem;
+}

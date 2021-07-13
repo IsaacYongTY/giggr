@@ -8,7 +8,7 @@ import withAuth from "../../middlewares/withAuth";
 import {IncomingMessage} from "http";
 import {NextApiRequestCookies} from "next/dist/next-server/server/api-utils";
 import removeCharacters from "../../lib/utils/remove-characters";
-import Tag from "../../components/Tag";
+import Tag from "../../components/common/Tag";
 
 interface GetServerSidePropsContextWithUser extends GetServerSidePropsContext {
     req: IncomingMessage & {
@@ -153,7 +153,7 @@ export default function LeadSheetSpacing({ user } : Props) {
 
                     <ul className={styles.stringToRemoveList}>
                         { stringsToRemoveArray?.map((str, index) => (
-                            <Tag label={str} setStringToRemoveArray={setStringsToRemoveArray}/>
+                            <Tag key={index} label={str} setStringToRemoveArray={setStringsToRemoveArray}/>
                         ))}
                     </ul>
                 </div>

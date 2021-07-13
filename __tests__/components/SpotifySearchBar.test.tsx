@@ -1,4 +1,4 @@
-import SpotifySearchBar from "../components/common/SpotifySearchBar";
+import SpotifySearchBar from "../../components/common/SpotifySearchBar";
 
 describe("<SpotifySearchBar />", () => {
     it.todo("should display loader when the input is valid")
