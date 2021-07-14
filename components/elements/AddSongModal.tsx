@@ -180,6 +180,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
     async function handleEditSong(id : number) {
 
+        setIsLoading(true)
         try {
             let { composers, songwriters, arrangers, genres, moods, tags } = form
 
@@ -208,11 +209,17 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             handleCloseModal()
 
+            setIsLoading(false)
+
+            setAlertMessage("added successfully")
+            setAlertType("success")
+
             setTimeout(() => {
                 setAlertMessage("")
-            }, 5000)
+            }, 3000)
 
         } catch (error) {
+            setIsLoading(false)
             console.log(error)
         }
     }
