@@ -1,47 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../components/layouts/Layout';
 import { GetServerSideProps } from "next";
 import DashboardCardList from "../components/dashboard/DashboardCardList";
-import axios from "axios";
+import axios from "../config/axios";
 import withAuth from "../middlewares/withAuth";
 import styles from "../assets/scss/pages/_dashboard.module.scss";
 import { Switch } from "@material-ui/core";
+import Song from "../lib/types/song";
+import useSWR from "swr";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({ req, res } : any) => {
 
-    const config = {
-        withCredentials: true,
-        headers: {
-            "x-auth-token": `Bearer ${req.user.tokenString}`
-        }
-    }
-
-    try {
-        let response = await axios.get(`/api/v1/gigs`, config)
-        let songsResponse = await axios.get(`/api/v1/songs?number=5&category=createdAt&order=DESC`, config)
-
         return {
             props: {
-                gigs: response.data.gigs,
-                songs: songsResponse.data.songs,
                 user: req.user
             }
         }
 
-    } catch (error) {
-        console.log(error)
-        return {
-            redirect: {
-                permanent: false,
-                destination: "/error500"
-            }
-        }
-    }
-
-
 })
 
-function Dashboard({ gigs, songs, user } : any) {
+function Dashboard({  user } : any) {
+
+    // const config = {
+    //     headers: {
+    //         "x-auth-token": `Bearer ${user.tokenString}`
+    //     }
+    // }
+    let { data: { gigs  }= {}} = useSWR(`/api/v1/gigs`)
+    let { data: { songs } = {}} = useSWR(`/api/v1/songs?number=5&category=createdAt&order=DESC`)
+
+    // const [gigs, setGigs] = useState<any>([])
+    // const [songs, setSongs] = useState<Song[]>([])
+
+
+
+    useEffect(() => {
+        // setSongs(initialSongs)
+        // setGigs(initialGigs)
+    }, []);
+
     return (
         <Layout title="Dashboard" user={user}>
             <div className={styles.container}>

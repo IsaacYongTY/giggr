@@ -4,13 +4,26 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import RepertoirePage from "../../pages/repertoire"
 import axios from "axios";
+import { loadUserData } from "../../lib/library";
 
 jest.mock("next/router", () => require("next-router-mock"))
 jest.mock("axios")
-
-
 jest.mock("form-data")
 jest.mock('nookies')
+jest.mock('../../lib/library', () => ({
+    loadUserData: jest.fn(() => Promise.resolve( {
+
+        songs: [],
+        musicians: [],
+        genres: [],
+        tags: [],
+        moods: [],
+        languages: []
+
+    }))
+
+}))
+
 const mockAxios = axios as jest.Mocked<typeof axios>
 
 function renderRepertoirePage(props =  {}) {
@@ -29,6 +42,7 @@ function renderRepertoirePage(props =  {}) {
     }
 
     let utils = render(<RepertoirePage {...defaultProps} {...props} />)
+
     const uploadCsvButton = utils.getByRole("button", { "name": /upload csv/i })
 
     return {...utils, uploadCsvButton}
