@@ -1,27 +1,29 @@
 import React, {useState, useEffect, Dispatch, SetStateAction } from "react";
 import SpotifySearchBar from "../common/SpotifySearchBar";
 import Modal from "react-modal";
-import styles from "../../assets/scss/components/_add-song-modal.module.scss";
+import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 import axios from "axios";
 import {loadDatabaseData, loadUserMusicians, loadUserData} from "../../lib/library";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
-import ReactMusiciansDropdown from "../ReactMusiciansDropdown";
+import MusiciansMultiSelectDropdown from "./MusiciansMultiSelectDropdown";
 
 import Musician from "../../lib/types/musician";
 import Song from "../../lib/types/song";
 import Form from "../../lib/types/Form";
-import LanguagesSingleDropdown from "../LanguagesSingleDropdown";
+import LanguagesSingleDropdown from "./LanguagesSingleDropdown";
 
-import ArtistsSingleDropdown from "../ArtistsSingleDropdown";
-import KeysDropdown from "../KeysDropdown";
-import CategoriesDropdown from "../CategoriesDropdown";
+import ArtistsSingleDropdown from "./ArtistsSingleDropdown";
+import KeysDropdown from "./KeysDropdown";
+import CategoriesDropdown from "./CategoriesDropdown";
 
 import generateMetaData from "../../lib/utils/generate-metadata";
 import ButtonWithLoader from "../common/ButtonWithLoader";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import MetadataBody from "../MetadataBody";
+import MetaToolForm from "../common/MetaToolForm";
+import Metronome from "../common/Metronome";
+import Link from "next/link";
 
 
 type Option = {
@@ -241,6 +243,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     <TabList>
                         <Tab>Details</Tab>
                         <Tab onClick={() => handleGenerateMetaData()}>Generate Metadata</Tab>
+                        <Tab>Metronome</Tab>
                     </TabList>
 
                     <TabPanel>
@@ -302,14 +305,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                         </div>
 
                         <div className={styles.formRow}>
-                            <ReactMusiciansDropdown
+                            <MusiciansMultiSelectDropdown
                                 label="Composers"
                                 role="composers"
                                 musicians={musicians}
                                 selectedMusicians={form.composers || []}
                                 setFormValue={setForm}
                             />
-                            <ReactMusiciansDropdown
+                            <MusiciansMultiSelectDropdown
                                 label="Songwriters"
                                 role="songwriters"
                                 musicians={musicians}
@@ -319,7 +322,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                         </div>
 
                         <div className={styles.formRow}>
-                            <ReactMusiciansDropdown
+                            <MusiciansMultiSelectDropdown
                                 label="Arrangers"
                                 role="arrangers"
                                 musicians={musicians}
@@ -430,29 +433,28 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
                     </TabPanel>
                     <TabPanel>
-                        <MetadataBody
+                        <MetaToolForm
                             formValue={form}
                             setFormValue={setForm}
                             setAlertMessage={setAlertMessage}
                             setAlertType={setAlertType}
                         />
+                        <div className={styles.link}>
+                            <a href="/utilities/progression" target="_blank">Progression Generator {">"}</a>
+                        </div>
 
                         <div className={styles.buttonRow}>
                             <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
                         </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <Metronome
+                            defaultTempo={form.tempo || 70}
+                        />
 
-                        {/*<div>*/}
-                        {/*    /!*<button className="btn btn-primary" onClick={() => handleGenerateMetaData()}>Generate Metadata Head</button>*!/*/}
-
-                        {/*    <label>*/}
-                        {/*        <div>Result:</div>*/}
-                        {/*        <textarea className={styles.metaDataTextArea} value={metadata} onChange={(e) => setMetadata(e.target.value) }/>*/}
-                        {/*    </label>*/}
-
-
-
-
-                        {/*</div>*/}
+                        <div className={styles.buttonRow}>
+                            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+                        </div>
                     </TabPanel>
                 </Tabs>
 

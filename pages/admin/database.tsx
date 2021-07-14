@@ -4,11 +4,11 @@ import Layout from "../../components/layouts/Layout";
 import RepertoireTable from "../../components/repertoire/RepertoireTable";
 import withAuth from "../../middlewares/withAuth";
 import axios from "axios";
-import AddSongModal from "../../components/elements/AddSongModal";
+import AddSongModal from "../../components/repertoire/AddSongModal";
 import Song from "../../lib/types/song";
 import styles from "../../assets/scss/pages/_database.module.scss";
 import FilterRow from "../../components/repertoire/FilterRow";
-import SearchBar from "../../components/elements/SearchBar";
+import SearchBar from "../../components/common/SearchBar";
 import ActionRow from "../../components/repertoire/ActionRow";
 import { loadDatabaseData } from "../../lib/library";
 

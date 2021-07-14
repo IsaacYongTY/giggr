@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
-import Musician from "../lib/types/musician";
+import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
+import Musician from "../../lib/types/musician";
 import CreatableSelect from "react-select/creatable";
 
 interface Option {

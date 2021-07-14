@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../assets/scss/components/_gig-item-row.module.css";
+import styles from "../../assets/scss/components/gigs/_gig-item-row.module.css";
 import { format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 

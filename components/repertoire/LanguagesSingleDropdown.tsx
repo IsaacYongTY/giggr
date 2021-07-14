@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
+import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
 
-import { capitalizeString } from "../lib/library";
+import { capitalizeString } from "../../lib/library";
 import CreatableSelect from "react-select/creatable";
 
 type Props = {

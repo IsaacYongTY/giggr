@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import FilterButton from "./FilterButton";
-import styles from "../../assets/scss/components/_filter-row.module.scss";
+import styles from "../../assets/scss/components/repertoire/_filter-row.module.scss";
 
 export default function FilterRow({ setFilter } : any) {
 
