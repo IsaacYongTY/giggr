@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../assets/scss/components/_react-musicians-dropdown.module.scss";
-import Musician from "../lib/types/musician";
+import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
+import Musician from "../../lib/types/musician";
 import CreatableSelect from "react-select/creatable";
 import {ValueType} from "react-select/";
 
@@ -18,7 +18,7 @@ interface Option {
 }
 
 
-export default function ReactMusiciansDropdown({ musicians, label, selectedMusicians, setFormValue, role }: Props) {
+export default function MusiciansMultiSelectDropdown({ musicians, label, selectedMusicians, setFormValue, role }: Props) {
 
     const [options, setOptions] = useState<Option[]>([])
 

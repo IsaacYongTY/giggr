@@ -4,7 +4,7 @@ import SpotifySearchBar from "../../components/common/SpotifySearchBar";
 import styles from "../../assets/scss/pages/_metatool.module.scss";
 import AlertBox from "../../components/common/AlertBox";
 import withAuth from "../../middlewares/withAuth";
-import MetadataBody from "../../components/MetadataBody";
+import MetaToolForm from "../../components/common/MetaToolForm";
 
 
 
@@ -51,7 +51,7 @@ export default function MetaTool({ user } : Props) {
                 />
                 </div>
 
-                <MetadataBody
+                <MetaToolForm
                     formValue={formValue}
                     setFormValue={setFormValue}
                     setAlertMessage={setAlertMessage}

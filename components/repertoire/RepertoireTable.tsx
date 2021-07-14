@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
 import axios from "axios";
-import AddSongModal from "../elements/AddSongModal";
+import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 
 type Props = {

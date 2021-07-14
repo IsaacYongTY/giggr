@@ -1,12 +1,12 @@
 import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react"
-import styles from "../assets/scss/pages/_metatool.module.scss";
+import styles from "../../assets/scss/pages/_metatool.module.scss";
 import Select, {ValueType} from "react-select";
-import convertKeyModeIntToKey from "../lib/utils/convert-key-mode-int-to-key";
-import convertRelativeKey from "../lib/utils/convert-relative-key";
-import convertKeyToKeyModeInt from "../lib/utils/convert-key-to-key-mode-int";
-import Form from "../lib/types/Form";
-import generateMetaData from "../lib/utils/generate-metadata";
-import CopyToClipboardButton from "./common/CopyToClipboardButton";
+import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key";
+import convertRelativeKey from "../../lib/utils/convert-relative-key";
+import convertKeyToKeyModeInt from "../../lib/utils/convert-key-to-key-mode-int";
+import Form from "../../lib/types/Form";
+import generateMetaData from "../../lib/utils/generate-metadata";
+import CopyToClipboardButton from "./CopyToClipboardButton";
 
 interface Props {
     formValue: Form
@@ -20,7 +20,7 @@ interface Option {
     label: string
 }
 
-export default function MetadataBody({ formValue, setFormValue, setAlertMessage, setAlertType} : Props) {
+export default function MetaToolForm({ formValue, setFormValue, setAlertMessage, setAlertType} : Props) {
 
     const [originalTempo, setOriginalTempo] = useState(0)
     const [text, setText] = useState("")
