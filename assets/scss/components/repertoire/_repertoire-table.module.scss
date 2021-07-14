@@ -30,11 +30,11 @@
     position: relative;
     border-bottom: 1px solid lightgray;
     overflow-x: scroll;
+    white-space: nowrap;
 
   }
   th, tr, td {
     margin: 0;
-
     //border: 1px solid gray;
     height: 4rem;
     padding: 0 1rem;

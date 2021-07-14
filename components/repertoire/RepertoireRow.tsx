@@ -49,6 +49,9 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
             </td>
             <td>
+                <div className={styles.cell}>{convertKeyModeIntToKey(song.myKey, song.mode)}</div>
+            </td>
+            <td>
                 <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo? song.tempo : null}</div>
             </td>
             <td>

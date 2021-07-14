@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../components/layouts/Layout";
 import SearchBar from "../components/common/SearchBar";
 import RepertoireTable from "../components/repertoire/RepertoireTable";
@@ -14,31 +14,31 @@ import Musician from "../lib/types/musician";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
-    try {
-        console.log(req.user)
-        let data = await loadUserData(req.user)
+    // try {
+    //     console.log(req.user)
+    //     let data = await loadUserData(req.user)
 
         return {
             props: {
-                initialSongs: data.songs,
-                initialData: data,
+                // initialSongs: data.songs,
+                // initialData: data,
                 user: req.user
             }
         }
-
-    } catch (error) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: "/error500"
-            }
-        }
-    }
+    //
+    // } catch (error) {
+    //     return {
+    //         redirect: {
+    //             permanent: false,
+    //             destination: "/error500"
+    //         }
+    //     }
+    // }
 })
 
 type Props = {
-    initialSongs: Song[],
-    initialData: {
+    initialSongs?: Song[],
+    initialData?: {
         songs: Song[]
         musicians: Musician[]
         genres: {
@@ -61,19 +61,27 @@ type Props = {
     user: any
 }
 
-export default function Repertoire({ initialSongs, initialData, user }: Props) {
+export default function Repertoire({ user }: Props) {
 
-    const [songs, setSongs] = useState(initialSongs)
-    const [musicians, setMusicians] = useState(initialData.musicians)
+    const [songs, setSongs] = useState<Song[]>([])
+    const [musicians, setMusicians] = useState<Musician[]>([])
 
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredSongList, setFilteredSongList] = useState(initialSongs);
-    const [data, setData] = useState(initialData)
-    console.log(data)
+    const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
+    const [data, setData] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    console.log(initialData)
+    useEffect(() => {
+        console.log(loadUserData)
+        loadUserData(user).then((res) => {
+            console.log(res)
+            setSongs(res.songs)
+            setFilteredSongList(res.songs)
+            setData(res.data)
+            setMusicians(res.musicians)
+        })
+    },[])
 
     return (
         <>
