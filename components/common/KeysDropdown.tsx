@@ -35,7 +35,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
     function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
 
         if(keyProp !== "key" && keyProp !== "myKey") return
-        const currentKeyString = convertKeyModeIntToKey(form[keyProp], form.mode)
+        const currentKeyString = convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode)
 
 
         if(!currentKeyString) {
@@ -99,8 +99,8 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
                 <Select
                     name="musician"
                     value={{
-                        value: convertKeyModeIntToKey(form[keyProp], form?.mode),
-                        label: convertKeyModeIntToKey(form[keyProp], form?.mode),
+                        value: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode),
+                        label: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode),
                     }}
                     options={keyOptions}
                     className="basic-single"

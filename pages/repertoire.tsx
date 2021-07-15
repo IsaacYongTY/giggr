@@ -11,6 +11,7 @@ import { loadUserData } from "../lib/library";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
 import ActionRow from "../components/repertoire/ActionRow";
 import Musician from "../lib/types/musician";
+import useSWR from "swr";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -73,7 +74,6 @@ export default function Repertoire({ user }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        console.log(loadUserData)
         loadUserData(user).then((res) => {
             console.log(res)
             setSongs(res.songs)
