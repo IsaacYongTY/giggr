@@ -13,6 +13,7 @@ import Form from "../../lib/types/Form";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import Song from "../../lib/types/song";
 import Musician from "../../lib/types/musician";
+import SingleDropdown from "../repertoire/SingleDropdown";
 
 type Option = {
     value: string,
@@ -94,7 +95,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         }
     }
 
-    async function handleEditSong(id : number) {
+    async function handleEditSong(id : number, closeModal: boolean) {
 
         setIsLoading(true)
         try {
@@ -123,7 +124,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             setSongs(data.songs)
             setMusicians(refreshedMusicians)
 
-            handleCloseModal()
+            if(closeModal) {
+                handleCloseModal()
+            }
 
             setIsLoading(false)
 
@@ -140,12 +143,14 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         }
     }
 
+
     useEffect(() => {
 
         if(type === 'edit' && song) {
+            console.log('running')
             let { title, artist, romTitle, key, myKey, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
-                energy, danceability, valence, acousticness, instrumentalness, genres, moods, tags, dateReleased} = song
+                energy, danceability, valence, acousticness, instrumentalness, genres, moods, tags, dateReleased, status} = song
 
             let value : Form = {
                 title,
@@ -176,7 +181,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 genres: genres?.map((genre:any) => ({value: genre.name, label: genre.name})),
                 moods : moods?.map((mood:any) => ({value: mood.name, label: mood.name})),
                 tags: tags?.map((tag:any) => ({value: tag.name, label: tag.name})),
-                dateReleased
+                dateReleased,
+
+                status
             }
 
             setForm(value)
@@ -207,13 +214,17 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                     form={form}
                     setForm={setForm}
                 />
-                <KeysDropdown
-                    label="My Key"
-                    keyProp="myKey"
-                    form={form}
-                    setForm={setForm}
-                    showIsMinorCheckbox={false}
-                />
+                {
+                    !user?.isAdmin &&
+                    <KeysDropdown
+                        label="My Key"
+                        keyProp="myKey"
+                        form={form}
+                        setForm={setForm}
+                        showIsMinorCheckbox={false}
+                    />
+                }
+
                 <label>Tempo:
                     <input className="form-control" name="tempo" type="number" onChange={handleInput} value={form.tempo || ""} />
                 </label>
@@ -232,6 +243,15 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                     <LanguagesSingleDropdown
                         options={data?.languages}
                         currentSelection={form.language || ""}
+                        setFormValue={setForm}
+                    />
+                </label>
+
+                <label>Status:
+                    <SingleDropdown
+                        name="status"
+                        options={["New", "In Progress", "Learned", "Charted"]}
+                        currentSelection={form.status || ""}
                         setFormValue={setForm}
                     />
                 </label>
@@ -361,20 +381,32 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 {
                     type === 'edit' && song
                         ?
-                        <ButtonWithLoader
-                            onClick={() => handleEditSong(song.id)}
-                            isLoading={isLoading}
-                            label="Confirm Edit"
-                        />
+                        <>
+                            <ButtonWithLoader
+                                onClick={() => handleEditSong(song.id, false)}
+                                isLoading={isLoading}
+                                label="Save"
+                            />
+                            <button className="btn btn-danger-outlined" onClick={handleCloseModal}>Close</button>
+                            <ButtonWithLoader
+                                onClick={() => handleEditSong(song.id, true)}
+                                isLoading={isLoading}
+                                label="Save and Close"
+                            />
+                        </>
+
                         :
-                        <ButtonWithLoader
-                            onClick={handleAddSong}
-                            isLoading={isLoading}
-                            label="Add"
-                        />
+                        <>
+                            <ButtonWithLoader
+                                onClick={handleAddSong}
+                                isLoading={isLoading}
+                                label="Add"
+                            />
+                            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+                        </>
 
                 }
-                <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
+
         </div>
         </div>
     )

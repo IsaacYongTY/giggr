@@ -46,6 +46,9 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                 <div className={styles.cell}>{song.artist?.name}</div>
             </td>
             <td>
+                <div className={styles.cell}>{song.status}</div>
+            </td>
+            <td>
                 <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
             </td>
             <td>

@@ -14,12 +14,13 @@ const Template: ComponentStory<typeof KeysDropdown> = (args) => <KeysDropdown {.
 
 export const Primary = Template.bind({});
 Primary.args = {
-
+    label: "Key",
 };
 
-export const Loading = Template.bind({});
-Loading.args = {
-
+export const Example = Template.bind({});
+Example.args = {
+    label: "Example Key",
+    showIsMinorCheckbox: false
 };
 
 
