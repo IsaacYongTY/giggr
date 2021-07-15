@@ -1,7 +1,5 @@
-import React, {useRef, useState} from "react";
+import React, { useRef } from "react";
 import styles from "../../assets/scss/components/repertoire/_action-popup.module.scss";
-import axios from "axios";
-import Song from "../../lib/types/song";
 
 export default function ActionPopup({ handleOpenModal, handleHover, song, setIsShowPopup, handleDeleteSong} : any) {
 

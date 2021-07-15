@@ -39,7 +39,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
 
         console.log(currentKeyString)
         if(!currentKeyString) {
-            if(e.target.checked) {
+            if(form.mode === 0) {
                 setKeyOptions(minorKeyOptions)
                 return
             }
@@ -47,7 +47,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             return
         }
 
-        if(e.target.checked) {
+        if(form.mode === 0) {
 
             const relativeMinor = convertRelativeKey(currentKeyString)
             const [key, mode] = convertKeyToKeyModeInt(relativeMinor)
@@ -114,7 +114,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             {
                 showIsMinorCheckbox &&
                 <label className={styles.checkbox}>
-                    <input type="checkbox" defaultChecked={form?.mode === 0} onChange={toggleMinor}/>
+                    <input type="checkbox" checked={form.mode === 0} onChange={toggleMinor}/>
                     Minor
                 </label>
             }
