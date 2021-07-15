@@ -30,7 +30,7 @@ export default interface Song {
         initialism: string,
 
         key: number,
-        myKey?: string,
+        myKey?: number,
         languageId: number,
         language: { id: number, name: string}
         mode: number,

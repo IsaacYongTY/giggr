@@ -18,8 +18,8 @@ export default function RepertoireCard({ songs } : any) {
                <p>Recently added:</p>
                <ul>
                    {
-                       songs.map((song : Song) => (
-                           <li>{song.title} - {song.artist?.name}</li>
+                       songs?.map((song : Song) => (
+                           <li>{song.title} - {song.artist.name}</li>
                        ))
                    }
                </ul>

@@ -10,6 +10,7 @@ export default interface Form {
     artist?: string
 
     key?: number
+    myKey?: number
     mode?: number
     tempo?: number,
 
