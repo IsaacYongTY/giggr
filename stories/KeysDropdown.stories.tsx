@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import KeysDropdown from "../components/repertoire/KeysDropdown"
+import KeysDropdown from "../components/common/KeysDropdown"
 
 export default {
     title: 'Example/KeysDropdown',

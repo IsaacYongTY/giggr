@@ -25,7 +25,7 @@ interface OptionType {
 
 }
 
-export default function KeysDropdown({ label = "Key", keyProp = "key", form, setForm, defaultKey, showIsMinorCheckbox=true }: Props) {
+export default function KeysDropdown({ label, keyProp = "key", form, setForm, defaultKey, showIsMinorCheckbox=true }: Props) {
 
     const minorKeyOptions = minorKeyArray.map(key => ({value: key, label: key}))
     const majorKeyOptions = majorKeyArray.map(key => ({value: key, label: key}))

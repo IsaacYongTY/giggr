@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import SpotifySearchBar from "./SpotifySearchBar";
 import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import ArtistsSingleDropdown from "../repertoire/ArtistsSingleDropdown";
-import KeysDropdown from "../repertoire/KeysDropdown";
+import KeysDropdown from "./KeysDropdown";
 import LanguagesSingleDropdown from "../repertoire/LanguagesSingleDropdown";
 import MusiciansMultiSelectDropdown from "../repertoire/MusiciansMultiSelectDropdown";
 import CategoriesDropdown from "../repertoire/CategoriesDropdown";
@@ -37,7 +37,7 @@ interface Props {
     handleInput: any
 }
 export default function SongDetailForm({type, database, form, user, handleCloseModal, song,
-                                           setSongs, setMusicians, setAlertMessage, setAlertType, musicians, setForm,
+    setSongs, setMusicians, setAlertMessage, setAlertType, musicians, setForm,
     isModalOpen, data, handleInput
 } : Props) {
 
