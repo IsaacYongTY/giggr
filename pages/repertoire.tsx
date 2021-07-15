@@ -78,11 +78,11 @@ export default function Repertoire({ user }: Props) {
             console.log(res)
             setSongs(res.songs)
             setFilteredSongList(res.songs)
-            setData(res.data)
+            setData(res)
             setMusicians(res.musicians)
         })
     },[])
-
+    console.log(data)
     return (
         <>
 

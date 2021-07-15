@@ -73,7 +73,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         console.log(generateMetaData(form, 2))
     }
 
-
+    console.log(data)
 
     return (
         <Modal
