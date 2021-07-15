@@ -36,7 +36,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
-    console.log(songs)
+
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 

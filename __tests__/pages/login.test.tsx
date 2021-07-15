@@ -190,9 +190,6 @@ describe("Sign up UI", () => {
             }
         })
 
-        await waitFor(() => {
-            screen.debug()
-        })
         expect(await screen.findByText(/user already exists\. please try again/i)).toBeInTheDocument()
 
     })

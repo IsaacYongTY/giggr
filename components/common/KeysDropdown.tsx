@@ -46,7 +46,6 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             if(e.target.checked) {
                 setKeyOptions(minorKeyOptions)
                 setForm((prevState: any) => ({...prevState, mode: 0}))
-
                 return
             }
 
@@ -65,9 +64,6 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             return
         }
 
-        console.log(currentKeyString)
-
-        console.log('wokring')
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
         setKeyOptions(majorKeyOptions)
@@ -90,21 +86,17 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             if(foundKey) {
                 let [key, mode] = convertKeyToKeyModeInt(foundKey.value)
                 setForm((prevState: any) => ({...prevState, [keyProp]: key, mode }))
-                // setKey(foundKey)
             }
         }
-        console.log(form.mode)
-        console.log(defaultMode)
-        if(form.mode === 0 && defaultMode === -1) {
-            console.log('in')
-            setKeyOptions(minorKeyOptions)
 
+        if(form.mode === 0 && defaultMode === -1) {
+            setKeyOptions(minorKeyOptions)
             return
         }
 
         setKeyOptions(majorKeyOptions)
 
-    },[])
+    },[form.mode])
 
     return (
         <div className={styles.container}>

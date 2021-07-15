@@ -75,14 +75,13 @@ export default function Repertoire({ user }: Props) {
 
     useEffect(() => {
         loadUserData(user).then((res) => {
-            console.log(res)
             setSongs(res.songs)
             setFilteredSongList(res.songs)
             setData(res)
             setMusicians(res.musicians)
         })
     },[])
-    console.log(data)
+
     return (
         <>
 
