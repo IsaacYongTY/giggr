@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 
 import Loader from "./Loader";
 import styles from "../../assets/scss/components/common/_button-with-loader.module.scss";
@@ -30,22 +30,34 @@ interface ButtonProps {
 
 export default function ButtonWithLoader({
      primary = false,
-     size = 'medium',
-     backgroundColor,
      label,
      onClick,
     isLoading,
      ...props
  }: ButtonProps) {
 
+    const [isClicked, setIsClicked] = useState(false)
+
+    function handleOnClick() {
+        if(!onClick) return
+        setIsClicked(true)
+        onClick()
+    }
+
+    useEffect(() => {
+        if(!isLoading) {
+            setIsClicked(false)
+        }
+    }, [isLoading])
+
     return (
         <button
             className={`${styles.btnPrimary} btn btn-primary`}
-            onClick={onClick}
+            onClick={handleOnClick}
             disabled={isLoading}
         >
             <div>{label}</div>
-            {isLoading && <Loader />}
+            {isLoading && isClicked && <Loader />}
 
         </button>
     )

@@ -45,4 +45,6 @@ export default interface Form {
     isFullBar?: boolean,
     spaces?: number
 
+    status?: string
+
 }
