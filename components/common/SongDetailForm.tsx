@@ -188,7 +188,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setForm(value)
         }
-
+        console.log(data)
     },[isModalOpen])
 
     return (
