@@ -37,6 +37,7 @@ export default function LeadSheetSpacing({ user } : Props) {
     const [isRemoveStrings, setIsRemoveStrings] = useState(true)
     const [stringToRemove, setStringToRemove] = useState("")
     const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>([])
+
     function toggleAddHyphen() {
         setIsAddHyphen(prevState => !prevState)
     }

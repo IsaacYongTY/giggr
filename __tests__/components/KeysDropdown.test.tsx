@@ -1,4 +1,4 @@
-import KeysDropdown from "../../components/repertoire/KeysDropdown";
+import KeysDropdown from "../../components/common/KeysDropdown";
 import React, {Dispatch, SetStateAction} from "react";
 import { screen, render, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -7,6 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import Form from "../../lib/types/Form";
 
 interface Props {
+    label: string
     form: Form,
     setForm: Dispatch<SetStateAction<Form>>
 }
@@ -17,6 +18,7 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
 
 
         const defaultProps : Props = {
+            label: "Key",
             form: {},
             setForm: jest.fn()
         }
@@ -72,6 +74,7 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         userEvent.click(screen.getByText('C'))
 
         rerender(<KeysDropdown
+            label="Key"
             form={{
                 key: 0,
                 mode: 1,
@@ -85,6 +88,7 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
         userEvent.click(screen.getByText('Eb'))
 
         rerender(<KeysDropdown
+            label="Key"
             form={{
                 key: 3,
                 mode: 1,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
-import axios from "axios";
+import axios from "../../config/axios";
 import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 
@@ -16,7 +16,7 @@ type Props = {
 }
 export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians, data } : Props) {
 
-    const colKey = ["ID", "Title", "Artist", "Key", "Tempo", "Duration", "Time Signature", "Language",  "Listen", "Composers", "Songwriters", "Arrangers", "Genres", "Moods", "Tags"]
+    const colKey = ["ID", "Title", "Artist", "Key", "My Key", "Tempo", "Duration", "Time Signature", "Language",  "Listen", "Composers", "Songwriters", "Arrangers", "Genres", "Moods", "Tags"]
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
@@ -29,12 +29,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
         }
         try {
 
-            let response = await axios.delete(`${url}/${id}`, {
-                withCredentials: true,
-                headers: {
-                    "x-auth-token": `Bearer ${user.tokenString}`
-                }
-            })
+            let response = await axios.delete(`${url}/${id}`)
             setSongs((prevState: Song[]) => prevState.filter((song: Song) => song.id !== id))
         } catch (error) {
             console.log(error)
