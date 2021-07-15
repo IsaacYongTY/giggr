@@ -106,9 +106,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             data={data}
                             isModalOpen={isModalOpen}
                         />
-
-
-
                     </TabPanel>
                     <TabPanel>
                         <MetaToolForm

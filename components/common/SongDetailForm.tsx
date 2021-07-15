@@ -14,6 +14,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import Song from "../../lib/types/song";
 import Musician from "../../lib/types/musician";
 import SingleDropdown from "../repertoire/SingleDropdown";
+import {mutate, trigger} from "swr";
 
 type Option = {
     value: string,
@@ -54,6 +55,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         setIsLoading(true)
         try {
             let { composers, songwriters, arrangers, genres, moods, tags } = form
+            // mutate('/api/v1/users?category=id&order=ASC', )
             await axios.post(url, {
                 ...form,
                 composers: composers?.map((composer: Option) => composer.value),
@@ -62,18 +64,13 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 genres: genres?.map((genre : Option) => genre.value),
                 moods: moods?.map((mood : Option) => mood.value),
                 tags: tags?.map((tag : Option) => tag.value)
-            }, {
-                withCredentials: true,
-                headers: {
-                    "x-auth-token": `Bearer ${user.tokenString}`
-                }
             })
 
-            let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
-            let refreshedMusicians = await loadUserMusicians(user)
+            // let data = database === "database1" ? await loadUserData(user) : await loadDatabaseData(user.tokenString)
+            // let refreshedMusicians = await loadUserMusicians(user)
 
-            setSongs(data.songs)
-            setMusicians(refreshedMusicians)
+            trigger('/api/v1/users?category=id&order=ASC')
+
 
             handleCloseModal()
 
