@@ -35,9 +35,9 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
     function toggleMinor(e: ChangeEvent<HTMLInputElement>) {
 
         if(keyProp !== "key" && keyProp !== "myKey") return
-        const currentKeyString = convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode)
+        const currentKeyString = convertKeyModeIntToKey(form[keyProp], form?.mode)
 
-
+        console.log(currentKeyString)
         if(!currentKeyString) {
             if(e.target.checked) {
                 setKeyOptions(minorKeyOptions)
@@ -57,6 +57,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             return
         }
 
+        console.log(currentKeyString)
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
         setKeyOptions(majorKeyOptions)
@@ -82,8 +83,10 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
                 // setKey(foundKey)
             }
         }
-
-        if(form?.mode === 0 && defaultMode === undefined) {
+        console.log(form.mode)
+        console.log(defaultMode)
+        if(form.mode === 0 && defaultMode === -1) {
+            console.log('in')
             setKeyOptions(minorKeyOptions)
 
             return
@@ -99,8 +102,8 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
                 <Select
                     name="musician"
                     value={{
-                        value: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode),
-                        label: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode),
+                        value: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode) || "",
+                        label: convertKeyModeIntToKey(form ? form[keyProp] : -1, form?.mode) || "",
                     }}
                     options={keyOptions}
                     className="basic-single"

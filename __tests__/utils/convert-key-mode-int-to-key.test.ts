@@ -10,6 +10,9 @@ describe("convertKeyModeIntToKey", () => {
     it("should return empty string if wrong input is provided", () => {
         expect(convertKeyModeIntToKey(0,2)).toBe("")
         expect(convertKeyModeIntToKey(-1, 1)).toBe("")
+        expect(convertKeyModeIntToKey(undefined, 1)).toBe("")
+        expect(convertKeyModeIntToKey(0, undefined)).toBe("")
+        expect(convertKeyModeIntToKey(null, 1)).toBe("")
     })
 
     it("should return the correct enharmonic key", () => {
@@ -17,4 +20,6 @@ describe("convertKeyModeIntToKey", () => {
         expect(convertKeyModeIntToKey(8,0)).toBe('G#m')
         expect(convertKeyModeIntToKey(1,0)).toBe('C#m')
     })
+
+
 })
