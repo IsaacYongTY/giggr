@@ -37,13 +37,21 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
         if(keyProp !== "key" && keyProp !== "myKey") return
         const currentKeyString = convertKeyModeIntToKey(form[keyProp], form?.mode)
 
-        console.log(currentKeyString)
+        if(form.mode === undefined) {
+            setKeyOptions(minorKeyOptions)
+            setForm((prevState: any) => ({...prevState, mode: 0}))
+        }
+
         if(!currentKeyString) {
             if(e.target.checked) {
                 setKeyOptions(minorKeyOptions)
+                setForm((prevState: any) => ({...prevState, mode: 0}))
+
                 return
             }
+
             setKeyOptions(majorKeyOptions)
+            setForm((prevState: any) => ({...prevState, mode: 1}))
             return
         }
 
@@ -53,15 +61,17 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             const [key, mode] = convertKeyToKeyModeInt(relativeMinor)
 
             setKeyOptions(minorKeyOptions)
-            setForm((prevState: any) => ({...prevState, [keyProp]: key, mode}))
+            setForm((prevState: any) => ({...prevState, [keyProp]: key, mode: 0}))
             return
         }
 
         console.log(currentKeyString)
+
+        console.log('wokring')
         const relativeMajor = convertRelativeKey(currentKeyString)
         const [key, mode] = convertKeyToKeyModeInt(relativeMajor)
         setKeyOptions(majorKeyOptions)
-        setForm((prevState: any) => ({...prevState, [keyProp]: key, mode}))
+        setForm((prevState: any) => ({...prevState, [keyProp]: key, mode: 1}))
 
     }
 
@@ -114,7 +124,7 @@ export default function KeysDropdown({ label, keyProp = "key", form, setForm, de
             {
                 showIsMinorCheckbox &&
                 <label className={styles.checkbox}>
-                    <input type="checkbox" defaultChecked={form?.mode === 0} onChange={toggleMinor}/>
+                    <input type="checkbox" checked={form.mode === 0} onChange={toggleMinor}/>
                     Minor
                 </label>
             }
