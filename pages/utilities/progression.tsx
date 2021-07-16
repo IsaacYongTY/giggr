@@ -13,13 +13,13 @@ import AlertBox from "../../components/common/AlertBox";
 import {GetServerSideProps} from "next";
 import withAuth from "../../middlewares/withAuth";
 import {loadUserData} from "../../lib/library";
-
-interface Form {
-    key: number
-    progression: string,
-    isFullBar: boolean
-    spaces: number
-}
+import Form from "../../lib/types/Form";
+// interface Form {
+//     key: number
+//     progression: string,
+//     isFullBar: boolean
+//     spaces: number
+// }
 
 interface OptionType {
     value: string,
@@ -49,6 +49,47 @@ export default function Progression({ user } : Props) {
     const defaultKey = keyMap[0]
 
     const [form, setForm] = useState<Form>({
+        id: -1,
+        title: "",
+        romTitle: "",
+        artist: "",
+
+        myKey: -1,
+        mode: -1,
+        tempo: 0,
+
+        durationMinSec: "",
+        timeSignature: "",
+        language: "",
+
+        spotifyLink: "",
+        youtubeLink: "",
+        otherLink: "",
+
+        composers: [],
+        songwriters: [],
+        arrangers: [],
+
+        initialism: "",
+
+        acousticness: 0,
+        danceability: 0,
+        energy: 0,
+        instrumentalness: 0,
+        valence: 0,
+
+        moods: [],
+        genres: [],
+        tags: [],
+
+        dateReleased: "",
+
+        status: "",
+
+        artistId: -1,
+        languageId: -1,
+        durationMs: 0,
+
         key: defaultKey.id,
         progression: "",
         isFullBar: true,
@@ -94,6 +135,11 @@ export default function Progression({ user } : Props) {
     function handleGenerateProg() {
         let { key, progression, isFullBar,  spaces } = form || {}
 
+        if(!spaces) {
+            setErrorMessage("Spaces are invalid")
+            return
+        }
+
         if(!progression) {
             setErrorMessage("Please input progression")
             return
@@ -126,8 +172,10 @@ export default function Progression({ user } : Props) {
             return
         }
 
+        const generatedProg = isFullBar ? fullBarProg(key, progression, spaces) : halfBarProg(key, progression, spaces)
+
         setProg(prevState => prevState +
-            (isFullBar ? fullBarProg(key, progression, spaces) : halfBarProg(key, progression, spaces)) +
+            generatedProg +
             "\n\n"
         )
 
@@ -209,7 +257,7 @@ export default function Progression({ user } : Props) {
                         <div className={styles.spacingDropdownContainer}>
                             <Select
                                 className="basic-single"
-                                value={{value: form.spaces, label: form.spaces}}
+                                value={{value: form.spaces || 0, label: form.spaces || 0}}
                                 name="spaces"
                                 options={[
                                     {value: 8, label: 8},
