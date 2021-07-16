@@ -131,9 +131,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
             }
 
-            if(foundIndex > -1) {
-                data.songs[foundIndex] = tempSong
-            }
+
+            data.songs.push(tempSong)
+
 
             mutate('/api/v1/users?category=id&order=ASC', data, false )
 
@@ -236,9 +236,10 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             }
             if(foundIndex > -1) {
                 data.songs[foundIndex] = tempSong
+                console.log(data.songs)
             }
 
-            mutate('/api/v1/users?category=id&order=ASC', tempSong, false )
+            mutate('/api/v1/users?category=id&order=ASC', data, false )
 
             if(closeModal) {
                 handleCloseModal()
