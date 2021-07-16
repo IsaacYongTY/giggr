@@ -61,7 +61,8 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
     async function handleAddSong() {
         setIsLoading(true)
         try {
-            let { composers, songwriters, arrangers, genres, moods, tags } = form
+            let { composers, songwriters, arrangers, genres, moods, tags, id, title, romTitle, key, myKey, mode, tempo,
+            timeSignature, spotifyLink, youtubeLink, otherLink, initialism, status } = form
 
             const editedForm = {
                 ...form,
@@ -78,32 +79,56 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
 
             const tempSong : Song= {
-                ...editedForm,
+                id: id || -1,
+                title: title || "",
+                romTitle: romTitle || "",
+                key: key || -1,
+                myKey: myKey || -1,
+                mode: mode || -1,
+                tempo: tempo || 0,
+                timeSignature: timeSignature || "",
+
+                spotifyLink: spotifyLink || "",
+                youtubeLink: youtubeLink || "",
+                otherLink: otherLink || "",
+
+                initialism: initialism || "",
+
+                acousticness: 0,
+                danceability: 0,
+                energy: 0,
+                instrumentalness: 0,
+                valence: 0,
+                dateReleased: "",
+
+                status: status || "",
+                languageId: -1,
+                durationMs: 0,
                 artist: {
-                    name: editedForm.artist,
+                    name: editedForm.artist || "",
                     romName: "",
                     spotifyName: ""
                 },
                 artistId: foundSong?.artistId || -1,
-                language: { id: 1,  name: editedForm.language},
+                language: { id: 1,  name: editedForm.language || ""},
                 composers: editedForm.composers?.map((composer: string) => ({
                     name: composer,
                     romName: "",
                     spotifyName: ""
-                })),
+                })) || [],
                 songwriters: editedForm.songwriters?.map((songwriter: string) => ({
                     name: songwriter,
                     romName: "",
                     spotifyName: ""
-                })),
+                })) || [],
                 arrangers: editedForm.arrangers?.map((arranger: string) => ({
                     name: arranger,
                     romName: "",
                     spotifyName: ""
-                })),
-                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})),
-                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})),
-                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})),
+                })) || [],
+                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})) || [],
+                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})) || [],
+                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
             }
 
             if(foundIndex > -1) {
@@ -138,7 +163,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
         setIsLoading(true)
         try {
-            let { composers, songwriters, arrangers, genres, moods, tags } = form
+
+            let { composers, songwriters, arrangers, genres, moods, tags, id, title, romTitle, key, myKey, mode, tempo,
+                timeSignature, spotifyLink, youtubeLink, otherLink, initialism, status } = form
 
             const editedForm = {
                 ...form,
@@ -156,33 +183,57 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             const tempSong : Song= {
                 ...editedForm,
+                id: id || -1,
+                title: title || "",
+                romTitle: romTitle || "",
+                key: key || -1,
+                myKey: myKey || -1,
+                mode: mode || -1,
+                tempo: tempo || 0,
+                timeSignature: timeSignature || "",
+
+                spotifyLink: spotifyLink || "",
+                youtubeLink: youtubeLink || "",
+                otherLink: otherLink || "",
+
+                initialism: initialism || "",
+
+                acousticness: 0,
+                danceability: 0,
+                energy: 0,
+                instrumentalness: 0,
+                valence: 0,
+                dateReleased: "",
+
+                status: status || "",
+                languageId: -1,
+                durationMs: 0,
                 artist: {
-                    name: editedForm.artist,
+                    name: editedForm.artist || "",
                     romName: "",
                     spotifyName: ""
                 },
                 artistId: foundSong?.artistId || -1,
-                language: { id: 1,  name: editedForm.language},
+                language: { id: 1,  name: editedForm.language || ""},
                 composers: editedForm.composers?.map((composer: string) => ({
                     name: composer,
                     romName: "",
                     spotifyName: ""
-                })),
+                })) || [],
                 songwriters: editedForm.songwriters?.map((songwriter: string) => ({
                     name: songwriter,
                     romName: "",
                     spotifyName: ""
-                })),
+                })) || [],
                 arrangers: editedForm.arrangers?.map((arranger: string) => ({
                     name: arranger,
                     romName: "",
                     spotifyName: ""
-                })),
-                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})),
-                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})),
-                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})),
+                })) || [],
+                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})) || [],
+                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})) || [],
+                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
             }
-
             if(foundIndex > -1) {
                 data.songs[foundIndex] = tempSong
             }
