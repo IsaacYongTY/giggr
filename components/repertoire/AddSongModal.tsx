@@ -15,10 +15,6 @@ import MetaToolForm from "../common/MetaToolForm";
 import Metronome from "../common/Metronome";
 import SongDetailForm from "../common/SongDetailForm";
 
-
-
-
-
 type Props = {
     isModalOpen: boolean,
     setIsModalOpen: Dispatch<SetStateAction<boolean>>
@@ -73,8 +69,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         console.log(generateMetaData(form, 2))
     }
 
-    console.log(data)
-
     return (
         <Modal
             isOpen={isModalOpen}
@@ -112,9 +106,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             data={data}
                             isModalOpen={isModalOpen}
                         />
-
-
-
                     </TabPanel>
                     <TabPanel>
                         <MetaToolForm
