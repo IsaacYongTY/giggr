@@ -1,5 +1,4 @@
-import React, {useState, useEffect, Dispatch, SetStateAction } from "react";
-import SpotifySearchBar from "../common/SpotifySearchBar";
+import React, {useState, Dispatch, SetStateAction } from "react";
 import Modal from "react-modal";
 import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
@@ -21,19 +20,58 @@ type Props = {
     type: string
     song?: Song
     database: string
-    setSongs: Dispatch<SetStateAction<Song[]>>
     musicians: Musician[]
-    setMusicians: Dispatch<SetStateAction<Musician[]>>
     user: any
     data: any
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, data, user }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, musicians, data, user }: Props) {
 
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("")
-    const [form, setForm] = useState<Form>({})
+    const [form, setForm] = useState<Form>({
+        id: -1,
+        title: "",
+        romTitle: "",
+        artist: "",
+        key: -1,
+        myKey: -1,
+        mode: -1,
+        tempo: 0,
+
+        durationMinSec: "",
+        timeSignature: "",
+        language: "",
+
+        spotifyLink: "",
+        youtubeLink: "",
+        otherLink: "",
+
+        composers: [],
+        songwriters: [],
+        arrangers: [],
+
+        initialism: "",
+
+        acousticness: 0,
+        danceability: 0,
+        energy: 0,
+        instrumentalness: 0,
+        valence: 0,
+
+        moods: [],
+        genres: [],
+        tags: [],
+
+        dateReleased: "",
+
+        status: "",
+
+        artistId: -1,
+        languageId: -1,
+        durationMs: 0,
+    })
 
     const [metadata, setMetadata] = useState("")
 
@@ -56,7 +94,48 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     }
 
     function handleCloseModal() {
-        setForm({})
+        setForm({
+            id: -1,
+            title: "",
+            romTitle: "",
+            artist: "",
+            key: -1,
+            myKey: -1,
+            mode: -1,
+            tempo: 0,
+
+            durationMinSec: "",
+            timeSignature: "",
+            language: "",
+
+            spotifyLink: "",
+            youtubeLink: "",
+            otherLink: "",
+
+            composers: [],
+            songwriters: [],
+            arrangers: [],
+
+            initialism: "",
+
+            acousticness: 0,
+            danceability: 0,
+            energy: 0,
+            instrumentalness: 0,
+            valence: 0,
+
+            moods: [],
+            genres: [],
+            tags: [],
+
+            dateReleased: "",
+
+            status: "",
+
+            artistId: -1,
+            languageId: -1,
+            durationMs: 0,
+        })
         setIsModalOpen(false)
         setMetadata("")
     }
@@ -64,9 +143,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
 
     function handleGenerateMetaData() {
-        console.log(form)
         setMetadata(generateMetaData(form, 2))
-        console.log(generateMetaData(form, 2))
     }
 
     return (
@@ -96,8 +173,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             user={user}
                             handleCloseModal={handleCloseModal}
                             song={song}
-                            setSongs={setSongs}
-                            setMusicians={setMusicians}
                             setAlertMessage={setAlertMessage}
                             setAlertType={setAlertType}
                             musicians={musicians}

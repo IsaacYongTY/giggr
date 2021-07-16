@@ -97,9 +97,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
                 type="edit"
                 song={modalSong}
                 database={database}
-                setSongs={setSongs}
                 musicians={musicians}
-                setMusicians={setMusicians}
                 user={user}
                 data={data}
             />
