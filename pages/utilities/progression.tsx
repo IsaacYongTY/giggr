@@ -135,8 +135,8 @@ export default function Progression({ user } : Props) {
     function handleGenerateProg() {
         let { key, progression, isFullBar,  spaces } = form || {}
 
-        if(!spaces) {
-            setErrorMessage("Spaces are invalid")
+        if(!spaces || key === undefined) {
+            setErrorMessage("Invalid inputs")
             return
         }
 
