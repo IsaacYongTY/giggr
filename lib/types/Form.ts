@@ -4,7 +4,7 @@ interface Option {
 }
 
 export default interface Form {
-
+    id?: number
     title?: string
     romTitle?: string
     artist?: string
@@ -46,5 +46,10 @@ export default interface Form {
     spaces?: number
 
     status?: string
+
+    artistId?: number,
+    languageId?: number,
+    durationMs?: number,
+    // verified?: boolean
 
 }

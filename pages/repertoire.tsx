@@ -62,6 +62,15 @@ type Props = {
     user: any
 }
 
+interface Data {
+
+    songs: Song[]
+    musicians: Musician[]
+    genres: { id: number, name: string }[],
+    tags: { id: number, name: string }[],
+    moods: { id: number, name: string }[],
+    languages: { id: number, name: string }[],
+}
 export default function Repertoire({ user }: Props) {
 
     const [songs, setSongs] = useState<Song[]>([])
@@ -112,7 +121,7 @@ export default function Repertoire({ user }: Props) {
                         setSongs={setSongs}
                         user={user}
                         database="database1"
-                        musicians={musicians}
+                        musicians={data?.musicians}
                         setMusicians={setMusicians}
                         data={data}
                     />
@@ -127,9 +136,7 @@ export default function Repertoire({ user }: Props) {
                     setIsModalOpen={setIsModalOpen}
                     type="add"
                     database="database1"
-                    setSongs={setSongs}
                     musicians={musicians}
-                    setMusicians={setMusicians}
                     data={data}
                     user={user}
                 />

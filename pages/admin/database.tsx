@@ -84,12 +84,10 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
             </Layout>
             <AddSongModal
                 isModalOpen={isModalOpen}
-                setSongs={setSongs}
                 setIsModalOpen={setIsModalOpen}
                 type="add"
                 database="master"
                 musicians={musicians}
-                setMusicians={setMusicians}
                 user={user}
                 data={data}
             />

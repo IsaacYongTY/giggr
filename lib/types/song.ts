@@ -30,7 +30,7 @@ export default interface Song {
         initialism: string,
 
         key: number,
-        myKey?: number,
+        myKey: number,
         languageId: number,
         language: { id: number, name: string}
         mode: number,
@@ -45,10 +45,10 @@ export default interface Song {
         danceability: number,
         energy: number,
 
-        verified: boolean,
+        // verified: boolean,
 
         performStatus?: string,
-        status?: string,
+        status: string,
 
         composers: Musician[],
         songwriters: Musician[],

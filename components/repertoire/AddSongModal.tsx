@@ -1,5 +1,4 @@
-import React, {useState, useEffect, Dispatch, SetStateAction } from "react";
-import SpotifySearchBar from "../common/SpotifySearchBar";
+import React, {useState, Dispatch, SetStateAction } from "react";
 import Modal from "react-modal";
 import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
@@ -21,15 +20,13 @@ type Props = {
     type: string
     song?: Song
     database: string
-    setSongs: Dispatch<SetStateAction<Song[]>>
     musicians: Musician[]
-    setMusicians: Dispatch<SetStateAction<Musician[]>>
     user: any
     data: any
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, setSongs, musicians, setMusicians, data, user }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, musicians, data, user }: Props) {
 
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("")
@@ -64,9 +61,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
 
     function handleGenerateMetaData() {
-        console.log(form)
         setMetadata(generateMetaData(form, 2))
-        console.log(generateMetaData(form, 2))
     }
 
     return (
@@ -96,8 +91,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             user={user}
                             handleCloseModal={handleCloseModal}
                             song={song}
-                            setSongs={setSongs}
-                            setMusicians={setMusicians}
                             setAlertMessage={setAlertMessage}
                             setAlertType={setAlertType}
                             musicians={musicians}

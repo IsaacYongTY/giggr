@@ -23,6 +23,8 @@ let songData : Song= {
     artistId: 1,
     romTitle: "Qi Tian",
     key: 2,
+    myKey: -1,
+    status: "In Progress",
     mode: 1,
     tempo: 93,
     durationMs: 240000,
@@ -44,7 +46,6 @@ let songData : Song= {
     danceability: 0,
     energy: 0,
 
-    verified: false,
     composers: [],
     songwriters: [],
     arrangers: [],
@@ -64,9 +65,7 @@ function renderAddSongModal(props = {}) {
             setIsModalOpen={jest.fn()}
             type="add"
             database="database1"
-            setSongs={jest.fn()}
             musicians={[{name: "test1", romName: "", spotifyName: ""}, {name: "test2", romName: "", spotifyName: ""}]}
-            setMusicians={jest.fn()}
             user={mockUser}
             data={{
                 songs: [],
