@@ -70,19 +70,25 @@ export default function Repertoire({ user }: Props) {
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
-    const [data, setData] = useState({})
+    // const [data, setData] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        loadUserData(user).then((res) => {
-            console.log(res)
-            setSongs(res.songs)
-            setFilteredSongList(res.songs)
-            setData(res)
-            setMusicians(res.musicians)
-        })
-    },[])
-    console.log(data)
+    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
+
+    // useEffect(() => {
+    //
+    //     setSongs(initialData.songs)
+    //     setFilteredSongList(initialData.songs)
+    //     setData(initialData)
+    //     setMusicians(initialData.musicians)
+    //     // loadUserData(user).then((res) => {
+    //     //     setSongs(res.songs)
+    //     //     setFilteredSongList(res.songs)
+    //     //     setData(res)
+    //     //     setMusicians(res.musicians)
+    //     // })
+    // },[])
+
     return (
         <>
 
@@ -102,7 +108,7 @@ export default function Repertoire({ user }: Props) {
                     <ActionRow setIsModalOpen={setIsModalOpen} database="database1"/>
 
                     <RepertoireTable
-                        songs={searchTerm ? filteredSongList : songs}
+                        songs={searchTerm ? filteredSongList : data?.songs}
                         setSongs={setSongs}
                         user={user}
                         database="database1"

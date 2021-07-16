@@ -4,6 +4,7 @@ import Song from "../../lib/types/song";
 import axios from "../../config/axios";
 import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
+import {trigger} from "swr";
 
 type Props = {
     songs: Song[],
@@ -36,7 +37,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
-    console.log(songs)
+
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 
@@ -46,7 +47,7 @@ export default function RepertoireTable({ songs, setSongs, user, database, music
         try {
 
             let response = await axios.delete(`${url}/${id}`)
-            setSongs((prevState: Song[]) => prevState.filter((song: Song) => song.id !== id))
+            await trigger("/api/v1/users?category=id&order=ASC")
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")

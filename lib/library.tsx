@@ -2,7 +2,6 @@
 import chineseToPinyin from 'chinese-to-pinyin';
 import axios from "axios";
 import {RefObject} from "react";
-
 const removeBrackets = (input: string) => {
 
     const removeIndex = input.search(/\(|（|-/g)
@@ -30,12 +29,8 @@ export const getRomTitle = (title :string) => {
 export const loadUserData = async(user : any) => {
 
     try {
-        const response = await axios.get(`/api/v1/users?category=id&order=ASC`, {
-            withCredentials: true,
-            headers: {
-                "x-auth-token": `Bearer ${user.tokenString}`
-            }
-        })
+        const response = await axios.get(`/api/v1/users?category=id&order=ASC`)
+
 
         return response.data
     } catch (error) {
