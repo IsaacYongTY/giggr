@@ -35,7 +35,7 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
 
     useEffect(() => {
         setCurrentValue({value: selectedArtist, label: selectedArtist})
-        setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name})))
+        setOptions(musicians?.map(musician => ({ value: musician.name, label: musician.name})))
     }, [selectedArtist])
 
     return (
