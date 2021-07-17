@@ -8,7 +8,6 @@ import MusiciansMultiSelectDropdown from "../repertoire/MusiciansMultiSelectDrop
 import CategoriesDropdown from "../repertoire/CategoriesDropdown";
 import ButtonWithLoader from "./ButtonWithLoader";
 import axios from "../../config/axios";
-import {loadDatabaseData, loadUserData, loadUserMusicians} from "../../lib/library";
 import Form from "../../lib/types/Form";
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import Song from "../../lib/types/song";
@@ -36,7 +35,7 @@ interface Props {
     form: Form
     setForm: Dispatch<SetStateAction<Form>>
     user: any
-    handleCloseModal: any
+    handleCloseModal: () => void
     song: Song | undefined
     setAlertMessage: any
     setAlertType: any
@@ -76,9 +75,8 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
 
             const foundSong = data.songs.find(song => song.id === editedForm.id)
-            const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
 
-            const tempSong : Song= {
+            const tempSong : Song = {
                 id: id || -1,
                 title: title || "",
                 romTitle: romTitle || "",
@@ -262,6 +260,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             console.log(error)
         }
     }
+
 
 
     useEffect(() => {
