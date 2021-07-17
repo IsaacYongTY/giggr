@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-row.module.scss";
 import ActionPopup from "./ActionPopup";
 import {capitalizeString } from "../../lib/library";
@@ -19,6 +19,9 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
         setIsShowPopup(false)
     }
 
+    useEffect(() => {
+        console.log(song)
+    },[])
     return (
         <tr
             key={song.id}

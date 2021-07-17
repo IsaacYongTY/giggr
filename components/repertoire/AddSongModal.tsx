@@ -3,6 +3,8 @@ import Modal from "react-modal";
 import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
 
+// @ts-ignore
+import isChinese from "is-chinese"
 import Musician from "../../lib/types/musician";
 import Song from "../../lib/types/song";
 import Form from "../../lib/types/Form";
@@ -70,6 +72,13 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         if(!form.title) {
             return
         }
+
+        const title = form.title
+        if(!isChinese(form.title)) {
+            setForm(prevState => ({...prevState, initialism: getInitialism(title) }))
+            return
+        }
+
         const romTitle = getRomTitle(form.title)
         setForm(prevState => ({...prevState, initialism: getInitialism(romTitle), romTitle}))
 
