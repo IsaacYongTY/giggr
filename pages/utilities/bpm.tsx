@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from "react"
-import calculateBpmFromTimeLapsedAndBeat from "../../lib/utils/calculate-bpm-from-time-lapsed-and-beats";
+import React from "react"
 import Layout from "../../components/layouts/Layout";
 
 import withAuth from "../../middlewares/withAuth";

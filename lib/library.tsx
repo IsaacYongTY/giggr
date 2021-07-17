@@ -2,12 +2,6 @@
 import chineseToPinyin from 'chinese-to-pinyin';
 import axios from "axios";
 import {RefObject} from "react";
-const removeBrackets = (input: string) => {
-
-    const removeIndex = input.search(/\(|（|-/g)
-
-    return input.slice(0, removeIndex > -1 ? removeIndex : input.length).trim()
-}
 
 export const capitalizeString = (text : string) =>{
     if(!text) {
@@ -17,14 +11,6 @@ export const capitalizeString = (text : string) =>{
         word[0].toUpperCase() + word.slice(1)).join(' ')
 }
 
-
-export const getRomTitle = (title :string) => {
-    title = removeBrackets(title)
-    let romTitle = chineseToPinyin(title, {noTone: true})
-
-    return capitalizeString(romTitle)?.replace(/,/g, ' ')
-
-}
 
 export const loadUserData = async(user : any) => {
 

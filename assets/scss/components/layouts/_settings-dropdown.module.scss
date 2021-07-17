@@ -17,6 +17,10 @@
   box-shadow: 3px 3px 3px lightgrey ;
   z-index: 99;
   background-color: white;
+
+  &:focus {
+    background-color: red;
+  }
 }
 
 .gearIcon {
