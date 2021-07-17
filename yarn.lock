@@ -6959,6 +6959,11 @@ is-callable@^1.1.4, is-callable@^1.2.3:
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.3.tgz#8b1e0500b73a1d76c70487636f368e519de8db8e"
   integrity sha512-J1DcMe8UYTBSrKezuIUTUwjXsho29693unXM2YhJUTR2txK/eG47bvNa/wipPFmZFgr/N6f1GA66dv0mEyTIyQ==
 
+is-chinese@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/is-chinese/-/is-chinese-1.4.5.tgz#08d260be43a14b0f888f4dc0f6fb83a6a040fdb3"
+  integrity sha512-O9onTJpwUyVxwIsnkXsh16fMIHU2AikqZLRyxF0gGYw5NYQEra23XRuuzaJDwXDZbN1g8J3eABV0mJq3+N+0mw==
+
 is-ci@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-ci/-/is-ci-2.0.0.tgz#6bc6334181810e04b5c22b3d589fdca55026404c"
