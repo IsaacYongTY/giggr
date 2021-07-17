@@ -72,11 +72,9 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
 
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : songs}
-                        setSongs={setSongs}
                         user={user}
                         database="master"
                         musicians={musicians}
-                        setMusicians={setMusicians}
                         data={data}
                     />
 

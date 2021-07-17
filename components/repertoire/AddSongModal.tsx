@@ -13,6 +13,8 @@ import 'react-tabs/style/react-tabs.css';
 import MetaToolForm from "../common/MetaToolForm";
 import Metronome from "../common/Metronome";
 import SongDetailForm from "../common/SongDetailForm";
+import getInitialism from "../../lib/utils/get-initialism";
+import getRomTitle from "../../lib/utils/get-rom-title";
 
 type Props = {
     isModalOpen: boolean,
@@ -64,6 +66,16 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         setMetadata(generateMetaData(form, 2))
     }
 
+    function handleUpdateInitialismAndRomTitleWhenBlur() {
+        if(!form.title) {
+            return
+        }
+        const romTitle = getRomTitle(form.title)
+        setForm(prevState => ({...prevState, initialism: getInitialism(romTitle), romTitle}))
+
+
+    }
+
     return (
         <Modal
             isOpen={isModalOpen}
@@ -74,7 +86,14 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
 
             <div className={styles.container}>
 
-                <input className={styles.titleInput} placeholder="Title" name="title" onChange={handleInput} value={form.title}/>
+                <input
+                    className={styles.titleInput}
+                    placeholder="Title"
+                    name="title"
+                    onChange={handleInput}
+                    value={form.title}
+                    onBlur={handleUpdateInitialismAndRomTitleWhenBlur}
+                />
 
                 <Tabs>
                     <TabList>

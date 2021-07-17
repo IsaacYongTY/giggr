@@ -8,14 +8,12 @@ import {trigger} from "swr";
 
 type Props = {
     songs: Song[],
-    setSongs: any,
     user: any,
     database: string,
     musicians: any
-    setMusicians: any
     data?: any
 }
-export default function RepertoireTable({ songs, setSongs, user, database, musicians, setMusicians, data } : Props) {
+export default function RepertoireTable({ songs, user, database, musicians, data } : Props) {
 
     const colKey = [
         "ID",
