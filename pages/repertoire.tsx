@@ -58,8 +58,9 @@ interface Data {
 }
 export default function Repertoire({ user }: Props) {
 
+    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
+
     const [songs, setSongs] = useState<Song[]>([])
-    const [musicians, setMusicians] = useState<Musician[]>([])
 
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
@@ -67,7 +68,6 @@ export default function Repertoire({ user }: Props) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
 
 
     return (
@@ -79,7 +79,7 @@ export default function Repertoire({ user }: Props) {
                     <FilterRow setFilter={setFilter} />
 
                     <SearchBar
-                        songs={songs}
+                        songs={data.songs}
                         setFilteredSongList={setFilteredSongList}
                         filter={filter}
                         searchTerm={searchTerm}
