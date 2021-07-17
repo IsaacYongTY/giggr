@@ -57,7 +57,8 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         url = `api/v1/admin/songs`
     }
 
-    async function handleAddSong() {
+    async function handleAddSong({ closeModal = false } : { closeModal?: boolean } = {}) {
+
         setIsLoading(true)
         try {
             let { composers, songwriters, arrangers, genres, moods, tags, id, title, romTitle, key, myKey, mode, tempo,
@@ -135,7 +136,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             mutate('/api/v1/users?category=id&order=ASC', data, false )
 
-            handleCloseModal()
+            if(closeModal) {
+                handleCloseModal()
+            }
 
             setIsLoading(false)
 
@@ -157,7 +160,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         }
     }
 
-    async function handleEditSong(id : number, closeModal: boolean) {
+    async function handleEditSong(id : number, { closeModal = false } : { closeModal?: boolean } = {}) {
 
         setIsLoading(true)
         try {
@@ -471,10 +474,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 </label>
             </div>
 
-            <div className={styles.formRow}>
 
-
-            </div>
 
             <br />
             <div className={styles.formRow}>
@@ -502,36 +502,26 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             </div>
 
             <div className={styles.buttonRow}>
-                {
-                    type === 'edit' && song
-                        ?
-                        <>
-                            <ButtonWithLoader
-                                onClick={() => handleEditSong(song.id, false)}
-                                isLoading={isLoading}
-                                label="Save"
-                            />
-                            <button className="btn btn-danger-outlined" onClick={handleCloseModal}>Close</button>
-                            <ButtonWithLoader
-                                onClick={() => handleEditSong(song.id, true)}
-                                isLoading={isLoading}
-                                label="Save and Close"
-                            />
-                        </>
 
-                        :
-                        <>
-                            <ButtonWithLoader
-                                onClick={handleAddSong}
-                                isLoading={isLoading}
-                                label="Add"
-                            />
-                            <button className="btn btn-danger" onClick={handleCloseModal}>Close</button>
-                        </>
+                <button className="btn btn-danger-outlined" onClick={handleCloseModal}>Close</button>
 
-                }
-
-        </div>
+                <ButtonWithLoader
+                    onClick={() => (type === 'edit' && song)
+                        ? handleEditSong(song.id)
+                        : handleAddSong()
+                    }
+                    isLoading={isLoading}
+                    label="Save"
+                />
+                <ButtonWithLoader
+                    onClick={() => (type === 'edit' && song)
+                        ? handleEditSong(song.id, { closeModal: true})
+                        : handleAddSong({closeModal: true})
+                    }
+                    isLoading={isLoading}
+                    label="Save and Close"
+                />
+            </div>
         </div>
     )
 }
