@@ -65,7 +65,6 @@ function renderAddSongModal(props = {}) {
             setIsModalOpen={jest.fn()}
             type="add"
             database="database1"
-            musicians={[{name: "test1", romName: "", spotifyName: ""}, {name: "test2", romName: "", spotifyName: ""}]}
             user={mockUser}
             data={{
                 songs: [],
