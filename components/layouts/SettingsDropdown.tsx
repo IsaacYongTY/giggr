@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import MenuRow from "./MenuRow";
 import styles from "../../assets/scss/components/layouts/_settings-dropdown.module.scss";
 import { useRouter } from "next/router";
+import { destroyCookie } from "nookies";
 
 export default function SettingsDropdown() {
 
@@ -9,8 +10,8 @@ export default function SettingsDropdown() {
     const router = useRouter()
 
     function handleLogout() {
-        document.cookie = "x-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
 
+        destroyCookie(undefined, "x-auth-token")
         router.push('/accounts/login')
     }
 

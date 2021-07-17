@@ -15,26 +15,14 @@ import useSWR from "swr";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
-    // try {
-    //     console.log(req.user)
-    //     let data = await loadUserData(req.user)
-
-        return {
-            props: {
-                // initialSongs: data.songs,
-                // initialData: data,
-                user: req.user
-            }
+    return {
+        props: {
+            // initialSongs: data.songs,
+            // initialData: data,
+            user: req.user
         }
-    //
-    // } catch (error) {
-    //     return {
-    //         redirect: {
-    //             permanent: false,
-    //             destination: "/error500"
-    //         }
-    //     }
-    // }
+    }
+
 })
 
 type Props = {
@@ -79,24 +67,11 @@ export default function Repertoire({ user }: Props) {
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
-    // const [data, setData] = useState({})
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
 
-    // useEffect(() => {
-    //
-    //     setSongs(initialData.songs)
-    //     setFilteredSongList(initialData.songs)
-    //     setData(initialData)
-    //     setMusicians(initialData.musicians)
-    //     // loadUserData(user).then((res) => {
-    //     //     setSongs(res.songs)
-    //     //     setFilteredSongList(res.songs)
-    //     //     setData(res)
-    //     //     setMusicians(res.musicians)
-    //     // })
-    // },[])
 
     return (
         <>
@@ -118,11 +93,9 @@ export default function Repertoire({ user }: Props) {
 
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : data?.songs}
-                        setSongs={setSongs}
                         user={user}
                         database="database1"
                         musicians={data?.musicians}
-                        setMusicians={setMusicians}
                         data={data}
                     />
                 </div>
