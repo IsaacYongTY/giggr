@@ -42,7 +42,6 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
         <div className={styles.container}>
             <CreatableSelect
                 name="musician"
-                // closeMenuOnSelect={false}
                 value={currentValue}
                 options={options}
                 className="basic-single"
