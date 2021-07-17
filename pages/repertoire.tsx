@@ -92,7 +92,6 @@ export default function Repertoire({ user }: Props) {
                         songs={searchTerm ? filteredSongList : data?.songs}
                         user={user}
                         database="database1"
-                        musicians={data?.musicians}
                         data={data}
                     />
                 </div>
