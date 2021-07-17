@@ -134,7 +134,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             data.songs.push(tempSong)
 
 
-            mutate('/api/v1/users?category=id&order=ASC', data )
+            mutate('/api/v1/users?category=id&order=ASC', data, false )
 
             if(closeModal) {
                 handleCloseModal()
@@ -242,7 +242,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 console.log(data.songs)
             }
 
-            mutate('/api/v1/users?category=id&order=ASC', data )
+            mutate('/api/v1/users?category=id&order=ASC', data, false )
 
             if(closeModal) {
                 handleCloseModal()
