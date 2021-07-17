@@ -181,7 +181,9 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             const foundSong = data.songs.find(song => song.id === editedForm.id)
             const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
-
+            console.log(key)
+            console.log(myKey)
+            console.log(mode)
             const tempSong : Song= {
                 ...editedForm,
                 id: id || -1,
@@ -325,7 +327,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             <div className={styles.formRow}>
                 <label>Artist:
                     <ArtistsSingleDropdown
-                        musicians={musicians}
+                        musicians={data.musicians}
                         selectedArtist={form.artist || ""}
                         setFormValue={setForm}
                     />
@@ -401,14 +403,14 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 <MusiciansMultiSelectDropdown
                     label="Composers"
                     role="composers"
-                    musicians={musicians}
+                    musicians={data.musicians}
                     selectedMusicians={form.composers || []}
                     setFormValue={setForm}
                 />
                 <MusiciansMultiSelectDropdown
                     label="Songwriters"
                     role="songwriters"
-                    musicians={musicians}
+                    musicians={data.musicians}
                     selectedMusicians={form.songwriters || []}
                     setFormValue={setForm}
                 />
@@ -418,7 +420,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 <MusiciansMultiSelectDropdown
                     label="Arrangers"
                     role="arrangers"
-                    musicians={musicians}
+                    musicians={data.musicians}
                     selectedMusicians={form.arrangers || []}
                     setFormValue={setForm}
                 />
