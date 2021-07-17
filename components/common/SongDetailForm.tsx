@@ -14,6 +14,7 @@ import Song from "../../lib/types/song";
 import Musician from "../../lib/types/musician";
 import SingleDropdown from "../repertoire/SingleDropdown";
 import {mutate, trigger} from "swr";
+import {convertMinSecToMs} from "../../lib/library";
 
 type Option = {
     value: string,
@@ -39,13 +40,12 @@ interface Props {
     song: Song | undefined
     setAlertMessage: any
     setAlertType: any
-    musicians: Musician[]
     isModalOpen: boolean,
     data: Data
     handleInput: any
 }
 export default function SongDetailForm({type, database, form, user, handleCloseModal, song,
-   setAlertMessage, setAlertType, musicians, setForm,
+   setAlertMessage, setAlertType, setForm,
     isModalOpen, data, handleInput
 } : Props) {
 
@@ -102,7 +102,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
                 status: status || "",
                 languageId: -1,
-                durationMs: 0,
+                durationMs: convertMinSecToMs(editedForm.durationMinSec || "") || 0,
                 artist: {
                     name: editedForm.artist || "",
                     romName: "",
@@ -181,9 +181,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             const foundSong = data.songs.find(song => song.id === editedForm.id)
             const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
-            console.log(key)
-            console.log(myKey)
-            console.log(mode)
+
             const tempSong : Song= {
                 ...editedForm,
                 id: id || -1,
@@ -210,7 +208,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
                 status: status || "",
                 languageId: -1,
-                durationMs: 0,
+                durationMs: convertMinSecToMs(editedForm.durationMinSec || "") || 0,
                 artist: {
                     name: editedForm.artist || "",
                     romName: "",
@@ -236,6 +234,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})) || [],
                 moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})) || [],
                 tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
+
             }
             if(foundIndex > -1) {
                 data.songs[foundIndex] = tempSong
