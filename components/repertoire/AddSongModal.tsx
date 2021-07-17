@@ -24,13 +24,12 @@ type Props = {
     type: string
     song?: Song
     database: string
-    musicians: Musician[]
     user: any
     data: any
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, musicians, data, user }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user }: Props) {
 
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("")
@@ -121,7 +120,6 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             song={song}
                             setAlertMessage={setAlertMessage}
                             setAlertType={setAlertType}
-                            musicians={musicians}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
