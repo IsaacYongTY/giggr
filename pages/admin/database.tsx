@@ -85,7 +85,6 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
                 setIsModalOpen={setIsModalOpen}
                 type="add"
                 database="master"
-                musicians={musicians}
                 user={user}
                 data={data}
             />
