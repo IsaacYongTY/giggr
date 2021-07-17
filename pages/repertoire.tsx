@@ -79,7 +79,7 @@ export default function Repertoire({ user }: Props) {
                     <FilterRow setFilter={setFilter} />
 
                     <SearchBar
-                        songs={data.songs}
+                        songs={data?.songs}
                         setFilteredSongList={setFilteredSongList}
                         filter={filter}
                         searchTerm={searchTerm}
