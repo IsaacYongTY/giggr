@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import LoginContainer from '../../components/login/LoginContainer'
 import styles from '../../assets/scss/pages/_login.module.scss'
 import SignupContainer from "../../components/login/SignupContainer";
+import Image from "next/image";
 
 export default function Login() {
     const [isLoginPage, setIsLoginPage] = useState(true)
@@ -10,7 +11,7 @@ export default function Login() {
         <div className={styles.container}>
 
             <div className="logo-position-top-center">
-                <div className="logo logo-white logo-lg" />
+                <Image src="/img/logos/giggr-logo-white-600x250.png" width={200} height={80}/>
             </div>
 
             {
