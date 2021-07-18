@@ -14,7 +14,7 @@ import Song from "../../lib/types/song";
 import Musician from "../../lib/types/musician";
 import SingleDropdown from "../repertoire/SingleDropdown";
 import {mutate, trigger} from "swr";
-import {convertMinSecToMs} from "../../lib/library";
+import convertSongFormToTempSong from "../../lib/utils/convert-song-form-to-temp-song";
 
 type Option = {
     value: string,
@@ -77,59 +77,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             const foundSong = data.songs.find(song => song.id === editedForm.id)
 
-            const tempSong : Song = {
-                id: id || -1,
-                title: title || "",
-                romTitle: romTitle || "",
-                key: key || -1,
-                myKey: myKey || -1,
-                mode: mode || -1,
-                tempo: tempo || 0,
-                timeSignature: timeSignature || "",
-
-                spotifyLink: spotifyLink || "",
-                youtubeLink: youtubeLink || "",
-                otherLink: otherLink || "",
-
-                initialism: initialism || "",
-
-                acousticness: 0,
-                danceability: 0,
-                energy: 0,
-                instrumentalness: 0,
-                valence: 0,
-                dateReleased: "",
-
-                status: status || "",
-                languageId: -1,
-                durationMs: convertMinSecToMs(editedForm.durationMinSec || "") || 0,
-                artist: {
-                    name: editedForm.artist || "",
-                    romName: "",
-                    spotifyName: ""
-                },
-                artistId: foundSong?.artistId || -1,
-                language: { id: 1,  name: editedForm.language || ""},
-                composers: editedForm.composers?.map((composer: string) => ({
-                    name: composer,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                songwriters: editedForm.songwriters?.map((songwriter: string) => ({
-                    name: songwriter,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                arrangers: editedForm.arrangers?.map((arranger: string) => ({
-                    name: arranger,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})) || [],
-                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})) || [],
-                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
-            }
-
+            const tempSong = convertSongFormToTempSong(form)
 
             data.songs.push(tempSong)
 
@@ -160,13 +108,14 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
         }
     }
 
+
+
     async function handleEditSong(id : number, { closeModal = false } : { closeModal?: boolean } = {}) {
 
         setIsLoading(true)
         try {
 
-            let { composers, songwriters, arrangers, genres, moods, tags, id, title, romTitle, key, myKey, mode, tempo,
-                timeSignature, spotifyLink, youtubeLink, otherLink, initialism, status } = form
+            let { composers, songwriters, arrangers, genres, moods, tags } = form
 
             const editedForm = {
                 ...form,
@@ -178,64 +127,12 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 tags: tags?.map((tag : Option) => tag.value)
             }
 
+            const tempSong = convertSongFormToTempSong(form)
 
             const foundSong = data.songs.find(song => song.id === editedForm.id)
             const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
 
-            const tempSong : Song= {
-                ...editedForm,
-                id: id || -1,
-                title: title || "",
-                romTitle: romTitle || "",
-                key: key || -1,
-                myKey: myKey || -1,
-                mode: mode || -1,
-                tempo: tempo || 0,
-                timeSignature: timeSignature || "",
 
-                spotifyLink: spotifyLink || "",
-                youtubeLink: youtubeLink || "",
-                otherLink: otherLink || "",
-
-                initialism: initialism || "",
-
-                acousticness: 0,
-                danceability: 0,
-                energy: 0,
-                instrumentalness: 0,
-                valence: 0,
-                dateReleased: "",
-
-                status: status || "",
-                languageId: -1,
-                durationMs: convertMinSecToMs(editedForm.durationMinSec || "") || 0,
-                artist: {
-                    name: editedForm.artist || "",
-                    romName: "",
-                    spotifyName: ""
-                },
-                artistId: foundSong?.artistId || -1,
-                language: { id: 1,  name: editedForm.language || ""},
-                composers: editedForm.composers?.map((composer: string) => ({
-                    name: composer,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                songwriters: editedForm.songwriters?.map((songwriter: string) => ({
-                    name: songwriter,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                arrangers: editedForm.arrangers?.map((arranger: string) => ({
-                    name: arranger,
-                    romName: "",
-                    spotifyName: ""
-                })) || [],
-                genres: editedForm.genres?.map((genre : string) => ({ id: -1, name: genre})) || [],
-                moods: editedForm.moods?.map((mood : string) => ({ id: -1, name: mood})) || [],
-                tags: editedForm.tags?.map((tags : string) => ({ id: -1, name: tags})) || [],
-
-            }
             if(foundIndex > -1) {
                 data.songs[foundIndex] = tempSong
                 console.log(data.songs)

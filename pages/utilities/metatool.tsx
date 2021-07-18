@@ -39,7 +39,7 @@ export default function MetaTool({ user } : Props) {
 
 
     return (
-        <Layout user={user}>
+        <Layout user={user} title="Spotify Meta Tool">
             <div className={styles.container}>
                 <div className={styles.searchBarContainer}>
 

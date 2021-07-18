@@ -6,6 +6,7 @@ import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 import {trigger} from "swr";
 import Modal from "react-modal"
+import Loader from "../common/Loader";
 
 type Props = {
     songs: Song[],
@@ -63,7 +64,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         try {
 
             let response = await axios.delete(`${url}/${id}`)
-            await trigger("/api/v1/users?category=id&order=ASC")
+            trigger("/api/v1/users?category=id&order=ASC")
 
             setIsConfirmModalOpen(false)
         } catch (error) {
@@ -104,14 +105,20 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
                     </thead>
 
+                    {
+                        data?.songs
+                            ?
+                            <tbody className="table-content-container">
+                            {
+                                songs?.map((song : any, index: number) => (
+                                    <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong} handleOpenConfirmModal={handleOpenConfirmModal}/>
+                                ))
+                            }
+                            </tbody>
+                            :
+                            <Loader />
+                    }
 
-                    <tbody className="table-content-container">
-                        {
-                            songs?.map((song : any, index: number) => (
-                                <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong} handleOpenConfirmModal={handleOpenConfirmModal}/>
-                            ))
-                        }
-                    </tbody>
 
                 </table>
             </div>
@@ -141,17 +148,18 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
                         <div className={styles.buttonRow} >
                             <button
-                                className="btn btn-danger"
-                                onClick={() => handleDeleteSong(deleteSong?.id || -1)}
-                            >
-                                Confirm Delete
-                            </button>
-                            <button
                                 className="btn btn-secondary"
                                 onClick={() => setIsConfirmModalOpen(false)}
                             >
                                 Cancel
                             </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteSong(deleteSong?.id || -1)}
+                            >
+                                Confirm Delete
+                            </button>
+
                         </div>
                     </div>
 
