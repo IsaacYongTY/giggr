@@ -20,7 +20,7 @@ interface Props {
 export default function Bpm({ user } : Props) {
 
     return (
-        <Layout user={user}>
+        <Layout user={user} title="Metronome">
             <Metronome defaultTempo={69}/>
         </Layout>
 
