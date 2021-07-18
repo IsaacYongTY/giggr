@@ -5,7 +5,6 @@ import AlertBox from "../common/AlertBox";
 
 // @ts-ignore
 import isChinese from "is-chinese"
-import Musician from "../../lib/types/musician";
 import Song from "../../lib/types/song";
 import Form from "../../lib/types/Form";
 

@@ -74,7 +74,6 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
                         songs={searchTerm ? filteredSongList : songs}
                         user={user}
                         database="master"
-                        musicians={musicians}
                         data={data}
                     />
 

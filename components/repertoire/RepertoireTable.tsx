@@ -5,15 +5,15 @@ import axios from "../../config/axios";
 import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 import {trigger} from "swr";
+import Modal from "react-modal"
 
 type Props = {
     songs: Song[],
     user: any,
     database: string,
-    musicians: any
     data?: any
 }
-export default function RepertoireTable({ songs, user, database, musicians, data } : Props) {
+export default function RepertoireTable({ songs, user, database, data } : Props) {
 
     const colKey = [
         "ID",
@@ -33,8 +33,26 @@ export default function RepertoireTable({ songs, user, database, musicians, data
         "Moods",
         "Tags"]
 
+    const modalStyles = {
+        content : {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width: '40rem',
+            height: '15rem',
+            padding: '1rem 3rem',
+            borderRadius: "1rem",
+            backgroundColor: "white"
+        }
+    };
+
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
+    const [deleteSong, setDeleteSong] = useState<Song>()
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
 
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
@@ -46,6 +64,8 @@ export default function RepertoireTable({ songs, user, database, musicians, data
 
             let response = await axios.delete(`${url}/${id}`)
             await trigger("/api/v1/users?category=id&order=ASC")
+
+            setIsConfirmModalOpen(false)
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")
@@ -56,6 +76,13 @@ export default function RepertoireTable({ songs, user, database, musicians, data
     function handleOpenModal(song : Song) {
         setIsEditModalOpen(true)
         setModalSong(song)
+    }
+
+
+    function handleOpenConfirmModal(song : Song) {
+        setIsConfirmModalOpen(true)
+
+        setDeleteSong(song)
     }
 
 
@@ -81,7 +108,7 @@ export default function RepertoireTable({ songs, user, database, musicians, data
                     <tbody className="table-content-container">
                         {
                             songs?.map((song : any, index: number) => (
-                                <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong}/>
+                                <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong} handleOpenConfirmModal={handleOpenConfirmModal}/>
                             ))
                         }
                     </tbody>
@@ -98,6 +125,39 @@ export default function RepertoireTable({ songs, user, database, musicians, data
                 user={user}
                 data={data}
             />
+
+            {
+                isConfirmModalOpen &&
+
+                <Modal
+                    isOpen={isConfirmModalOpen}
+                    style={modalStyles}
+                >
+                    <div className={styles.modalContainer}>
+
+                        <div>
+                            Are you sure you want to delete "{deleteSong?.title}"?
+                        </div>
+
+                        <div className={styles.buttonRow} >
+                            <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteSong(deleteSong?.id || -1)}
+                            >
+                                Confirm Delete
+                            </button>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => setIsConfirmModalOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </Modal>
+
+            }
         </>
     )
 }

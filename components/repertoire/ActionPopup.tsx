@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, {useRef, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_action-popup.module.scss";
 
-export default function ActionPopup({ handleOpenModal, handleHover, song, setIsShowPopup, handleDeleteSong} : any) {
+export default function ActionPopup({ handleOpenModal, song, setIsShowPopup, handleDeleteSong, handleOpenConfirmModal} : any) {
+
 
     const actionRow = useRef(null);
 
@@ -17,10 +18,12 @@ export default function ActionPopup({ handleOpenModal, handleHover, song, setIsS
             </span>
 
             <span className="material-icons"
-                  onClick={() => handleDeleteSong(song.id)}
+                  onClick={() => handleOpenConfirmModal(song)}
             >
                 delete
             </span>
+
+
         </div>
     )
 }
