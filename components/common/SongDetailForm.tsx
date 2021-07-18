@@ -134,7 +134,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             data.songs.push(tempSong)
 
 
-            mutate('/api/v1/users?category=id&order=ASC', data )
+            mutate('/api/v1/users?category=id&order=ASC', data, false )
 
             if(closeModal) {
                 handleCloseModal()
@@ -241,7 +241,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 console.log(data.songs)
             }
 
-            mutate('/api/v1/users?category=id&order=ASC', data )
+            mutate('/api/v1/users?category=id&order=ASC', data, false )
 
 
             if(closeModal) {
@@ -333,8 +333,6 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                         setFormValue={setForm}
                     />
                 </label>
-
-
             </div>
 
             <div className={styles.formRow}>
@@ -508,14 +506,15 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
                 <button className="btn btn-danger-outlined" onClick={handleCloseModal}>Close</button>
 
-                <ButtonWithLoader
-                    onClick={() => (type === 'edit' && song)
-                        ? handleEditSong(song.id)
-                        : handleAddSong()
-                    }
-                    isLoading={isLoading}
-                    label="Save"
-                />
+                {
+                    (type === 'edit' && song) &&
+                    <ButtonWithLoader
+                        onClick={() => handleEditSong(song.id)}
+                        isLoading={isLoading}
+                        label="Save"
+                    />
+                }
+
                 <ButtonWithLoader
                     onClick={() => (type === 'edit' && song)
                         ? handleEditSong(song.id, { closeModal: true})
