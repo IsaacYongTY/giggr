@@ -243,6 +243,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             mutate('/api/v1/users?category=id&order=ASC', data )
 
+
             if(closeModal) {
                 handleCloseModal()
             }
@@ -259,6 +260,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             await axios.put(`${url}/${form.id}`, editedForm )
             trigger('/api/v1/users?category=id&order=ASC')
 
+
         } catch (error) {
             setIsLoading(false)
             console.log(error)
@@ -269,7 +271,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
     useEffect(() => {
 
-        if(type === 'edit' && song) {
+        if(type === 'edit' && song && isModalOpen) {
             console.log('running')
             let { id, title, artist, romTitle, key, myKey, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,

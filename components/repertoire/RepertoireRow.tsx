@@ -7,7 +7,7 @@ import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Image from "next/image";
 import Song from "../../lib/types/song";
 
-export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }: any) {
+export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, handleOpenConfirmModal }: any) {
 
     const [isShowPopup, setIsShowPopup] = useState(false)
 
@@ -42,6 +42,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong }
                         setIsShowPopup={setIsShowPopup}
                         song={song}
                         handleDeleteSong={handleDeleteSong}
+                        handleOpenConfirmModal={handleOpenConfirmModal}
                     />
                 }
             </td>
