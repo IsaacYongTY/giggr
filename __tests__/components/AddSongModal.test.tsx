@@ -307,7 +307,7 @@ describe("<AddSongModal />", () => {
 
             await waitFor(() => {
                 expect(axios.post).toBeCalledTimes(1)
-                expect(axios.post).toBeCalledWith('/api/v1/songs/spotify?trackId=54kJUsxhDUMJS3kI2XptLl', {}, {headers: {"x-auth-token": "Bearer faketokenstring"}, withCredentials: true})
+                expect(axios.post).toBeCalledWith('/api/v1/songs/spotify?trackId=54kJUsxhDUMJS3kI2XptLl')
                 expect(durationTextbox).toHaveValue("4:00")
             })
         })

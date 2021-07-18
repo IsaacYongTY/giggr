@@ -4,8 +4,8 @@ import styles from "../../assets/scss/components/common/_spotify-search-bar.modu
 import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
 import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
 import { shakeAnimation } from "../../lib/library"
-import Loader from "./Loader";
 import ButtonWithLoader from "./ButtonWithLoader";
+
 interface Props {
     setFormValue: any
     database: string
@@ -38,12 +38,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
         setIsLoading(true)
 
         try {
-            let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`,{},{
-                withCredentials: true,
-                headers: {
-                    "x-auth-token": `Bearer ${user.tokenString}`
-                }
-            })
+            let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`)
 
             let songData = response.data.result
 
