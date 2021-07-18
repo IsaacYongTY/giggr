@@ -1,12 +1,11 @@
 
 .container {
   display: flex;
-  grid-template-columns: 5fr 1fr 1fr;
   margin: 2rem 0 1rem 0;
   width: 100%;
-  gap: 3rem;
-}
+  gap: 2rem;
 
-//.button {
-//  width: 22rem;
-//}
+  input {
+    width: 80%;
+  }
+}
