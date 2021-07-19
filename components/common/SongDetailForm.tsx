@@ -61,8 +61,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
         setIsLoading(true)
         try {
-            let { composers, songwriters, arrangers, genres, moods, tags, id, title, romTitle, key, myKey, mode, tempo,
-            timeSignature, spotifyLink, youtubeLink, otherLink, initialism, status } = form
+            let { composers, songwriters, arrangers, genres, moods, tags } = form
 
             const editedForm = {
                 ...form,
