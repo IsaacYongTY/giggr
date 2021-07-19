@@ -1,6 +1,7 @@
 import Form from "../types/Form";
 import Song from "../types/song";
-import {convertMinSecToMs} from "../library";
+import convertDurationMinSecToMs from "./convert-duration-min-sec-to-ms";
+import convertKeyModeIntToKey from "./convert-key-mode-int-to-key";
 
 export default function convertSongFormToTempSong(form: Form) : Song {
     let {
@@ -33,7 +34,7 @@ export default function convertSongFormToTempSong(form: Form) : Song {
 
         status: status || "",
         languageId: -1,
-        durationMs: convertMinSecToMs(form.durationMinSec || "") || 0,
+        durationMs: convertDurationMinSecToMs(form.durationMinSec || "") || 0,
         artist: {
             name: artist || "",
             romName: "",
