@@ -20,10 +20,20 @@ export default function SettingsDropdown() {
         setIsOpen(prevState => !prevState)
     }
 
+    //temporary solution
+    function handleOnBlur() {
+        let timer = setTimeout(() => {
+            setIsOpen(false)
+            clearTimeout(timer)
+        }, 100)
 
+    }
 
     return (
-        <div>
+        <div
+            tabIndex={-1}
+            onBlur={handleOnBlur}
+        >
 
             <div className={`${styles.container} noselect`}>
                 <button

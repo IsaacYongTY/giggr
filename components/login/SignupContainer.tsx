@@ -39,7 +39,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
 
         try {
             setIsLoading(true)
-            let { data } = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
+            let { data } = await axios.post(`/api/v1/auth/signup`, values)
 
             setCookie(null, "x-auth-token", `Bearer ${data.token}`, {
                 maxAge: 30 * 24 * 60 * 60,

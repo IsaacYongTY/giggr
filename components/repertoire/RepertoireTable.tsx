@@ -7,6 +7,7 @@ import RepertoireRow from "./RepertoireRow";
 import {trigger} from "swr";
 import Modal from "react-modal"
 import ButtonLoader from "../common/Loader";
+import ActionRow from "./ActionRow";
 
 type Props = {
     songs: Song[],
@@ -53,6 +54,8 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
             backgroundColor: "white"
         }
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
@@ -116,15 +119,13 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     return (
         <>
             <div className={styles.tableContainer}>
-                {
-                    selectedSongs.length > 0 &&
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => handleOpenConfirmDeleteSelectedModal(selectedSongs)}
-                    >
-                        Delete Selected
-                    </button>
-                }
+                <ActionRow
+                    setIsModalOpen={setIsModalOpen}
+                    database="database1"
+                    selectedSongs={selectedSongs}
+                    handleOpenConfirmDeleteSelectedModal={handleOpenConfirmDeleteSelectedModal}
+                />
+
                 <table className={styles.table}>
                     <thead>
 
@@ -174,6 +175,15 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                 database={database}
                 user={user}
                 data={data}
+            />
+
+            <AddSongModal
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                type="add"
+                database="database1"
+                data={data}
+                user={user}
             />
 
             {

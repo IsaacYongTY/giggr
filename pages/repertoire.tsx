@@ -64,7 +64,7 @@ export default function Repertoire({ user }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
 
 
@@ -84,7 +84,7 @@ export default function Repertoire({ user }: Props) {
                         setSearchTerm={setSearchTerm}
                     />
 
-                    <ActionRow setIsModalOpen={setIsModalOpen} database="database1"/>
+
 
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : data?.songs}
@@ -98,14 +98,7 @@ export default function Repertoire({ user }: Props) {
 
             </Layout>
 
-                <AddSongModal
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    type="add"
-                    database="database1"
-                    data={data}
-                    user={user}
-                />
+
 
         </>
     )
