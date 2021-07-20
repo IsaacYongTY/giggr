@@ -411,6 +411,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                         onClick={() => handleEditSong(song.id)}
                         isLoading={isLoading}
                         label="Save"
+                        primary={true}
                     />
                 }
 
@@ -421,6 +422,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                     }
                     isLoading={isLoading}
                     label="Save and Close"
+                    primary={true}
                 />
             </div>
         </div>

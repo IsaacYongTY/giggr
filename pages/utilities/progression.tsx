@@ -293,7 +293,8 @@ export default function Progression({ user } : Props) {
                 </div>
 
                 <AlertBox
-                    options={alertOptions}
+                    message={alertOptions.message}
+                    type={alertOptions.type}
                 />
 
             </div>
