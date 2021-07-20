@@ -30,10 +30,7 @@ export default function MetaTool({ user } : Props) {
 
 
     const [formValue, setFormValue] = useState<any>({})
-
-
-    const [alertMessage, setAlertMessage] = useState("")
-    const [alertType, setAlertType] = useState("")
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
     const [isContribute, setIsContribute] = useState(user.isAdmin)
 
 
@@ -54,8 +51,7 @@ export default function MetaTool({ user } : Props) {
                 <MetaToolForm
                     formValue={formValue}
                     setFormValue={setFormValue}
-                    setAlertMessage={setAlertMessage}
-                    setAlertType={setAlertType}
+                    setAlertOptions={setAlertOptions}
                 />
 
                 {
@@ -71,10 +67,12 @@ export default function MetaTool({ user } : Props) {
                     </div>
                 }
 
-                {
-                    alertMessage &&
-                    <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
-                }
+
+                <AlertBox
+                    message={alertOptions.message}
+                    type={alertOptions.type}
+                />
+
 
 
             </div>

@@ -86,6 +86,7 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
                 label="Get From Spotify"
                 onClick={handleGetFromSpotify}
                 isLoading={isLoading}
+                primary={true}
             />
         </div>
     )

@@ -60,8 +60,6 @@ export default function Repertoire({ user }: Props) {
 
     const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
 
-    const [songs, setSongs] = useState<Song[]>([])
-
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
