@@ -38,14 +38,13 @@ interface Props {
     user: any
     handleCloseModal: () => void
     song: Song | undefined
-    setAlertMessage: any
-    setAlertType: any
+    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string}>>
     isModalOpen: boolean,
     data: Data
     handleInput: any
 }
 export default function SongDetailForm({type, database, form, user, handleCloseModal, song,
-   setAlertMessage, setAlertType, setForm,
+   setAlertOptions, setForm,
     isModalOpen, data, handleInput
 } : Props) {
 
@@ -89,11 +88,16 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setIsLoading(false)
 
-            setAlertMessage("added successfully")
-            setAlertType("success")
+            setAlertOptions({
+                message: "added successfully",
+                type: "success"
+            })
 
             setTimeout(() => {
-                setAlertMessage("")
+                setAlertOptions({
+                    message: "",
+                    type: ""
+                })
             }, 5000)
 
             await axios.post(url, editedForm )
@@ -146,12 +150,11 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setIsLoading(false)
 
-            setAlertMessage("added successfully")
-            setAlertType("success")
+            setAlertOptions({
+                message: "added successfully",
+                type: "success"
+            })
 
-            setTimeout(() => {
-                setAlertMessage("")
-            }, 3000)
 
             await axios.put(`${url}/${form.id}`, editedForm )
             trigger('/api/v1/users?category=id&order=ASC')

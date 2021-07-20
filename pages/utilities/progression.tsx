@@ -99,8 +99,7 @@ export default function Progression({ user } : Props) {
 
     const [prog, setProg] = useState("")
 
-    const [alertMessage, setAlertMessage] = useState("")
-    const [alertType, setAlertType] = useState("")
+    const [alertOptions, setAlertOptions] = useState({ message: "", type: ""})
     const [errorMessage, setErrorMessage] = useState("")
 
     const textarea = useRef<HTMLTextAreaElement>(null)
@@ -288,19 +287,14 @@ export default function Progression({ user } : Props) {
                     <button className="btn btn-danger-outlined" onClick={handleClear}>Clear</button>
                     <CopyToClipboardButton
                         sourceRef={textarea}
-                        setAlertMessage={setAlertMessage}
-                        setAlertType={setAlertType}
+                        setAlertOptions={setAlertOptions}
                     />
                     <button className="btn btn-primary" onClick={handleGenerateProg}>Generate</button>
                 </div>
-                {
-                    alertMessage &&
-                    <AlertBox
-                        alertMessage={alertMessage}
-                        setAlertMessage={setAlertMessage}
-                        type={alertType}
-                    />
-                }
+
+                <AlertBox
+                    options={alertOptions}
+                />
 
             </div>
         </Layout>

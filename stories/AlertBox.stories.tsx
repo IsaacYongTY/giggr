@@ -17,12 +17,17 @@ Default.args = {
 
 export const Success = Template.bind({});
 Success.args = {
-    alertMessage: "Success message",
-    type: "success"
+    options: {
+        message: "Success message",
+        type: "success"
+    }
+
 };
 
 export const Fail = Template.bind({});
 Fail.args = {
-    alertMessage: "Fail message",
-    type: "fail"
+    options: {
+        message: "Fail message",
+        type: "fail"
+    },
 };

@@ -30,6 +30,7 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user }: Props) {
 
+    const [ alertOptions, setAlertOptions] = useState({message: "", type: ""})
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("")
     const [form, setForm] = useState<Form>({})
@@ -117,8 +118,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             user={user}
                             handleCloseModal={handleCloseModal}
                             song={song}
-                            setAlertMessage={setAlertMessage}
-                            setAlertType={setAlertType}
+                            setAlertOptions={setAlertOptions}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
@@ -129,8 +129,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                         <MetaToolForm
                             formValue={form}
                             setFormValue={setForm}
-                            setAlertMessage={setAlertMessage}
-                            setAlertType={setAlertType}
+                            setAlertOptions={setAlertOptions}
                         />
                         <div className={styles.link}>
                             <a href="/utilities/progression" target="_blank">Progression Generator {">"}</a>
@@ -151,13 +150,9 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     </TabPanel>
                 </Tabs>
 
-
-                {
-                    alertMessage &&
-                    <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
-                }
-
-
+                <AlertBox
+                    options={alertOptions}
+                />
 
             </div>
 

@@ -6,7 +6,7 @@ import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 import {trigger} from "swr";
 import Modal from "react-modal"
-import Loader from "../common/Loader";
+import ButtonLoader from "../common/Loader";
 
 type Props = {
     songs: Song[],
@@ -107,18 +107,18 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
                     {
                         data?.songs
-                            ?
-                            <tbody className="table-content-container">
+                        ?
+                        <tbody className="table-content-container">
                             {
                                 songs?.map((song : any, index: number) => (
                                     <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong} handleOpenConfirmModal={handleOpenConfirmModal}/>
                                 ))
                             }
-                            </tbody>
-                            :
-                            <Loader />
-                    }
+                        </tbody>
+                        :
+                        <ButtonLoader />
 
+                    }
 
                 </table>
             </div>
