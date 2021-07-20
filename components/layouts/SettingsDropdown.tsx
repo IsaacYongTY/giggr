@@ -10,6 +10,7 @@ export default function SettingsDropdown() {
     const router = useRouter()
 
     function handleLogout() {
+        console.log('working')
         destroyCookie(undefined, "x-auth-token")
         setIsOpen(false)
         router.push('/accounts/login')
