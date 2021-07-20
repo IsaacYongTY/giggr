@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { parseCookies, setCookie } from "nookies";
+import ButtonWithLoader from "../common/ButtonWithLoader";
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>
@@ -16,6 +17,7 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
     const router = useRouter();
 
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     let schema = Yup.object().shape({
         email: Yup.string()
@@ -38,20 +40,20 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
     async function handleLogin(values : MyFormValues) {
 
         try {
+            setIsLoading(true)
+            let res = await axios.post(`/api/v1/auth/login`, values)
 
-            let res = await axios.post(`/api/v1/auth/login`, values, { withCredentials: true})
-
-            console.log(res.data.token)
             setCookie(null, "x-auth-token", `Bearer ${res.data.token}`, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
             })
-            console.log('here')
+
             setIsShowErrorMessage(false)
             router.push('/dashboard')
 
         } catch (err) {
             setIsShowErrorMessage(true)
+            setIsLoading(false)
             console.log(err)
         }
 
@@ -81,7 +83,11 @@ export default function LoginContainer({ setIsLoginPage } : Props) {
                                 <input className="form-control" name="password" placeholder="Password" type="password" onChange={handleChange} autoComplete="off" />
                                 { errors.password && touched.password && errors.password}
                                 { isShowErrorMessage && <span>Invalid email or password. Please try again.</span>}
-                                <button className="btn btn-highlight" type="submit">Log In</button>
+                                <ButtonWithLoader
+                                    isLoading={isLoading}
+                                    label="Log In"
+                                    onClick={() => console.log("placeholder")}
+                                />
                             </form>
                         )
                     }

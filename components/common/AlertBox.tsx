@@ -1,14 +1,16 @@
-import React, { Dispatch, SetStateAction} from "react"
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react"
 import styles from "../../assets/scss/components/common/_alert-box.module.scss"
 
 interface Props {
-    alertMessage: string
-    setAlertMessage: Dispatch<SetStateAction<string>>
-    type?: string
+    message: string
+    type: string
+    timeoutInMs?: number
 }
-export default function AlertBox({ alertMessage, setAlertMessage, type } : Props) {
+export default function AlertBox({ message, type, timeoutInMs = 3000 } : Props) {
 
     let displayStyle
+
+    const [ isShow, setIsShow ] = useState(true)
 
     switch(type) {
         case "fail":
@@ -21,15 +23,31 @@ export default function AlertBox({ alertMessage, setAlertMessage, type } : Props
             displayStyle = ""
     }
 
+    useEffect(() => {
+        setIsShow(true)
+
+        const timer = setTimeout(() => {
+            setIsShow(false)
+        },timeoutInMs)
+
+        return () => {
+            clearTimeout(timer)
+        }
+
+    },[message])
+
+    function handleClose() {
+        setIsShow(false)
+    }
     return (
         <>
             {
-
+                isShow && message &&
                 <div className={`${styles.alertBox} ${displayStyle} `}>
-                    {alertMessage}
+                    {message}
                     <span
                         className={`${styles.cross} material-icons`}
-                        onClick={() => setAlertMessage("")}
+                        onClick={handleClose}
                     >
                         close
                     </span>

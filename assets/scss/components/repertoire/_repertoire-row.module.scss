@@ -62,3 +62,11 @@
   width: 10rem;
   align-items: center;
 }
+
+.checkboxCol {
+
+
+  > input {
+    transform: scale(1.2)
+  }
+}
