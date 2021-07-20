@@ -55,6 +55,10 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
     function handleCloseModal() {
         setForm({})
         setIsModalOpen(false)
+        setAlertOptions({
+            message: "",
+            type: ""
+        })
         // setMetadata("")
     }
 
