@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import axios from "axios";
 import { setCookie } from "nookies"
+import ButtonWithLoader from "../common/ButtonWithLoader";
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>
@@ -13,6 +14,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
 
     const router = useRouter();
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     let schema = Yup.object().shape({
@@ -36,6 +38,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
     async function handleSignup(values : MyFormValues) {
 
         try {
+            setIsLoading(true)
             let { data } = await axios.post(`/api/v1/auth/signup`, values, { withCredentials: true})
 
             setCookie(null, "x-auth-token", `Bearer ${data.token}`, {
@@ -46,6 +49,7 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
             await router.push('/dashboard')
         } catch (err) {
             setIsShowErrorMessage(true)
+            setIsLoading(false)
             setErrorMessage(err.response.data.message)
         }
 
@@ -69,7 +73,12 @@ export default function SignupContainer({ setIsLoginPage } : Props) {
                             <input className="form-control" name="password" placeholder="Password" type="password" onChange={handleChange} autoComplete="off" />
                             { errors.password && touched.password && errors.password}
                             { isShowErrorMessage && <div>{errorMessage}</div>}
-                            <button className="btn btn-highlight" type="submit">Create Account</button>
+                            <ButtonWithLoader
+                                label="Create Account"
+                                isLoading={isLoading}
+                                onClick={() => console.log(handleSubmit)}
+                            />
+
                         </form>
                     )}
 

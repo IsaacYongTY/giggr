@@ -4,10 +4,12 @@ import FormData from "form-data";
 import styles from "../../assets/scss/components/repertoire/_csv-upload-modal.module.scss"
 import Modal from "react-modal";
 import {parseCookies} from "nookies";
+import ButtonWithLoader from "../common/ButtonWithLoader";
 
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {
 
     const [csvFile, setCsvFile] = useState<File>()
+    const [isLoading, setIsLoading] = useState(false)
     const fileUploadInput = useRef<HTMLInputElement>(null);
     const [errorMessage, setErrorMessage] = useState("")
     const [successMessage, setSuccessMessage] = useState("")
@@ -33,7 +35,7 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
             setErrorMessage("Please select a .csv file before submitting")
             return
         }
-
+        setIsLoading(true)
         setErrorMessage("")
 
         let url = `/api/v1/songs/csv`
@@ -65,6 +67,7 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
 
             setSuccessMessage("CSV uploaded successfully!")
             setCsvFile(undefined)
+            setIsLoading(false)
         } catch(error) {
             console.log(error)
             setErrorMessage("Upload failed. Please try again later.")
@@ -88,13 +91,19 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                         file_upload
                     </span>
                     <div>Click to Upload CSV</div>
-                    {csvFile && <div> {csvFile.name}</div> }
+                    {csvFile && <div className={styles.fileName}> {csvFile.name}</div> }
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                     {successMessage && <div>{successMessage}</div>}
                 </label>
 
 
-                <button className="btn btn-primary" onClick={handleCsvSubmit}>Submit</button>
+                <ButtonWithLoader
+                    onClick={handleCsvSubmit}
+                    isLoading={isLoading}
+                    label="Submit"
+                    primary={true}
+                />
+
             </div>
         </Modal>
 

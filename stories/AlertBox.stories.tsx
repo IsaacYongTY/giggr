@@ -12,17 +12,20 @@ const Template: ComponentStory<typeof AlertBox> = (args) => <AlertBox{...args} /
 
 export const Default = Template.bind({});
 Default.args = {
-
+    message: "",
+    type: "",
+    timeoutInMs: 5000
 };
 
 export const Success = Template.bind({});
 Success.args = {
-    alertMessage: "Success message",
-    type: "success"
+    message: "Success message",
+    type: "success",
+    timeoutInMs: 10000
 };
 
 export const Fail = Template.bind({});
 Fail.args = {
-    alertMessage: "Fail message",
+    message: "Fail message",
     type: "fail"
 };

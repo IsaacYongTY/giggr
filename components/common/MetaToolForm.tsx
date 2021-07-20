@@ -11,8 +11,7 @@ import CopyToClipboardButton from "./CopyToClipboardButton";
 interface Props {
     formValue: Form
     setFormValue: Dispatch<SetStateAction<Form>>
-    setAlertMessage: Dispatch<SetStateAction<string>>
-    setAlertType: Dispatch<SetStateAction<string>>
+    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string }>>
 }
 
 interface Option {
@@ -20,7 +19,7 @@ interface Option {
     label: string
 }
 
-export default function MetaToolForm({ formValue, setFormValue, setAlertMessage, setAlertType} : Props) {
+export default function MetaToolForm({ formValue, setFormValue, setAlertOptions } : Props) {
 
     const [originalTempo, setOriginalTempo] = useState(0)
     const [text, setText] = useState("")
@@ -89,14 +88,12 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertMessage,
     function clearSelection() {
         if(textAreaContainer.current) {
             textAreaContainer.current.innerHTML = ""
-            setAlertMessage("Content cleared")
-            setAlertType("success")
+            setAlertOptions({
+                message: "Content cleared",
+                type: "success"
+            })
         }
 
-        setTimeout(() => {
-            setAlertMessage("")
-            setAlertType("")
-        },3000)
     }
     return (
         <div>
@@ -176,8 +173,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertMessage,
                 <button className="btn btn-danger-outlined" onClick={clearSelection}>Clear</button>
                 <CopyToClipboardButton
                     sourceRef={textAreaContainer}
-                    setAlertMessage={setAlertMessage}
-                    setAlertType={setAlertType}
+                    setAlertOptions={setAlertOptions}
                 />
             </div>
         </div>
