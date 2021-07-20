@@ -19,17 +19,19 @@ export default function SettingsDropdown() {
         setIsOpen(prevState => !prevState)
     }
 
-    return (
-        <div   tabIndex={-1} onBlur={() => setIsOpen(false)}>
 
-        <div className={`${styles.container} noselect`}>
-            <button
-                className={`material-icons ${styles.gearIcon} }`}
-                onClick={handleOpenDropdown}
-            >
-                settings
-            </button>
-        </div>
+
+    return (
+        <div>
+
+            <div className={`${styles.container} noselect`}>
+                <button
+                    className={`material-icons ${styles.gearIcon} }`}
+                    onClick={handleOpenDropdown}
+                >
+                    settings
+                </button>
+            </div>
 
             {
                 isOpen &&
@@ -47,3 +49,5 @@ export default function SettingsDropdown() {
 
     )
 }
+
+
