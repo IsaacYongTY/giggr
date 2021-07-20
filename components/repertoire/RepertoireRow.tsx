@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-row.module.scss";
 import ActionPopup from "./ActionPopup";
 import {capitalizeString } from "../../lib/library";
@@ -7,7 +7,16 @@ import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Image from "next/image";
 import Song from "../../lib/types/song";
 
-export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, handleOpenConfirmModal }: any) {
+interface Props {
+    song: Song
+    handleOpenModal: (song: Song) => void
+    handleDeleteSong: (id: number) => Promise<void>
+    handleOpenConfirmModal: (song: Song) => void
+    selectedSongs: Song[]
+    setSelectedSongs: Dispatch<SetStateAction<Song[]>>
+}
+export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, handleOpenConfirmModal, selectedSongs, setSelectedSongs }: Props) {
+
 
     const [isShowPopup, setIsShowPopup] = useState(false)
 
@@ -17,6 +26,19 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             return
         }
         setIsShowPopup(false)
+    }
+
+    const foundIndex = selectedSongs.findIndex(selectedSong => selectedSong.id === song.id)
+    const isInSelectedSongsArray = foundIndex > -1
+
+    function toggleSelect() {
+
+        if(isInSelectedSongsArray) {
+            setSelectedSongs(prevState => prevState.filter(element => element.id !== song.id))
+            return
+        }
+
+        setSelectedSongs(prevState => [...prevState, song])
     }
 
     useEffect(() => {
@@ -29,6 +51,13 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             onMouseLeave={() => setIsShowPopup(false)}
         >
 
+            <td className={styles.checkboxCol}>
+                <input
+                    type="checkbox"
+                    checked={isInSelectedSongsArray}
+                    onChange={toggleSelect}
+                />
+            </td>
             <td>
                 <div className={styles.cell}>{song.id}</div>
             </td>

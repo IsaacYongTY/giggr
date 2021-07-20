@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {ChangeEvent, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
 import axios from "../../config/axios";
@@ -6,7 +6,8 @@ import AddSongModal from "./AddSongModal";
 import RepertoireRow from "./RepertoireRow";
 import {trigger} from "swr";
 import Modal from "react-modal"
-import Loader from "../common/Loader";
+import ButtonLoader from "../common/Loader";
+import ActionRow from "./ActionRow";
 
 type Props = {
     songs: Song[],
@@ -17,6 +18,10 @@ type Props = {
 export default function RepertoireTable({ songs, user, database, data } : Props) {
 
     const colKey = [
+        <input
+            type="checkbox"
+            onChange={toggleSelectAll}
+        />,
         "ID",
         "Title",
         "Artist",
@@ -50,10 +55,15 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         }
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [modalSong, setModalSong] = useState<Song>();
     const [deleteSong, setDeleteSong] = useState<Song>()
+    const [deleteSongArray, setDeleteSongArray] = useState<Song[]>([])
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+    const [isConfirmDeleteSelectedModalOpen, setIsConfirmDeleteSelectedModalOpen] = useState(false)
+    const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
 
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
@@ -73,6 +83,11 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         }
     }
 
+    async function handleDeleteSelectedSongs(selectedSongs: Song[]) {
+        console.log("multiple songs deleted")
+        setIsConfirmDeleteSelectedModalOpen(false)
+    }
+
 
     function handleOpenModal(song : Song) {
         setIsEditModalOpen(true)
@@ -86,10 +101,33 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         setDeleteSong(song)
     }
 
+    function handleOpenConfirmDeleteSelectedModal(selectedSongs: Song[]) {
+        console.log('kii')
+        setIsConfirmDeleteSelectedModalOpen(true)
+        setDeleteSongArray(selectedSongs)
+    }
+
+    function toggleSelectAll(e: ChangeEvent<HTMLInputElement>) {
+        if(e.target.checked) {
+            setSelectedSongs(data.songs)
+            return
+        }
+
+        setSelectedSongs([])
+    }
 
     return (
         <>
+            <ActionRow
+                setIsModalOpen={setIsModalOpen}
+                database="database1"
+                selectedSongs={selectedSongs}
+                handleOpenConfirmDeleteSelectedModal={handleOpenConfirmDeleteSelectedModal}
+            />
+
             <div className={styles.tableContainer}>
+
+
                 <table className={styles.table}>
                     <thead>
 
@@ -107,18 +145,26 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
                     {
                         data?.songs
-                            ?
-                            <tbody className="table-content-container">
+                        ?
+                        <tbody className="table-content-container">
                             {
-                                songs?.map((song : any, index: number) => (
-                                    <RepertoireRow key={index} song={song} handleOpenModal={handleOpenModal} database={database} handleDeleteSong={handleDeleteSong} handleOpenConfirmModal={handleOpenConfirmModal}/>
+                                songs?.map((song : Song, index: number) => (
+                                    <RepertoireRow
+                                        key={index}
+                                        song={song}
+                                        handleOpenModal={handleOpenModal}
+                                        handleDeleteSong={handleDeleteSong}
+                                        handleOpenConfirmModal={handleOpenConfirmModal}
+                                        selectedSongs={selectedSongs}
+                                        setSelectedSongs={setSelectedSongs}
+                                    />
                                 ))
                             }
-                            </tbody>
-                            :
-                            <Loader />
-                    }
+                        </tbody>
+                        :
+                        <ButtonLoader />
 
+                    }
 
                 </table>
             </div>
@@ -131,6 +177,15 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                 database={database}
                 user={user}
                 data={data}
+            />
+
+            <AddSongModal
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                type="add"
+                database="database1"
+                data={data}
+                user={user}
             />
 
             {
@@ -153,9 +208,45 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                             >
                                 Cancel
                             </button>
+
                             <button
                                 className="btn btn-danger"
                                 onClick={() => handleDeleteSong(deleteSong?.id || -1)}
+                            >
+                                Confirm Delete
+                            </button>
+                        </div>
+                    </div>
+
+                </Modal>
+
+            }
+
+            {
+                isConfirmDeleteSelectedModalOpen &&
+
+                <Modal
+                    isOpen={isConfirmDeleteSelectedModalOpen}
+                    style={modalStyles}
+                >
+                    <div className={styles.modalContainer}>
+
+                        <div>
+                            Are you sure you want to delete {deleteSongArray.length} items?
+                        </div>
+
+                        <div className={styles.buttonRow} >
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => setIsConfirmDeleteSelectedModalOpen(false)}
+                            >
+                                Cancel
+                            </button>
+
+
+                            <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteSelectedSongs(deleteSongArray)}
                             >
                                 Confirm Delete
                             </button>

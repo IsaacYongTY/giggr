@@ -1,4 +1,4 @@
-import React, {useState, Dispatch, SetStateAction } from "react";
+import React, {useState, Dispatch, SetStateAction, ChangeEvent} from "react";
 import Modal from "react-modal";
 import styles from "../../assets/scss/components/repertoire/_add-song-modal.module.scss";
 import AlertBox from "../common/AlertBox";
@@ -30,11 +30,8 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user }: Props) {
 
-    const [alertMessage, setAlertMessage] = useState("")
-    const [alertType, setAlertType] = useState("")
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
     const [form, setForm] = useState<Form>({})
-
-    const [metadata, setMetadata] = useState("")
 
     const customStyles = {
         content : {
@@ -50,21 +47,26 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
         }
     };
     
-    function handleInput(e : any) {
-        setForm((prevState : any) => ({...prevState, [e.target.name]: e.target.value}))
+    function handleInput(e : ChangeEvent<HTMLInputElement>) {
+        const userInput = e.target.value
+        setForm((prevState : any) => ({...prevState, [e.target.name]: userInput}))
     }
 
     function handleCloseModal() {
         setForm({})
         setIsModalOpen(false)
-        setMetadata("")
+        setAlertOptions({
+            message: "",
+            type: ""
+        })
+        // setMetadata("")
     }
 
 
 
-    function handleGenerateMetaData() {
-        setMetadata(generateMetaData(form, 2))
-    }
+    // function handleGenerateMetaData() {
+    //     setMetadata(generateMetaData(form, 2))
+    // }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
         if(!form.title) {
@@ -105,7 +107,11 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 <Tabs>
                     <TabList>
                         <Tab>Details</Tab>
-                        <Tab onClick={() => handleGenerateMetaData()}>Generate Metadata</Tab>
+                        <Tab
+                            // onClick={() => handleGenerateMetaData()}
+                        >
+                            Generate Metadata
+                        </Tab>
                         <Tab>Metronome</Tab>
                     </TabList>
 
@@ -117,8 +123,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                             user={user}
                             handleCloseModal={handleCloseModal}
                             song={song}
-                            setAlertMessage={setAlertMessage}
-                            setAlertType={setAlertType}
+                            setAlertOptions={setAlertOptions}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
@@ -129,8 +134,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                         <MetaToolForm
                             formValue={form}
                             setFormValue={setForm}
-                            setAlertMessage={setAlertMessage}
-                            setAlertType={setAlertType}
+                            setAlertOptions={setAlertOptions}
                         />
                         <div className={styles.link}>
                             <a href="/utilities/progression" target="_blank">Progression Generator {">"}</a>
@@ -151,13 +155,10 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     </TabPanel>
                 </Tabs>
 
-
-                {
-                    alertMessage &&
-                    <AlertBox alertMessage={alertMessage} setAlertMessage={setAlertMessage} type={alertType}/>
-                }
-
-
+                <AlertBox
+                    message={alertOptions.message}
+                    type={alertOptions.type}
+                />
 
             </div>
 

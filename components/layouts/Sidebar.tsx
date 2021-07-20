@@ -78,7 +78,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                         { title: "Spotify Meta Tool", link: "/utilities/metatool" },
                         { title: "Progression Generator", link: "/utilities/progression" },
                         { title: "BPM Tools", link: "/utilities/bpm" },
-                        { title: "Lead Sheet Generator", link:"/utilities/leadsheetspacing" },
+                        { title: "Lead Sheet Spacing", link:"/utilities/leadsheetspacing" },
                     ]}
                 />
 

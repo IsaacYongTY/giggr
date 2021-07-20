@@ -10,6 +10,7 @@ export default function SettingsDropdown() {
     const router = useRouter()
 
     function handleLogout() {
+        console.log('working')
         destroyCookie(undefined, "x-auth-token")
         setIsOpen(false)
         router.push('/accounts/login')
@@ -19,17 +20,29 @@ export default function SettingsDropdown() {
         setIsOpen(prevState => !prevState)
     }
 
-    return (
-        <div   tabIndex={-1} onBlur={() => setIsOpen(false)}>
+    //temporary solution
+    function handleOnBlur() {
+        let timer = setTimeout(() => {
+            setIsOpen(false)
+            clearTimeout(timer)
+        }, 100)
 
-        <div className={`${styles.container} noselect`}>
-            <button
-                className={`material-icons ${styles.gearIcon} }`}
-                onClick={handleOpenDropdown}
-            >
-                settings
-            </button>
-        </div>
+    }
+
+    return (
+        <div
+            tabIndex={-1}
+            onBlur={handleOnBlur}
+        >
+
+            <div className={`${styles.container} noselect`}>
+                <button
+                    className={`material-icons ${styles.gearIcon} }`}
+                    onClick={handleOpenDropdown}
+                >
+                    settings
+                </button>
+            </div>
 
             {
                 isOpen &&
@@ -47,3 +60,5 @@ export default function SettingsDropdown() {
 
     )
 }
+
+

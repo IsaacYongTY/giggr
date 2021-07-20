@@ -38,14 +38,14 @@ interface Props {
     user: any
     handleCloseModal: () => void
     song: Song | undefined
-    setAlertMessage: any
-    setAlertType: any
+    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string}>>
     isModalOpen: boolean,
     data: Data
     handleInput: any
 }
+
 export default function SongDetailForm({type, database, form, user, handleCloseModal, song,
-   setAlertMessage, setAlertType, setForm,
+   setAlertOptions, setForm,
     isModalOpen, data, handleInput
 } : Props) {
 
@@ -89,11 +89,16 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setIsLoading(false)
 
-            setAlertMessage("added successfully")
-            setAlertType("success")
+            setAlertOptions({
+                message: "added successfully",
+                type: "success"
+            })
 
             setTimeout(() => {
-                setAlertMessage("")
+                setAlertOptions({
+                    message: "",
+                    type: ""
+                })
             }, 5000)
 
             await axios.post(url, editedForm )
@@ -146,12 +151,11 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setIsLoading(false)
 
-            setAlertMessage("added successfully")
-            setAlertType("success")
+            setAlertOptions({
+                message: "added successfully",
+                type: "success"
+            })
 
-            setTimeout(() => {
-                setAlertMessage("")
-            }, 3000)
 
             await axios.put(`${url}/${form.id}`, editedForm )
             trigger('/api/v1/users?category=id&order=ASC')
@@ -165,9 +169,11 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
 
 
+
     useEffect(() => {
 
-        if(type === 'edit' && song && isModalOpen) {
+        if(type === 'edit' && song && !form.title) {
+
             console.log('running')
             let { id, title, artist, romTitle, key, myKey, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
@@ -214,7 +220,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setForm(value)
         }
-        console.log(data)
+
     },[isModalOpen])
 
     return (
@@ -408,6 +414,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                         onClick={() => handleEditSong(song.id)}
                         isLoading={isLoading}
                         label="Save"
+                        primary={true}
                     />
                 }
 
@@ -418,6 +425,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                     }
                     isLoading={isLoading}
                     label="Save and Close"
+                    primary={true}
                 />
             </div>
         </div>
