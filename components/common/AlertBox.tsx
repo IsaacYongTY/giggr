@@ -2,13 +2,12 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from "react"
 import styles from "../../assets/scss/components/common/_alert-box.module.scss"
 
 interface Props {
-    options: {
-        message: string
-        type: string
-    }
+    message: string
+    type: string
+    timeoutInMs?: number
 }
-export default function AlertBox({ options } : Props) {
-    const { message, type } = options
+export default function AlertBox({ message, type, timeoutInMs = 3000 } : Props) {
+
     let displayStyle
 
     const [ isShow, setIsShow ] = useState(true)
@@ -25,24 +24,17 @@ export default function AlertBox({ options } : Props) {
     }
 
     useEffect(() => {
-
-    },[])
-
-    let timer : NodeJS.Timeout;
-
-    useEffect(() => {
         setIsShow(true)
 
-
-        timer = setTimeout(() => {
+        const timer = setTimeout(() => {
             setIsShow(false)
-        },3000)
+        },timeoutInMs)
 
         return () => {
             clearTimeout(timer)
         }
 
-    },[options])
+    },[message])
 
     function handleClose() {
         setIsShow(false)

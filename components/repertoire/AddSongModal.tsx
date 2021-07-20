@@ -151,7 +151,8 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                 </Tabs>
 
                 <AlertBox
-                    options={alertOptions}
+                    message={alertOptions.message}
+                    type={alertOptions.type}
                 />
 
             </div>

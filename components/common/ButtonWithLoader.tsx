@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 
-import ButtonLoader from "./Loader";
+import ButtonLoader from "./ButtonLoader";
 import styles from "../../assets/scss/components/common/_button-with-loader.module.scss";
 
 interface ButtonProps {
@@ -50,9 +50,11 @@ export default function ButtonWithLoader({
         }
     }, [isLoading])
 
+
+
     return (
         <button
-            className={`${styles.btnPrimary} btn btn-primary`}
+            className={`${primary ? styles.btnPrimary : styles.btnHighlight} btn`}
             onClick={handleOnClick}
             disabled={isLoading}
         >
