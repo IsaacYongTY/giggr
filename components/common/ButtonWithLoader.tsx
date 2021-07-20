@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 
-import Loader from "./Loader";
+import ButtonLoader from "./Loader";
 import styles from "../../assets/scss/components/common/_button-with-loader.module.scss";
 
 interface ButtonProps {
@@ -57,7 +57,7 @@ export default function ButtonWithLoader({
             disabled={isLoading}
         >
             <div>{label}</div>
-            {isLoading && isClicked && <Loader />}
+            {isLoading && isClicked && <ButtonLoader />}
 
         </button>
     )
