@@ -43,6 +43,7 @@ interface Props {
     data: Data
     handleInput: any
 }
+
 export default function SongDetailForm({type, database, form, user, handleCloseModal, song,
    setAlertOptions, setForm,
     isModalOpen, data, handleInput
@@ -168,9 +169,11 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
 
 
+
     useEffect(() => {
 
-        if(type === 'edit' && song && isModalOpen) {
+        if(type === 'edit' && song && !form.title) {
+
             console.log('running')
             let { id, title, artist, romTitle, key, myKey, mode, tempo, durationMs, timeSignature,
                 language, spotifyLink, youtubeLink, otherLink, composers, arrangers, songwriters, initialism,
@@ -217,7 +220,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setForm(value)
         }
-        console.log(data)
+
     },[isModalOpen])
 
     return (

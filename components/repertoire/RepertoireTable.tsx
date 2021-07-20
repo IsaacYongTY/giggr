@@ -118,13 +118,15 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
     return (
         <>
+            <ActionRow
+                setIsModalOpen={setIsModalOpen}
+                database="database1"
+                selectedSongs={selectedSongs}
+                handleOpenConfirmDeleteSelectedModal={handleOpenConfirmDeleteSelectedModal}
+            />
+
             <div className={styles.tableContainer}>
-                <ActionRow
-                    setIsModalOpen={setIsModalOpen}
-                    database="database1"
-                    selectedSongs={selectedSongs}
-                    handleOpenConfirmDeleteSelectedModal={handleOpenConfirmDeleteSelectedModal}
-                />
+
 
                 <table className={styles.table}>
                     <thead>
