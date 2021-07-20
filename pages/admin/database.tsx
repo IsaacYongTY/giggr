@@ -68,7 +68,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
                     />
 
 
-                    <ActionRow setIsModalOpen={setIsModalOpen} database="master" />
+
 
                     <RepertoireTable
                         songs={searchTerm ? filteredSongList : songs}
