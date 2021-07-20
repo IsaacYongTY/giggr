@@ -78,6 +78,9 @@ function renderAddSongModal(props = {}) {
             {...props}
         />
     )
+    const titleTextbox = utils.getByPlaceholderText(/title/i)
+    const initialismTextbox = utils.getByRole("textbox", { name: /initialism.*/i })
+    const romTitleTextbox = utils.getByRole("textbox", { name: /romanized title.*/i })
     const isMinorCheckbox = utils.getByRole("checkbox", { name: /minor/i })
     const keysDropdown = utils.getAllByLabelText(/key:/i)[0]
     const durationTextbox = utils.getByRole("textbox", { name: /duration/i })
@@ -85,11 +88,12 @@ function renderAddSongModal(props = {}) {
     const moodsDropdown = utils.getByLabelText(/moods/i)
     const tagsDropdown = utils.getByLabelText(/tags/i)
     const generateMetaDataTab = utils.getByText(/generate metadata.*/i)
+    const songDetailsTab = utils.getByText(/details.*/i)
 
 
 
-    return {...utils, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown,
-        moodsDropdown, tagsDropdown, generateMetaDataTab
+    return {...utils, titleTextbox, initialismTextbox, romTitleTextbox, isMinorCheckbox, keysDropdown, durationTextbox, genresDropdown,
+        moodsDropdown, tagsDropdown, generateMetaDataTab, songDetailsTab,
     }
 }
 
@@ -390,7 +394,7 @@ describe("<AddSongModal />", () => {
                         spotifyName: ""
                     },
                     romTitle: "Wo Ai Ni",
-                    key: 11,
+                    key: 10,
                     mode: 0,
                     tempo: 93,
                     durationMs: 285000,
@@ -403,23 +407,12 @@ describe("<AddSongModal />", () => {
                     dateReleased: "2008-01-01"
                 }
             })
-            // const searchBar = screen.getByPlaceholderText(/^https:\/\/open.spotify.com.*/)
-            // const getFromSpotifyButton = screen.getByRole("button", { name: /get from spotify.*/i })
-            //
-            // mockAxios.post.mockResolvedValue({
-            //     data: {
-            //         result: songData
-            //     }
-            // })
-            // userEvent.type(searchBar, "https://open.spotify.com/track/6CKLOHuoNU6hfAxlQVzRlL?si=df60f78eef2240e3")
-            // userEvent.click(getFromSpotifyButton)
-            //
 
             userEvent.click(generateMetaDataTab)
 
             expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument()
             expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument()
-            expect(screen.getByText(/Key: Bm/i)).toBeInTheDocument()
+            expect(screen.getByText(/Key: Bbm/i)).toBeInTheDocument()
             expect(screen.getByText(/Tempo: 93/i)).toBeInTheDocument()
             expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument()
             expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument()
@@ -428,6 +421,66 @@ describe("<AddSongModal />", () => {
 
         })
 
+        it("should keep the changes that the user has made", async () => {
+            let { songDetailsTab, keysDropdown, generateMetaDataTab} = renderAddSongModal({
+                type: "edit",
+
+                song: {
+                    title: "我爱你",
+                    artist: {
+                        id: 1,
+                        name: "Crowd Lu",
+                        romName: "",
+                        spotifyName: ""
+                    },
+                    romTitle: "Wo Ai Ni",
+                    key: 2,
+                    mode: 1,
+                    tempo: 93,
+                    durationMs: 285000,
+                    timeSignature: "4/4",
+                    initialism: "wan",
+                    language: {
+                        id: 1,
+                        name: "mandarin",
+                    },
+                    dateReleased: "2008-01-01"
+                }
+            })
+
+            userEvent.click(keysDropdown)
+            userEvent.click(screen.getByText("G"))
+
+            expect(screen.getByText("G")).toBeInTheDocument()
+
+            userEvent.click(generateMetaDataTab)
+            userEvent.click(songDetailsTab)
+
+            expect(screen.getByText("G")).toBeInTheDocument()
+
+        })
+    })
+
+    describe("The behaviour of the title input", () => {
+        it("should render the input correctly", () => {
+            let { titleTextbox } = renderAddSongModal()
+
+            userEvent.type(titleTextbox, "认错")
+            expect(titleTextbox).toHaveValue("认错")
+
+        })
+
+        it("should update the initialism and the romTitle if title are in Chinese on blur", () => {
+            let { titleTextbox, keysDropdown, initialismTextbox, romTitleTextbox } = renderAddSongModal()
+
+
+            userEvent.type(titleTextbox, "丑八怪咦哎咦啊啊啊")
+            userEvent.click(keysDropdown)
+
+            expect(romTitleTextbox).toHaveValue("Chou Ba Guai Yi Ai Yi A A A")
+            expect(initialismTextbox).toHaveValue("cbgyayaaa")
+
+        })
     })
 })
 

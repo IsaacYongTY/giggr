@@ -42,7 +42,7 @@ export default function AlertBox({ message, type, timeoutInMs = 3000 } : Props) 
     return (
         <>
             {
-                isShow &&
+                isShow && message &&
                 <div className={`${styles.alertBox} ${displayStyle} `}>
                     {message}
                     <span

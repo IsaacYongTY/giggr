@@ -34,7 +34,7 @@ describe("The login page", () => {
 
         await waitFor(() => {
             expect(axios.post).toHaveBeenCalledTimes(1)
-            expect(axios.post).toHaveBeenCalledWith(`/api/v1/auth/login`, { "email": `${input.email}`, "password": `${input.password}`}, {withCredentials: true})
+            expect(axios.post).toHaveBeenCalledWith(`/api/v1/auth/login`, { "email": `${input.email}`, "password": `${input.password}`})
         })
     })
 
@@ -139,7 +139,7 @@ describe("Sign up UI", () => {
 
         await waitFor(async() => {
             expect(axios.post).toBeCalledTimes(1)
-            expect(axios.post).toHaveBeenCalledWith(`/api/v1/auth/signup`, { "email": `${input.email}`, "password": `${input.password}`}, {withCredentials: true})
+            expect(axios.post).toHaveBeenCalledWith(`/api/v1/auth/signup`, { "email": `${input.email}`, "password": `${input.password}`})
         })
     })
 
