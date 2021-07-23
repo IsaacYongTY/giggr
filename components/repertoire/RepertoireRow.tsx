@@ -41,9 +41,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
         setSelectedSongs(prevState => [...prevState, song])
     }
 
-    useEffect(() => {
-        console.log(song)
-    },[])
+
     return (
         <tr
             key={song.id}

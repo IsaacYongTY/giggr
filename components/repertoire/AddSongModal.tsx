@@ -8,7 +8,6 @@ import isChinese from "is-chinese"
 import Song from "../../lib/types/song";
 import Form from "../../lib/types/Form";
 
-import generateMetaData from "../../lib/utils/generate-metadata";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import MetaToolForm from "../common/MetaToolForm";
@@ -59,14 +58,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
             message: "",
             type: ""
         })
-        // setMetadata("")
     }
-
-
-
-    // function handleGenerateMetaData() {
-    //     setMetadata(generateMetaData(form, 2))
-    // }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
         if(!form.title) {
