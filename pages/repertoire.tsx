@@ -5,12 +5,11 @@ import RepertoireTable from "../components/repertoire/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
-import AddSongModal from "../components/repertoire/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
-import ActionRow from "../components/repertoire/ActionRow";
 import Musician from "../lib/types/musician";
 import useSWR from "swr";
+import axios from "axios";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -63,8 +62,6 @@ export default function Repertoire({ user }: Props) {
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
-
-
 
 
 
