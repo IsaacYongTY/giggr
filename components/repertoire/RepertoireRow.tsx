@@ -41,9 +41,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
         setSelectedSongs(prevState => [...prevState, song])
     }
 
-    useEffect(() => {
-        console.log(song)
-    },[])
+
     return (
         <tr
             key={song.id}
@@ -97,7 +95,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
                 <div className={styles.cell}>{song.timeSignature}</div>
             </td>
             <td>
-                <div className={styles.cell}>{capitalizeString(song.language?.name)}</div>
+                <div className={styles.cell}>{song?.language ? capitalizeString(song?.language?.name) : ""}</div>
             </td>
             <td className={styles.listenCol}>
 
@@ -131,7 +129,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             <td className={styles.composersCol}>
                 <div className={styles.pillButtonContainer}>
                     {
-                        song.composers.map((composer: any) =>(
+                        song.composers?.map((composer: any) =>(
                             <div className={styles.pillButton} key={composer.id}>{composer.name}</div>
                         ))
                     }
@@ -140,7 +138,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             <td className={styles.songwritersCol}>
                 <div className={styles.pillButtonContainer}>
                     {
-                        song.songwriters.map((songwriter: any) =>(
+                        song.songwriters?.map((songwriter: any) =>(
                             <div className={styles.pillButton} key={songwriter.id}>{songwriter.name}</div>
                         ))
                     }
@@ -149,7 +147,7 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             <td className={styles.arrangersCol}>
                 <div className={styles.pillButtonContainer}>
                     {
-                        song.arrangers.map((arranger: any) =>(
+                        song.arrangers?.map((arranger: any) =>(
                             <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
                         ))
                     }
