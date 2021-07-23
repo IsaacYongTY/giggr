@@ -64,6 +64,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
     const [isConfirmDeleteSelectedModalOpen, setIsConfirmDeleteSelectedModalOpen] = useState(false)
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
+    const [errorMessage, setErrorMessage] = useState("")
 
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
@@ -85,7 +86,18 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
     async function handleDeleteSelectedSongs(selectedSongs: Song[]) {
         console.log("multiple songs deleted")
-        setIsConfirmDeleteSelectedModalOpen(false)
+
+        const idArray = selectedSongs.map(song => song.id)
+        try {
+            await axios.delete("/api/v1/songs", { data: { idArray } })
+            trigger("/api/v1/users?category=id&order=ASC")
+            setIsConfirmDeleteSelectedModalOpen(false)
+        } catch(err) {
+            console.log(err)
+            setErrorMessage("Something went wrong. Please try again later!")
+        }
+
+
     }
 
 
@@ -102,9 +114,9 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     }
 
     function handleOpenConfirmDeleteSelectedModal(selectedSongs: Song[]) {
-        console.log('kii')
         setIsConfirmDeleteSelectedModalOpen(true)
         setDeleteSongArray(selectedSongs)
+        setErrorMessage("")
     }
 
     function toggleSelectAll(e: ChangeEvent<HTMLInputElement>) {
@@ -235,6 +247,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                             Are you sure you want to delete {deleteSongArray.length} items?
                         </div>
 
+                        { errorMessage && <div className="error-message">{errorMessage}</div> }
                         <div className={styles.buttonRow} >
                             <button
                                 className="btn btn-secondary"

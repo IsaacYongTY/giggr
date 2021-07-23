@@ -1,39 +1,28 @@
 import React from "react"
-import {render, screen, waitFor} from "@testing-library/react"
+import {act, fireEvent, render, screen, waitFor} from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import RepertoirePage from "../../pages/repertoire"
 import axios from "../../config/axios";
 
-import { loadUserData } from "../../lib/library";
-import useSWR, { cache, SWRConfig } from "swr";
+import { cache, SWRConfig } from "swr";
 const mockAxios = axios as jest.Mocked<typeof axios>
 
 jest.mock("next/router", () => require("next-router-mock"))
 jest.mock("axios")
 jest.mock("form-data")
-// jest.mock('nookies')
-jest.mock('../../lib/library', () => ({
-    loadUserData: jest.fn(() => Promise.resolve( {
 
+const mockData = {
+    data: {
         songs: [
-            { title: "Song 1"},
-            { title: "Song 2"},
-            { title: "Song 3"},
-            { title: "Song 4"},
-            { title: "Song 5"},
+            { id: 1, title: "Song 1"},
+            { id: 2, title: "Song 2"},
+            { id: 3, title: "Song 3"},
+            { id: 4, title: "Song 4"},
+            { id: 5, title: "Song 5"},
         ],
-        musicians: [],
-        genres: [],
-        tags: [],
-        moods: [],
-        languages: []
-
-    }))
-
-}))
-
-
+    }
+}
 
 function renderRepertoirePage(props =  {}) {
     const defaultProps = {
@@ -41,7 +30,7 @@ function renderRepertoirePage(props =  {}) {
     }
 
     let utils = render(
-        <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios(url).then(res => res.data)}}>
+        <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
             <RepertoirePage {...defaultProps} {...props}/>
         </SWRConfig>
     )
@@ -50,6 +39,39 @@ function renderRepertoirePage(props =  {}) {
 
     return {...utils, uploadCsvButton}
 }
+
+async function renderRepertoirePageWithDeleteModalOpen(props =  {}) {
+    const defaultProps = {
+        user: {id: 1}
+    }
+
+    let utils = render(
+        <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
+            <RepertoirePage {...defaultProps} {...props}/>
+        </SWRConfig>
+    )
+
+    let allCheckboxes : any[];
+
+    await waitFor(() => {
+        allCheckboxes = utils.getAllByRole("checkbox")
+
+        act(() => {
+            userEvent.click(allCheckboxes[1])
+            userEvent.click(allCheckboxes[2])
+        })
+    })
+
+    const deleteSelectedButton = utils.getByRole("button", { name: /delete selected/i })
+    userEvent.click(deleteSelectedButton)
+
+    const confirmDeleteButton = utils.getByRole("button", { name: /confirm delete/i})
+    const cancelButton = utils.getByRole("button", { name: /cancel/i})
+
+
+    return {...utils, confirmDeleteButton, cancelButton }
+}
+
 describe("The Repertoire Page", () => {
 
     describe("The CSV Upload function", () => {
@@ -220,26 +242,185 @@ describe("The Repertoire Page", () => {
         })
     })
 
-    describe("The Delete Selected Song button", () => {
-        it("should not be visible if there isn't any checked checkbox", async () => {
-            mockAxios.get.mockResolvedValue({
-                data: {
-                    songs: [
-                        { title: "Song 1"},
-                        { title: "Song 2"},
-                        { title: "Song 3"},
-                        { title: "Song 4"},
-                        { title: "Song 5"},
-                    ]
-                }
+
+    describe("The checkboxes in Repertoire Table", () => {
+
+        beforeEach(() => {
+            mockAxios.get.mockResolvedValue(mockData)
+        })
+
+        it("should toggle the checkbox correctly when clicked", async () => {
+
+            renderRepertoirePage()
+
+            let allCheckboxes : any[];
+
+            await waitFor(() => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+
+                act(() => {
+                    userEvent.click(allCheckboxes[1])
+                    userEvent.click(allCheckboxes[2])
+                    userEvent.click(allCheckboxes[4])
+                    userEvent.click(allCheckboxes[5])
+                })
+
             })
+
+            expect(screen.getAllByRole("checkbox", { checked: true})).toHaveLength(4)
+
+            act(() => {
+                userEvent.click(allCheckboxes[1])
+                userEvent.click(allCheckboxes[2])
+            })
+
+            expect(screen.getAllByRole("checkbox", { checked: true})).toHaveLength(2)
+        })
+
+        it("should toggle all checkboxes if the header checkbox is clicked", async () => {
+
+            renderRepertoirePage()
+
+            let allCheckboxes : any[];
+
+            await waitFor(() => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+            })
+
+            act(() => {
+                userEvent.click(allCheckboxes[0])
+            })
+
+            expect(screen.getAllByRole("checkbox", { checked: true})).toHaveLength(6)
+
+            act(() => {
+                userEvent.click(allCheckboxes[0])
+            })
+
+            expect(screen.queryByRole("checkbox", { checked: true})).not.toBeInTheDocument()
+        })
+
+    })
+
+    describe("The Delete Selected Song button", () => {
+
+        beforeEach(() => {
+            jest.clearAllMocks()
+            mockAxios.get.mockResolvedValue(mockData)
+        })
+
+        it("should not be visible if there isn't any checked checkbox", async () => {
+
             renderRepertoirePage()
             expect(screen.queryByRole("button", { name: /delete selected/i })).not.toBeInTheDocument()
 
-            await waitFor(() => {
-                expect(screen.getAllByRole("checkbox")).toHaveLength(6)
+            let allCheckboxes : any[]
+            await waitFor( () => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+                expect(allCheckboxes).toHaveLength(6)
             })
 
+
+            act(() => {
+                userEvent.click(allCheckboxes[1])
+                userEvent.click(allCheckboxes[3])
+            })
+
+            const checked = screen.getAllByRole("checkbox", { checked: true})
+            expect(checked).toHaveLength(2)
+
+            expect(screen.getByRole("button", { name: /delete selected/i })).toBeInTheDocument()
+        })
+
+
+        it("should show modal to confirm bulk delete", async () => {
+
+            renderRepertoirePage()
+
+            let allCheckboxes : any[];
+
+            await waitFor(() => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+            })
+
+            act(() => {
+                userEvent.click(allCheckboxes[1])
+                userEvent.click(allCheckboxes[2])
+            })
+
+            const deleteSelectedButton = screen.getByRole("button", { name: /delete selected/i })
+            userEvent.click(deleteSelectedButton)
+
+            const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+            const cancelButton = screen.getByRole("button", { name: /cancel/i})
+            expect(confirmDeleteButton).toBeInTheDocument()
+            expect(cancelButton).toBeInTheDocument()
+        })
+
+
+    })
+
+    describe("The Confirm Delete Modal", () => {
+
+        beforeEach(() => {
+            jest.clearAllMocks()
+            mockAxios.get.mockResolvedValue(mockData)
+
+        })
+
+        it("should show the correct number of songs", async () => {
+
+            const { cancelButton } = await renderRepertoirePageWithDeleteModalOpen()
+
+            expect(screen.getByText("2")).toBeInTheDocument()
+            userEvent.click(cancelButton)
+
+            let allCheckboxes : any[]
+            await waitFor( () => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+
+                act(() => {
+                    userEvent.click(allCheckboxes[0])
+                })
+
+                const deleteSelectedButton = screen.getByRole("button", { name: /delete selected/i})
+                userEvent.click(deleteSelectedButton)
+
+                expect(screen.getByText("5")).toBeInTheDocument()
+            })
+        })
+
+
+
+        it("should close the Confirm Modal if Cancel button is clicked", async () => {
+            const { cancelButton } = await renderRepertoirePageWithDeleteModalOpen()
+            userEvent.click(cancelButton)
+            expect(screen.queryByRole("button", { name: /cancel/i})).not.toBeInTheDocument()
+        })
+
+        it("should close the Confirm Modal if Cancel button is clicked", async () => {
+
+            const { confirmDeleteButton } = await renderRepertoirePageWithDeleteModalOpen()
+
+            userEvent.click(confirmDeleteButton)
+
+            await waitFor(() => {
+                expect(screen.queryByRole("button", { name: /confirm delete/i})).not.toBeInTheDocument()
+            })
+
+            expect(axios.delete).toBeCalledTimes(1)
+            expect(axios.delete).toBeCalledWith("/api/v1/songs", { data: { idArray: [1,2] }})
+        })
+
+        it("should show error message if Confirm Delete fails", async () => {
+            mockAxios.delete.mockRejectedValue({})
+            const { confirmDeleteButton } = await renderRepertoirePageWithDeleteModalOpen()
+
+            userEvent.click(confirmDeleteButton)
+
+            expect(mockAxios.delete).toBeCalledTimes(1)
+
+            expect(await screen.findByText(/something went wrong. please try again later.*/i))
         })
     })
 
