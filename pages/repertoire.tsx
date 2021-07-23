@@ -5,10 +5,8 @@ import RepertoireTable from "../components/repertoire/RepertoireTable";
 import withAuth from "../middlewares/withAuth";
 import { GetServerSideProps } from "next";
 import Song from "../lib/types/song";
-import AddSongModal from "../components/repertoire/AddSongModal";
 import FilterRow from "../components/repertoire/FilterRow";
 import styles from "../assets/scss/pages/_repertoire.module.scss";
-import ActionRow from "../components/repertoire/ActionRow";
 import Musician from "../lib/types/musician";
 import useSWR from "swr";
 import axios from "axios";
@@ -59,15 +57,12 @@ interface Data {
 }
 export default function Repertoire({ user }: Props) {
 
-    const fetcher = (url: string) => axios.get(url).then(r => r.data)
-    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`, fetcher)
+    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
 
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
-
-    console.log(data)
 
 
     return (
