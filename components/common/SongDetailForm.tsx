@@ -73,9 +73,6 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 tags: tags?.map((tag : Option) => tag.value)
             }
 
-
-            const foundSong = data.songs.find(song => song.id === editedForm.id)
-
             const tempSong = convertSongFormToTempSong(form)
 
             data.songs.push(tempSong)
@@ -133,9 +130,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             const tempSong = convertSongFormToTempSong(form)
 
-            const foundSong = data.songs.find(song => song.id === editedForm.id)
             const foundIndex = data.songs.findIndex(song => song.id === editedForm.id)
-
 
             if(foundIndex > -1) {
                 data.songs[foundIndex] = tempSong
@@ -230,7 +225,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
             <div className={styles.formRow}>
                 <label>Artist:
                     <ArtistsSingleDropdown
-                        musicians={data.musicians}
+                        musicians={data.musicians.filter(musician => musician.isArtist)}
                         selectedArtist={form.artist || ""}
                         setFormValue={setForm}
                     />
@@ -304,14 +299,14 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 <MusiciansMultiSelectDropdown
                     label="Composers"
                     role="composers"
-                    musicians={data.musicians}
+                    musicians={data.musicians.filter(musician => musician.isComposer)}
                     selectedMusicians={form.composers || []}
                     setFormValue={setForm}
                 />
                 <MusiciansMultiSelectDropdown
                     label="Songwriters"
                     role="songwriters"
-                    musicians={data.musicians}
+                    musicians={data.musicians.filter(musician => musician.isSongwriter)}
                     selectedMusicians={form.songwriters || []}
                     setFormValue={setForm}
                 />
@@ -321,7 +316,7 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
                 <MusiciansMultiSelectDropdown
                     label="Arrangers"
                     role="arrangers"
-                    musicians={data.musicians}
+                    musicians={data.musicians.filter(musician => musician.isArranger)}
                     selectedMusicians={form.arrangers || []}
                     setFormValue={setForm}
                 />

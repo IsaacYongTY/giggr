@@ -230,9 +230,7 @@ describe("The Repertoire Page", () => {
 
                 expect(screen.getByText("test.csv")).toBeInTheDocument()
 
-
                 userEvent.click(submitButton)
-
                 expect(await screen.findByText(/upload failed. please try again later\./i)).toBeInTheDocument()
 
 
@@ -241,10 +239,7 @@ describe("The Repertoire Page", () => {
             it("should show error message if user uploaded a file larger than 1MB", () => {
 
             })
-
-
         })
-
     })
 
     describe("The checkboxes in Repertoire Table", () => {
