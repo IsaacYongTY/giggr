@@ -242,7 +242,6 @@ describe("The Repertoire Page", () => {
         })
     })
 
-
     describe("The checkboxes in Repertoire Table", () => {
 
         beforeEach(() => {
