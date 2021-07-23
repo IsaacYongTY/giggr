@@ -9,12 +9,10 @@ import Song from "../../lib/types/song";
 import styles from "../../assets/scss/pages/_database.module.scss";
 import FilterRow from "../../components/repertoire/FilterRow";
 import SearchBar from "../../components/common/SearchBar";
-import ActionRow from "../../components/repertoire/ActionRow";
 import { loadDatabaseData } from "../../lib/library";
 
 export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res} : any) => {
-    console.log('here')
-    console.log(req.user)
+
     // let songsResponse = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, { withCredentials: true})
     let musiciansResponse = await axios.get('/api/v1/admin/musicians?category=name&order=ASC', {
         withCredentials: true,
@@ -22,9 +20,9 @@ export const getServerSideProps : GetServerSideProps = withAuth(async ({req, res
             "x-auth-token": `Bearer ${req.user.tokenString}`
         }
     })
-    console.log('still work')
+
     let data = await loadDatabaseData(req.user.tokenString)
-    console.log(data)
+
     return {
         props: {
             initialSongs: data.songs,
