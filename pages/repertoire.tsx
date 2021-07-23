@@ -11,6 +11,7 @@ import styles from "../assets/scss/pages/_repertoire.module.scss";
 import ActionRow from "../components/repertoire/ActionRow";
 import Musician from "../lib/types/musician";
 import useSWR from "swr";
+import axios from "axios";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -58,14 +59,15 @@ interface Data {
 }
 export default function Repertoire({ user }: Props) {
 
-    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`)
+    const fetcher = (url: string) => axios.get(url).then(r => r.data)
+    const { data } = useSWR(`/api/v1/users?category=id&order=ASC`, fetcher)
 
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
 
-
+    console.log(data)
 
 
     return (
