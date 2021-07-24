@@ -78,6 +78,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
             trigger("/api/v1/users?category=id&order=ASC")
 
             setIsConfirmModalOpen(false)
+            setSelectedSongs([])
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")

@@ -421,6 +421,104 @@ describe("The Repertoire Page", () => {
 
             expect(await screen.findByText(/something went wrong. please try again later.*/i))
         })
+
+
+    })
+
+    async function renderRepertoirePageAndHoverOnFirstRow(props =  {}) {
+        const defaultProps = {
+            user: {id: 1}
+        }
+
+        let utils = render(
+            <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
+                <RepertoirePage {...defaultProps} {...props}/>
+            </SWRConfig>
+        )
+
+        userEvent.hover(screen.getByText("Song 1"))
+        const editSongIcon  = utils.getByText("edit")
+        const deleteSongIcon  = utils.getByText("delete")
+
+
+
+        return {...utils, editSongIcon, deleteSongIcon}
+    }
+    describe("The behaviour of Action Popup", () => {
+
+        beforeEach(() => {
+            jest.clearAllMocks()
+        })
+
+        it("should show Confirm Delete Modal and call the delete function",async ()=> {
+            const { deleteSongIcon } = await renderRepertoirePageAndHoverOnFirstRow()
+
+            userEvent.click(deleteSongIcon)
+            expect(screen.getByRole("button", { name: /cancel/i})).toBeInTheDocument()
+            expect(screen.getByRole("button", { name: /confirm delete/i})).toBeInTheDocument()
+
+
+            userEvent.click(screen.getByRole("button", { name: /confirm delete/i}))
+            expect(mockAxios.delete).toBeCalledTimes(1)
+
+        })
+
+        // it("should remove all checked checkboxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
+        //     renderRepertoirePage()
+        //
+        //     let allCheckboxes: HTMLElement[]
+        //
+        //     allCheckboxes = await screen.findAllByRole("checkbox")
+        //
+        //     act(() => {
+        //         userEvent.click(allCheckboxes[0])
+        //     })
+        //
+        //     expect(screen.getByRole("button", { name: /delete selected/i })).toBeInTheDocument()
+        //     expect(await screen.findAllByRole("checkbox", { checked: true})).toHaveLength(6)
+        //
+        //     userEvent.hover(screen.getByText("Song 1"))
+        //     const deleteSongIcon  = screen.getByText("delete")
+        //
+        //     userEvent.click(deleteSongIcon)
+        //
+        //     const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+        //     userEvent.click(confirmDeleteButton)
+        //
+        //     expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
+        //
+        //
+        //
+        // })
+
+        it("should remove individually checked boxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
+            renderRepertoirePage()
+
+            let allCheckboxes: HTMLElement[]
+
+            allCheckboxes = await screen.findAllByRole("checkbox")
+
+            act(() => {
+                userEvent.click(allCheckboxes[1])
+                userEvent.click(allCheckboxes[2])
+            })
+
+            expect(screen.getByRole("button", { name: /delete selected/i })).toBeInTheDocument()
+
+
+            userEvent.hover(screen.getByText("Song 1"))
+            const deleteSongIcon  = screen.getByText("delete")
+
+            userEvent.click(deleteSongIcon)
+
+            const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+            userEvent.click(confirmDeleteButton)
+
+            expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
+
+
+
+        })
     })
 
 })
