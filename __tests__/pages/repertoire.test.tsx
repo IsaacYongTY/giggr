@@ -508,15 +508,6 @@ describe("The Repertoire Page", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
-            mockAxios.get.mockResolvedValue({
-                data: {
-                    songs: [
-                        { id: 3, title: "Song 3"},
-                        { id: 4, title: "Song 4"},
-                        { id: 5, title: "Song 5"},
-                    ],
-                }
-            })
         })
 
         it("should show Confirm Delete Modal and call the delete function",async ()=> {
