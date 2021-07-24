@@ -46,7 +46,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
     const [errorMessage, setErrorMessage] = useState("")
 
-    const isAllSelected = selectedSongs.length !== 0 && songs?.length === selectedSongs.length
+    const isAllSelected = selectedSongs.length > 0 && songs?.length === selectedSongs.length
 
     const colKey = [
         <input
