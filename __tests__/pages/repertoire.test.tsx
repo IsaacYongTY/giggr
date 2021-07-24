@@ -72,6 +72,27 @@ async function renderRepertoirePageWithDeleteModalOpen(props =  {}) {
     return {...utils, confirmDeleteButton, cancelButton }
 }
 
+
+async function renderRepertoirePageAndHoverOnFirstRow(props =  {}) {
+    const defaultProps = {
+        user: {id: 1}
+    }
+
+    let utils = render(
+        <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
+            <RepertoirePage {...defaultProps} {...props}/>
+        </SWRConfig>
+    )
+
+    userEvent.hover(screen.getByText("Song 1"))
+    const editSongIcon  = utils.getByText("edit")
+    const deleteSongIcon  = utils.getByText("delete")
+
+
+
+    return {...utils, editSongIcon, deleteSongIcon}
+}
+
 describe("The Repertoire Page", () => {
 
     describe("The CSV Upload function", () => {
@@ -431,6 +452,16 @@ describe("The Repertoire Page", () => {
 
             await renderRepertoirePage()
 
+            mockAxios.get.mockResolvedValue({
+                data: {
+                    songs: [
+                        { id: 3, title: "Song 3"},
+                        { id: 4, title: "Song 4"},
+                        { id: 5, title: "Song 5"},
+                    ],
+                }
+            })
+
             let allCheckboxes : any[];
 
             await waitFor(() => {
@@ -473,29 +504,19 @@ describe("The Repertoire Page", () => {
 
     })
 
-    async function renderRepertoirePageAndHoverOnFirstRow(props =  {}) {
-        const defaultProps = {
-            user: {id: 1}
-        }
-
-        let utils = render(
-            <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
-                <RepertoirePage {...defaultProps} {...props}/>
-            </SWRConfig>
-        )
-
-        userEvent.hover(screen.getByText("Song 1"))
-        const editSongIcon  = utils.getByText("edit")
-        const deleteSongIcon  = utils.getByText("delete")
-
-
-
-        return {...utils, editSongIcon, deleteSongIcon}
-    }
     describe("The behaviour of Action Popup", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
+            mockAxios.get.mockResolvedValue({
+                data: {
+                    songs: [
+                        { id: 3, title: "Song 3"},
+                        { id: 4, title: "Song 4"},
+                        { id: 5, title: "Song 5"},
+                    ],
+                }
+            })
         })
 
         it("should show Confirm Delete Modal and call the delete function",async ()=> {
