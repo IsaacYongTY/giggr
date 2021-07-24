@@ -17,27 +17,7 @@ type Props = {
 }
 export default function RepertoireTable({ songs, user, database, data } : Props) {
 
-    const colKey = [
-        <input
-            type="checkbox"
-            onChange={toggleSelectAll}
-        />,
-        "ID",
-        "Title",
-        "Artist",
-        "Status",
-        "Key",
-        "My Key",
-        "Tempo", "Duration",
-        "Time Signature",
-        "Language",
-        "Listen",
-        "Composers",
-        "Songwriters",
-        "Arrangers",
-        "Genres",
-        "Moods",
-        "Tags"]
+
 
     const modalStyles = {
         content : {
@@ -66,6 +46,32 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
     const [errorMessage, setErrorMessage] = useState("")
 
+    const isAllSelected = selectedSongs.length > 0 && songs?.length === selectedSongs.length
+
+    const colKey = [
+        <input
+            type="checkbox"
+            onChange={toggleSelectAll}
+            checked={isAllSelected}
+        />,
+        "ID",
+        "Title",
+        "Artist",
+        "Status",
+        "Key",
+        "My Key",
+        "Tempo", "Duration",
+        "Time Signature",
+        "Language",
+        "Listen",
+        "Composers",
+        "Songwriters",
+        "Arrangers",
+        "Genres",
+        "Moods",
+        "Tags"
+    ]
+
     async function handleDeleteSong(id : number) {
         let url = `/api/v1/songs/`
 
@@ -74,13 +80,15 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         }
         try {
 
-            let response = await axios.delete(`${url}/${id}`)
+            await axios.delete(`${url}/${id}`)
             trigger("/api/v1/users?category=id&order=ASC")
 
             setIsConfirmModalOpen(false)
+            setSelectedSongs(prevState => prevState.filter(song => song.id !== id))
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")
+            setErrorMessage("Something went wrong. Please try again later.")
         }
     }
 
@@ -92,6 +100,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
             await axios.delete("/api/v1/songs", { data: { idArray } })
             trigger("/api/v1/users?category=id&order=ASC")
             setIsConfirmDeleteSelectedModalOpen(false)
+            setSelectedSongs([])
         } catch(err) {
             console.log(err)
             setErrorMessage("Something went wrong. Please try again later!")
@@ -109,8 +118,8 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
     function handleOpenConfirmModal(song : Song) {
         setIsConfirmModalOpen(true)
-
         setDeleteSong(song)
+        setErrorMessage("")
     }
 
     function handleOpenConfirmDeleteSelectedModal(selectedSongs: Song[]) {
@@ -212,6 +221,8 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                         <div>
                             Are you sure you want to delete "{deleteSong?.title}"?
                         </div>
+
+                        { errorMessage && <div className="error-message">{errorMessage}</div> }
 
                         <div className={styles.buttonRow} >
                             <button
