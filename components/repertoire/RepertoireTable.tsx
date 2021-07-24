@@ -82,6 +82,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
         } catch (error) {
             console.log(error)
             console.log("Song deletion failed")
+            setErrorMessage("Something went wrong. Please try again later.")
         }
     }
 
@@ -110,8 +111,8 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
 
     function handleOpenConfirmModal(song : Song) {
         setIsConfirmModalOpen(true)
-
         setDeleteSong(song)
+        setErrorMessage("")
     }
 
     function handleOpenConfirmDeleteSelectedModal(selectedSongs: Song[]) {
@@ -213,6 +214,8 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                         <div>
                             Are you sure you want to delete "{deleteSong?.title}"?
                         </div>
+
+                        { errorMessage && <div className="error-message">{errorMessage}</div> }
 
                         <div className={styles.buttonRow} >
                             <button
