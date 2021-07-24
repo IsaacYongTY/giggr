@@ -45,6 +45,8 @@ async function renderRepertoirePageWithDeleteModalOpen(props =  {}) {
         user: {id: 1}
     }
 
+    mockAxios.get.mockResolvedValue(mockData)
+
     let utils = render(
         <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
             <RepertoirePage {...defaultProps} {...props}/>
@@ -78,13 +80,15 @@ async function renderRepertoirePageAndHoverOnFirstRow(props =  {}) {
         user: {id: 1}
     }
 
+    mockAxios.get.mockResolvedValue(mockData)
+
     let utils = render(
         <SWRConfig value={{ dedupingInterval: 0, fetcher: (url: string) => axios.get(url).then(res => res.data)}}>
             <RepertoirePage {...defaultProps} {...props}/>
         </SWRConfig>
     )
 
-    userEvent.hover(screen.getByText("Song 1"))
+    userEvent.hover(await screen.findByText("Song 1"))
     const editSongIcon  = utils.getByText("edit")
     const deleteSongIcon  = utils.getByText("delete")
 
@@ -266,11 +270,11 @@ describe("The Repertoire Page", () => {
     describe("The checkboxes in Repertoire Table", () => {
 
         beforeEach(() => {
-            mockAxios.get.mockResolvedValue(mockData)
+            jest.clearAllMocks()
         })
 
         it("should toggle the checkbox correctly when clicked", async () => {
-
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes : any[];
@@ -298,7 +302,7 @@ describe("The Repertoire Page", () => {
         })
 
         it("should toggle all checkboxes if the header checkbox is clicked", async () => {
-
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes : any[];
@@ -326,11 +330,11 @@ describe("The Repertoire Page", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
-            mockAxios.get.mockResolvedValue(mockData)
+
         })
 
         it("should not be visible if there isn't any checked checkbox", async () => {
-
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
             expect(screen.queryByRole("button", { name: /delete selected/i })).not.toBeInTheDocument()
 
@@ -354,7 +358,7 @@ describe("The Repertoire Page", () => {
 
 
         it("should show modal to confirm bulk delete", async () => {
-
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes : any[];
@@ -384,7 +388,7 @@ describe("The Repertoire Page", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
-            mockAxios.get.mockResolvedValue(mockData)
+
 
         })
 
@@ -413,6 +417,7 @@ describe("The Repertoire Page", () => {
 
 
         it("should close the Confirm Modal if Cancel button is clicked", async () => {
+
             const { cancelButton } = await renderRepertoirePageWithDeleteModalOpen()
             userEvent.click(cancelButton)
             expect(screen.queryByRole("button", { name: /cancel/i})).not.toBeInTheDocument()
@@ -508,9 +513,11 @@ describe("The Repertoire Page", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
+
         })
 
         it("should show Confirm Delete Modal and call the delete function",async ()=> {
+
             const { deleteSongIcon } = await renderRepertoirePageAndHoverOnFirstRow()
 
             userEvent.click(deleteSongIcon)
@@ -524,15 +531,16 @@ describe("The Repertoire Page", () => {
         })
 
         it("should hide Delete Selected if checked song is deleted instead and no other songs are selected",async ()=> {
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes: HTMLElement[]
 
-            allCheckboxes = await screen.findAllByRole("checkbox")
-
-            act(() => {
+            await waitFor(() => {
+                allCheckboxes = screen.getAllByRole("checkbox")
                 userEvent.click(allCheckboxes[1])
             })
+
 
             userEvent.hover(screen.getByText("Song 1"))
             const deleteSongIcon  = screen.getByText("delete")
@@ -550,6 +558,7 @@ describe("The Repertoire Page", () => {
         })
 
         it("should keep the other checked songs if one of the songs is deleted",async ()=> {
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes: HTMLElement[]
@@ -577,6 +586,7 @@ describe("The Repertoire Page", () => {
         })
 
         it("should show error message if the delete function fails",async ()=> {
+            mockAxios.get.mockResolvedValue(mockData)
             renderRepertoirePage()
 
             let allCheckboxes: HTMLElement[]
