@@ -359,7 +359,7 @@ describe("The Repertoire Page", () => {
 
     })
 
-    describe("The Confirm Delete Modal", () => {
+    describe("The Confirm Delete Selected Modal", () => {
 
         beforeEach(() => {
             jest.clearAllMocks()
@@ -397,18 +397,67 @@ describe("The Repertoire Page", () => {
             expect(screen.queryByRole("button", { name: /cancel/i})).not.toBeInTheDocument()
         })
 
-        it("should close the Confirm Modal if Cancel button is clicked", async () => {
+        it("should close the Confirm Modal and call bulk delete function if Confirm Delete button is clicked", async () => {
 
             const { confirmDeleteButton } = await renderRepertoirePageWithDeleteModalOpen()
+
+            mockAxios.get.mockResolvedValue({
+                data: {
+                    songs: [
+                        { id: 3, title: "Song 3"},
+                        { id: 4, title: "Song 4"},
+                        { id: 5, title: "Song 5"},
+                    ],
+                }
+            })
 
             userEvent.click(confirmDeleteButton)
 
             await waitFor(() => {
                 expect(screen.queryByRole("button", { name: /confirm delete/i})).not.toBeInTheDocument()
+                expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
+
+                const allCheckboxes = screen.getAllByRole("checkbox")
+                expect(allCheckboxes).toHaveLength(4)
             })
 
             expect(axios.delete).toBeCalledTimes(1)
+            expect(axios.get).toBeCalled()
             expect(axios.delete).toBeCalledWith("/api/v1/songs", { data: { idArray: [1,2] }})
+
+        })
+
+        it("should uncheck the header box if boxes are checked with it after Confirm Delete button is clicked", async () => {
+
+            await renderRepertoirePage()
+
+            let allCheckboxes : any[];
+
+            await waitFor(() => {
+                allCheckboxes = screen.getAllByRole("checkbox")
+
+                act(() => {
+                    userEvent.click(allCheckboxes[0])
+                })
+            })
+
+            const deleteSelectedButton = screen.getByRole("button", { name: /delete selected/i})
+            userEvent.click(deleteSelectedButton)
+            mockAxios.get.mockResolvedValue({
+                data: {
+                    songs: [],
+                }
+            })
+
+
+            const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+            userEvent.click(confirmDeleteButton)
+
+
+            const headerCheckbox = await screen.findByRole("checkbox")
+            expect(deleteSelectedButton).not.toBeInTheDocument()
+            expect(headerCheckbox).not.toBeChecked()
+
         })
 
         it("should show error message if Confirm Delete fails", async () => {
@@ -418,7 +467,6 @@ describe("The Repertoire Page", () => {
             userEvent.click(confirmDeleteButton)
 
             expect(mockAxios.delete).toBeCalledTimes(1)
-
             expect(await screen.findByText(/something went wrong. please try again later.*/i))
         })
 
@@ -463,7 +511,7 @@ describe("The Repertoire Page", () => {
 
         })
 
-        it("should remove all checked checkboxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
+        it("should hide Delete Selected if checked song is deleted instead and no other songs are selected",async ()=> {
             renderRepertoirePage()
 
             let allCheckboxes: HTMLElement[]
@@ -471,7 +519,7 @@ describe("The Repertoire Page", () => {
             allCheckboxes = await screen.findAllByRole("checkbox")
 
             act(() => {
-                userEvent.click(allCheckboxes[0])
+                userEvent.click(allCheckboxes[1])
             })
 
             userEvent.hover(screen.getByText("Song 1"))
@@ -489,7 +537,7 @@ describe("The Repertoire Page", () => {
             })
         })
 
-        it("should remove individually checked boxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
+        it("should keep the other checked songs if one of the songs is deleted",async ()=> {
             renderRepertoirePage()
 
             let allCheckboxes: HTMLElement[]
@@ -497,28 +545,22 @@ describe("The Repertoire Page", () => {
             allCheckboxes = await screen.findAllByRole("checkbox")
 
             act(() => {
-                userEvent.click(allCheckboxes[1])
-                userEvent.click(allCheckboxes[2])
+                userEvent.click(allCheckboxes[0])
             })
 
-            userEvent.unhover(allCheckboxes[2])
-
-            const deleteSelectedButton = screen.getByRole("button", { name: /delete selected/i })
-            expect(deleteSelectedButton).toBeInTheDocument()
-
-            userEvent.hover(screen.getByText("Song 1"))
-
+            userEvent.hover(screen.getByText("Song 2"))
             const deleteSongIcon  = screen.getByText("delete")
+
             userEvent.click(deleteSongIcon)
 
             mockAxios.delete.mockResolvedValue({})
             const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+
             userEvent.click(confirmDeleteButton)
 
-            await waitFor(() => {
-                expect(deleteSelectedButton).not.toBeInTheDocument()
-            })
 
+            expect(await screen.findByRole("button", { name: /delete selected/i})).toBeInTheDocument()
+            expect(screen.getAllByRole("checkbox", { checked: true})).toHaveLength(4)
 
         })
 

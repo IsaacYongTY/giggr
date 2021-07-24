@@ -5,6 +5,7 @@ import styles from "../../assets/scss/components/repertoire/_csv-upload-modal.mo
 import Modal from "react-modal";
 import {parseCookies} from "nookies";
 import ButtonWithLoader from "../common/ButtonWithLoader";
+import { trigger } from "swr";
 
 export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database } : { database : string, setIsModalOpen: any, isModalOpen : boolean }) {
 
@@ -65,6 +66,7 @@ export default function CsvUploadModal({ isModalOpen, setIsModalOpen, database }
                 }
             })
 
+            trigger("/api/v1/users?category=id&order=ASC")
             setSuccessMessage("CSV uploaded successfully!")
             setCsvFile(undefined)
             setIsLoading(false)
