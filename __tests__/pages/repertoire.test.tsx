@@ -463,33 +463,31 @@ describe("The Repertoire Page", () => {
 
         })
 
-        // it("should remove all checked checkboxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
-        //     renderRepertoirePage()
-        //
-        //     let allCheckboxes: HTMLElement[]
-        //
-        //     allCheckboxes = await screen.findAllByRole("checkbox")
-        //
-        //     act(() => {
-        //         userEvent.click(allCheckboxes[0])
-        //     })
-        //
-        //     expect(screen.getByRole("button", { name: /delete selected/i })).toBeInTheDocument()
-        //     expect(await screen.findAllByRole("checkbox", { checked: true})).toHaveLength(6)
-        //
-        //     userEvent.hover(screen.getByText("Song 1"))
-        //     const deleteSongIcon  = screen.getByText("delete")
-        //
-        //     userEvent.click(deleteSongIcon)
-        //
-        //     const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
-        //     userEvent.click(confirmDeleteButton)
-        //
-        //     expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
-        //
-        //
-        //
-        // })
+        it("should remove all checked checkboxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
+            renderRepertoirePage()
+
+            let allCheckboxes: HTMLElement[]
+
+            allCheckboxes = await screen.findAllByRole("checkbox")
+
+            act(() => {
+                userEvent.click(allCheckboxes[0])
+            })
+
+            userEvent.hover(screen.getByText("Song 1"))
+            const deleteSongIcon  = screen.getByText("delete")
+
+            userEvent.click(deleteSongIcon)
+
+            mockAxios.delete.mockResolvedValue({})
+            const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+
+            userEvent.click(confirmDeleteButton)
+
+            await waitFor(() => {
+                expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
+            })
+        })
 
         it("should remove individually checked boxes and hide Delete Selected if Delete Single is clicked instead",async ()=> {
             renderRepertoirePage()
@@ -503,19 +501,52 @@ describe("The Repertoire Page", () => {
                 userEvent.click(allCheckboxes[2])
             })
 
-            expect(screen.getByRole("button", { name: /delete selected/i })).toBeInTheDocument()
+            userEvent.unhover(allCheckboxes[2])
 
+            const deleteSelectedButton = screen.getByRole("button", { name: /delete selected/i })
+            expect(deleteSelectedButton).toBeInTheDocument()
 
             userEvent.hover(screen.getByText("Song 1"))
-            const deleteSongIcon  = screen.getByText("delete")
 
+            const deleteSongIcon  = screen.getByText("delete")
             userEvent.click(deleteSongIcon)
 
+            mockAxios.delete.mockResolvedValue({})
             const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
             userEvent.click(confirmDeleteButton)
 
-            expect(screen.queryByRole("button", { name: /delete selected/i})).not.toBeInTheDocument()
+            await waitFor(() => {
+                expect(deleteSelectedButton).not.toBeInTheDocument()
+            })
 
+
+        })
+
+        it("should show error message if the delete function fails",async ()=> {
+            renderRepertoirePage()
+
+            let allCheckboxes: HTMLElement[]
+
+            allCheckboxes = await screen.findAllByRole("checkbox")
+
+            act(() => {
+                userEvent.click(allCheckboxes[1])
+                userEvent.click(allCheckboxes[2])
+            })
+
+            userEvent.unhover(allCheckboxes[2])
+
+            userEvent.hover(screen.getByText("Song 1"))
+
+            const deleteSongIcon  = screen.getByText("delete")
+            userEvent.click(deleteSongIcon)
+
+            mockAxios.delete.mockRejectedValue({})
+            const confirmDeleteButton = screen.getByRole("button", { name: /confirm delete/i})
+            userEvent.click(confirmDeleteButton)
+
+
+            expect(await screen.findByText(/something went wrong\. please try again later.*/i)).toBeInTheDocument()
 
 
         })
