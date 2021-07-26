@@ -109,8 +109,7 @@ describe("<AddSongModal />", () => {
             }
         })
         renderAddSongModal()
-        screen.debug()
-        // expect(screen.getByLabelText(/key/i)).toBeInTheDocument()
+
         expect(screen.getByLabelText(/artist/i)).toBeInTheDocument()
     })
 
