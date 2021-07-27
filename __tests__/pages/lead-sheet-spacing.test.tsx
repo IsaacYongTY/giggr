@@ -31,9 +31,6 @@ describe("The Lead Sheet Spacing page", () => {
     afterEach(() => {
         jest.clearAllMocks()
     })
-    it("should render correctly", () => {
-        renderLeadSheetSpacing()
-    })
 
     describe("The functionality of adding space in characters", () => {
         it("should add spaces between Chinese characters", () => {
@@ -55,10 +52,10 @@ describe("The Lead Sheet Spacing page", () => {
             expect(resultTextArea).toHaveValue("我 是 一 只 大 大 大 大 鸟")
 
             userEvent.type(inputTextArea, "{selectall}{backspace}")
-            userEvent.type(inputTextArea, "想要跳啊跳\n 却跳也 跳   不远")
+            userEvent.type(inputTextArea, "想要跳啊跳\n 却跳也 跳   不高")
             userEvent.click(processButton)
 
-            expect(resultTextArea).toHaveValue("想 要 跳 啊 跳\n却 跳 也 跳 不 远")
+            expect(resultTextArea).toHaveValue("想 要 跳 啊 跳\n却 跳 也 跳 不 高")
         })
 
         it("should add spaces to long paragraph and ignore English words", () => {
@@ -100,6 +97,55 @@ describe("The Lead Sheet Spacing page", () => {
                 "尴 尬 彼 此 间 一 段 友 情\n" +
                 "所 希 望 被 破 灭 被 你 否 定")
 
+        })
+
+        it("should remove specified characters from the result if checkbox is checked", () => {
+            const { addStringButton, addStringTextbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
+            userEvent.type(inputTextArea, "#Verse *Chorus")
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("Verse Chorus")
+        })
+
+        it("should remove specified strings from the result if Remove Strings checkbox is checked", () => {
+            const { addStringButton, addStringTextbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(addStringTextbox, "需要被移除 的字符串")
+            userEvent.click(addStringButton)
+
+
+            userEvent.type(inputTextArea, "Verse\nfirst line of lyrics\n需要被移除 的字符串\nChorus\nThis is the Chorus")
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus")
+        })
+
+
+
+        it("should return the same strings if Remove Strings checkbox is not checked", () => {
+            const { addStringButton, addStringTextbox, removeStringsCheckbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+            userEvent.type(addStringTextbox, "#")
+            userEvent.click(addStringButton)
+
+            userEvent.type(addStringTextbox, "*")
+            userEvent.click(addStringButton)
+
+            userEvent.type(inputTextArea, "#not *changed")
+            userEvent.click(removeStringsCheckbox)
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("#not *changed")
+        })
+
+        it("should trim all trailing white spaces for every lines", () => {
+            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
+
+
+            userEvent.type(inputTextArea, "   Verse\n    first line of lyrics \n\n Chorus  \n This is the Chorus")
+            userEvent.click(processButton)
+            expect(resultTextArea).toHaveValue("Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus")
         })
 
     })
@@ -168,6 +214,11 @@ describe("The Lead Sheet Spacing page", () => {
 
 
     describe("The behaviour of add string to remove textbox", () => {
+
+        beforeEach(() => {
+            localStorage.clear()
+        })
+
         it("should add and display added string on the page", () => {
             const {addStringTextbox, addStringButton } = renderLeadSheetSpacing()
 
@@ -218,6 +269,7 @@ describe("The Lead Sheet Spacing page", () => {
             expect(screen.getByText("*")).toBeInTheDocument()
             expect(screen.getByText("＃")).toBeInTheDocument()
 
+            screen.debug()
             const deleteButtonArray = screen.getAllByText("clear")
             expect(deleteButtonArray).toHaveLength(3)
 
@@ -262,32 +314,7 @@ describe("The Lead Sheet Spacing page", () => {
             expect(removeStringsCheckbox).toBeChecked()
         })
 
-        it("should remove specified strings from the result if checkbox is checked", () => {
-            const { addStringButton, addStringTextbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
-            userEvent.type(addStringTextbox, "#")
-            userEvent.click(addStringButton)
 
-            userEvent.type(addStringTextbox, "*")
-            userEvent.click(addStringButton)
-
-            userEvent.type(inputTextArea, "#Verse *Chorus")
-            userEvent.click(processButton)
-            expect(resultTextArea).toHaveValue("Verse Chorus")
-        })
-
-        it("should return the same strings if checkbox is not checked", () => {
-            const { addStringButton, addStringTextbox, removeStringsCheckbox, processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
-            userEvent.type(addStringTextbox, "#")
-            userEvent.click(addStringButton)
-
-            userEvent.type(addStringTextbox, "*")
-            userEvent.click(addStringButton)
-
-            userEvent.type(inputTextArea, "#not *changed")
-            userEvent.click(removeStringsCheckbox)
-            userEvent.click(processButton)
-            expect(resultTextArea).toHaveValue("#not *changed")
-        })
 
 
     })
