@@ -48,14 +48,12 @@ export default function LeadSheetSpacing({ user } : Props) {
     function handleProcessText() {
 
         try {
-            let result = addSpaceBetweenChineseWords(inputText)
 
-            if(isRemoveStrings) {
-                result = removeCharacters(stringsToRemoveArray, result)
-            }
-            if(isAddHyphen) {
-                result = hyphenateSync(result, { hyphenChar: "-"})
-            }
+            let cleanedInput = isRemoveStrings ? removeCharacters(stringsToRemoveArray, inputText) : inputText
+
+            cleanedInput = isAddHyphen ? hyphenateSync(cleanedInput, { hyphenChar: "-"}) : cleanedInput
+
+            const result = addSpaceBetweenChineseWords(cleanedInput)
 
             setResultText(result)
         } catch (error) {
