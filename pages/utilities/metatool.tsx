@@ -69,6 +69,7 @@ export default function MetaTool({ user } : Props) {
 
 
                 <AlertBox
+                    setAlertOptions={setAlertOptions}
                     message={alertOptions.message}
                     type={alertOptions.type}
                 />

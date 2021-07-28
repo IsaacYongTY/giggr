@@ -6,6 +6,7 @@ import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-mi
 import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
 import Image from "next/image";
 import Song from "../../lib/types/song";
+import StatusPillButton from "../common/StatusPillButton";
 
 interface Props {
     song: Song
@@ -77,7 +78,13 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
                 <div className={styles.cell}>{song.artist?.name}</div>
             </td>
             <td>
-                <div className={styles.cell}>{song.status}</div>
+                <div className={styles.cell}>
+                    {
+                        song.status &&
+                        <StatusPillButton label={song.status} />
+                    }
+
+                </div>
             </td>
             <td>
                 <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>

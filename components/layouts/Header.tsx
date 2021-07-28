@@ -14,7 +14,7 @@ const Header = ({ title, setIsOpen, isOpen }: any) => {
             <div className={`${styles.headerLogoPosition} logo `}>
                 <Image src={"/img/logos/giggr-logo-blue-600x250.png"} alt="blue-giggr-logo" width={600} height={250} />
             </div>
-            <p className={`${styles.title} ${isOpen ? styles.sidebarOpenOffset : ""}`}>{title}</p>
+            <p className={`${styles.title} ${isOpen ? styles.sidebarOpenOffset : styles.sidebarCloseOffset}`}>{title}</p>
             <SettingsDropdown />
 
         </div>

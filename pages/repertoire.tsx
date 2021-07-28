@@ -10,6 +10,7 @@ import styles from "../assets/scss/pages/_repertoire.module.scss";
 import Musician from "../lib/types/musician";
 import useSWR from "swr";
 import axios from "axios";
+import AlertBox from "../components/common/AlertBox";
 
 export const getServerSideProps : GetServerSideProps = withAuth( async({ req, res } : any) => {
 
@@ -89,6 +90,8 @@ export default function Repertoire({ user }: Props) {
                         database="database1"
                         data={data}
                     />
+
+
                 </div>
 
 

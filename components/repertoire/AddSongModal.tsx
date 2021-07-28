@@ -29,8 +29,9 @@ type Props = {
 
 export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user }: Props) {
 
-    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
+
     const [form, setForm] = useState<Form>({})
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
 
     const customStyles = {
         content : {
@@ -147,10 +148,7 @@ export default function AddSongModal({ isModalOpen, setIsModalOpen, type, databa
                     </TabPanel>
                 </Tabs>
 
-                <AlertBox
-                    message={alertOptions.message}
-                    type={alertOptions.type}
-                />
+               
 
             </div>
 

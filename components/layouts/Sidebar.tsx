@@ -62,7 +62,8 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     currentPathName={currentPathName}
                     hasSubmenu={true}
                     options={[
-                        { title: "Manage Artist", link: "#" },
+                        { title: "Artists", link: "#" },
+                        { title: "Setlists", link: "#" },
                     ]}
                 />
                 <SidebarRow icon="work" title="My Gigs" link="/gigs" isOpen={isOpen} currentPathName={currentPathName} />
