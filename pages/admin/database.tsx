@@ -51,6 +51,8 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
+
     return (
         <>
             <Layout user={user} title="Admin View">
@@ -69,6 +71,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
 
 
                     <RepertoireTable
+                        setAlertOptions={setAlertOptions}
                         songs={searchTerm ? filteredSongList : songs}
                         user={user}
                         database="master"
@@ -78,6 +81,7 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
                 </div>
             </Layout>
             <AddSongModal
+                setAlertOptions={setAlertOptions}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 type="add"
