@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
 import axios from "../../config/axios";
@@ -14,8 +14,9 @@ type Props = {
     user: any,
     database: string,
     data?: any
+    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string}>>
 }
-export default function RepertoireTable({ songs, user, database, data } : Props) {
+export default function RepertoireTable({ songs, user, database, data, setAlertOptions } : Props) {
 
 
 
@@ -45,6 +46,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     const [isConfirmDeleteSelectedModalOpen, setIsConfirmDeleteSelectedModalOpen] = useState(false)
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
     const [errorMessage, setErrorMessage] = useState("")
+
 
     const isAllSelected = selectedSongs.length > 0 && songs?.length === selectedSongs.length
 
@@ -198,6 +200,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                 database={database}
                 user={user}
                 data={data}
+                setAlertOptions={setAlertOptions}
             />
 
             <AddSongModal
@@ -207,6 +210,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                 database="database1"
                 data={data}
                 user={user}
+                setAlertOptions={setAlertOptions}
             />
 
             {

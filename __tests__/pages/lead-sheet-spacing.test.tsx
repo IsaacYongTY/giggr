@@ -117,7 +117,6 @@ describe("The Lead Sheet Spacing page", () => {
             userEvent.type(addStringTextbox, "需要被移除 的字符串")
             userEvent.click(addStringButton)
 
-
             userEvent.type(inputTextArea, "Verse\nfirst line of lyrics\n需要被移除 的字符串\nChorus\nThis is the Chorus")
             userEvent.click(processButton)
             expect(resultTextArea).toHaveValue("Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus")
@@ -135,16 +134,18 @@ describe("The Lead Sheet Spacing page", () => {
 
             userEvent.type(inputTextArea, "#not *changed")
             userEvent.click(removeStringsCheckbox)
+
             userEvent.click(processButton)
+
             expect(resultTextArea).toHaveValue("#not *changed")
         })
 
         it("should trim all trailing white spaces for every lines", () => {
             const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing()
 
-
             userEvent.type(inputTextArea, "   Verse\n    first line of lyrics \n\n Chorus  \n This is the Chorus")
             userEvent.click(processButton)
+
             expect(resultTextArea).toHaveValue("Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus")
         })
 

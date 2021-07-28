@@ -61,6 +61,7 @@ let mockAdmin = { tierId: 4, name: "Admin", tokenString: "faketokenstring" }
 function renderAddSongModal(props = {}) {
     const utils = render(
         <AddSongModal
+            setAlertOptions={jest.fn()}
             isModalOpen={true}
             setIsModalOpen={jest.fn()}
             type="add"

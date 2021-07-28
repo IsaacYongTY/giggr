@@ -1,5 +1,5 @@
-.container {
-  background-color: pink;
+.base {
+  font-size: 1.2rem;
   border: none;
   border-radius: 2rem;
   display: flex;
@@ -8,13 +8,34 @@
   //justify-content: flex-end;
   min-width: max-content;
 
-  > span {
-    border: 1px solid blue;
-    padding-right: 0.5rem;
-  }
 }
 
-.closeButton {
-  cursor: pointer;
-  font-size: 1rem;
+.new {
+  @extend .base;
+  background-color: lightblue;
+
+
+
+
 }
+
+.inProgress {
+  background-color: pink;
+  @extend .base;
+
+}
+
+.learned {
+  background-color: yellow;
+  @extend .base;
+
+}
+
+.charted {
+  background-color: greenyellow;
+  @extend .base;
+
+
+
+}
+
