@@ -71,7 +71,6 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
 
 
                     <RepertoireTable
-                        setAlertOptions={setAlertOptions}
                         songs={searchTerm ? filteredSongList : songs}
                         user={user}
                         database="master"
@@ -81,7 +80,6 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
                 </div>
             </Layout>
             <AddSongModal
-                setAlertOptions={setAlertOptions}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 type="add"
