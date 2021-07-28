@@ -8,17 +8,17 @@ import {trigger} from "swr";
 import Modal from "react-modal"
 import ButtonLoader from "../common/Loader";
 import ActionRow from "./ActionRow";
+import AlertBox from "../common/AlertBox";
 
 type Props = {
     songs: Song[],
     user: any,
     database: string,
     data?: any
-    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string}>>
 }
-export default function RepertoireTable({ songs, user, database, data, setAlertOptions } : Props) {
+export default function RepertoireTable({ songs, user, database, data } : Props) {
 
-
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
 
     const modalStyles = {
         content : {
@@ -200,7 +200,6 @@ export default function RepertoireTable({ songs, user, database, data, setAlertO
                 database={database}
                 user={user}
                 data={data}
-                setAlertOptions={setAlertOptions}
             />
 
             <AddSongModal
@@ -210,7 +209,6 @@ export default function RepertoireTable({ songs, user, database, data, setAlertO
                 database="database1"
                 data={data}
                 user={user}
-                setAlertOptions={setAlertOptions}
             />
 
             {
@@ -285,6 +283,12 @@ export default function RepertoireTable({ songs, user, database, data, setAlertO
                 </Modal>
 
             }
+
+            <AlertBox
+                setAlertOptions={setAlertOptions}
+                message={alertOptions.message}
+                type={alertOptions.type}
+            />
         </>
     )
 }

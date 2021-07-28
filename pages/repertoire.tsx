@@ -63,7 +63,7 @@ export default function Repertoire({ user }: Props) {
     const [filter, setFilter] = useState("title")
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
-    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
+
 
 
     return (
@@ -89,14 +89,9 @@ export default function Repertoire({ user }: Props) {
                         user={user}
                         database="database1"
                         data={data}
-                        setAlertOptions={setAlertOptions}
                     />
 
-                    <AlertBox
-                        setAlertOptions={setAlertOptions}
-                        message={alertOptions.message}
-                        type={alertOptions.type}
-                    />
+
                 </div>
 
 
