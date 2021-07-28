@@ -24,14 +24,14 @@ type Props = {
     database: string
     user: any
     data: any
-    setAlertOptions: Dispatch<SetStateAction<{  message: string, type: string }>>
 }
 
 
-export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user, setAlertOptions }: Props) {
+export default function AddSongModal({ isModalOpen, setIsModalOpen, type, database, song, data, user }: Props) {
 
 
     const [form, setForm] = useState<Form>({})
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
 
     const customStyles = {
         content : {
