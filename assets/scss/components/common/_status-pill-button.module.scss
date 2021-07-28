@@ -1,0 +1,20 @@
+.container {
+  background-color: pink;
+  border: none;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  //justify-content: flex-end;
+  min-width: max-content;
+
+  > span {
+    border: 1px solid blue;
+    padding-right: 0.5rem;
+  }
+}
+
+.closeButton {
+  cursor: pointer;
+  font-size: 1rem;
+}
