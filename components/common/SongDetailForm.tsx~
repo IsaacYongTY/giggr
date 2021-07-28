@@ -215,15 +215,10 @@ export default function SongDetailForm({type, database, form, user, handleCloseM
 
             setForm(value)
 
-
-        }
-
-        if(!isModalOpen) {
             return () => {
                 setForm({})
             }
         }
-
 
 
 

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import styles from "../../assets/scss/components/repertoire/_repertoire-table.module.scss";
 import Song from "../../lib/types/song";
 import axios from "../../config/axios";
@@ -8,6 +8,7 @@ import {trigger} from "swr";
 import Modal from "react-modal"
 import ButtonLoader from "../common/Loader";
 import ActionRow from "./ActionRow";
+import AlertBox from "../common/AlertBox";
 
 type Props = {
     songs: Song[],
@@ -17,7 +18,7 @@ type Props = {
 }
 export default function RepertoireTable({ songs, user, database, data } : Props) {
 
-
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
 
     const modalStyles = {
         content : {
@@ -45,6 +46,7 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
     const [isConfirmDeleteSelectedModalOpen, setIsConfirmDeleteSelectedModalOpen] = useState(false)
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([])
     const [errorMessage, setErrorMessage] = useState("")
+
 
     const isAllSelected = selectedSongs.length > 0 && songs?.length === selectedSongs.length
 
@@ -281,6 +283,12 @@ export default function RepertoireTable({ songs, user, database, data } : Props)
                 </Modal>
 
             }
+
+            <AlertBox
+                setAlertOptions={setAlertOptions}
+                message={alertOptions.message}
+                type={alertOptions.type}
+            />
         </>
     )
 }

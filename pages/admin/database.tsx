@@ -51,6 +51,8 @@ export default function DatabasePage({user, initialSongs, initialMusicians, data
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredSongList, setFilteredSongList] = useState(initialSongs);
 
+    const [alertOptions, setAlertOptions] = useState({message: "", type: ""})
+
     return (
         <>
             <Layout user={user} title="Admin View">

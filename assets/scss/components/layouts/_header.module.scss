@@ -12,8 +12,6 @@
   background-color: white;
   border-bottom: 1px solid #DDDDDD;
   box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
-  //display: grid;
-  //grid-template-columns: $sidebar-close-width ($sidebar-open-width - $sidebar-close-width) 1fr $sidebar-close-width ;
   display: flex;
   z-index: 3;
 
@@ -27,15 +25,20 @@
 }
 
 .headerLogoPosition {
-  margin-left: 2rem;
+  margin-left: 6rem;
 }
 
 .title {
-  width: 80%;
+  width: 1000%;
   text-align: center;
+  //background-color: red;
 }
 
 .sidebarOpenOffset {
-  margin-left: math.div($sidebar-open-width - $sidebar-close-width, 2);
+  margin-left: $sidebar-open-width - $sidebar-close-width - 5rem;
+}
+
+.sidebarCloseOffset {
+  margin-left: -4rem;
 }
 
