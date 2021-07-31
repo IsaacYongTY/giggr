@@ -68,7 +68,6 @@ export default function Metronome({ defaultTempo } : Props) {
 
             },interval)
         } else {
-            console.log('clear')
             clearInterval(timer)
         }
 
