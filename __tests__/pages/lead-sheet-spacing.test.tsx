@@ -22,8 +22,9 @@ function renderLeadSheetSpacing() {
     const removeStringsCheckbox = screen.getByRole("checkbox", { name: /remove selected strings.*/i})
     const addStringTextbox = screen.getByRole("textbox", { name: /add string to remove.*/i})
     const addStringButton = screen.getByRole("button", { name: /add/i})
+    const togglePlaceholderButton = screen.getByRole("button", { name: /toggle placeholder/i})
     return {...utils, inputTextArea, resultTextArea, processButton, clearAllButton, clearResultButton,
-        addHyphenCheckbox, removeStringsCheckbox, addStringTextbox, addStringButton}
+        addHyphenCheckbox, removeStringsCheckbox, addStringTextbox, addStringButton, togglePlaceholderButton}
 }
 
 describe("The Lead Sheet Spacing page", () => {
@@ -270,7 +271,6 @@ describe("The Lead Sheet Spacing page", () => {
             expect(screen.getByText("*")).toBeInTheDocument()
             expect(screen.getByText("＃")).toBeInTheDocument()
 
-            screen.debug()
             const deleteButtonArray = screen.getAllByText("clear")
             expect(deleteButtonArray).toHaveLength(3)
 
@@ -318,5 +318,49 @@ describe("The Lead Sheet Spacing page", () => {
 
 
 
+    })
+
+    describe("Toggle placeholder Button", () => {
+        it("should toggle the text result to placeholder char", () => {
+
+            const { processButton, inputTextArea, resultTextArea, togglePlaceholderButton } = renderLeadSheetSpacing()
+
+            userEvent.type(inputTextArea, "寂寞夜晚上 过度的想像\n")
+
+
+            userEvent.click(processButton)
+
+            expect(resultTextArea).toHaveValue("寂 寞 夜 晚 上 过 度 的 想 像\n")
+
+            userEvent.click(togglePlaceholderButton)
+
+            expect(resultTextArea).toHaveValue("a a a a a a a a a a\n")
+
+            userEvent.type(inputTextArea, "{selectall}{backspace}this is a second test")
+            userEvent.click(processButton)
+
+            expect(resultTextArea).toHaveValue("a a a a a")
+
+        })
+
+        it("should toggle the text result to placeholder char", () => {
+
+            const { processButton, inputTextArea, resultTextArea, togglePlaceholderButton } = renderLeadSheetSpacing()
+
+            userEvent.type(inputTextArea, "寂寞夜晚上 过度的想像\n")
+
+            userEvent.click(processButton)
+
+            expect(resultTextArea).toHaveValue("寂 寞 夜 晚 上 过 度 的 想 像\n")
+
+            userEvent.click(togglePlaceholderButton)
+
+            expect(resultTextArea).toHaveValue("a a a a a a a a a a\n")
+
+
+
+
+
+        })
     })
 })

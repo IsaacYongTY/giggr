@@ -9,6 +9,7 @@ import {IncomingMessage} from "http";
 import {NextApiRequestCookies} from "next/dist/next-server/server/api-utils";
 import removeCharacters from "../../lib/utils/remove-characters";
 import Tag from "../../components/common/Tag";
+import replaceCharactersWithPlaceholders from "../../lib/utils/replace-characters-with-placeholders";
 
 interface GetServerSidePropsContextWithUser extends GetServerSidePropsContext {
     req: IncomingMessage & {
@@ -37,6 +38,9 @@ export default function LeadSheetSpacing({ user } : Props) {
     const [isRemoveStrings, setIsRemoveStrings] = useState(true)
     const [stringToRemove, setStringToRemove] = useState("")
     const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>([])
+
+    const [isShowPlaceholderText, setIsShowPlaceholderText] = useState(false)
+    const [placeholderText, setPlaceholderText] = useState("")
 
     function toggleAddHyphen() {
         setIsAddHyphen(prevState => !prevState)
@@ -85,6 +89,17 @@ export default function LeadSheetSpacing({ user } : Props) {
         setStringToRemove("")
     }
 
+    function togglePlaceholderText() {
+        if(!isShowPlaceholderText) {
+            setIsShowPlaceholderText(true)
+            setPlaceholderText(replaceCharactersWithPlaceholders(resultText))
+            return
+        }
+
+        setIsShowPlaceholderText(false)
+        setPlaceholderText("")
+    }
+
     useEffect(() => {
         const tempJSON= localStorage.getItem("strings-to-remove")
         if(tempJSON) {
@@ -115,10 +130,19 @@ export default function LeadSheetSpacing({ user } : Props) {
                     <div>
                         <label>
                             <div>Result:</div>
-                            <textarea value={resultText} onChange={(e) => setResultText(e.target.value)}/>
+                            <textarea
+                                value={isShowPlaceholderText
+                                    ? placeholderText
+                                    : resultText
+                                }
+                                onChange={(e) => isShowPlaceholderText
+                                    ? setPlaceholderText(e.target.value)
+                                    : setResultText(e.target.value)}
+                            />
                         </label>
 
                         <div className={styles.buttonRow}>
+                            <button className="btn btn-secondary" onClick={togglePlaceholderText}>Toggle Placeholder</button>
                             <button className="btn btn-danger-outlined" onClick={handleClearResult}>Clear Result</button>
                         </div>
                     </div>
