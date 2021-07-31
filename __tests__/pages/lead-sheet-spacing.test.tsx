@@ -339,7 +339,7 @@ describe("The Lead Sheet Spacing page", () => {
             userEvent.type(inputTextArea, "{selectall}{backspace}this is a second test")
             userEvent.click(processButton)
 
-            expect(resultTextArea).toHaveValue("a a a a a")
+            expect(resultTextArea).toHaveValue("this is a second test")
 
         })
 
