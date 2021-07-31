@@ -51,6 +51,7 @@ export default function LeadSheetSpacing({ user } : Props) {
     }
     function handleProcessText() {
 
+        setIsShowPlaceholderText(false)
         try {
 
             let cleanedInput = isRemoveStrings ? removeCharacters(stringsToRemoveArray, inputText) : inputText
