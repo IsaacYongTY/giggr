@@ -21,5 +21,8 @@ module.exports = {
     rules: {
         'prettier/prettier': 'error',
         'no-undef': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        'react/prop-types': 'off', // Disable prop-types as we use TypeScript for type checking
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
 };
