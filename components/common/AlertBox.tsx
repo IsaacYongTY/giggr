@@ -1,54 +1,55 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react"
-import styles from "../../assets/scss/components/common/_alert-box.module.scss"
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import styles from '../../assets/scss/components/common/_alert-box.module.scss';
 
 interface Props {
-    message: string
-    type: string
-    timeoutInMs?: number
-    setAlertOptions: Dispatch<SetStateAction<{ message: string, type: string }>>
+    message: string;
+    type: string;
+    timeoutInMs?: number;
+    setAlertOptions: Dispatch<
+        SetStateAction<{ message: string; type: string }>
+    >;
 }
-export default function AlertBox({ setAlertOptions, message, type, timeoutInMs = 3000 } : Props) {
+export default function AlertBox({
+    setAlertOptions,
+    message,
+    type,
+    timeoutInMs = 3000,
+}: Props) {
+    let displayStyle;
 
-    let displayStyle
+    const [isShow, setIsShow] = useState(true);
 
-    const [ isShow, setIsShow ] = useState(true)
-
-    switch(type) {
-        case "fail":
-            displayStyle = styles.fail
+    switch (type) {
+        case 'fail':
+            displayStyle = styles.fail;
             break;
-        case "success":
-            displayStyle = styles.success
+        case 'success':
+            displayStyle = styles.success;
             break;
         default:
-            displayStyle = ""
+            displayStyle = '';
     }
 
     useEffect(() => {
-
-        setIsShow(true)
+        setIsShow(true);
 
         const timer = setTimeout(() => {
-            setIsShow(false)
-            setAlertOptions({message: "", type: ""})
-        },timeoutInMs)
-
+            setIsShow(false);
+            setAlertOptions({ message: '', type: '' });
+        }, timeoutInMs);
 
         return () => {
-            clearTimeout(timer)
-
-        }
-
-    },[message])
+            clearTimeout(timer);
+        };
+    }, [message]);
 
     function handleClose() {
-        setIsShow(false)
-        setAlertOptions({message: "", type: ""})
+        setIsShow(false);
+        setAlertOptions({ message: '', type: '' });
     }
     return (
         <>
-            {
-                isShow && message &&
+            {isShow && message && (
                 <div className={`${styles.alertBox} ${displayStyle} `}>
                     {message}
                     <span
@@ -58,8 +59,7 @@ export default function AlertBox({ setAlertOptions, message, type, timeoutInMs =
                         close
                     </span>
                 </div>
-            }
+            )}
         </>
-
-    )
+    );
 }

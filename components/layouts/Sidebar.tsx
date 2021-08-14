@@ -1,58 +1,71 @@
 import React, { Dispatch, SetStateAction, useRef } from 'react';
-import styles from '../../assets/scss/components/layouts/_sidebar.module.scss'
-import SidebarRow from "./SidebarRow";
-import Link from "next/link";
-import Image from "next/image";
-
+import styles from '../../assets/scss/components/layouts/_sidebar.module.scss';
+import SidebarRow from './SidebarRow';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type Props = {
-    isOpen: boolean
-    setIsOpen: Dispatch<SetStateAction<boolean>>
-    currentPathName: string
-    user: any
-}
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    currentPathName: string;
+    user: any;
+};
 
-export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : Props) {
-
-
-    const sidebar = useRef<HTMLDivElement>(null)
+export default function Sidebar({
+    isOpen,
+    setIsOpen,
+    currentPathName,
+    user,
+}: Props) {
+    const sidebar = useRef<HTMLDivElement>(null);
 
     function handleToggleSidebar() {
-        if(!isOpen) {
-            setIsOpen(true)
-            sidebar?.current?.classList.add(styles.open)
-            sidebar?.current?.classList.remove(styles.close)
-            return
+        if (!isOpen) {
+            setIsOpen(true);
+            sidebar?.current?.classList.add(styles.open);
+            sidebar?.current?.classList.remove(styles.close);
+            return;
         }
 
-        setIsOpen(false)
-        sidebar?.current?.classList.add(styles.close)
-        sidebar?.current?.classList.remove(styles.add)
-
+        setIsOpen(false);
+        sidebar?.current?.classList.add(styles.close);
+        sidebar?.current?.classList.remove(styles.add);
     }
 
     return (
         <>
-            <div
-                className={`${styles.sidebar}`}
-                ref={sidebar}
-            >
+            <div className={`${styles.sidebar}`} ref={sidebar}>
                 <div className={styles.sidebarHeader}>
-                    <div className="material-icons text-white menu-button" onClick={handleToggleSidebar}>
+                    <div
+                        className="material-icons text-white menu-button"
+                        onClick={handleToggleSidebar}
+                    >
                         menu
                     </div>
 
-                    {
-                        isOpen &&
+                    {isOpen && (
                         <Link href="/dashboard">
                             <div className="logo">
-                                <Image src={"/img/logos/giggr-logo-white-600x250.png"} alt="white giggr logo" width={650} height={500} />
+                                <Image
+                                    src={
+                                        '/img/logos/giggr-logo-white-600x250.png'
+                                    }
+                                    alt="white giggr logo"
+                                    width={650}
+                                    height={500}
+                                />
                             </div>
                         </Link>
-                    }
+                    )}
                 </div>
 
-                <SidebarRow icon="dashboard" title="Dashboard" link="/dashboard" isOpen={isOpen} currentPathName={currentPathName} />
+                <SidebarRow
+                    icon="dashboard"
+                    title="Dashboard"
+                    link="/dashboard"
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+                />
                 <SidebarRow
                     index={1}
                     icon="music_note"
@@ -62,11 +75,17 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     currentPathName={currentPathName}
                     hasSubmenu={true}
                     options={[
-                        { title: "Artists", link: "#" },
-                        { title: "Setlists", link: "#" },
+                        { title: 'Artists', link: '#' },
+                        { title: 'Setlists', link: '#' },
                     ]}
                 />
-                <SidebarRow icon="work" title="My Gigs" link="/gigs" isOpen={isOpen} currentPathName={currentPathName} />
+                <SidebarRow
+                    icon="work"
+                    title="My Gigs"
+                    link="/gigs"
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+                />
                 <SidebarRow
                     index={3}
                     icon="handyman"
@@ -76,10 +95,19 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     isOpen={isOpen}
                     currentPathName={currentPathName}
                     options={[
-                        { title: "Spotify Meta Tool", link: "/utilities/metatool" },
-                        { title: "Progression Generator", link: "/utilities/progression" },
-                        { title: "BPM Tools", link: "/utilities/bpm" },
-                        { title: "Lead Sheet Spacing", link:"/utilities/leadsheetspacing" },
+                        {
+                            title: 'Spotify Meta Tool',
+                            link: '/utilities/metatool',
+                        },
+                        {
+                            title: 'Progression Generator',
+                            link: '/utilities/progression',
+                        },
+                        { title: 'BPM Tools', link: '/utilities/bpm' },
+                        {
+                            title: 'Lead Sheet Spacing',
+                            link: '/utilities/leadsheetspacing',
+                        },
                     ]}
                 />
 
@@ -89,11 +117,9 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                     link="/stats"
                     isOpen={isOpen}
                     currentPathName={currentPathName}
-
                 />
 
-                {
-                    user?.isAdmin &&
+                {user?.isAdmin && (
                     <SidebarRow
                         icon="admin_panel_settings"
                         title="Admin"
@@ -102,21 +128,16 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user } : P
                         currentPathName={currentPathName}
                         hasSubmenu={true}
                         options={[
-                            { title: "Manage Database", link: "/admin/database" },
-                            { title: "Playground", link: "/test/playground" },
-                            { title: "Gig Form", link: "/test/gigform" },
+                            {
+                                title: 'Manage Database',
+                                link: '/admin/database',
+                            },
+                            { title: 'Playground', link: '/test/playground' },
+                            { title: 'Gig Form', link: '/test/gigform' },
                         ]}
                     />
-
-                }
-
-
-
-
+                )}
             </div>
-
-
         </>
-
-    )
+    );
 }

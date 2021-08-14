@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from 'react';
 
-import ButtonLoader from "./ButtonLoader";
-import styles from "../../assets/scss/components/common/_button-with-loader.module.scss";
+import ButtonLoader from './ButtonLoader';
+import styles from '../../assets/scss/components/common/_button-with-loader.module.scss';
 
 interface ButtonProps {
     /**
@@ -24,43 +24,40 @@ interface ButtonProps {
      * Optional click handler
      */
     onClick?: () => void;
-    isLoading: boolean
+    isLoading: boolean;
 }
 
-
 export default function ButtonWithLoader({
-     primary = false,
-     label,
-     onClick,
+    primary = false,
+    label,
+    onClick,
     isLoading,
-     ...props
- }: ButtonProps) {
-
-    const [isClicked, setIsClicked] = useState(false)
+    ...props
+}: ButtonProps) {
+    const [isClicked, setIsClicked] = useState(false);
 
     function handleOnClick() {
-        if(!onClick) return
-        setIsClicked(true)
-        onClick()
+        if (!onClick) return;
+        setIsClicked(true);
+        onClick();
     }
 
     useEffect(() => {
-        if(!isLoading) {
-            setIsClicked(false)
+        if (!isLoading) {
+            setIsClicked(false);
         }
-    }, [isLoading])
-
-
+    }, [isLoading]);
 
     return (
         <button
-            className={`${primary ? styles.btnPrimary : styles.btnHighlight} btn`}
+            className={`${
+                primary ? styles.btnPrimary : styles.btnHighlight
+            } btn`}
             onClick={handleOnClick}
             disabled={isLoading}
         >
             <div>{label}</div>
             {isLoading && isClicked && <ButtonLoader />}
-
         </button>
-    )
+    );
 }

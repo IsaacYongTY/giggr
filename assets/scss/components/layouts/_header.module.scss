@@ -2,43 +2,39 @@
 @import '../../variables';
 
 .header {
+    position: fixed;
+    top: 0;
 
-  position:fixed;
-  top: 0;
-
-  width: 100%;
-  align-items: center;
-  height: $header-height;
-  background-color: white;
-  border-bottom: 1px solid #DDDDDD;
-  box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
-  display: flex;
-  z-index: 3;
-
+    width: 100%;
+    align-items: center;
+    height: $header-height;
+    background-color: white;
+    border-bottom: 1px solid #dddddd;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
+    display: flex;
+    z-index: 3;
 }
 
 .menuButton {
-  justify-self: center;
-  align-self: center;
-  width: $sidebar-close-width
-
+    justify-self: center;
+    align-self: center;
+    width: $sidebar-close-width;
 }
 
 .headerLogoPosition {
-  margin-left: 6rem;
+    margin-left: 6rem;
 }
 
 .title {
-  width: 1000%;
-  text-align: center;
-  //background-color: red;
+    width: 1000%;
+    text-align: center;
+    //background-color: red;
 }
 
 .sidebarOpenOffset {
-  margin-left: $sidebar-open-width - $sidebar-close-width - 5rem;
+    margin-left: $sidebar-open-width - $sidebar-close-width - 5rem;
 }
 
 .sidebarCloseOffset {
-  margin-left: -4rem;
+    margin-left: -4rem;
 }
-

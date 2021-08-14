@@ -1,42 +1,48 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
-import CreatableSelect from "react-select/creatable";
-import { ValueType } from "react-select/";
-import Musician from "../../lib/types/musician";
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import styles from '../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss';
+import CreatableSelect from 'react-select/creatable';
+import { ValueType } from 'react-select/';
+import Musician from '../../lib/types/musician';
 
 type Option = {
-    value: string
-    label: string
-}
+    value: string;
+    label: string;
+};
 
 type Props = {
+    musicians: Musician[];
+    selectedArtist: string;
+    setFormValue: Dispatch<SetStateAction<any>>;
+};
 
-    musicians: Musician[]
-    selectedArtist: string
-    setFormValue: Dispatch<SetStateAction<any>>
-}
-
-
-export default function SingleArtistDropdown({ musicians, selectedArtist, setFormValue }: Props) {
-
-    const [currentValue, setCurrentValue] = useState({value: "", label: ""})
-    const [options, setOptions] = useState<Option[]>([])
+export default function SingleArtistDropdown({
+    musicians,
+    selectedArtist,
+    setFormValue,
+}: Props) {
+    const [currentValue, setCurrentValue] = useState({ value: '', label: '' });
+    const [options, setOptions] = useState<Option[]>([]);
 
     function handleChange(selectedOption: ValueType<Option, false>) {
-        if(!selectedOption) {
-            return
+        if (!selectedOption) {
+            return;
         }
 
-        setCurrentValue(selectedOption)
-        setFormValue((prevState : any) => {
-            return {...prevState, artist: selectedOption.value }
-        })
+        setCurrentValue(selectedOption);
+        setFormValue((prevState: any) => {
+            return { ...prevState, artist: selectedOption.value };
+        });
     }
 
     useEffect(() => {
-        setCurrentValue({value: selectedArtist, label: selectedArtist})
-        setOptions(musicians?.map(musician => ({ value: musician.name, label: musician.name})))
-    }, [selectedArtist])
+        setCurrentValue({ value: selectedArtist, label: selectedArtist });
+        setOptions(
+            musicians?.map((musician) => ({
+                value: musician.name,
+                label: musician.name,
+            }))
+        );
+    }, [selectedArtist]);
 
     return (
         <div className={styles.container}>
@@ -48,7 +54,6 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
                 classNamePrefix="select"
                 onChange={handleChange}
             />
-
         </div>
-    )
+    );
 }

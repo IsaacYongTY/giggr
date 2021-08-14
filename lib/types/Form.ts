@@ -1,55 +1,54 @@
 interface Option {
-    value: string,
-    label: string
+    value: string;
+    label: string;
 }
 
 export default interface Form {
-    id?: number
-    title?: string
-    romTitle?: string
-    artist?: string
+    id?: number;
+    title?: string;
+    romTitle?: string;
+    artist?: string;
 
-    key?: number
-    myKey?: number
-    mode?: number
-    tempo?: number,
+    key?: number;
+    myKey?: number;
+    mode?: number;
+    tempo?: number;
 
-    durationMinSec?: string
-    timeSignature?: string
-    language?: string
+    durationMinSec?: string;
+    timeSignature?: string;
+    language?: string;
 
-    spotifyLink?: string
-    youtubeLink?: string
-    otherLink?: string
+    spotifyLink?: string;
+    youtubeLink?: string;
+    otherLink?: string;
 
-    composers?: Option[]
-    songwriters?: Option[]
-    arrangers?: Option[]
+    composers?: Option[];
+    songwriters?: Option[];
+    arrangers?: Option[];
 
-    initialism?: string
+    initialism?: string;
 
-    acousticness?: number
-    danceability?: number
-    energy?: number
-    instrumentalness?: number
-    valence?: number
+    acousticness?: number;
+    danceability?: number;
+    energy?: number;
+    instrumentalness?: number;
+    valence?: number;
 
-    moods?: Option[]
-    genres?: Option[]
-    tags?: Option[]
+    moods?: Option[];
+    genres?: Option[];
+    tags?: Option[];
 
-    dateReleased?: string
+    dateReleased?: string;
 
     // temporary until I understand how to make type flexible
-    progression?: string
-    isFullBar?: boolean,
-    spaces?: number
+    progression?: string;
+    isFullBar?: boolean;
+    spaces?: number;
 
-    status?: string
+    status?: string;
 
-    artistId?: number,
-    languageId?: number,
-    durationMs?: number,
+    artistId?: number;
+    languageId?: number;
+    durationMs?: number;
     // verified?: boolean
-
 }

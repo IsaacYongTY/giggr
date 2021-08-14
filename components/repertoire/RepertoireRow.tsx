@@ -1,47 +1,54 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../../assets/scss/components/repertoire/_repertoire-row.module.scss";
-import ActionPopup from "./ActionPopup";
-import {capitalizeString } from "../../lib/library";
-import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
-import convertKeyModeIntToKey from "../../lib/utils/convert-key-mode-int-to-key"
-import Image from "next/image";
-import Song from "../../lib/types/song";
-import StatusPillButton from "../common/StatusPillButton";
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import styles from '../../assets/scss/components/repertoire/_repertoire-row.module.scss';
+import ActionPopup from './ActionPopup';
+import { capitalizeString } from '../../lib/library';
+import convertDurationMsToMinSec from '../../lib/utils/convert-duration-ms-to-min-sec';
+import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
+import Image from 'next/image';
+import Song from '../../lib/types/song';
+import StatusPillButton from '../common/StatusPillButton';
 
 interface Props {
-    song: Song
-    handleOpenModal: (song: Song) => void
-    handleDeleteSong: (id: number) => Promise<void>
-    handleOpenConfirmModal: (song: Song) => void
-    selectedSongs: Song[]
-    setSelectedSongs: Dispatch<SetStateAction<Song[]>>
+    song: Song;
+    handleOpenModal: (song: Song) => void;
+    handleDeleteSong: (id: number) => Promise<void>;
+    handleOpenConfirmModal: (song: Song) => void;
+    selectedSongs: Song[];
+    setSelectedSongs: Dispatch<SetStateAction<Song[]>>;
 }
-export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, handleOpenConfirmModal, selectedSongs, setSelectedSongs }: Props) {
+export default function RepertoireRow({
+    song,
+    handleOpenModal,
+    handleDeleteSong,
+    handleOpenConfirmModal,
+    selectedSongs,
+    setSelectedSongs,
+}: Props) {
+    const [isShowPopup, setIsShowPopup] = useState(false);
 
-
-    const [isShowPopup, setIsShowPopup] = useState(false)
-
-    function handleHover(song : Song, isEnter : boolean) {
-        if(isEnter) {
-            setIsShowPopup(true)
-            return
+    function handleHover(song: Song, isEnter: boolean) {
+        if (isEnter) {
+            setIsShowPopup(true);
+            return;
         }
-        setIsShowPopup(false)
+        setIsShowPopup(false);
     }
 
-    const foundIndex = selectedSongs.findIndex(selectedSong => selectedSong.id === song.id)
-    const isInSelectedSongsArray = foundIndex > -1
+    const foundIndex = selectedSongs.findIndex(
+        (selectedSong) => selectedSong.id === song.id
+    );
+    const isInSelectedSongsArray = foundIndex > -1;
 
     function toggleSelect() {
-
-        if(isInSelectedSongsArray) {
-            setSelectedSongs(prevState => prevState.filter(element => element.id !== song.id))
-            return
+        if (isInSelectedSongsArray) {
+            setSelectedSongs((prevState) =>
+                prevState.filter((element) => element.id !== song.id)
+            );
+            return;
         }
 
-        setSelectedSongs(prevState => [...prevState, song])
+        setSelectedSongs((prevState) => [...prevState, song]);
     }
-
 
     return (
         <tr
@@ -49,7 +56,6 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
             onMouseEnter={() => setIsShowPopup(true)}
             onMouseLeave={() => setIsShowPopup(false)}
         >
-
             <td className={styles.checkboxCol}>
                 <input
                     type="checkbox"
@@ -61,9 +67,8 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
                 <div className={styles.cell}>{song.id}</div>
             </td>
             <td className={styles.titleCol}>
-                {song.romTitle?.split(' ').slice(0,2).join(' ')} {song.title}
-                {
-                    isShowPopup &&
+                {song.romTitle?.split(' ').slice(0, 2).join(' ')} {song.title}
+                {isShowPopup && (
                     <ActionPopup
                         handleOpenModal={handleOpenModal}
                         handleHover={handleHover}
@@ -72,126 +77,136 @@ export default function RepertoireRow({song, handleOpenModal, handleDeleteSong, 
                         handleDeleteSong={handleDeleteSong}
                         handleOpenConfirmModal={handleOpenConfirmModal}
                     />
-                }
+                )}
             </td>
             <td className={styles.artistCol}>
                 <div className={styles.cell}>{song.artist?.name}</div>
             </td>
             <td>
                 <div className={styles.cell}>
-                    {
-                        song.status &&
-                        <StatusPillButton label={song.status} />
-                    }
-
+                    {song.status && <StatusPillButton label={song.status} />}
                 </div>
             </td>
             <td>
-                <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
+                <div className={styles.cell}>
+                    {convertKeyModeIntToKey(song.key, song.mode)}
+                </div>
             </td>
             <td>
-                <div className={styles.cell}>{convertKeyModeIntToKey(song.myKey, song.mode)}</div>
+                <div className={styles.cell}>
+                    {convertKeyModeIntToKey(song.myKey, song.mode)}
+                </div>
             </td>
             <td>
-                <div className={`${styles.cell} ${styles.tempoCol}`}>{song.tempo? song.tempo : null}</div>
+                <div className={`${styles.cell} ${styles.tempoCol}`}>
+                    {song.tempo ? song.tempo : null}
+                </div>
             </td>
             <td>
-                <div className={styles.cell}>{song.durationMs ? convertDurationMsToMinSec(song.durationMs) : null}</div>
+                <div className={styles.cell}>
+                    {song.durationMs
+                        ? convertDurationMsToMinSec(song.durationMs)
+                        : null}
+                </div>
             </td>
             <td>
                 <div className={styles.cell}>{song.timeSignature}</div>
             </td>
             <td>
-                <div className={styles.cell}>{song?.language ? capitalizeString(song?.language?.name) : ""}</div>
+                <div className={styles.cell}>
+                    {song?.language
+                        ? capitalizeString(song?.language?.name)
+                        : ''}
+                </div>
             </td>
             <td className={styles.listenCol}>
+                {song.spotifyLink && (
+                    <a href={song.spotifyLink} target="_blank">
+                        <Image
+                            src="/spotify-icon-green.png"
+                            width={20}
+                            height={20}
+                            className="z-index-minus-1"
+                        />
+                    </a>
+                )}
 
-                    {
-                        song.spotifyLink &&
-                        <a href={song.spotifyLink} target="_blank">
-                            <Image src="/spotify-icon-green.png" width={20} height={20}
-                                   className="z-index-minus-1"/>
-                        </a>
-                    }
+                {song.youtubeLink && (
+                    <a href={song.youtubeLink} target="_blank">
+                        <Image
+                            src="/youtube-icon-square.png"
+                            width={20}
+                            height={20}
+                            className="z-index-minus-1"
+                        />
+                    </a>
+                )}
 
-                    {   song.youtubeLink &&
-
-                        <a href={song.youtubeLink} target="_blank">
-                            <Image src="/youtube-icon-square.png" width={20} height={20}
-                                   className="z-index-minus-1"/>
-                        </a>
-
-                    }
-
-                    {   song.otherLink &&
-
-                        <a href={song.youtubeLink} target="_blank">
-                            <Image src="/link-icon.png" width={20} height={20}
-                                   className="z-index-minus-1"/>
-                        </a>
-
-                    }
-
+                {song.otherLink && (
+                    <a href={song.youtubeLink} target="_blank">
+                        <Image
+                            src="/link-icon.png"
+                            width={20}
+                            height={20}
+                            className="z-index-minus-1"
+                        />
+                    </a>
+                )}
             </td>
             <td className={styles.composersCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.composers?.map((composer: any) =>(
-                            <div className={styles.pillButton} key={composer.id}>{composer.name}</div>
-                        ))
-                    }
+                    {song.composers?.map((composer: any) => (
+                        <div className={styles.pillButton} key={composer.id}>
+                            {composer.name}
+                        </div>
+                    ))}
                 </div>
             </td>
             <td className={styles.songwritersCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.songwriters?.map((songwriter: any) =>(
-                            <div className={styles.pillButton} key={songwriter.id}>{songwriter.name}</div>
-                        ))
-                    }
+                    {song.songwriters?.map((songwriter: any) => (
+                        <div className={styles.pillButton} key={songwriter.id}>
+                            {songwriter.name}
+                        </div>
+                    ))}
                 </div>
             </td>
             <td className={styles.arrangersCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.arrangers?.map((arranger: any) =>(
-                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
-                        ))
-                    }
+                    {song.arrangers?.map((arranger: any) => (
+                        <div className={styles.pillButton} key={arranger.id}>
+                            {arranger.name}
+                        </div>
+                    ))}
                 </div>
             </td>
             <td className={styles.genresCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.genres?.map((arranger: any) =>(
-                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
-                        ))
-                    }
+                    {song.genres?.map((arranger: any) => (
+                        <div className={styles.pillButton} key={arranger.id}>
+                            {arranger.name}
+                        </div>
+                    ))}
                 </div>
             </td>
             <td className={styles.moodsCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.moods?.map((arranger: any) =>(
-                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
-                        ))
-                    }
+                    {song.moods?.map((arranger: any) => (
+                        <div className={styles.pillButton} key={arranger.id}>
+                            {arranger.name}
+                        </div>
+                    ))}
                 </div>
             </td>
             <td className={styles.tagsCol}>
                 <div className={styles.pillButtonContainer}>
-                    {
-                        song.tags?.map((arranger: any) =>(
-                            <div className={styles.pillButton} key={arranger.id}>{arranger.name}</div>
-                        ))
-                    }
+                    {song.tags?.map((arranger: any) => (
+                        <div className={styles.pillButton} key={arranger.id}>
+                            {arranger.name}
+                        </div>
+                    ))}
                 </div>
             </td>
-
-
-
-
         </tr>
-
-    )
+    );
 }

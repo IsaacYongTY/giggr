@@ -1,4 +1,3 @@
-
 //.container {
 //  top                   : 50%;
 //  left                  : 50%;
@@ -13,62 +12,61 @@
 //}
 
 .container {
-  padding: 0 2rem;
+    padding: 0 2rem;
 }
 
 .titleInput {
-  border: none;
-  border-bottom: 0.1rem solid gray;
-  font-size: 3.6rem;
-  width: 100%;
-  margin-bottom: 2rem;
+    border: none;
+    border-bottom: 0.1rem solid gray;
+    font-size: 3.6rem;
+    width: 100%;
+    margin-bottom: 2rem;
 
-  &:focus {
-    outline: none;
-  }
+    &:focus {
+        outline: none;
+    }
 }
 
 .pillButtonRow {
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .formRow {
-  display: flex;
-  width: 100%;
-  margin: 1rem 0;
-  gap: 2rem;
-
-  > label {
+    display: flex;
     width: 100%;
-    flex-grow: 1;
-    //min-width: 25%;
-  }
+    margin: 1rem 0;
+    gap: 2rem;
 
+    > label {
+        width: 100%;
+        flex-grow: 1;
+        //min-width: 25%;
+    }
 }
 
 .flexEnd {
-  align-items: flex-end;
+    align-items: flex-end;
 }
 
 .syncCol {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .buttonRow {
-  margin-top: 2rem;
-  display: flex;
-  gap: 2rem;
-  justify-content: flex-end;
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
 }
 
 .metaDataTextArea {
-  width: 30rem;
-  height: 20rem;
+    width: 30rem;
+    height: 20rem;
 }
 
 .link {
-  text-align: right;
+    text-align: right;
 }

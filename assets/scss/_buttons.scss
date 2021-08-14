@@ -1,126 +1,121 @@
 @import './_variables';
 
 .btn {
-  font-size: 1.6rem;
-  height: 4rem;
-  min-width: 10rem;
-  padding: 1rem 2rem;
-  border-radius: $btn-radius;
-  color: $darkgrey;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-
+    font-size: 1.6rem;
+    height: 4rem;
+    min-width: 10rem;
+    padding: 1rem 2rem;
+    border-radius: $btn-radius;
+    color: $darkgrey;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .btn-primary {
-  background-color: $blue;
-  border: none;
-  color: white;
+    background-color: $blue;
+    border: none;
+    color: white;
 
-  &:hover {
-    background-color: darken($blue, 10%);
-  }
+    &:hover {
+        background-color: darken($blue, 10%);
+    }
 
-  &:disabled {
-    background-color: lighten($blue, 15%);
-    cursor: not-allowed;
-  }
+    &:disabled {
+        background-color: lighten($blue, 15%);
+        cursor: not-allowed;
+    }
 }
 
 .btn-secondary {
-  background-color: white;
-  border: 1px solid darken($blue,10%);
-  color: darken($blue,10%);
+    background-color: white;
+    border: 1px solid darken($blue, 10%);
+    color: darken($blue, 10%);
 
-  &:hover {
-    background-color: darken(white, 10%);
-  }
+    &:hover {
+        background-color: darken(white, 10%);
+    }
 
-  &:disabled {
-    background-color: lighten($blue, 15%);
-    cursor: not-allowed;
-  }
+    &:disabled {
+        background-color: lighten($blue, 15%);
+        cursor: not-allowed;
+    }
 }
 
 .btn-danger {
-  background-color: #DD3444;
-  border: none;
-  color: white;
+    background-color: #dd3444;
+    border: none;
+    color: white;
 
-  &:hover {
-    background-color: darken(#DD3444, 10%);
-  }
+    &:hover {
+        background-color: darken(#dd3444, 10%);
+    }
 }
 
 .btn-outline {
-  border: $btn-radius solid black;
-  background-color: white;
-  color: $darkgrey;
-
-  &:hover {
-    border: $btn-radius  solid black;
-    background-color: $lightgrey;
+    border: $btn-radius solid black;
+    background-color: white;
     color: $darkgrey;
-  }
+
+    &:hover {
+        border: $btn-radius solid black;
+        background-color: $lightgrey;
+        color: $darkgrey;
+    }
 }
 
 .btn-danger-outlined {
-  background-color: white;
-  border: 1px solid #DD3444;
-  color: #DD3444;
+    background-color: white;
+    border: 1px solid #dd3444;
+    color: #dd3444;
 
-  &:hover {
-    background-color: darken(white, 10%);
-  }
+    &:hover {
+        background-color: darken(white, 10%);
+    }
 }
 
 .btn-outline {
-  border: $btn-radius solid black;
-  background-color: white;
-  color: $darkgrey;
-
-  &:hover {
-    border: $btn-radius  solid black;
-    background-color: $lightgrey;
+    border: $btn-radius solid black;
+    background-color: white;
     color: $darkgrey;
-  }
+
+    &:hover {
+        border: $btn-radius solid black;
+        background-color: $lightgrey;
+        color: $darkgrey;
+    }
 }
 
 .btn-active {
-  border: $btn-radius solid black;
-  background-color: white;
-  color: $darkgrey;
+    border: $btn-radius solid black;
+    background-color: white;
+    color: $darkgrey;
 }
 
 .btn-highlight {
-  background-color: #FFE8D6;
-  border: none;
+    background-color: #ffe8d6;
+    border: none;
 
-  &:hover {
-    background-color: darken($highlight, 10%);
-    cursor: pointer;
-  }
+    &:hover {
+        background-color: darken($highlight, 10%);
+        cursor: pointer;
+    }
 }
-
-
-
 
 .btn-link {
-  background-color: transparent;
-  border: none;
-  color: $blue;
+    background-color: transparent;
+    border: none;
+    color: $blue;
 
-  &:hover {
-    background-color: $lightgrey;
-    color: $darkgrey;
-  }
+    &:hover {
+        background-color: $lightgrey;
+        color: $darkgrey;
+    }
 
-  &:active {
-    background-color: darken($lightgrey, 10%);
-    color: $darkgrey;
-  }
+    &:active {
+        background-color: darken($lightgrey, 10%);
+        color: $darkgrey;
+    }
 }
-
