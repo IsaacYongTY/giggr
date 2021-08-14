@@ -2,10 +2,11 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from '../../assets/scss/components/common/_metronome.module.scss';
 import calculateBpmFromTimeLapsedAndBeat from '../../lib/utils/calculate-bpm-from-time-lapsed-and-beats';
 
-interface Props {
+type Props = {
     defaultTempo: number;
-}
-export default function Metronome({ defaultTempo }: Props) {
+};
+
+const Metronome: React.FC<Props> = ({ defaultTempo }) => {
     const [count, setCount] = useState(0);
     const [tempo, setTempo] = useState(defaultTempo);
     const [displayTempo, setDisplayTempo] = useState(defaultTempo);
@@ -105,7 +106,7 @@ export default function Metronome({ defaultTempo }: Props) {
             return;
         }
 
-        let calculatedTempo = calculateBpmFromTimeLapsedAndBeat(
+        const calculatedTempo = calculateBpmFromTimeLapsedAndBeat(
             totalTimeLapsed.current,
             count - 1
         );
@@ -244,4 +245,6 @@ export default function Metronome({ defaultTempo }: Props) {
             </div>
         </div>
     );
-}
+};
+
+export default Metronome;
