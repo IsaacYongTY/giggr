@@ -11,7 +11,8 @@
         "test:ci": "jest --verbose",
         "test:coverage": "yarn test --coverage",
         "storybook": "start-storybook -p 6006 -s ./public",
-        "build-storybook": "build-storybook"
+        "build-storybook": "build-storybook",
+        "prepare": "husky install"
     },
     "husky": {
         "hooks": {
