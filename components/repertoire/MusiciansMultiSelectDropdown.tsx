@@ -1,35 +1,46 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import styles from "../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss";
-import Musician from "../../lib/types/musician";
-import CreatableSelect from "react-select/creatable";
-import {ValueType} from "react-select/";
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import styles from '../../assets/scss/components/repertoire/_musicians-multi-select-dropdown.module.scss';
+import Musician from '../../lib/types/musician';
+import CreatableSelect from 'react-select/creatable';
+import { ValueType } from 'react-select/';
 
 type Props = {
-    label: string
-    selectedMusicians: Option[]
-    setFormValue: Dispatch<SetStateAction<any>>
-    musicians: Musician[]
-    role: string
-}
+    label: string;
+    selectedMusicians: Option[];
+    setFormValue: Dispatch<SetStateAction<any>>;
+    musicians: Musician[];
+    role: string;
+};
 
 interface Option {
-    value: string,
-    label: string
+    value: string;
+    label: string;
 }
 
-
-export default function MusiciansMultiSelectDropdown({ musicians, label, selectedMusicians, setFormValue, role }: Props) {
-
-    const [options, setOptions] = useState<Option[]>([])
+export default function MusiciansMultiSelectDropdown({
+    musicians,
+    label,
+    selectedMusicians,
+    setFormValue,
+    role,
+}: Props) {
+    const [options, setOptions] = useState<Option[]>([]);
 
     function handleChange(selectedOptions: ValueType<Option, true>) {
-        setFormValue((prevState : any) => ({...prevState, [role]: selectedOptions}))
+        setFormValue((prevState: any) => ({
+            ...prevState,
+            [role]: selectedOptions,
+        }));
     }
 
-
     useEffect(() => {
-        setOptions(musicians.map(musician => ({ value: musician.name, label: musician.name })))
-    },[])
+        setOptions(
+            musicians.map((musician) => ({
+                value: musician.name,
+                label: musician.name,
+            }))
+        );
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -45,10 +56,8 @@ export default function MusiciansMultiSelectDropdown({ musicians, label, selecte
                     classNamePrefix="select"
                     onChange={handleChange}
                     // value={options.find(option => option.value === musician)}
-
                 />
             </label>
-
         </div>
-    )
+    );
 }

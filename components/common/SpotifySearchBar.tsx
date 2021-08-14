@@ -1,74 +1,78 @@
-import React, { useRef, useState} from 'react';
-import axios from "axios";
-import styles from "../../assets/scss/components/common/_spotify-search-bar.module.scss";
-import convertDurationMsToMinSec from "../../lib/utils/convert-duration-ms-to-min-sec";
-import getSpotifyTrackId from "../../lib/utils/get-spotify-track-id"
-import { shakeAnimation } from "../../lib/library"
-import ButtonWithLoader from "./ButtonWithLoader";
+import React, { useRef, useState } from 'react';
+import axios from 'axios';
+import styles from '../../assets/scss/components/common/_spotify-search-bar.module.scss';
+import convertDurationMsToMinSec from '../../lib/utils/convert-duration-ms-to-min-sec';
+import getSpotifyTrackId from '../../lib/utils/get-spotify-track-id';
+import { shakeAnimation } from '../../lib/library';
+import ButtonWithLoader from './ButtonWithLoader';
 
 interface Props {
-    setFormValue: any
-    database: string
-    isContribute?: boolean,
-    user?: any
+    setFormValue: any;
+    database: string;
+    isContribute?: boolean;
+    user?: any;
 }
 
-export default function SpotifySearchBar({ setFormValue, database, isContribute, user} : Props) {
-
-    const [spotifyLink, setSpotifyLink] = useState("");
-    const [isLoading, setIsLoading] = useState(false)
+export default function SpotifySearchBar({
+    setFormValue,
+    database,
+    isContribute,
+    user,
+}: Props) {
+    const [spotifyLink, setSpotifyLink] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const spotifySearchInput = useRef<HTMLInputElement>(null);
 
     async function handleGetFromSpotify() {
-
-        setFormValue({})
-        if(!spotifyLink) {
-            shakeAnimation(spotifySearchInput)
-            return
+        setFormValue({});
+        if (!spotifyLink) {
+            shakeAnimation(spotifySearchInput);
+            return;
         }
 
+        const trackId: string = getSpotifyTrackId(spotifyLink);
 
-        const trackId : string = getSpotifyTrackId(spotifyLink)
-
-        if(!trackId) {
-            shakeAnimation(spotifySearchInput)
-            return
+        if (!trackId) {
+            shakeAnimation(spotifySearchInput);
+            return;
         }
 
-        setIsLoading(true)
+        setIsLoading(true);
 
         try {
-            let response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`)
+            let response = await axios.post(
+                `/api/v1/songs/spotify?trackId=${trackId}`
+            );
 
-            let songData = response.data.result
+            let songData = response.data.result;
 
-            songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs)
+            songData.durationMinSec = convertDurationMsToMinSec(
+                songData.durationMs
+            );
             setFormValue({
-                ...songData
-            })
+                ...songData,
+            });
 
-            if(isContribute) {
-                await axios.post("/api/v1/admin/songs", songData, {
+            if (isContribute) {
+                await axios.post('/api/v1/admin/songs', songData, {
                     withCredentials: true,
                     headers: {
-                        "x-auth-token": `Bearer ${user.tokenString}`
-                    }
-                })
+                        'x-auth-token': `Bearer ${user.tokenString}`,
+                    },
+                });
             }
 
-            setIsLoading(false)
-
+            setIsLoading(false);
         } catch (err) {
-            setIsLoading(false)
-            console.log(err)
+            setIsLoading(false);
+            console.log(err);
         }
-
     }
 
     function selectText() {
-        if(spotifySearchInput.current) {
-            spotifySearchInput.current.select()
-            spotifySearchInput.current.classList.remove("error-textbox-border")
+        if (spotifySearchInput.current) {
+            spotifySearchInput.current.select();
+            spotifySearchInput.current.classList.remove('error-textbox-border');
         }
     }
 
@@ -89,8 +93,5 @@ export default function SpotifySearchBar({ setFormValue, database, isContribute,
                 primary={true}
             />
         </div>
-    )
+    );
 }
-
-
-

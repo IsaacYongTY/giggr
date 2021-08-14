@@ -1,82 +1,70 @@
 @import '../../variables';
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: $blue;
-  width: $sidebar-open-width;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  z-index: 3;
-
-
-  > div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $blue;
+    width: $sidebar-open-width;
+    height: 100vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    z-index: 3;
 
-    a {
-      display: flex;
-      align-items: center;
+    > div {
+        display: flex;
+        align-items: center;
+
+        a {
+            display: flex;
+            align-items: center;
+        }
     }
-
-  }
 }
 
 @media (max-width: 500px) {
-  .close {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-
+    .close {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 .sidebarHeader {
-  display: flex;
-  align-items: center;
-  height: $header-height;
-  padding-left: 2rem;
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    padding-left: 2rem;
 
-  * {
-    margin-right: 4.1rem;
-  }
+    * {
+        margin-right: 4.1rem;
+    }
 }
 
 .open {
-  width: $sidebar-open-width;
-  animation: open-sidebar 0.3s ease-out;
-
+    width: $sidebar-open-width;
+    animation: open-sidebar 0.3s ease-out;
 }
 
 .close {
-  width: $sidebar-close-width;
-  animation: close-sidebar 0.3s ease-out ;
+    width: $sidebar-close-width;
+    animation: close-sidebar 0.3s ease-out;
 }
 
 @keyframes open-sidebar {
-  0% {
-
-    width: 6.5rem;
-  }
-  100% {
-    width: 26rem;
-  }
+    0% {
+        width: 6.5rem;
+    }
+    100% {
+        width: 26rem;
+    }
 }
 
 @keyframes close-sidebar {
-  0% {
-
-    width: 26rem;
-  }
-  100% {
-    width: 6.5rem;
-  }
+    0% {
+        width: 26rem;
+    }
+    100% {
+        width: 6.5rem;
+    }
 }
-
-
-
-
-

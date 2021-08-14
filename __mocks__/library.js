@@ -3,4 +3,4 @@ module.exports = {
     loadRepertoire: jest.fn(),
     loadMusicians: jest.fn(),
     loadLanguages: jest.fn(),
-}
+};

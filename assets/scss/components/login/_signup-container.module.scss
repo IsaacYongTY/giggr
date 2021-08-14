@@ -1,41 +1,40 @@
 @import '../../variables';
 
 .wrapper {
-  width: 40rem;
-  height: 50rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
-  background-color: white;
-  margin-right: 20rem;
+    width: 40rem;
+    height: 50rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    background-color: white;
+    margin-right: 20rem;
 
-  h2 {
-    color: $darkgrey;
-    text-align: center;
-    font-size: 3.2rem;
-  }
+    h2 {
+        color: $darkgrey;
+        text-align: center;
+        font-size: 3.2rem;
+    }
 
-  input {
-    margin: 1rem 0;
-  }
+    input {
+        margin: 1rem 0;
+    }
 
-  button {
-    margin: 1rem 0;
-  }
+    button {
+        margin: 1rem 0;
+    }
 }
 
 .orLine {
+    width: 90%;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    margin: 3rem auto;
+    line-height: 0.1rem;
 
-  width: 90%;
-  text-align: center;
-  border-bottom: 1px solid #000;
-  margin: 3rem auto;
-  line-height: 0.1rem;
-
-  span {
-    padding: 0 1rem;
-    background-color: white;
-  }
+    span {
+        padding: 0 1rem;
+        background-color: white;
+    }
 }

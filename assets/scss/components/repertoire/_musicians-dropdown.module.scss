@@ -1,39 +1,38 @@
-@import "../../variables";
+@import '../../variables';
 
 .container {
-  width: 50rem;
+    width: 50rem;
 }
 
 .dropdown {
-  width: 50rem;
-  height: 30rem;
-  overflow-y: scroll;
-  border: 1px solid lightgray;
-  position: absolute;
-  background-color: white;
-  user-select: none;
+    width: 50rem;
+    height: 30rem;
+    overflow-y: scroll;
+    border: 1px solid lightgray;
+    position: absolute;
+    background-color: white;
+    user-select: none;
 }
 
 .inputRow {
-  width: 96%;
-  position: relative;
-
+    width: 96%;
+    position: relative;
 }
 .dropdownRow {
-  padding: 0.5rem;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 
-  &:hover {
-    background-color: lightgray;
-  }
-  > span {
-    color: forestgreen;
-    margin-right: 3rem;
-  }
+    &:hover {
+        background-color: lightgray;
+    }
+    > span {
+        color: forestgreen;
+        margin-right: 3rem;
+    }
 }
 
 .pillButtonRow {
-  display: flex;
+    display: flex;
 }

@@ -1,34 +1,32 @@
 @import '../../variables';
 //
 .sidebarRow {
-  cursor: pointer;
-  padding: 0 1rem 0 2rem;
-  height: $sidebar-row-height;
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+    cursor: pointer;
+    padding: 0 1rem 0 2rem;
+    height: $sidebar-row-height;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .sidebarRow:hover {
-  background-color: white;
-  color: $darkgrey;
-  text-decoration: none;
-
+    background-color: white;
+    color: $darkgrey;
+    text-decoration: none;
 }
 
 .active {
-  background-color: white;
-  color: $darkgrey;
-  text-decoration: none;
+    background-color: white;
+    color: $darkgrey;
+    text-decoration: none;
 }
 
 .sidebarTitle {
-  margin-left: 2rem;
-  min-width: 12rem;
+    margin-left: 2rem;
+    min-width: 12rem;
 }
 
 .navigateNext {
-  margin-left: auto;
+    margin-left: auto;
 }
-

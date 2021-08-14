@@ -1,77 +1,75 @@
-@import "../variables";
+@import '../variables';
 
 .container {
-  min-width: 50%;
-  margin: 2rem auto 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    min-width: 50%;
+    margin: 2rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .inputRow {
-  width: 100%;
-  display: flex;
-  gap: 3rem;
-  margin: 1rem 0;
+    width: 100%;
+    display: flex;
+    gap: 3rem;
+    margin: 1rem 0;
 }
 
 .radioRow {
-  display: flex;
-  width:100%;
-  gap: 3rem;
-  //margin: 1rem 0;
-  align-items: flex-end;
+    display: flex;
+    width: 100%;
+    gap: 3rem;
+    //margin: 1rem 0;
+    align-items: flex-end;
 
-  label {
-    cursor: pointer;
-  }
+    label {
+        cursor: pointer;
+    }
 
-  input[type="radio"] {
-    cursor: pointer;
-    margin-right: 0.5rem;
-    margin-left: 0;
-    margin-bottom: 1.2rem;
-  }
+    input[type='radio'] {
+        cursor: pointer;
+        margin-right: 0.5rem;
+        margin-left: 0;
+        margin-bottom: 1.2rem;
+    }
 
-  button {
-    margin-left: auto;
-  }
-
+    button {
+        margin-left: auto;
+    }
 }
 
 .buttonRow {
-  display: flex;
-  width: 100%;
-  gap: 3rem;
-  justify-content: flex-end;
+    display: flex;
+    width: 100%;
+    gap: 3rem;
+    justify-content: flex-end;
 }
 
 .keysDropdownContainer {
-  min-width: 8rem;
+    min-width: 8rem;
 }
 
 .progDropdownContainer {
-  width: 100%;
+    width: 100%;
 }
 
 .inputContainer {
-  width: 100%;
+    width: 100%;
 }
 
 .spacingDropdownContainer {
-  width: 8rem;
+    width: 8rem;
 }
 
 .textAreaContainer {
-  margin: 1rem 0;
-  width: 100%;
+    margin: 1rem 0;
+    width: 100%;
 }
 
 .textarea {
-  width: 100%;
-  height: 40rem;
-  border-radius: 0.4rem;
-  margin: 1rem 0;
-  padding: 1rem;
+    width: 100%;
+    height: 40rem;
+    border-radius: 0.4rem;
+    margin: 1rem 0;
+    padding: 1rem;
 }
-

@@ -1,19 +1,20 @@
-import React, {Dispatch, SetStateAction} from "react";
-import styles from "../../assets/scss/pages/_lead-sheet-spacing.module.scss";
+import React, { Dispatch, SetStateAction } from 'react';
+import styles from '../../assets/scss/pages/_lead-sheet-spacing.module.scss';
 
 interface Props {
-    label: string
-    setStringToRemoveArray: Dispatch<SetStateAction<string[]>>
+    label: string;
+    setStringToRemoveArray: Dispatch<SetStateAction<string[]>>;
 }
-export default function Tag({ label, setStringToRemoveArray } : Props) {
-
+export default function Tag({ label, setStringToRemoveArray }: Props) {
     function handleOnClick() {
-        setStringToRemoveArray(prevState => {
-            const resultArray = prevState.filter(str => str !== label)
-            localStorage.setItem("strings-to-remove", JSON.stringify(resultArray))
-            return resultArray
-        })
-
+        setStringToRemoveArray((prevState) => {
+            const resultArray = prevState.filter((str) => str !== label);
+            localStorage.setItem(
+                'strings-to-remove',
+                JSON.stringify(resultArray)
+            );
+            return resultArray;
+        });
     }
 
     return (
@@ -26,5 +27,5 @@ export default function Tag({ label, setStringToRemoveArray } : Props) {
                 clear
             </button>
         </li>
-    )
+    );
 }

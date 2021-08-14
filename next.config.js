@@ -1,16 +1,15 @@
-const path = require('path')
+const path = require('path');
 
 const withTM = require('next-transpile-modules')([
     '@fullcalendar/common',
     '@fullcalendar/daygrid',
     '@fullcalendar/react',
-    '@fullcalendar/timegrid'
-])
-
+    '@fullcalendar/timegrid',
+]);
 
 module.exports = withTM({
     sassOptions: {
-        includePaths: [path.join(__dirname, 'styles')]
+        includePaths: [path.join(__dirname, 'styles')],
     },
     // future: {
     //     webpack5: true,
@@ -22,7 +21,6 @@ module.exports = withTM({
                 destination: '/utilities/metatool',
                 permanent: true,
             },
-        ]
+        ];
     },
-
-})
+});

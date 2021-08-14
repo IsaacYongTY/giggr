@@ -1,49 +1,47 @@
 @import '../../variables';
 
 .layoutSidebar {
-  display: grid;
-
+    display: grid;
 }
 
 .open {
-  grid-template-columns: $sidebar-open-width 1fr;
+    grid-template-columns: $sidebar-open-width 1fr;
 }
 
 @media (max-width: 500px) {
-  .open {
-    grid-template-columns: 1fr;
-  }
+    .open {
+        grid-template-columns: 1fr;
+    }
 }
 
 .close {
-  grid-template-columns: $sidebar-close-width 1fr;
-
+    grid-template-columns: $sidebar-close-width 1fr;
 }
 
 .contentOpen {
-  animation: layoutWidthExpand 0.3s ease-out forwards;
+    animation: layoutWidthExpand 0.3s ease-out forwards;
 }
 
 .contentClose {
-  animation: layoutWidthCollapse 0.3s ease-out forwards;
+    animation: layoutWidthCollapse 0.3s ease-out forwards;
 }
 
 .layoutContent {
-  width: 100%;
-  margin-top: $header-height;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    width: 100%;
+    margin-top: $header-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @keyframes layoutWidthExpand {
-  0% {
-    width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
-    //width: 60%;
-  }
-  100% {
-    width: 100%;
-  }
+    0% {
+        width: calc(100% - #{$sidebar-open-width} + #{$sidebar-close-width});
+        //width: 60%;
+    }
+    100% {
+        width: 100%;
+    }
 }
 
 //@keyframes layoutWidthCollapse {
