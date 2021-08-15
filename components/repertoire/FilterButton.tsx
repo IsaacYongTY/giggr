@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Song from '../../lib/types/song';
+import React from 'react';
 
 export default function FilterButton({
     setFilter,
@@ -12,7 +11,7 @@ export default function FilterButton({
         setFilter(filter);
         console.log(filter);
         setIsFilterOnArray((prevState: boolean[]) => {
-            let resultArray = prevState.map(() => false);
+            const resultArray = prevState.map(() => false);
             resultArray[index] = true;
 
             return resultArray;

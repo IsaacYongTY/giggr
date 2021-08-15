@@ -1,7 +1,9 @@
+import React from 'react';
 import Head from 'next/head';
+
 import withAuth from '../middlewares/withAuth';
 
-export const getServerSideProps = withAuth(({ req, res }: any) => {
+export const getServerSideProps = withAuth(({ req }: any) => {
     if (req.user) {
         return {
             redirect: {
@@ -12,7 +14,7 @@ export const getServerSideProps = withAuth(({ req, res }: any) => {
     }
 });
 
-export default function Home() {
+const Home: React.FC = () => {
     return (
         <div className="container">
             <Head>
@@ -21,4 +23,6 @@ export default function Home() {
             </Head>
         </div>
     );
-}
+};
+
+export default Home;

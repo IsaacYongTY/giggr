@@ -5,14 +5,17 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import styles from '../../assets/scss/pages/_metatool.module.scss';
 import Select, { ValueType } from 'react-select';
-import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from '../../lib/utils/convert-relative-key';
-import convertKeyToKeyModeInt from '../../lib/utils/convert-key-to-key-mode-int';
+
 import Form from '../../lib/types/Form';
 import generateMetaData from '../../lib/utils/generate-metadata';
 import CopyToClipboardButton from './CopyToClipboardButton';
+
+import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
+import convertRelativeKey from '../../lib/utils/convert-relative-key';
+import convertKeyToKeyModeInt from '../../lib/utils/convert-key-to-key-mode-int';
+
+import styles from '../../assets/scss/pages/_metatool.module.scss';
 
 interface Props {
     formValue: Form;
@@ -46,7 +49,7 @@ export default function MetaToolForm({
     const twelveEightToggleRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        let { title, tempo, language }: Form = formValue;
+        const { title, tempo, language }: Form = formValue;
 
         if (tempo) {
             setOriginalTempo(tempo);
@@ -94,7 +97,7 @@ export default function MetaToolForm({
     function toggleRelativeKey() {
         const keyString = convertKeyModeIntToKey(formValue.key, formValue.mode);
         const relativeKey = convertRelativeKey(keyString);
-        let [key, mode] = convertKeyToKeyModeInt(relativeKey);
+        const [key, mode] = convertKeyToKeyModeInt(relativeKey);
 
         setFormValue((prevState: any) => ({ ...prevState, key, mode }));
     }
@@ -148,12 +151,13 @@ export default function MetaToolForm({
                             href={searchLink}
                             className={styles.searchLink}
                             target="_blank"
+                            rel="noreferrer"
                         >
-                            Search "{formValue?.title}{' '}
+                            Search &quot;{formValue?.title}{' '}
                             {formValue?.language === 'mandarin'
                                 ? '歌词'
                                 : 'lyrics'}
-                            " on Google
+                            &quot; on Google
                         </a>
                         <label>
                             <input

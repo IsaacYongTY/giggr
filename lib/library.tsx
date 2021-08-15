@@ -1,5 +1,3 @@
-// @ts-ignore
-import chineseToPinyin from 'chinese-to-pinyin';
 import axios from 'axios';
 import { RefObject } from 'react';
 
@@ -13,7 +11,7 @@ export const capitalizeString = (text: string) => {
         .join(' ');
 };
 
-export const loadUserData = async (user: any) => {
+export const loadUserData = async () => {
     try {
         const response = await axios.get(`/api/v1/users?category=id&order=ASC`);
 
@@ -27,8 +25,6 @@ export const loadUserData = async (user: any) => {
 
 export const loadDatabaseData = async (tokenString: string) => {
     try {
-        console.log('in funciton');
-        console.log(tokenString);
         const response = await axios.get(
             `/api/v1/admin/songs?category=id&order=ASC`,
             {
@@ -42,7 +38,6 @@ export const loadDatabaseData = async (tokenString: string) => {
         return response.data;
     } catch (error) {
         console.log('er');
-        // console.log(error)
         return error.response;
     }
 };
@@ -70,7 +65,7 @@ export const loadDatabaseMusicians = async () => {
 };
 
 export async function loadUserLanguages(user: any) {
-    let res = await axios.get('/api/v1/languages', {
+    const res = await axios.get('/api/v1/languages', {
         withCredentials: true,
         headers: {
             'x-auth-token': `Bearer ${user.token}`,

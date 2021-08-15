@@ -32,7 +32,6 @@ export default function ButtonWithLoader({
     label,
     onClick,
     isLoading,
-    ...props
 }: ButtonProps) {
     const [isClicked, setIsClicked] = useState(false);
 

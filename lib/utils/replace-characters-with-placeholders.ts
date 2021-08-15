@@ -1,4 +1,3 @@
-// @ts-ignore
 import isChinese from 'is-chinese';
 
 export default function replaceCharactersWithPlaceholders(

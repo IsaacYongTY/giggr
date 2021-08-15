@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../components/layouts/Layout';
+import React from 'react';
 import { GetServerSideProps } from 'next';
-import DashboardCardList from '../components/dashboard/DashboardCardList';
-import axios from '../config/axios';
-import withAuth from '../middlewares/withAuth';
-import styles from '../assets/scss/pages/_dashboard.module.scss';
-import { Switch } from '@material-ui/core';
-import Song from '../lib/types/song';
 import useSWR from 'swr';
+import { Switch } from '@material-ui/core';
+
+import Layout from '../components/layouts/Layout';
+import DashboardCardList from '../components/dashboard/DashboardCardList';
+import withAuth from '../middlewares/withAuth';
+
+import styles from '../assets/scss/pages/_dashboard.module.scss';
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-    async ({ req, res }: any) => {
+    async ({ req }: any) => {
         return {
             props: {
                 user: req.user,
@@ -20,23 +20,10 @@ export const getServerSideProps: GetServerSideProps = withAuth(
 );
 
 function Dashboard({ user }: any) {
-    // const config = {
-    //     headers: {
-    //         "x-auth-token": `Bearer ${user.tokenString}`
-    //     }
-    // }
-    let { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
-    let { data: { songs } = {} } = useSWR(
+    const { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
+    const { data: { songs } = {} } = useSWR(
         `/api/v1/songs?number=5&category=createdAt&order=DESC`
     );
-
-    // const [gigs, setGigs] = useState<any>([])
-    // const [songs, setSongs] = useState<Song[]>([])
-
-    useEffect(() => {
-        // setSongs(initialSongs)
-        // setGigs(initialGigs)
-    }, []);
 
     return (
         <Layout title="Dashboard" user={user}>

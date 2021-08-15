@@ -5,16 +5,16 @@ import React, {
     useEffect,
     useState,
 } from 'react';
-import styles from '../../assets/scss/components/common/_keys-dropdown.module.scss';
-
 import Select from 'react-select';
-
-import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
-import convertKeyToKeyModeInt from '../../lib/utils/convert-key-to-key-mode-int';
 
 import { majorKeyArray, minorKeyArray } from '../../lib/data/data';
 import convertRelativeKey from '../../lib/utils/convert-relative-key';
 import Form from '../../lib/types/Form';
+
+import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
+import convertKeyToKeyModeInt from '../../lib/utils/convert-key-to-key-mode-int';
+
+import styles from '../../assets/scss/components/common/_keys-dropdown.module.scss';
 
 type Props = {
     label: string;
@@ -75,7 +75,7 @@ export default function KeysDropdown({
 
         if (e.target.checked) {
             const relativeMinor = convertRelativeKey(currentKeyString);
-            const [key, mode] = convertKeyToKeyModeInt(relativeMinor);
+            const [key] = convertKeyToKeyModeInt(relativeMinor);
 
             setKeyOptions(minorKeyOptions);
             setForm((prevState: any) => ({
@@ -87,7 +87,7 @@ export default function KeysDropdown({
         }
 
         const relativeMajor = convertRelativeKey(currentKeyString);
-        const [key, mode] = convertKeyToKeyModeInt(relativeMajor);
+        const [key] = convertKeyToKeyModeInt(relativeMajor);
         setKeyOptions(majorKeyOptions);
         setForm((prevState: any) => ({
             ...prevState,
@@ -97,7 +97,7 @@ export default function KeysDropdown({
     }
 
     function handleChange(selectedOption: any) {
-        let [selectedKey, selectedMode]: number[] = convertKeyToKeyModeInt(
+        const [selectedKey, selectedMode]: number[] = convertKeyToKeyModeInt(
             selectedOption.value
         );
         setForm((prevState: any) => ({
@@ -108,14 +108,14 @@ export default function KeysDropdown({
     }
 
     useEffect(() => {
-        const [_, defaultMode] = convertKeyToKeyModeInt(defaultKey || '');
+        const [, defaultMode] = convertKeyToKeyModeInt(defaultKey || '');
         if (defaultKey) {
-            let foundKey = majorKeyOptions.find(
+            const foundKey = majorKeyOptions.find(
                 (option) => option.value === defaultKey
             );
 
             if (foundKey) {
-                let [key, mode] = convertKeyToKeyModeInt(foundKey.value);
+                const [key, mode] = convertKeyToKeyModeInt(foundKey.value);
                 setForm((prevState: any) => ({
                     ...prevState,
                     [keyProp]: key,

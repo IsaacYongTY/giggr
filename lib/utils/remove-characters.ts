@@ -1,5 +1,5 @@
 export function isEscapedCharacter(char: string) {
-    let regexEscapedCharacters = '[\\^$.|?*+()';
+    const regexEscapedCharacters = '[\\^$.|?*+()';
     return regexEscapedCharacters.split('').indexOf(char) > -1;
 }
 
@@ -20,6 +20,6 @@ export default function removeCharacters(
     const regexString =
         addBackSlashToEscapingCharactersArray(stringsToRemoveArray);
 
-    let stringsToRemoveRegex = new RegExp(regexString.join('|'), 'g');
+    const stringsToRemoveRegex = new RegExp(regexString.join('|'), 'g');
     return text.replace(stringsToRemoveRegex, '');
 }

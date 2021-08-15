@@ -25,7 +25,7 @@ interface Props {
     user: any;
 }
 export const getServerSideProps: GetServerSideProps = withAuth(
-    async ({ req, res }: GetServerSidePropsContextWithUser) => {
+    async ({ req }: GetServerSidePropsContextWithUser) => {
         return {
             props: {
                 user: req.user,

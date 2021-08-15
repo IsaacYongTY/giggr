@@ -11,7 +11,7 @@ export default function generateMetaData(
     form: Form,
     pinyinSyllableNum = 0
 ): string {
-    let {
+    const {
         title,
         romTitle,
         artist,

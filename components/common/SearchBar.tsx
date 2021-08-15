@@ -1,6 +1,6 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import styles from '../../assets/scss/components/repertoire/_search-bar.module.scss';
-import Song, { Artist } from '../../lib/types/song';
+import Song from '../../lib/types/song';
 
 interface Props {
     setFilteredSongList: Dispatch<SetStateAction<Song[]>>;
@@ -17,7 +17,7 @@ export default function SearchBar({
     setSearchTerm,
 }: Props) {
     useEffect(() => {
-        setFilteredSongList((prevState) => {
+        setFilteredSongList(() => {
             if (filter === 'artist') {
                 return songs.filter((song: Song) =>
                     song.artist?.enName?.toLowerCase().includes(searchTerm)

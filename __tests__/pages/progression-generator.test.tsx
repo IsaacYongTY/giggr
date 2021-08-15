@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+
 import ProgGenerator from '../../pages/utilities/progression';
 
 const renderProg = () => {
@@ -34,14 +35,12 @@ const renderProg = () => {
     };
 };
 
-let user = { tierId: 4, name: 'Isaac' };
-
 jest.mock('next/router', () => require('next-router-mock'));
 
 describe('The progression generator page', () => {
     describe('The key dropdown menu', () => {
         it('should render correctly', () => {
-            let { keysDropdown } = renderProg();
+            const { keysDropdown } = renderProg();
 
             expect(keysDropdown).toBeInTheDocument();
             expect(screen.getByText('C')).toBeInTheDocument();
@@ -50,7 +49,7 @@ describe('The progression generator page', () => {
 
     describe('The common progression dropdown', () => {
         it('should toggle on the dropdown menu', () => {
-            let { commonProgDropdown, inputTextbox } = renderProg();
+            const { commonProgDropdown, inputTextbox } = renderProg();
 
             userEvent.click(commonProgDropdown);
 
@@ -66,7 +65,7 @@ describe('The progression generator page', () => {
 
     describe('The input textbox', () => {
         it('should display the input value', async () => {
-            let { inputTextbox } = renderProg();
+            const { inputTextbox } = renderProg();
             userEvent.type(inputTextbox, '4321{backspace}2');
             expect(inputTextbox).toHaveValue('4322');
         });
@@ -76,7 +75,7 @@ describe('The progression generator page', () => {
 
     describe('The radio buttons for full bar and half bar', () => {
         it("should be selected one at a time if they're clicked", () => {
-            let { fullBarRadio, halfBarRadio } = renderProg();
+            const { fullBarRadio, halfBarRadio } = renderProg();
             userEvent.click(fullBarRadio);
             expect(fullBarRadio).toBeChecked();
             expect(halfBarRadio).not.toBeChecked();
@@ -90,12 +89,12 @@ describe('The progression generator page', () => {
     describe('The spacing textbox', () => {
         it('should render correctly', () => {
             renderProg();
-            let defaultSpacing = 12;
+            const defaultSpacing = 12;
             expect(screen.getByText(defaultSpacing)).toBeInTheDocument();
         });
 
         it('should change value when number is input', () => {
-            let { spacesDropdown } = renderProg();
+            const { spacesDropdown } = renderProg();
             userEvent.click(spacesDropdown);
             expect(screen.getByText('8')).toBeInTheDocument();
             expect(screen.getByText('14')).toBeInTheDocument();
@@ -105,7 +104,7 @@ describe('The progression generator page', () => {
         });
 
         it('should change value when radio is selected', () => {
-            let { halfBarRadio, fullBarRadio } = renderProg();
+            const { halfBarRadio, fullBarRadio } = renderProg();
 
             userEvent.click(halfBarRadio);
             expect(screen.getByText('14')).toBeInTheDocument();
@@ -117,23 +116,23 @@ describe('The progression generator page', () => {
 
     describe('The result textarea', () => {
         it('should render correctly', () => {
-            let { textArea } = renderProg();
+            const { textArea } = renderProg();
             expect(textArea).toBeInTheDocument();
         });
 
         it('should be empty at the beginning', () => {
-            let { textArea } = renderProg();
+            const { textArea } = renderProg();
             expect(textArea).toHaveValue('');
         });
 
         it('should render text when user types in it', () => {
-            let { clearButton, textArea } = renderProg();
+            const { textArea } = renderProg();
             userEvent.type(textArea, 'random things user typed');
             expect(textArea).toHaveValue('random things user typed');
         });
 
         it('should render correct result according to key, progression and spacing given', () => {
-            let {
+            const {
                 generateButton,
                 keysDropdown,
                 inputTextbox,
@@ -159,8 +158,8 @@ describe('The progression generator page', () => {
         });
 
         it('should return an error message if progression is missing', () => {
-            let { generateButton, textArea } = renderProg();
-            let errorMessage = /please input progression.*/i;
+            const { generateButton, textArea } = renderProg();
+            const errorMessage = /please input progression.*/i;
 
             expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
 
@@ -171,8 +170,8 @@ describe('The progression generator page', () => {
         });
 
         it('should hide error message once a valid input is provided when Generate button is clicked', () => {
-            let { generateButton, inputTextbox } = renderProg();
-            let errorMessage = /^.*please input progression.*/i;
+            const { generateButton, inputTextbox } = renderProg();
+            const errorMessage = /^.*please input progression.*/i;
 
             userEvent.click(generateButton);
 
@@ -239,7 +238,7 @@ describe('The progression generator page', () => {
     describe('The Copy to Clipboard button', () => {
         it('should copy the textarea content to clipboard', () => {
             document.execCommand = jest.fn();
-            let { copyToClipboardButton } = renderProg();
+            const { copyToClipboardButton } = renderProg();
 
             userEvent.click(copyToClipboardButton);
             expect(document.execCommand).toBeCalledWith('copy');
@@ -247,7 +246,7 @@ describe('The progression generator page', () => {
 
         it('should show alert when copy to clipboard is executed', async () => {
             jest.useFakeTimers();
-            let { copyToClipboardButton } = renderProg();
+            const { copyToClipboardButton } = renderProg();
 
             userEvent.click(copyToClipboardButton);
 

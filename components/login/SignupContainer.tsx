@@ -1,22 +1,25 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import styles from '../../assets/scss/components/login/_signup-container.module.scss';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import { setCookie } from 'nookies';
+
 import ButtonWithLoader from '../common/ButtonWithLoader';
+
+import styles from '../../assets/scss/components/login/_signup-container.module.scss';
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>;
 }
+
 export default function SignupContainer({ setIsLoginPage }: Props) {
     const router = useRouter();
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    let schema = Yup.object().shape({
+    const schema = Yup.object().shape({
         email: Yup.string()
             .required('Please provide email')
             .email('Please provide a valid email'),
@@ -35,7 +38,7 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
     async function handleSignup(values: MyFormValues) {
         try {
             setIsLoading(true);
-            let { data } = await axios.post(`/api/v1/auth/signup`, values);
+            const { data } = await axios.post(`/api/v1/auth/signup`, values);
 
             setCookie(null, 'x-auth-token', `Bearer ${data.token}`, {
                 maxAge: 30 * 24 * 60 * 60,
@@ -62,13 +65,7 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
                     onSubmit={handleSignup}
                     validationSchema={schema}
                 >
-                    {({
-                        handleChange,
-                        handleSubmit,
-                        values,
-                        errors,
-                        touched,
-                    }) => (
+                    {({ handleChange, handleSubmit, errors, touched }) => (
                         <form method="POST" onSubmit={handleSubmit}>
                             <input
                                 className="form-control"

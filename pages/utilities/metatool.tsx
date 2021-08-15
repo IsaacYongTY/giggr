@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Layout from '../../components/layouts/Layout';
 import SpotifySearchBar from '../../components/common/SpotifySearchBar';
 import styles from '../../assets/scss/pages/_metatool.module.scss';
@@ -6,7 +6,7 @@ import AlertBox from '../../components/common/AlertBox';
 import withAuth from '../../middlewares/withAuth';
 import MetaToolForm from '../../components/common/MetaToolForm';
 
-export const getServerSideProps = withAuth(async ({ req, res }: any) => {
+export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
         props: {
             user: req.user,

@@ -1,10 +1,9 @@
 import Form from '../types/Form';
 import Song from '../types/song';
 import convertDurationMinSecToMs from './convert-duration-min-sec-to-ms';
-import convertKeyModeIntToKey from './convert-key-mode-int-to-key';
 
 export default function convertSongFormToTempSong(form: Form): Song {
-    let {
+    const {
         artist,
         composers,
         songwriters,

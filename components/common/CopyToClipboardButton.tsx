@@ -17,7 +17,7 @@ export default function CopyToClipboardButton({
             let sel: any;
             let range: any;
 
-            let el = sourceRef.current; //get element id
+            const el = sourceRef.current; //get element id
             if (window.getSelection && document.createRange) {
                 //Browser compatibility
                 sel = window.getSelection();

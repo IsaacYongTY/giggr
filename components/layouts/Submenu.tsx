@@ -24,8 +24,8 @@ export default function Submenu({
             onMouseEnter={() => setIsSubmenuOpen(true)}
             onMouseLeave={() => setIsSubmenuOpen(false)}
         >
-            {options.map((option) => (
-                <MenuRow title={option.title} link={option.link} />
+            {options.map((option, index) => (
+                <MenuRow key={index} title={option.title} link={option.link} />
             ))}
         </div>
     );

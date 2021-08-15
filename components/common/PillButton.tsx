@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from '../../assets/scss/components/common/_pill-button.module.scss';
 
 type Props = {
@@ -11,15 +12,12 @@ export default function PillButton({ composer, setMusicians }: Props) {
         console.log(id);
         setMusicians((prevState: any) => {
             console.log(prevState);
-            let composers = prevState.filter(
+            const composers = prevState.filter(
                 (composer: any) => composer.id !== id
             );
             console.log(composers);
             return composers;
         });
-        // setFormValue((prevState : any) => {
-
-        // })
     }
 
     return (

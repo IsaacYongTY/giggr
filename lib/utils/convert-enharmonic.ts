@@ -7,7 +7,7 @@ export default function convertEnharmonic(keyString: string): string {
 
     if (keyString.length > 2) return '';
 
-    let note = keyString.replace(/[#b]/g, '');
+    const note = keyString.replace(/[#b]/g, '');
 
     const accidental = keyString[keyString.length - 1];
 

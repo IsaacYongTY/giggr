@@ -1,20 +1,19 @@
 import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
 import Modal from 'react-modal';
 import styles from '../../assets/scss/components/repertoire/_add-song-modal.module.scss';
-import AlertBox from '../common/AlertBox';
 
-// @ts-ignore
 import isChinese from 'is-chinese';
 import Song from '../../lib/types/song';
 import Form from '../../lib/types/Form';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
 import MetaToolForm from '../common/MetaToolForm';
 import Metronome from '../common/Metronome';
 import SongDetailForm from '../common/SongDetailForm';
 import getInitialism from '../../lib/utils/get-initialism';
 import getRomTitle from '../../lib/utils/get-rom-title';
+
+import 'react-tabs/style/react-tabs.css';
 
 type Props = {
     isModalOpen: boolean;
@@ -36,7 +35,7 @@ export default function AddSongModal({
     user,
 }: Props) {
     const [form, setForm] = useState<Form>({});
-    const [alertOptions, setAlertOptions] = useState({ message: '', type: '' });
+    const [, setAlertOptions] = useState({ message: '', type: '' });
 
     const customStyles = {
         content: {
@@ -106,11 +105,7 @@ export default function AddSongModal({
                 <Tabs>
                     <TabList>
                         <Tab>Details</Tab>
-                        <Tab
-                        // onClick={() => handleGenerateMetaData()}
-                        >
-                            Generate Metadata
-                        </Tab>
+                        <Tab>Generate Metadata</Tab>
                         <Tab>Metronome</Tab>
                     </TabList>
 

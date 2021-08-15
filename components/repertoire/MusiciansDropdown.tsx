@@ -9,9 +9,7 @@ export default function MusiciansDropdown() {
     const [musicians, setMusicians] = useState<Musician[]>([]);
     const [filteredMusicians, setFilteredMusicians] = useState<Musician[]>([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [song, setSong] = useState({});
     const [selectedMusicians, setSelectedMusicians] = useState<Musician[]>([]);
-    const [input, setInput] = useState('');
 
     useEffect(() => {
         axios.get('/api/v1/musicians').then((res) => {
@@ -20,7 +18,6 @@ export default function MusiciansDropdown() {
         });
 
         axios.get('api/v1/songs/1').then((res) => {
-            setSong(res.data.song);
             setSelectedMusicians(res.data.song.composers);
         });
     }, []);
@@ -40,7 +37,6 @@ export default function MusiciansDropdown() {
     }
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
-        setInput(e.target.value);
         if (!e.target.value) {
             setFilteredMusicians(musicians);
             return;
@@ -73,7 +69,7 @@ export default function MusiciansDropdown() {
             {isMenuOpen && (
                 <div
                     className={styles.dropdown}
-                    onBlur={(e) => setIsMenuOpen(false)}
+                    onBlur={() => setIsMenuOpen(false)}
                     tabIndex={0}
                     ref={dropdownMenu}
                 >
