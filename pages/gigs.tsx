@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../components/layouts/Layout';
-import styles from '../assets/scss/pages/_gigs.module.scss';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import withAuth from '../middlewares/withAuth';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+import Layout from '../components/layouts/Layout';
+import withAuth from '../middlewares/withAuth';
+
+import styles from '../assets/scss/pages/_gigs.module.scss';
+
 export const getServerSideProps: GetServerSideProps = withAuth(
-    async ({ req, res }: any) => {
-        let response = await axios.get(`/api/v1/gigs/`, {
+    async ({ req }: any) => {
+        const response = await axios.get(`/api/v1/gigs/`, {
             withCredentials: true,
             headers: {
                 'x-auth-token': `Bearer ${req.user.tokenString}`,
@@ -42,29 +44,12 @@ export default function Gigs({ gigs }: any) {
                 <FullCalendar
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
-                    // initialEvents={events}
                     nowIndicator={true}
                     editable={true}
                     droppable={true}
                     events={events}
                 />
             </div>
-
-            {/*<div className={styles.gridContainer}>*/}
-            {/*    {*/}
-            {/*        gigs.map( (gig:any) => (*/}
-
-            {/*            <div className="card">*/}
-
-            {/*                <div>{gig.title}</div>*/}
-            {/*                <div>{gig.venue}</div>*/}
-            {/*                <div>{gig.date}</div>*/}
-            {/*                <div>Owner: {gig.userId}</div>*/}
-
-            {/*            </div>*/}
-            {/*        ))*/}
-            {/*    }*/}
-            {/*</div>*/}
         </Layout>
     );
 }

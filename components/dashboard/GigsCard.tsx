@@ -15,8 +15,8 @@ export default function GigsCard({ gigs }: any) {
             </div>
             <div className={styles.list}>
                 <ul>
-                    {gigs?.slice(0, 3).map((gig: any) => (
-                        <li>
+                    {gigs?.slice(0, 3).map((gig: any, index: number) => (
+                        <li key={index}>
                             <GigItemRow gig={gig} />
                         </li>
                     ))}

@@ -102,16 +102,16 @@ export const getNotesInKey = (inputKey: number): string[] => {
         return [];
     }
 
-    let { key, degree, isSharp }: KeyInfo = resultKey || {};
+    const { key, degree, isSharp }: KeyInfo = resultKey || {};
 
     const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     const keyIndex = notes.indexOf(key[0]);
 
-    let reshuffledNotes = notes
+    const reshuffledNotes = notes
         .slice(keyIndex)
         .concat(notes.slice(0, keyIndex));
 
-    let accidental = isSharp ? '#' : 'b';
+    const accidental = isSharp ? '#' : 'b';
 
     let noteIndex = isSharp ? 6 : 3;
 
@@ -138,10 +138,10 @@ export const getNotesInKey = (inputKey: number): string[] => {
 };
 
 export function modifyChordSuffix(chordString: string, key: number): string {
-    let notesInKeyArray = getNotesInKey(key);
+    const notesInKeyArray = getNotesInKey(key);
     if (chordString[0] === 'b') {
-        let [accidental, chordNum] = chordString.split('');
-        let keyIndex = parseInt(chordNum) - 1;
+        const [accidental, chordNum] = chordString.split('');
+        const keyIndex = parseInt(chordNum) - 1;
 
         return (notesInKeyArray[keyIndex] + accidental).replace(
             /(#b)|(b#)/,
@@ -149,9 +149,9 @@ export function modifyChordSuffix(chordString: string, key: number): string {
         );
     }
 
-    let chordNum = chordString.slice(0, 1);
-    let suffix = chordString.slice(1);
-    let keyIndex = parseInt(chordNum) - 1;
+    const chordNum = chordString.slice(0, 1);
+    const suffix = chordString.slice(1);
+    const keyIndex = parseInt(chordNum) - 1;
 
     if (suffix === 'm') {
         return notesInKeyArray[keyIndex] + suffix;
@@ -169,8 +169,8 @@ export function modifyChordSuffix(chordString: string, key: number): string {
 }
 
 export const addFamilyChordSuffix = function (chordNum: number, key: number) {
-    let notesInKeyArray = getNotesInKey(key);
-    let keyIndex = chordNum - 1;
+    const notesInKeyArray = getNotesInKey(key);
+    const keyIndex = chordNum - 1;
     if (chordNum === 3 || chordNum === 6) {
         return notesInKeyArray[keyIndex] + 'm';
     }
@@ -190,9 +190,9 @@ export function assignKeyToProgression(
     key: number,
     progression: string
 ): string[] {
-    let validInputRegex = /[^1-7b#Mm(dim7)]/g;
-    let containInvalidInput = progression.search(validInputRegex) > -1;
-    let progressionArray = progression.match(
+    const validInputRegex = /[^1-7b#Mm(dim7)]/g;
+    const containInvalidInput = progression.search(validInputRegex) > -1;
+    const progressionArray = progression.match(
         /(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g
     );
 
@@ -206,7 +206,7 @@ export function assignKeyToProgression(
             return modifyChordSuffix(chordString, key);
         }
 
-        let chordNum = parseInt(chordString);
+        const chordNum = parseInt(chordString);
 
         //default family chords
         return addFamilyChordSuffix(chordNum, key);
@@ -222,9 +222,9 @@ export const fullBarProg = function (
         return '';
     }
 
-    let chordProgression = assignKeyToProgression(key, progression);
+    const chordProgression = assignKeyToProgression(key, progression);
 
-    let resultString = chordProgression.reduce((acc, chord, index) => {
+    const resultString = chordProgression.reduce((acc, chord, index) => {
         let barString = `| [${chord}]` + renderSpacing(space, chord);
 
         if ((index + 1) % 4 === 0 && index < chordProgression.length - 1) {
@@ -250,10 +250,10 @@ export const halfBarProg = function (
         space += 1;
     }
 
-    let chordProgression = assignKeyToProgression(key, progression);
+    const chordProgression = assignKeyToProgression(key, progression);
     const halfSpace = Math.ceil(space / 2);
 
-    let resultString = chordProgression.reduce((acc, chord, index) => {
+    const resultString = chordProgression.reduce((acc, chord, index) => {
         const isFirstChordInBar = index % 2 === 0;
 
         let barString = '';

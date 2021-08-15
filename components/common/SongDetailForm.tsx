@@ -71,7 +71,7 @@ export default function SongDetailForm({
     }: { closeModal?: boolean } = {}) {
         setIsLoading(true);
         try {
-            let { composers, songwriters, arrangers, genres, moods, tags } =
+            const { composers, songwriters, arrangers, genres, moods, tags } =
                 form;
 
             const editedForm = {
@@ -114,7 +114,7 @@ export default function SongDetailForm({
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
-            console.log('wentwrong');
+            console.log('went wrong');
             console.log(error);
         }
     }
@@ -125,7 +125,7 @@ export default function SongDetailForm({
     ) {
         setIsLoading(true);
         try {
-            let { composers, songwriters, arrangers, genres, moods, tags } =
+            const { composers, songwriters, arrangers, genres, moods, tags } =
                 form;
 
             const editedForm = {
@@ -175,7 +175,7 @@ export default function SongDetailForm({
     useEffect(() => {
         if (type === 'edit' && song && !form.title) {
             console.log('running');
-            let {
+            const {
                 id,
                 title,
                 artist,
@@ -206,7 +206,7 @@ export default function SongDetailForm({
                 status,
             } = song;
 
-            let value: Form = {
+            const value: Form = {
                 id,
                 title,
                 romTitle,

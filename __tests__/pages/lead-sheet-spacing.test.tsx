@@ -1,8 +1,10 @@
-import LeadSheetSpacing from '../../pages/utilities/leadsheetspacing';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { hyphenateSync } from 'hyphen/en-gb';
+
+import LeadSheetSpacing from '../../pages/utilities/leadsheetspacing';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('hyphen/en-gb', () => ({
@@ -10,11 +12,12 @@ jest.mock('hyphen/en-gb', () => ({
 }));
 
 function renderLeadSheetSpacing() {
-    const utils = render(
-        <LeadSheetSpacing
-            user={{ id: 1, firstName: 'Isaac', isAdmin: false }}
-        />
-    );
+    const defaultProps = {
+        user: { id: 1, firstName: 'Isaac', isAdmin: false },
+    };
+
+    const utils = render(<LeadSheetSpacing {...defaultProps} />);
+
     const inputTextArea = screen.getByLabelText(/input.*/i);
     const resultTextArea = screen.getByLabelText(/result.*/i);
     const processButton = screen.getByRole('button', { name: /process/i });

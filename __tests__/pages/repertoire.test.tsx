@@ -1,17 +1,13 @@
 import React from 'react';
-import {
-    act,
-    fireEvent,
-    render,
-    screen,
-    waitFor,
-} from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import RepertoirePage from '../../pages/repertoire';
-import axios from '../../config/axios';
 
-import { cache, SWRConfig } from 'swr';
+import axios from '../../config/axios';
+import RepertoirePage from '../../pages/repertoire';
+
+import { SWRConfig } from 'swr';
+
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
 jest.mock('next/router', () => require('next-router-mock'));
@@ -35,7 +31,7 @@ function renderRepertoirePage(props = {}) {
         user: { id: 1 },
     };
 
-    let utils = render(
+    const utils = render(
         <SWRConfig
             value={{
                 dedupingInterval: 0,
@@ -59,7 +55,7 @@ async function renderRepertoirePageWithDeleteModalOpen(props = {}) {
 
     mockAxios.get.mockResolvedValue(mockData);
 
-    let utils = render(
+    const utils = render(
         <SWRConfig
             value={{
                 dedupingInterval: 0,
@@ -102,7 +98,7 @@ async function renderRepertoirePageAndHoverOnFirstRow(props = {}) {
 
     mockAxios.get.mockResolvedValue(mockData);
 
-    let utils = render(
+    const utils = render(
         <SWRConfig
             value={{
                 dedupingInterval: 0,
@@ -188,11 +184,11 @@ describe('The Repertoire Page', () => {
                     /click to upload csv/i
                 ) as HTMLInputElement;
 
-                let blob: IBlob = new Blob([''], { type: 'text/csv' });
+                const blob: IBlob = new Blob([''], { type: 'text/csv' });
                 blob['lastModifiedDate'] = '';
                 blob['name'] = 'test.csv';
 
-                let csvFile = blob as File;
+                const csvFile = blob as File;
 
                 mockAxios.post.mockResolvedValue({});
                 userEvent.click(uploadCsvButton);
@@ -228,11 +224,11 @@ describe('The Repertoire Page', () => {
                     /click to upload csv/i
                 ) as HTMLInputElement;
 
-                let blob: IBlob = new Blob([''], { type: 'text/csv' });
+                const blob: IBlob = new Blob([''], { type: 'text/csv' });
                 blob['lastModifiedDate'] = '';
                 blob['name'] = 'test.csv';
 
-                let csvFile = blob as File;
+                const csvFile = blob as File;
 
                 mockAxios.post.mockResolvedValue({});
                 userEvent.click(uploadCsvButton);
@@ -284,11 +280,11 @@ describe('The Repertoire Page', () => {
                     /click to upload csv/i
                 ) as HTMLInputElement;
 
-                let blob: IBlob = new Blob([''], { type: 'text/csv' });
+                const blob: IBlob = new Blob([''], { type: 'text/csv' });
                 blob['lastModifiedDate'] = '';
                 blob['name'] = 'test.csv';
 
-                let csvFile = blob as File;
+                const csvFile = blob as File;
 
                 userEvent.upload(uploadArea, csvFile);
 
@@ -306,7 +302,9 @@ describe('The Repertoire Page', () => {
                 ).toBeInTheDocument();
             });
 
-            it('should show error message if user uploaded a file larger than 1MB', () => {});
+            it.todo(
+                'should show error message if user uploaded a file larger than 1MB'
+            );
         });
     });
 
@@ -423,14 +421,17 @@ describe('The Repertoire Page', () => {
             const deleteSelectedButton = screen.getByRole('button', {
                 name: /delete selected/i,
             });
+
             userEvent.click(deleteSelectedButton);
 
             const confirmDeleteButton = screen.getByRole('button', {
                 name: /confirm delete/i,
             });
+
             const cancelButton = screen.getByRole('button', {
                 name: /cancel/i,
             });
+
             expect(confirmDeleteButton).toBeInTheDocument();
             expect(cancelButton).toBeInTheDocument();
         });
@@ -625,9 +626,7 @@ describe('The Repertoire Page', () => {
             mockAxios.get.mockResolvedValue(mockData);
             renderRepertoirePage();
 
-            let allCheckboxes: HTMLElement[];
-
-            allCheckboxes = await screen.findAllByRole('checkbox');
+            const allCheckboxes = await screen.findAllByRole('checkbox');
 
             act(() => {
                 userEvent.click(allCheckboxes[0]);
@@ -657,9 +656,7 @@ describe('The Repertoire Page', () => {
             mockAxios.get.mockResolvedValue(mockData);
             renderRepertoirePage();
 
-            let allCheckboxes: HTMLElement[];
-
-            allCheckboxes = await screen.findAllByRole('checkbox');
+            const allCheckboxes = await screen.findAllByRole('checkbox');
 
             act(() => {
                 userEvent.click(allCheckboxes[1]);

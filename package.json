@@ -12,7 +12,10 @@
         "test:coverage": "yarn test --coverage",
         "storybook": "start-storybook -p 6006 -s ./public",
         "build-storybook": "build-storybook",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "lint:prettier": "prettier --check './**/*.(ts|tsx|js|jsx)'",
+        "lint:eslint": "eslint --max-warnings 0 './**/*.?(ts|tsx|js|jsx)'",
+        "lint": "tsc --noEmit -p . && npm run lint:prettier && npm run lint:eslint"
     },
     "husky": {
         "hooks": {

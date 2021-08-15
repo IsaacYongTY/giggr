@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
+
 import styles from '../../assets/scss/components/repertoire/_action-popup.module.scss';
 
 export default function ActionPopup({
     handleOpenModal,
     song,
     setIsShowPopup,
-    handleDeleteSong,
     handleOpenConfirmModal,
 }: any) {
     const actionRow = useRef(null);

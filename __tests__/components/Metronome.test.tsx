@@ -36,7 +36,7 @@ function renderMetronome() {
 }
 
 describe('The bpm page', () => {
-    let errorMessage = /please enter tempo of range 40 - 200/i;
+    const errorMessage = /please enter tempo of range 40 - 200/i;
 
     beforeEach(() => {
         jest.useFakeTimers();
@@ -58,7 +58,7 @@ describe('The bpm page', () => {
     });
 
     it('should increase the count according to the amount of times Space is tapped', () => {
-        const { countInput, tapButton } = renderMetronome();
+        const { countInput } = renderMetronome();
         expect(countInput).toHaveValue(0);
 
         userEvent.keyboard('{space}');
@@ -69,7 +69,7 @@ describe('The bpm page', () => {
     });
 
     it('should not change the count if keys other than Space is tapped', () => {
-        const { countInput, tapButton } = renderMetronome();
+        const { countInput } = renderMetronome();
         expect(countInput).toHaveValue(0);
 
         userEvent.keyboard('k');
@@ -149,7 +149,7 @@ describe('The bpm page', () => {
     });
 
     it('should display correct tempo after Space bar is pressed more than 2 times', () => {
-        const { countInput, tapButton } = renderMetronome();
+        const { countInput } = renderMetronome();
 
         userEvent.keyboard('{space}');
         jest.advanceTimersByTime(500);
@@ -166,7 +166,7 @@ describe('The bpm page', () => {
 
     describe('The behaviour of Toggle Decimal button', () => {
         it('should default as without decimal', () => {
-            let { tapButton } = renderMetronome();
+            const { tapButton } = renderMetronome();
 
             userEvent.click(tapButton);
             jest.advanceTimersByTime(500);
@@ -181,7 +181,7 @@ describe('The bpm page', () => {
         });
 
         it('should toggle between decimal and round number when clicked', () => {
-            let { tapButton, toggleDecimalButton } = renderMetronome();
+            const { tapButton, toggleDecimalButton } = renderMetronome();
 
             userEvent.click(tapButton);
             jest.advanceTimersByTime(500);
@@ -282,8 +282,7 @@ describe('The bpm page', () => {
 
     describe('The behaviour of the metronome upon resetting after idle time', () => {
         it('should stay with the previous value for the first two beats when idle time is more than 2s', () => {
-            const { tapButton, countInput, tempoInput, setTempoButton } =
-                renderMetronome();
+            const { countInput } = renderMetronome();
 
             userEvent.keyboard('{space}');
             jest.advanceTimersByTime(500);

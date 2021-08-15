@@ -16,8 +16,8 @@ export default function RepertoireCard({ songs }: any) {
             <div className={styles.list}>
                 <p>Recently added:</p>
                 <ul>
-                    {songs?.map((song: Song) => (
-                        <li>
+                    {songs?.map((song: Song, index: number) => (
+                        <li key={index}>
                             {song.title} - {song.artist.name}
                         </li>
                     ))}

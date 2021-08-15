@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import styles from './gigform.module.scss';
-import Layout from '../../components/layouts/Layout';
+import axios from 'axios';
 import { TimePicker, DatePicker } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { createMuiTheme } from '@material-ui/core';
 
-import axios from 'axios';
+import Layout from '../../components/layouts/Layout';
+
 import withAuth from '../../middlewares/withAuth';
 
-export const getServerSideProps = withAuth(async ({ req, res }: any) => {
+import styles from './gigform.module.scss';
+
+export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
         props: {
             user: req.user,
@@ -57,7 +59,7 @@ export default function GigForm({ user }: Props) {
     const handleSubmit = async (values: FormValues) => {
         console.log(values);
 
-        let response = await axios.post(
+        const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`,
             values,
             { withCredentials: true }
@@ -75,7 +77,6 @@ export default function GigForm({ user }: Props) {
                     value={field.value}
                     helperText={currentError}
                     variant="inline"
-                    // inputVariant="outlined"
                     error={Boolean(currentError)}
                     onError={(error) => {
                         if (error !== currentError) {
@@ -97,6 +98,7 @@ export default function GigForm({ user }: Props) {
         date: Yup.date().required(),
         pay: Yup.number(),
     });
+
     const DatePickerField = ({ field, form, ...other }: any) => {
         const currentError = form.errors[field.name];
 
@@ -107,7 +109,6 @@ export default function GigForm({ user }: Props) {
                     value={field.value}
                     helperText={currentError}
                     variant="inline"
-                    // inputVariant="outlined"
                     error={Boolean(currentError)}
                     autoOk={true}
                     format="dd/MM/yyyy"
@@ -132,14 +133,7 @@ export default function GigForm({ user }: Props) {
                     onSubmit={(values) => handleSubmit(values)}
                     validationSchema={validationSchema}
                 >
-                    {({
-                        values,
-                        errors,
-                        handleChange,
-                        handleSubmit,
-                        touched,
-                        setFieldValue,
-                    }) => (
+                    {({ handleChange, handleSubmit }) => (
                         <form className={styles.form} onSubmit={handleSubmit}>
                             <div className={styles.formRow}>
                                 <label>Title:*</label>

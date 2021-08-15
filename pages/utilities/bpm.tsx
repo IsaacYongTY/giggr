@@ -4,7 +4,7 @@ import Layout from '../../components/layouts/Layout';
 import withAuth from '../../middlewares/withAuth';
 import Metronome from '../../components/common/Metronome';
 
-export const getServerSideProps = withAuth(async ({ req, res }: any) => {
+export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
         props: {
             user: req.user,

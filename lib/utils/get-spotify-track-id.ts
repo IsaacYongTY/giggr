@@ -1,4 +1,4 @@
-export default function getSpotifyTrackId(spotifyLink: string) : string {
+export default function getSpotifyTrackId(spotifyLink: string): string {
     if (
         !spotifyLink.includes('spotify:track:') &&
         !spotifyLink.includes('https://open.spotify.com/track/')

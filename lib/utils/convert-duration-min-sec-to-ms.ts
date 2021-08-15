@@ -4,7 +4,7 @@ export default function convertDurationMinSecToMs(
     if (!durationMinSec.includes(':')) return -1;
     if (durationMinSec.split(':')[1].length !== 2) return -1;
 
-    let [min, sec] = durationMinSec
+    const [min, sec] = durationMinSec
         .split(':')
         .map((element) => parseInt(element));
 

@@ -1,25 +1,21 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import Layout from '../../components/layouts/Layout';
 import Select, { ValueType } from 'react-select';
+import { GetServerSideProps } from 'next';
+
 import KeysDropdown from '../../components/common/KeysDropdown';
-import styles from '../../assets/scss/pages/_progression.module.scss';
+import CopyToClipboardButton from '../../components/common/CopyToClipboardButton';
+import AlertBox from '../../components/common/AlertBox';
+import withAuth from '../../middlewares/withAuth';
 import {
     fullBarProg,
     halfBarProg,
     keyMap,
 } from '../../lib/utils/progression-generator-functions';
-import CopyToClipboardButton from '../../components/common/CopyToClipboardButton';
-import AlertBox from '../../components/common/AlertBox';
-import { GetServerSideProps } from 'next';
-import withAuth from '../../middlewares/withAuth';
-import { loadUserData } from '../../lib/library';
+
 import Form from '../../lib/types/Form';
-// interface Form {
-//     key: number
-//     progression: string,
-//     isFullBar: boolean
-//     spaces: number
-// }
+
+import styles from '../../assets/scss/pages/_progression.module.scss';
 
 interface OptionType {
     value: string;
@@ -36,7 +32,7 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-    async ({ req, res }: any) => {
+    async ({ req }: any) => {
         return {
             props: {
                 user: req.user,
@@ -121,7 +117,7 @@ export default function Progression({ user }: Props) {
     }
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-        let newValue = e.target.value;
+        const newValue = e.target.value;
         setForm((prevState) => ({ ...prevState, [e.target.name]: newValue }));
     }
 
@@ -142,7 +138,7 @@ export default function Progression({ user }: Props) {
     }
 
     function handleGenerateProg() {
-        let { key, progression, isFullBar, spaces } = form || {};
+        const { key, progression, isFullBar, spaces } = form || {};
 
         if (!spaces || key === undefined) {
             setErrorMessage('Invalid inputs');

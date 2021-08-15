@@ -21,7 +21,7 @@ export default function SettingsDropdown() {
 
     //temporary solution
     function handleOnBlur() {
-        let timer = setTimeout(() => {
+        const timer = setTimeout(() => {
             setIsOpen(false);
             clearTimeout(timer);
         }, 100);

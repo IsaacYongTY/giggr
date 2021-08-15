@@ -1,12 +1,15 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import styles from '../../assets/scss/components/repertoire/_repertoire-row.module.scss';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import Image from 'next/image';
 import ActionPopup from './ActionPopup';
-import { capitalizeString } from '../../lib/library';
+
+import StatusPillButton from '../common/StatusPillButton';
+
 import convertDurationMsToMinSec from '../../lib/utils/convert-duration-ms-to-min-sec';
 import convertKeyModeIntToKey from '../../lib/utils/convert-key-mode-int-to-key';
-import Image from 'next/image';
+import { capitalizeString } from '../../lib/library';
 import Song from '../../lib/types/song';
-import StatusPillButton from '../common/StatusPillButton';
+
+import styles from '../../assets/scss/components/repertoire/_repertoire-row.module.scss';
 
 interface Props {
     song: Song;
@@ -121,7 +124,7 @@ export default function RepertoireRow({
             </td>
             <td className={styles.listenCol}>
                 {song.spotifyLink && (
-                    <a href={song.spotifyLink} target="_blank">
+                    <a href={song.spotifyLink} target="_blank" rel="noreferrer">
                         <Image
                             src="/spotify-icon-green.png"
                             width={20}
@@ -132,7 +135,7 @@ export default function RepertoireRow({
                 )}
 
                 {song.youtubeLink && (
-                    <a href={song.youtubeLink} target="_blank">
+                    <a href={song.youtubeLink} target="_blank" rel="noreferrer">
                         <Image
                             src="/youtube-icon-square.png"
                             width={20}
@@ -143,7 +146,7 @@ export default function RepertoireRow({
                 )}
 
                 {song.otherLink && (
-                    <a href={song.youtubeLink} target="_blank">
+                    <a href={song.youtubeLink} target="_blank" rel="noreferrer">
                         <Image
                             src="/link-icon.png"
                             width={20}

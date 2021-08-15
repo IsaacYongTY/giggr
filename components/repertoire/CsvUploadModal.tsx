@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
+import React, { ChangeEvent, useState, useRef } from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
-import styles from '../../assets/scss/components/repertoire/_csv-upload-modal.module.scss';
 import Modal from 'react-modal';
 import { parseCookies } from 'nookies';
-import ButtonWithLoader from '../common/ButtonWithLoader';
 import { trigger } from 'swr';
+
+import ButtonWithLoader from '../common/ButtonWithLoader';
+
+import styles from '../../assets/scss/components/repertoire/_csv-upload-modal.module.scss';
 
 export default function CsvUploadModal({
     isModalOpen,
@@ -44,14 +46,13 @@ export default function CsvUploadModal({
         setIsLoading(true);
         setErrorMessage('');
 
-        let url = `/api/v1/songs/csv`;
-
-        if (database === 'master') {
-            url = `/api/v1/admin/songs/csv`;
-        }
+        const url =
+            database === 'master'
+                ? `/api/v1/admin/songs/csv`
+                : `/api/v1/songs/csv`;
 
         try {
-            let formData = new FormData();
+            const formData = new FormData();
 
             if (!fileUploadInput.current) {
                 return;

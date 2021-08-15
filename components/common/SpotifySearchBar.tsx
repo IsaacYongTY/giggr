@@ -8,14 +8,13 @@ import ButtonWithLoader from './ButtonWithLoader';
 
 interface Props {
     setFormValue: any;
-    database: string;
+    database?: string;
     isContribute?: boolean;
     user?: any;
 }
 
 export default function SpotifySearchBar({
     setFormValue,
-    database,
     isContribute,
     user,
 }: Props) {
@@ -40,11 +39,11 @@ export default function SpotifySearchBar({
         setIsLoading(true);
 
         try {
-            let response = await axios.post(
+            const response = await axios.post(
                 `/api/v1/songs/spotify?trackId=${trackId}`
             );
 
-            let songData = response.data.result;
+            const songData = response.data.result;
 
             songData.durationMinSec = convertDurationMsToMinSec(
                 songData.durationMs

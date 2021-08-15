@@ -2,18 +2,18 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
+import router from 'next/router';
+import '@testing-library/jest-dom/extend-expect';
+
 import LoginPage from '../../pages/accounts/login';
 
-import '@testing-library/jest-dom/extend-expect';
-import router from 'next/router';
-
 jest.mock('next/router', () => require('next-router-mock'));
-
 jest.mock('axios');
+
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
 function renderLoginPage() {
-    let utils = render(<LoginPage />);
+    const utils = render(<LoginPage />);
     const loginButton = screen.getByRole('button', { name: /log in/i });
     const emailInput = screen.getByPlaceholderText(/email/i);
     const passwordInput = screen.getByPlaceholderText(/password/i);
@@ -23,7 +23,7 @@ function renderLoginPage() {
 
 describe('The login page', () => {
     it('should make a call to /api/v1/auth/login', async () => {
-        let { emailInput, passwordInput, loginButton } = renderLoginPage();
+        const { emailInput, passwordInput, loginButton } = renderLoginPage();
 
         const input = {
             email: 'correct_@gmail.com',
@@ -44,7 +44,7 @@ describe('The login page', () => {
     });
 
     it('should render dashboard if username and password is correct', async () => {
-        let { emailInput, passwordInput, loginButton } = renderLoginPage();
+        const { emailInput, passwordInput, loginButton } = renderLoginPage();
         const input = {
             email: 'correct_user@gmail.com',
             password: 'correct_password',
@@ -67,7 +67,7 @@ describe('The login page', () => {
     it.todo('should set the cookie if username and password is correct');
 
     it('should show error message if no username or password is provided', async () => {
-        let { loginButton } = renderLoginPage();
+        const { loginButton } = renderLoginPage();
         expect(loginButton).toBeInTheDocument();
         userEvent.click(loginButton);
 
@@ -84,7 +84,7 @@ describe('The login page', () => {
     });
 
     it('should prompt invalid email or password', async () => {
-        let { emailInput, passwordInput, loginButton } = renderLoginPage();
+        const { emailInput, passwordInput, loginButton } = renderLoginPage();
         userEvent.type(emailInput, 'wrongusername@gmail.com');
         userEvent.type(passwordInput, 'wrongpassword');
         userEvent.click(loginButton);
@@ -109,7 +109,7 @@ describe('The login page', () => {
 });
 
 function renderSignupPage() {
-    let utils = render(<LoginPage />);
+    const utils = render(<LoginPage />);
     userEvent.click(screen.getByText(/sign up here/i));
     const signUpButton = screen.getByRole('button', {
         name: /create account/i,
@@ -134,7 +134,7 @@ describe('Sign up UI', () => {
     });
 
     it('should make a call to /api/v1/auth/signup', async () => {
-        let { emailInput, passwordInput, signUpButton } = renderSignupPage();
+        const { emailInput, passwordInput, signUpButton } = renderSignupPage();
 
         const input = { email: 'user@gmail.com', password: 'password' };
 
@@ -160,7 +160,7 @@ describe('Sign up UI', () => {
     });
 
     it('should render dashboard if user is successfully created', async () => {
-        let { emailInput, passwordInput, signUpButton } = renderSignupPage();
+        const { emailInput, passwordInput, signUpButton } = renderSignupPage();
 
         const input = { email: 'new_user@gmail.com', password: 'password' };
 
@@ -175,7 +175,7 @@ describe('Sign up UI', () => {
     });
 
     it('should show error message if no username or password is provided', async () => {
-        let { signUpButton } = renderSignupPage();
+        const { signUpButton } = renderSignupPage();
 
         userEvent.click(signUpButton);
 
@@ -192,7 +192,7 @@ describe('Sign up UI', () => {
     });
 
     it('should show error message if user already existed', async () => {
-        let { emailInput, passwordInput, signUpButton } = renderSignupPage();
+        const { emailInput, passwordInput, signUpButton } = renderSignupPage();
 
         const input = {
             email: 'existing_user@gmail.com',

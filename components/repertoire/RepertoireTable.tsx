@@ -1,14 +1,17 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import styles from '../../assets/scss/components/repertoire/_repertoire-table.module.scss';
-import Song from '../../lib/types/song';
+import React, { ChangeEvent, useState } from 'react';
 import axios from '../../config/axios';
-import AddSongModal from './AddSongModal';
-import RepertoireRow from './RepertoireRow';
 import { trigger } from 'swr';
 import Modal from 'react-modal';
+
+import AddSongModal from './AddSongModal';
+import RepertoireRow from './RepertoireRow';
 import ButtonLoader from '../common/Loader';
 import ActionRow from './ActionRow';
 import AlertBox from '../common/AlertBox';
+
+import Song from '../../lib/types/song';
+
+import styles from '../../assets/scss/components/repertoire/_repertoire-table.module.scss';
 
 type Props = {
     songs: Song[];
@@ -16,6 +19,7 @@ type Props = {
     database: string;
     data?: any;
 };
+
 export default function RepertoireTable({
     songs,
     user,
@@ -59,6 +63,7 @@ export default function RepertoireTable({
 
     const colKey = [
         <input
+            key="song-checkbox"
             type="checkbox"
             onChange={toggleSelectAll}
             checked={isAllSelected}
@@ -210,8 +215,9 @@ export default function RepertoireTable({
                 <Modal isOpen={isConfirmModalOpen} style={modalStyles}>
                     <div className={styles.modalContainer}>
                         <div>
-                            Are you sure you want to delete "{deleteSong?.title}
-                            "?
+                            Are you sure you want to delete &amp;
+                            {deleteSong?.title}
+                            &amp;?
                         </div>
 
                         {errorMessage && (

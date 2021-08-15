@@ -1,61 +1,17 @@
 import React from 'react';
 import { screen, render, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AddSongModal from '../../components/repertoire/AddSongModal';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
-import Song from '../../lib/types/song';
+
+import AddSongModal from '../../components/repertoire/AddSongModal';
 
 jest.mock('axios');
 
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
-let songData: Song = {
-    id: 5,
-    title: '七天',
-    artist: {
-        id: 1,
-        name: 'Crowd Lu',
-        romName: '',
-        spotifyName: '',
-    },
-    artistId: 1,
-    romTitle: 'Qi Tian',
-    key: 2,
-    myKey: -1,
-    status: 'In Progress',
-    mode: 1,
-    tempo: 93,
-    durationMs: 240000,
-    timeSignature: '4/4',
-    initialism: 'qt',
-    language: {
-        id: 1,
-        name: 'mandarin',
-    },
-    languageId: 1,
-    dateReleased: '2013-01-01',
-    spotifyLink: '',
-    youtubeLink: '',
-    otherLink: '',
-
-    acousticness: 0,
-    valence: 0,
-    instrumentalness: 0,
-    danceability: 0,
-    energy: 0,
-
-    composers: [],
-    songwriters: [],
-    arrangers: [],
-    genres: [],
-    moods: [],
-    tags: [],
-};
-
-let mockUser = { tierId: 2, name: 'Isaac', tokenString: 'faketokenstring' };
-let mockAdmin = { tierId: 4, name: 'Admin', tokenString: 'faketokenstring' };
+const mockUser = { tierId: 2, name: 'Isaac', tokenString: 'faketokenstring' };
 
 function renderAddSongModal(props = {}) {
     const utils = render(
@@ -178,7 +134,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should toggle the isMinor checkbox when the default is empty', () => {
-            let { keysDropdown, isMinorCheckbox } = renderAddSongModal();
+            const { keysDropdown, isMinorCheckbox } = renderAddSongModal();
 
             userEvent.click(keysDropdown);
             expect(screen.getByText('C')).toBeInTheDocument();
@@ -206,7 +162,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should toggle the isMinor checkbox even when key is selected', () => {
-            let { keysDropdown, isMinorCheckbox } = renderAddSongModal({
+            const { keysDropdown, isMinorCheckbox } = renderAddSongModal({
                 type: 'edit',
                 song: { key: 3, mode: 1 },
             });
@@ -240,7 +196,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should change the selected key to relative major when checkbox is toggled', () => {
-            let { isMinorCheckbox } = renderAddSongModal({
+            const { isMinorCheckbox } = renderAddSongModal({
                 song: {
                     key: 1,
                     mode: 0,
@@ -256,7 +212,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should change the selected key to relative minor when checkbox is toggled', () => {
-            let { isMinorCheckbox } = renderAddSongModal({
+            const { isMinorCheckbox } = renderAddSongModal({
                 song: {
                     key: 6,
                     mode: 1,
@@ -274,14 +230,14 @@ describe('<AddSongModal />', () => {
 
     describe('The Duration input textbox in Add mode', () => {
         it('should be empty when the modal is opened in Add mode', () => {
-            let { durationTextbox } = renderAddSongModal();
+            const { durationTextbox } = renderAddSongModal();
 
             expect(durationTextbox).toBeInTheDocument();
             expect(durationTextbox).toHaveValue('');
         });
 
         it('should be show duration in mm:ss format after getting track info from Spotify in Add mode', async () => {
-            let { durationTextbox } = renderAddSongModal();
+            const { durationTextbox } = renderAddSongModal();
 
             const searchBar = screen.getByPlaceholderText(
                 'https://open.spotify.com/track/....'
@@ -330,7 +286,7 @@ describe('<AddSongModal />', () => {
 
     describe('The Duration input textbox in Edit mode', () => {
         it('should show duration in mm:ss format when the modal is opened in Edit mode', () => {
-            let { durationTextbox } = renderAddSongModal({
+            const { durationTextbox } = renderAddSongModal({
                 song: { durationMs: 184000 },
                 type: 'edit',
             });
@@ -342,7 +298,7 @@ describe('<AddSongModal />', () => {
 
     describe('The behaviour of form if Get From Spotify button is clicked', () => {
         it('should render the key of the song in KeysDropdown', async () => {
-            const { keysDropdown } = renderAddSongModal({
+            renderAddSongModal({
                 type: 'add',
             });
 
@@ -387,7 +343,7 @@ describe('<AddSongModal />', () => {
 
     describe('The behaviour of Generate Metadata button', () => {
         it('should display the metadata head', async () => {
-            let { generateMetaDataTab } = renderAddSongModal({
+            const { generateMetaDataTab } = renderAddSongModal({
                 type: 'edit',
 
                 song: {
@@ -430,7 +386,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should keep the changes that the user has made', async () => {
-            let { songDetailsTab, keysDropdown, generateMetaDataTab } =
+            const { songDetailsTab, keysDropdown, generateMetaDataTab } =
                 renderAddSongModal({
                     type: 'edit',
 
@@ -471,14 +427,14 @@ describe('<AddSongModal />', () => {
 
     describe('The behaviour of the title input', () => {
         it('should render the input correctly', () => {
-            let { titleTextbox } = renderAddSongModal();
+            const { titleTextbox } = renderAddSongModal();
 
             userEvent.type(titleTextbox, '认错');
             expect(titleTextbox).toHaveValue('认错');
         });
 
         it('should update the initialism and the romTitle if title are in Chinese on blur', () => {
-            let {
+            const {
                 titleTextbox,
                 keysDropdown,
                 initialismTextbox,

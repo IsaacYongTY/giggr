@@ -15,22 +15,16 @@ jest.mock('../../lib/library');
 
 const defaultPinyinSyllables = 2;
 
-let mockUser = {
-    tierId: 2,
-    name: 'Isaac',
-    tokenString: 'faketokenstring',
-    isAdmin: false,
-};
-let mockAdmin = {
+const mockAdmin = {
     tierId: 4,
     name: 'Admin',
     tokenString: 'faketokenstring',
     isAdmin: true,
 };
 
-let validUrl = 'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
+const validUrl = 'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
 
-let songData = {
+const songData = {
     title: '七天',
     artist: 'Crowd Lu',
     romTitle: 'Qi Tian',
@@ -59,13 +53,17 @@ function renderMetaTool(props: Partial<Props> = {}) {
     const getFromSpotifyButton = utils.getByRole('button', {
         name: /get from spotify/i,
     });
+
     const copyToClipboardButton = utils.getByRole('button', {
         name: /copy to clipboard/i,
     });
+
     const showPinyinCheckbox = utils.getByRole('checkbox', { name: /pinyin/i });
+
     const searchBar = utils.getByPlaceholderText(
         /^https:\/\/open.spotify.com.*/
     );
+
     const pinyinDropdown = utils.getByText(defaultPinyinSyllables);
 
     return {
@@ -81,7 +79,7 @@ function renderMetaTool(props: Partial<Props> = {}) {
 describe('The metatool page', () => {
     describe('the elements on page', () => {
         it('should render correctly', () => {
-            let {
+            const {
                 getFromSpotifyButton,
                 copyToClipboardButton,
                 showPinyinCheckbox,
@@ -99,20 +97,20 @@ describe('The metatool page', () => {
 
     describe('The Spotify search bar', () => {
         it('should have empty input when it first render', () => {
-            let { searchBar } = renderMetaTool();
+            const { searchBar } = renderMetaTool();
             expect(searchBar).toHaveValue('');
         });
 
         it('should display the url typed into the textbox', () => {
-            let { searchBar } = renderMetaTool();
-            let spotifyUrl =
+            const { searchBar } = renderMetaTool();
+            const spotifyUrl =
                 'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
             userEvent.type(searchBar, spotifyUrl);
             expect(searchBar).toHaveValue(spotifyUrl);
         });
 
         it('should trigger call to get data from spotify if the url is valid, and user is admin', async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool({
+            const { searchBar, getFromSpotifyButton } = renderMetaTool({
                 user: mockAdmin,
             });
 
@@ -133,7 +131,7 @@ describe('The metatool page', () => {
         });
 
         it('should not contribute to the database if user is not admin', async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool();
+            const { searchBar, getFromSpotifyButton } = renderMetaTool();
 
             mockAxios.post.mockResolvedValueOnce({
                 data: {
@@ -154,12 +152,12 @@ describe('The metatool page', () => {
         });
 
         it('should trigger shake animation and red border if input is empty or invalid', async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool();
+            const { searchBar, getFromSpotifyButton } = renderMetaTool();
 
             userEvent.click(getFromSpotifyButton);
             expect(shakeAnimation).toBeCalledTimes(1);
 
-            userEvent.type(searchBar, 'kjfhui');
+            userEvent.type(searchBar, 'invalid input');
             expect(shakeAnimation).toBeCalledTimes(1);
 
             userEvent.type(
@@ -178,7 +176,7 @@ describe('The metatool page', () => {
 
     describe('The pinyin toggle', () => {
         it('should toggle check when clicked', () => {
-            let { showPinyinCheckbox } = renderMetaTool();
+            const { showPinyinCheckbox } = renderMetaTool();
 
             userEvent.click(showPinyinCheckbox);
             expect(showPinyinCheckbox).not.toBeChecked();
@@ -190,11 +188,11 @@ describe('The metatool page', () => {
 
     describe('The pinyin dropdown', () => {
         it('should open dropdown menu when clicked', () => {
-            let { pinyinDropdown } = renderMetaTool();
+            const { pinyinDropdown } = renderMetaTool();
 
             userEvent.click(pinyinDropdown);
-            let option1 = screen.getByText('1');
-            let option2 = screen.getByText(/all/i);
+            const option1 = screen.getByText('1');
+            const option2 = screen.getByText(/all/i);
             expect(option1).toBeInTheDocument();
             expect(option2).toBeInTheDocument();
 
@@ -208,7 +206,8 @@ describe('The metatool page', () => {
     });
 
     describe('Toggle time signature feature', () => {
-        let validUrl = 'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
+        const validUrl =
+            'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
         const songDataInTwelveEight = {
             title: '深夜',
             artist: 'Isaac Yong',
@@ -232,7 +231,7 @@ describe('The metatool page', () => {
         };
 
         it('should show time signature toggle if time signature is 3/4', async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool();
+            const { searchBar, getFromSpotifyButton } = renderMetaTool();
 
             mockAxios.post.mockResolvedValueOnce({
                 data: {
@@ -253,7 +252,7 @@ describe('The metatool page', () => {
         });
 
         it("should render song's original time signature on button toggle", async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool();
+            const { searchBar, getFromSpotifyButton } = renderMetaTool();
 
             mockAxios.post.mockResolvedValueOnce({
                 data: {
@@ -282,22 +281,7 @@ describe('The metatool page', () => {
         });
 
         //contentEditable div not testable at the moment
-        it('should toggle time signature displayed', async () => {
-            let { searchBar, getFromSpotifyButton } = renderMetaTool();
-
-            // userEvent.type(searchBar, validUrl)
-            // userEvent.click(getFromSpotifyButton)
-            //
-            // mockAxios.post.mockResolvedValueOnce({
-            //     data: {
-            //         result: songDataInTwelveEight
-            //     }
-            // })
-            // await waitFor(() => {
-            //     expect(screen.getByText("Tempo: 171")).toBeInTheDocument()
-            // })
-            // userEvent.click(twelveEightButton)
-        });
+        it.todo('should toggle time signature displayed');
     });
 
     describe('The contribution checkbox', () => {
@@ -386,6 +370,7 @@ describe('The metatool page', () => {
             expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument();
         });
     });
+
     describe('Copy to Clipboard button', () => {
         it.todo('should copy text in content editable div to clipboard');
     });
