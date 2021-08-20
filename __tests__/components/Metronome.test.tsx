@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Metronome from '../../components/common/Metronome';
+import Metronome from '../../components/common/Metronome/Metronome';
 const defaultTempo = 69;
 
 jest.mock('next/router', () => require('next-router-mock'));
@@ -203,9 +203,7 @@ describe('The bpm page', () => {
     describe('The behaviour of Tap to play', () => {
         it('should render text correctly', () => {
             renderMetronome();
-            userEvent.click(
-                screen.getByRole('button', { name: /tap to play/i })
-            );
+            userEvent.click(screen.getByRole('button', { name: /tap to play/i }));
             expect(screen.getByText(/tap to stop/i)).toBeInTheDocument();
 
             userEvent.click(screen.getByText(/tap to stop/i));

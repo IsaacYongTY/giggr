@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Layout from '../../components/layouts/Layout';
+import Layout from '../../components/Layout';
 import withAuth from '../../middlewares/withAuth';
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {

@@ -1,4 +1,4 @@
-import KeysDropdown from '../../components/common/KeysDropdown';
+import KeysDropdown from '../../components/common/KeysDropdown/KeysDropdown';
 import React, { Dispatch, SetStateAction } from 'react';
 import { screen, render, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

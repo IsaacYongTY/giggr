@@ -1,8 +1,6 @@
-import path from 'path';
+const path = require('path');
 
-import nextTranspileModules from 'next-transpile-modules';
-
-const withTM = nextTranspileModules([
+const withTM = require('next-transpile-modules')([
     '@fullcalendar/common',
     '@fullcalendar/daygrid',
     '@fullcalendar/react',

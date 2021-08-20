@@ -1,5 +1,5 @@
 import React from 'react';
-import MetaTool, { Props } from '../../pages/utilities/metatool';
+import MetaTool, { Props } from '../../pages/utilities/metatool/metatool';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -60,9 +60,7 @@ function renderMetaTool(props: Partial<Props> = {}) {
 
     const showPinyinCheckbox = utils.getByRole('checkbox', { name: /pinyin/i });
 
-    const searchBar = utils.getByPlaceholderText(
-        /^https:\/\/open.spotify.com.*/
-    );
+    const searchBar = utils.getByPlaceholderText(/^https:\/\/open.spotify.com.*/);
 
     const pinyinDropdown = utils.getByText(defaultPinyinSyllables);
 
@@ -103,8 +101,7 @@ describe('The metatool page', () => {
 
         it('should display the url typed into the textbox', () => {
             const { searchBar } = renderMetaTool();
-            const spotifyUrl =
-                'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
+            const spotifyUrl = 'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
             userEvent.type(searchBar, spotifyUrl);
             expect(searchBar).toHaveValue(spotifyUrl);
         });
@@ -160,18 +157,13 @@ describe('The metatool page', () => {
             userEvent.type(searchBar, 'invalid input');
             expect(shakeAnimation).toBeCalledTimes(1);
 
-            userEvent.type(
-                searchBar,
-                'https://open.spotify.com/track/obviouslywrong'
-            );
+            userEvent.type(searchBar, 'https://open.spotify.com/track/obviouslywrong');
             expect(shakeAnimation).toBeCalledTimes(1);
         });
 
         it.todo('should render loader on button if the url is valid');
         it.todo('unable to test Content Editable div at the moment');
-        it.todo(
-            'should not render pinyin before title if pinyin checkbox is not checked'
-        );
+        it.todo('should not render pinyin before title if pinyin checkbox is not checked');
     });
 
     describe('The pinyin toggle', () => {
@@ -206,16 +198,14 @@ describe('The metatool page', () => {
     });
 
     describe('Toggle time signature feature', () => {
-        const validUrl =
-            'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
+        const validUrl = 'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
         const songDataInTwelveEight = {
             title: '深夜',
             artist: 'Isaac Yong',
             key: 1,
             mode: 0,
             tempo: 171,
-            spotifyLink:
-                'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7',
+            spotifyLink: 'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7',
             durationMs: 263390,
             timeSignature: '3/4',
             energy: 0.409,
@@ -243,12 +233,8 @@ describe('The metatool page', () => {
             userEvent.type(searchBar, validUrl);
             userEvent.click(getFromSpotifyButton);
 
-            expect(
-                await screen.findByRole('button', { name: '12/8' })
-            ).toBeInTheDocument();
-            expect(
-                await screen.findByRole('button', { name: '3/4' })
-            ).toBeInTheDocument();
+            expect(await screen.findByRole('button', { name: '12/8' })).toBeInTheDocument();
+            expect(await screen.findByRole('button', { name: '3/4' })).toBeInTheDocument();
         });
 
         it("should render song's original time signature on button toggle", async () => {

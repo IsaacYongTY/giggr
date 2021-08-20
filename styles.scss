@@ -1,8 +1,8 @@
-@import './assets/scss/_base.scss';
-@import './assets/scss/_fonts.scss';
-@import './assets/scss/_variables.scss';
-@import './assets/scss/_buttons.scss';
-@import './assets/scss/_logo.scss';
+@import 'common/scss/_base.scss';
+@import 'common/scss/_fonts.scss';
+@import 'common/scss/_variables.scss';
+@import 'common/scss/_buttons.scss';
+@import 'common/scss/_logo.scss';
 
 html {
     font-size: 62.5%;

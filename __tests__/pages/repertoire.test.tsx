@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import axios from '../../config/axios';
-import RepertoirePage from '../../pages/repertoire';
+import RepertoirePage from '../../pages/repertoire/repertoire';
 
 import { SWRConfig } from 'swr';
 
@@ -35,8 +35,7 @@ function renderRepertoirePage(props = {}) {
         <SWRConfig
             value={{
                 dedupingInterval: 0,
-                fetcher: (url: string) =>
-                    axios.get(url).then((res) => res.data),
+                fetcher: (url: string) => axios.get(url).then((res) => res.data),
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
@@ -59,8 +58,7 @@ async function renderRepertoirePageWithDeleteModalOpen(props = {}) {
         <SWRConfig
             value={{
                 dedupingInterval: 0,
-                fetcher: (url: string) =>
-                    axios.get(url).then((res) => res.data),
+                fetcher: (url: string) => axios.get(url).then((res) => res.data),
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
@@ -102,8 +100,7 @@ async function renderRepertoirePageAndHoverOnFirstRow(props = {}) {
         <SWRConfig
             value={{
                 dedupingInterval: 0,
-                fetcher: (url: string) =>
-                    axios.get(url).then((res) => res.data),
+                fetcher: (url: string) => axios.get(url).then((res) => res.data),
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
@@ -122,26 +119,17 @@ describe('The Repertoire Page', () => {
         it('should open and close the Upload CSV modal', () => {
             const { uploadCsvButton } = renderRepertoirePage();
             userEvent.click(uploadCsvButton);
-            expect(
-                screen.getByRole('button', { name: /submit/i })
-            ).toBeInTheDocument();
-            expect(
-                screen.getByText(/click to upload csv/i)
-            ).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+            expect(screen.getByText(/click to upload csv/i)).toBeInTheDocument();
 
             const closeIcon = screen.getByText(/close/i);
             userEvent.click(closeIcon);
-            expect(
-                screen.queryByRole('button', { name: /submit/i })
-            ).not.toBeInTheDocument();
-            expect(
-                screen.queryByText(/click to upload csv/i)
-            ).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: /submit/i })).not.toBeInTheDocument();
+            expect(screen.queryByText(/click to upload csv/i)).not.toBeInTheDocument();
         });
 
         describe('The behaviour of the Upload CSV Modal', () => {
-            const errorMessage =
-                /.*please select a \.csv file before submitting.*/i;
+            const errorMessage = /.*please select a \.csv file before submitting.*/i;
             const successMessage = /csv uploaded successfully.*/i;
 
             interface IBlob extends Blob {
@@ -158,9 +146,7 @@ describe('The Repertoire Page', () => {
                 });
                 const closeIcon = screen.getByText(/close/i);
 
-                expect(
-                    screen.queryByText(errorMessage)
-                ).not.toBeInTheDocument();
+                expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
 
                 userEvent.click(submitButton);
                 expect(screen.getByText(errorMessage)).toBeInTheDocument();
@@ -168,9 +154,7 @@ describe('The Repertoire Page', () => {
                 userEvent.click(closeIcon);
                 userEvent.click(uploadCsvButton);
 
-                expect(
-                    screen.queryByText(errorMessage)
-                ).not.toBeInTheDocument();
+                expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
             });
 
             it('should show the filename if file is selected', async () => {
@@ -203,9 +187,7 @@ describe('The Repertoire Page', () => {
 
                 userEvent.click(submitButton);
 
-                expect(
-                    await screen.findByText(successMessage)
-                ).toBeInTheDocument();
+                expect(await screen.findByText(successMessage)).toBeInTheDocument();
                 expect(screen.queryByText('test.csv')).not.toBeInTheDocument();
 
                 const closeIcon = screen.getByText(/close/i);
@@ -244,12 +226,8 @@ describe('The Repertoire Page', () => {
                 userEvent.click(uploadCsvButton);
 
                 expect(screen.queryByText('test.csv')).not.toBeInTheDocument();
-                expect(
-                    screen.queryByText(errorMessage)
-                ).not.toBeInTheDocument();
-                expect(
-                    screen.queryByText(successMessage)
-                ).not.toBeInTheDocument();
+                expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+                expect(screen.queryByText(successMessage)).not.toBeInTheDocument();
 
                 const submitButton = screen.getByRole('button', {
                     name: /submit/i,
@@ -296,15 +274,11 @@ describe('The Repertoire Page', () => {
 
                 userEvent.click(submitButton);
                 expect(
-                    await screen.findByText(
-                        /upload failed. please try again later\./i
-                    )
+                    await screen.findByText(/upload failed. please try again later\./i)
                 ).toBeInTheDocument();
             });
 
-            it.todo(
-                'should show error message if user uploaded a file larger than 1MB'
-            );
+            it.todo('should show error message if user uploaded a file larger than 1MB');
         });
     });
 
@@ -330,18 +304,14 @@ describe('The Repertoire Page', () => {
                 });
             });
 
-            expect(
-                screen.getAllByRole('checkbox', { checked: true })
-            ).toHaveLength(4);
+            expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(4);
 
             act(() => {
                 userEvent.click(allCheckboxes[1]);
                 userEvent.click(allCheckboxes[2]);
             });
 
-            expect(
-                screen.getAllByRole('checkbox', { checked: true })
-            ).toHaveLength(2);
+            expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(2);
         });
 
         it('should toggle all checkboxes if the header checkbox is clicked', async () => {
@@ -358,17 +328,13 @@ describe('The Repertoire Page', () => {
                 userEvent.click(allCheckboxes[0]);
             });
 
-            expect(
-                screen.getAllByRole('checkbox', { checked: true })
-            ).toHaveLength(6);
+            expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(6);
 
             act(() => {
                 userEvent.click(allCheckboxes[0]);
             });
 
-            expect(
-                screen.queryByRole('checkbox', { checked: true })
-            ).not.toBeInTheDocument();
+            expect(screen.queryByRole('checkbox', { checked: true })).not.toBeInTheDocument();
         });
     });
 
@@ -398,9 +364,7 @@ describe('The Repertoire Page', () => {
             const checked = screen.getAllByRole('checkbox', { checked: true });
             expect(checked).toHaveLength(2);
 
-            expect(
-                screen.getByRole('button', { name: /delete selected/i })
-            ).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: /delete selected/i })).toBeInTheDocument();
         });
 
         it('should show modal to confirm bulk delete', async () => {
@@ -443,8 +407,7 @@ describe('The Repertoire Page', () => {
         });
 
         it('should show the correct number of songs', async () => {
-            const { cancelButton } =
-                await renderRepertoirePageWithDeleteModalOpen();
+            const { cancelButton } = await renderRepertoirePageWithDeleteModalOpen();
 
             expect(screen.getByText('2')).toBeInTheDocument();
             userEvent.click(cancelButton);
@@ -467,17 +430,13 @@ describe('The Repertoire Page', () => {
         });
 
         it('should close the Confirm Modal if Cancel button is clicked', async () => {
-            const { cancelButton } =
-                await renderRepertoirePageWithDeleteModalOpen();
+            const { cancelButton } = await renderRepertoirePageWithDeleteModalOpen();
             userEvent.click(cancelButton);
-            expect(
-                screen.queryByRole('button', { name: /cancel/i })
-            ).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: /cancel/i })).not.toBeInTheDocument();
         });
 
         it('should close the Confirm Modal and call bulk delete function if Confirm Delete button is clicked', async () => {
-            const { confirmDeleteButton } =
-                await renderRepertoirePageWithDeleteModalOpen();
+            const { confirmDeleteButton } = await renderRepertoirePageWithDeleteModalOpen();
 
             mockAxios.get.mockResolvedValue({
                 data: {
@@ -555,17 +514,12 @@ describe('The Repertoire Page', () => {
 
         it('should show error message if Confirm Delete fails', async () => {
             mockAxios.delete.mockRejectedValue({});
-            const { confirmDeleteButton } =
-                await renderRepertoirePageWithDeleteModalOpen();
+            const { confirmDeleteButton } = await renderRepertoirePageWithDeleteModalOpen();
 
             userEvent.click(confirmDeleteButton);
 
             expect(mockAxios.delete).toBeCalledTimes(1);
-            expect(
-                await screen.findByText(
-                    /something went wrong. please try again later.*/i
-                )
-            );
+            expect(await screen.findByText(/something went wrong. please try again later.*/i));
         });
     });
 
@@ -575,20 +529,13 @@ describe('The Repertoire Page', () => {
         });
 
         it('should show Confirm Delete Modal and call the delete function', async () => {
-            const { deleteSongIcon } =
-                await renderRepertoirePageAndHoverOnFirstRow();
+            const { deleteSongIcon } = await renderRepertoirePageAndHoverOnFirstRow();
 
             userEvent.click(deleteSongIcon);
-            expect(
-                screen.getByRole('button', { name: /cancel/i })
-            ).toBeInTheDocument();
-            expect(
-                screen.getByRole('button', { name: /confirm delete/i })
-            ).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: /confirm delete/i })).toBeInTheDocument();
 
-            userEvent.click(
-                screen.getByRole('button', { name: /confirm delete/i })
-            );
+            userEvent.click(screen.getByRole('button', { name: /confirm delete/i }));
             expect(mockAxios.delete).toBeCalledTimes(1);
         });
 
@@ -647,9 +594,7 @@ describe('The Repertoire Page', () => {
             expect(
                 await screen.findByRole('button', { name: /delete selected/i })
             ).toBeInTheDocument();
-            expect(
-                screen.getAllByRole('checkbox', { checked: true })
-            ).toHaveLength(4);
+            expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(4);
         });
 
         it('should show error message if the delete function fails', async () => {
@@ -677,9 +622,7 @@ describe('The Repertoire Page', () => {
             userEvent.click(confirmDeleteButton);
 
             expect(
-                await screen.findByText(
-                    /something went wrong\. please try again later.*/i
-                )
+                await screen.findByText(/something went wrong\. please try again later.*/i)
             ).toBeInTheDocument();
         });
     });

@@ -8,18 +8,10 @@ describe('getInitialism', () => {
     });
 
     it('should ignore the content inside any brackets', () => {
-        expect(
-            getInitialism('Master of Puppets (2002 Remastered Version)')
-        ).toBe('mop');
-        expect(
-            getInitialism('Master of Puppets (2002 Remastered Version)')
-        ).toBe('mop');
-        expect(getInitialism('Ru Guo Yu Zhi Hou 《Demo Version》')).toBe(
-            'rgyzh'
-        );
-        expect(
-            getInitialism('Have I Told You Lately [2050 Anniversary Edition]')
-        ).toBe('hityl');
+        expect(getInitialism('Master of Puppets (2002 Remastered Version)')).toBe('mop');
+        expect(getInitialism('Master of Puppets (2002 Remastered Version)')).toBe('mop');
+        expect(getInitialism('Ru Guo Yu Zhi Hou 《Demo Version》')).toBe('rgyzh');
+        expect(getInitialism('Have I Told You Lately [2050 Anniversary Edition]')).toBe('hityl');
         expect(getInitialism('24k Magic - feat. Lil Doug')).toBe('2m');
     });
 });

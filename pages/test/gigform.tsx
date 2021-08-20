@@ -7,7 +7,7 @@ import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { createMuiTheme } from '@material-ui/core';
 
-import Layout from '../../components/layouts/Layout';
+import Layout from '../../components/Layout';
 
 import withAuth from '../../middlewares/withAuth';
 
@@ -83,9 +83,7 @@ export default function GigForm({ user }: Props) {
                             form.setFieldError(field.name, error);
                         }
                     }}
-                    onChange={(date) =>
-                        form.setFieldValue(field.name, date, false)
-                    }
+                    onChange={(date) => form.setFieldValue(field.name, date, false)}
                     {...other}
                 />
             </ThemeProvider>
@@ -117,9 +115,7 @@ export default function GigForm({ user }: Props) {
                             form.setFieldError(field.name, error);
                         }
                     }}
-                    onChange={(date) =>
-                        form.setFieldValue(field.name, date, false)
-                    }
+                    onChange={(date) => form.setFieldValue(field.name, date, false)}
                     {...other}
                 />
             </ThemeProvider>
@@ -160,18 +156,12 @@ export default function GigForm({ user }: Props) {
                             <div className={styles.row}>
                                 <div className={styles.col}>
                                     <label>Date:</label>
-                                    <Field
-                                        name="date"
-                                        component={DatePickerField}
-                                    />
+                                    <Field name="date" component={DatePickerField} />
                                 </div>
 
                                 <div className={styles.col}>
                                     <label>Time:</label>
-                                    <Field
-                                        name="time"
-                                        component={TimePickerField}
-                                    />
+                                    <Field name="time" component={TimePickerField} />
                                 </div>
                             </div>
 
@@ -204,11 +194,7 @@ export default function GigForm({ user }: Props) {
                                     <Field
                                         type="checkbox"
                                         name="isRepeat"
-                                        onClick={() =>
-                                            setIsRepeated(
-                                                (prevState) => !prevState
-                                            )
-                                        }
+                                        onClick={() => setIsRepeated((prevState) => !prevState)}
                                     />
                                 </div>
 
@@ -217,15 +203,9 @@ export default function GigForm({ user }: Props) {
                                         <>
                                             <label>Frequency:</label>
                                             <Field as="select" name="frequency">
-                                                <option value="weekly">
-                                                    Weekly
-                                                </option>
-                                                <option value="monthly">
-                                                    Monthly
-                                                </option>
-                                                <option value="biweekly">
-                                                    Biweekly
-                                                </option>
+                                                <option value="weekly">Weekly</option>
+                                                <option value="monthly">Monthly</option>
+                                                <option value="biweekly">Biweekly</option>
                                             </Field>
                                         </>
                                     )}
@@ -233,10 +213,7 @@ export default function GigForm({ user }: Props) {
                             </div>
 
                             <div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                >
+                                <button type="submit" className="btn btn-primary">
                                     Add Gig
                                 </button>
                             </div>

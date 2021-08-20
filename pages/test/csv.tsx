@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CsvRow from '../../components/repertoire/CsvUploadModal';
+import CsvRow from '../repertoire/CsvUploadContainer/CsvUploadModal/CsvUploadModal';
 
 export default function Csv() {
     const [isModalOpen, setIsModalOpen] = useState(false);

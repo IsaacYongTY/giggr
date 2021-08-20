@@ -31,9 +31,7 @@ export default function convertEnharmonic(keyString: string): string {
 
     const result =
         accidental === '#'
-            ? Object.keys(enharmonicPair).find(
-                  (element) => enharmonicPair[element] === keyString
-              )
+            ? Object.keys(enharmonicPair).find((element) => enharmonicPair[element] === keyString)
             : enharmonicPair[keyString];
 
     return result + (modeString ? modeString : '');

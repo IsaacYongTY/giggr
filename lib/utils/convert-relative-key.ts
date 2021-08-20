@@ -1,10 +1,7 @@
 import { majorKeyArray, minorKeyArray } from '../data/data';
 
 export default function convertRelativeKey(keyString: string): string {
-    if (
-        !majorKeyArray.includes(keyString) &&
-        !minorKeyArray.includes(keyString)
-    ) {
+    if (!majorKeyArray.includes(keyString) && !minorKeyArray.includes(keyString)) {
         return '';
     }
 
