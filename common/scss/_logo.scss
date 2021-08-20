@@ -1,0 +1,27 @@
+.logo {
+    min-width: 9rem;
+    height: 5rem;
+    width: 5rem;
+
+    z-index: 2;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-white {
+    background-image: url('/public/img/logos/giggr-logo-white-600x250.png');
+}
+
+.logo-lg {
+    width: 12rem;
+    height: 5rem;
+}
+
+.logo-position-top-center {
+    position: absolute;
+    top: 2rem;
+    left: calc(50% - 6rem);
+    z-index: 99;
+}

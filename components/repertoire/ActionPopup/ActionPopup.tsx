@@ -1,0 +1,28 @@
+import React, { useRef } from 'react';
+
+import styles from './_action-popup.module.scss';
+
+export default function ActionPopup({
+    handleOpenModal,
+    song,
+    setIsShowPopup,
+    handleOpenConfirmModal,
+}: any) {
+    const actionRow = useRef(null);
+
+    return (
+        <div
+            ref={actionRow}
+            className={`${styles.container} `}
+            onMouseEnter={() => setIsShowPopup(true)}
+        >
+            <span className="material-icons" onClick={() => handleOpenModal(song)}>
+                edit
+            </span>
+
+            <span className="material-icons" onClick={() => handleOpenConfirmModal(song)}>
+                delete
+            </span>
+        </div>
+    );
+}

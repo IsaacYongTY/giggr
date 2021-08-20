@@ -12,44 +12,45 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
 
 ### Technologies
 
-- Frontend - ReactJS, **NextJS**, **Typescript**
-- API - Node + Express, Javascript
-- Database - **PostgreSQL, Sequelize, Supabase**
-- Unit Testing
-- Deployment - **Vercel**
-- SCSS
+-   Frontend - ReactJS, **NextJS**, **Typescript**
+-   API - Node + Express, Javascript
+-   Database - **PostgreSQL, Sequelize, Supabase**
+-   Unit Testing
+-   Deployment - **Vercel**
+-   SCSS
 
 ### Scope - MVP
 
-- Adobe XD low fidelity prototype
-- Adobe XD high fidelity prototype
-- User Authentication - Sign up, Log in , Log out
-    - Local
-    - Facebook
-- CRUD
-    - Manage repertoire
-        - Create own repertoire
-        - Filter songs based on tags, such as wedding
-        - Generate metadata head
-        - Edit entry right at the table
-    - Manage gigs
-        - List View
-        - Date Picker
-        - DashboardCardList if timing clash - avoid double booking
-- Payment
-    - Pricing Table
-    - Stripe API
-- API
-    - CRUD to store master song database
+-   Adobe XD low fidelity prototype
+-   Adobe XD high fidelity prototype
+-   User Authentication - Sign up, Log in , Log out
+    -   Local
+    -   Facebook
+-   CRUD
+    -   Manage repertoire
+        -   Create own repertoire
+        -   Filter songs based on tags, such as wedding
+        -   Generate metadata head
+        -   Edit entry right at the table
+    -   Manage gigs
+        -   List View
+        -   Date Picker
+        -   DashboardCardList if timing clash - avoid double booking
+-   Payment
+    -   Pricing Table
+    -   Stripe API
+-   API
+    -   CRUD to store master song database
 
 ### Stretch Goals
 
-- Tiered subscription
-- Integration with Google Calendar API
-- Manage Gig - Calendar View
-- Companion Mobile App - React Native
-- Financial Report - Gigs
+-   Tiered subscription
+-   Integration with Google Calendar API
+-   Manage Gig - Calendar View
+-   Companion Mobile App - React Native
+-   Financial Report - Index
 
 ### Relational Database Sketch
+
 V2. https://drive.google.com/file/d/1Ziy5RiNsiehQfA_4e7NA7ANe2AM_WcHL/view?usp=sharing
 Original: https://whimsical.com/giggr-database-schema-4HWe9rs9dkoJRxfmv7WJvy

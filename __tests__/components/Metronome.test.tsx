@@ -1,329 +1,313 @@
-import React from "react"
-import userEvent from "@testing-library/user-event";
-import {render, screen } from "@testing-library/react"
-import "@testing-library/jest-dom"
-import Metronome from "../../components/common/Metronome";
-const defaultTempo = 69
+import React from 'react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Metronome from '../../components/common/Metronome/Metronome';
+const defaultTempo = 69;
 
-jest.mock("next/router", () => require("next-router-mock"))
+jest.mock('next/router', () => require('next-router-mock'));
 
 function renderMetronome() {
     const defaultProps = {
-        defaultTempo: defaultTempo
-    }
+        defaultTempo: defaultTempo,
+    };
 
-    const utils = render(<Metronome {...defaultProps} />)
-    const bpmDisplay = utils.getByText(defaultTempo)
-    const tapButton = utils.getByRole("button", { name: /tap tempo/i})
-    const setTempoButton = utils.getByRole("button", { name: /set tempo/i})
-    const tempoInput = utils.getByLabelText(/input.*/i)
-    const toggleDecimalButton = utils.getByRole("button", { name: /toggle decimal/i})
-    const resetButton = utils.getByRole("button", { name: /reset/i})
-    const countInput = utils.getByRole("spinbutton", {name: /count.*/i})
+    const utils = render(<Metronome {...defaultProps} />);
+    const bpmDisplay = utils.getByText(defaultTempo);
+    const tapButton = utils.getByRole('button', { name: /tap tempo/i });
+    const setTempoButton = utils.getByRole('button', { name: /set tempo/i });
+    const tempoInput = utils.getByLabelText(/input.*/i);
+    const toggleDecimalButton = utils.getByRole('button', {
+        name: /toggle decimal/i,
+    });
+    const resetButton = utils.getByRole('button', { name: /reset/i });
+    const countInput = utils.getByRole('spinbutton', { name: /count.*/i });
 
-    return {...utils, tapButton, setTempoButton, tempoInput, toggleDecimalButton, bpmDisplay, countInput, resetButton}
+    return {
+        ...utils,
+        tapButton,
+        setTempoButton,
+        tempoInput,
+        toggleDecimalButton,
+        bpmDisplay,
+        countInput,
+        resetButton,
+    };
 }
 
-describe("The bpm page", () => {
-
-    let errorMessage = /please enter tempo of range 40 - 200/i
+describe('The bpm page', () => {
+    const errorMessage = /please enter tempo of range 40 - 200/i;
 
     beforeEach(() => {
-        jest.useFakeTimers()
-    })
+        jest.useFakeTimers();
+    });
 
-    it("should render correctly", () => {
-        const { countInput } = renderMetronome()
-        expect(countInput).toBeDisabled()
-    })
+    it('should render correctly', () => {
+        const { countInput } = renderMetronome();
+        expect(countInput).toBeDisabled();
+    });
 
-    it("should increase the count according to the amount of times Tap button tapped", () => {
-        const { countInput, tapButton } = renderMetronome()
-        expect(countInput).toHaveValue(0)
+    it('should increase the count according to the amount of times Tap button tapped', () => {
+        const { countInput, tapButton } = renderMetronome();
+        expect(countInput).toHaveValue(0);
 
-        userEvent.click(tapButton)
-        userEvent.click(tapButton)
+        userEvent.click(tapButton);
+        userEvent.click(tapButton);
 
-        expect(countInput).toHaveValue(2)
-    })
+        expect(countInput).toHaveValue(2);
+    });
 
-    it("should increase the count according to the amount of times Space is tapped", () => {
-        const { countInput, tapButton } = renderMetronome()
-        expect(countInput).toHaveValue(0)
+    it('should increase the count according to the amount of times Space is tapped', () => {
+        const { countInput } = renderMetronome();
+        expect(countInput).toHaveValue(0);
 
-        userEvent.keyboard("{space}")
-        userEvent.keyboard("{space}")
-        userEvent.keyboard("{space}")
+        userEvent.keyboard('{space}');
+        userEvent.keyboard('{space}');
+        userEvent.keyboard('{space}');
 
-        expect(countInput).toHaveValue(3)
-    })
+        expect(countInput).toHaveValue(3);
+    });
 
-    it("should not change the count if keys other than Space is tapped", () => {
-        const { countInput, tapButton } = renderMetronome()
-        expect(countInput).toHaveValue(0)
+    it('should not change the count if keys other than Space is tapped', () => {
+        const { countInput } = renderMetronome();
+        expect(countInput).toHaveValue(0);
 
-        userEvent.keyboard("k")
-        userEvent.keyboard("{enter}")
-        userEvent.keyboard("{esc}")
+        userEvent.keyboard('k');
+        userEvent.keyboard('{enter}');
+        userEvent.keyboard('{esc}');
 
-        expect(countInput).toHaveValue(0)
-    })
+        expect(countInput).toHaveValue(0);
+    });
 
-    it("should not change for the first 2 tap", async() => {
+    it('should not change for the first 2 tap', async () => {
+        const { countInput, tapButton } = renderMetronome();
 
-
-        const { countInput, tapButton } = renderMetronome()
-
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(1000)
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(1000)
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(1000);
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(1000);
 
         // expect(screen.getByText(defaultTempo)).toBeInTheDocument()
-        expect(countInput).toHaveValue(2)
+        expect(countInput).toHaveValue(2);
+    });
 
+    it('should display tempo value 3rd tap onwards', () => {
+        const { countInput, tapButton } = renderMetronome();
 
-    })
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(1000);
+        userEvent.click(tapButton);
 
-    it("should display tempo value 3rd tap onwards", () => {
+        expect(countInput).toHaveValue(2);
+        jest.advanceTimersByTime(1000);
+        userEvent.click(tapButton);
 
-        const { countInput, tapButton } = renderMetronome()
+        expect(screen.getByText('60')).toBeInTheDocument();
+    });
 
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(1000)
-        userEvent.click(tapButton)
+    describe('The reset button', () => {
+        it('should hide error message if there is one', () => {
+            const { setTempoButton, resetButton } = renderMetronome();
 
+            userEvent.click(setTempoButton);
 
-        expect(countInput).toHaveValue(2)
-        jest.advanceTimersByTime(1000)
-        userEvent.click(tapButton)
+            userEvent.click(resetButton);
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+        });
 
+        it('should reset tempo to default value and count to 0', () => {
+            const { countInput, tapButton, resetButton } = renderMetronome();
 
-        expect(screen.getByText("60")).toBeInTheDocument()
+            userEvent.click(tapButton);
+            userEvent.click(tapButton);
+            userEvent.click(tapButton);
+            userEvent.click(tapButton);
 
-    })
+            expect(countInput).toHaveValue(4);
 
-    describe("The reset button", () => {
-        it("should hide error message if there is one", () => {
-            const { setTempoButton, resetButton } = renderMetronome()
+            userEvent.click(resetButton);
 
-            userEvent.click(setTempoButton)
+            expect(countInput).toHaveValue(0);
+            expect(screen.getByText(defaultTempo)).toBeInTheDocument();
+        });
+    });
 
-            userEvent.click(resetButton)
-            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
-        })
+    it('should display correct tempo after Tap button is tapped more than 2 times', () => {
+        const { countInput, tapButton } = renderMetronome();
 
-        it("should reset tempo to default value and count to 0", () => {
-            const { countInput, tapButton, resetButton } = renderMetronome()
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(500);
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(500);
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(500);
+        userEvent.click(tapButton);
+        jest.advanceTimersByTime(500);
 
-            userEvent.click(tapButton)
-            userEvent.click(tapButton)
-            userEvent.click(tapButton)
-            userEvent.click(tapButton)
+        expect(countInput).toHaveValue(4);
+        expect(screen.getByText('120')).toBeInTheDocument();
+    });
 
-            expect(countInput).toHaveValue(4)
+    it('should display correct tempo after Space bar is pressed more than 2 times', () => {
+        const { countInput } = renderMetronome();
 
+        userEvent.keyboard('{space}');
+        jest.advanceTimersByTime(500);
+        userEvent.keyboard('{space}');
+        jest.advanceTimersByTime(500);
+        userEvent.keyboard('{space}');
+        jest.advanceTimersByTime(500);
+        userEvent.keyboard('{space}');
+        jest.advanceTimersByTime(500);
 
-            userEvent.click(resetButton)
+        expect(countInput).toHaveValue(4);
+        expect(screen.getByText('120')).toBeInTheDocument();
+    });
 
-            expect(countInput).toHaveValue(0)
-            expect(screen.getByText(defaultTempo)).toBeInTheDocument()
+    describe('The behaviour of Toggle Decimal button', () => {
+        it('should default as without decimal', () => {
+            const { tapButton } = renderMetronome();
 
-        })
-    })
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(500);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(495);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(500);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(495);
 
+            expect(screen.getByText('120')).toBeInTheDocument();
+        });
 
-    it("should display correct tempo after Tap button is tapped more than 2 times", () => {
+        it('should toggle between decimal and round number when clicked', () => {
+            const { tapButton, toggleDecimalButton } = renderMetronome();
 
-        const { countInput, tapButton } = renderMetronome()
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(500);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(495);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(500);
+            userEvent.click(tapButton);
+            jest.advanceTimersByTime(495);
 
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(500)
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(500)
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(500)
-        userEvent.click(tapButton)
-        jest.advanceTimersByTime(500)
+            userEvent.click(toggleDecimalButton);
+            expect(screen.getByText('120.4')).toBeInTheDocument();
 
-        expect(countInput).toHaveValue(4)
-        expect(screen.getByText("120")).toBeInTheDocument()
+            userEvent.click(toggleDecimalButton);
+            expect(screen.getByText('120')).toBeInTheDocument();
+        });
+    });
 
+    describe('The behaviour of Tap to play', () => {
+        it('should render text correctly', () => {
+            renderMetronome();
+            userEvent.click(screen.getByRole('button', { name: /tap to play/i }));
+            expect(screen.getByText(/tap to stop/i)).toBeInTheDocument();
 
-    })
+            userEvent.click(screen.getByText(/tap to stop/i));
+            expect(screen.getByText(/tap to play/i)).toBeInTheDocument();
+        });
 
-    it("should display correct tempo after Space bar is pressed more than 2 times", () => {
+        it.todo('should play sound at interval when Play button is pressed');
+    });
 
-        const { countInput, tapButton } = renderMetronome()
+    describe('The behaviour of Set Tempo Button', () => {
+        it('should render correctly', () => {
+            const { tempoInput } = renderMetronome();
 
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
-        userEvent.keyboard("{space}")
-        jest.advanceTimersByTime(500)
+            expect(tempoInput).toHaveValue('');
+        });
 
-        expect(countInput).toHaveValue(4)
-        expect(screen.getByText("120")).toBeInTheDocument()
+        it('should set the tempo to Tempo Display', () => {
+            const { setTempoButton, tempoInput } = renderMetronome();
 
+            userEvent.type(tempoInput, '120');
+            expect(tempoInput).toHaveValue('120');
 
-    })
+            userEvent.click(setTempoButton);
+            expect(tempoInput).toHaveValue('');
+            expect(screen.queryByText(defaultTempo)).not.toBeInTheDocument();
+            expect(screen.getByText('120')).toBeInTheDocument();
+        });
 
-    describe("The behaviour of Toggle Decimal button", () => {
-        it("should default as without decimal", () => {
-            let { tapButton } = renderMetronome()
+        it('should show error message if input is empty', () => {
+            const { setTempoButton } = renderMetronome();
 
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(500)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(495)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(500)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(495)
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+            userEvent.click(setTempoButton);
+            expect(screen.getByText(errorMessage)).toBeInTheDocument();
+            expect(screen.getByText(defaultTempo)).toBeInTheDocument();
+        });
 
-            expect(screen.getByText("120")).toBeInTheDocument()
+        it('should clear error message if input is valid', () => {
+            const { setTempoButton, tempoInput } = renderMetronome();
 
-        })
+            userEvent.click(setTempoButton);
 
-        it("should toggle between decimal and round number when clicked", () => {
-            let { tapButton, toggleDecimalButton } = renderMetronome()
+            userEvent.type(tempoInput, '120');
+            userEvent.click(setTempoButton);
 
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(500)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(495)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(500)
-            userEvent.click(tapButton)
-            jest.advanceTimersByTime(495)
-
-            userEvent.click(toggleDecimalButton)
-            expect(screen.getByText("120.4")).toBeInTheDocument()
-
-            userEvent.click(toggleDecimalButton)
-            expect(screen.getByText("120")).toBeInTheDocument()
-        })
-    })
-
-    describe("The behaviour of Tap to play", () => {
-        it("should render text correctly", () => {
-             renderMetronome()
-            userEvent.click(screen.getByRole("button", { name: /tap to play/i }))
-            expect(screen.getByText(/tap to stop/i)).toBeInTheDocument()
-
-            userEvent.click(screen.getByText(/tap to stop/i))
-            expect(screen.getByText(/tap to play/i)).toBeInTheDocument()
-        })
-
-        it.todo("should play sound at interval when Play button is pressed")
-    })
-
-    describe("The behaviour of Set Tempo Button", () => {
-
-        it("should render correctly", () => {
-            const { tempoInput } = renderMetronome()
-
-            expect(tempoInput).toHaveValue("")
-        })
-
-        it("should set the tempo to Tempo Display", () => {
-            const { setTempoButton, tempoInput } = renderMetronome()
-
-            userEvent.type(tempoInput, "120")
-            expect(tempoInput).toHaveValue("120")
-
-            userEvent.click(setTempoButton)
-            expect(tempoInput).toHaveValue("")
-            expect(screen.queryByText(defaultTempo)).not.toBeInTheDocument()
-            expect(screen.getByText("120")).toBeInTheDocument()
-        })
-
-        it("should show error message if input is empty", () => {
-            const { setTempoButton } = renderMetronome()
-
-
-            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
-            userEvent.click(setTempoButton)
-            expect(screen.getByText(errorMessage)).toBeInTheDocument()
-            expect(screen.getByText(defaultTempo)).toBeInTheDocument()
-
-        })
-
-        it("should clear error message if input is valid", () => {
-            const { setTempoButton, tempoInput } = renderMetronome()
-
-            userEvent.click(setTempoButton)
-
-            userEvent.type(tempoInput, "120")
-            userEvent.click(setTempoButton)
-
-            expect(screen.getByText("120")).toBeInTheDocument()
-            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument()
-
-        })
+            expect(screen.getByText('120')).toBeInTheDocument();
+            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+        });
 
         it("should set user tempo when 'Enter' key is pressed", () => {
-            const { tempoInput } = renderMetronome()
+            const { tempoInput } = renderMetronome();
 
-            userEvent.keyboard("{enter}")
-            expect(screen.getByText(errorMessage)).toBeInTheDocument()
+            userEvent.keyboard('{enter}');
+            expect(screen.getByText(errorMessage)).toBeInTheDocument();
 
-            userEvent.type(tempoInput, "120")
-            userEvent.keyboard("{enter}")
+            userEvent.type(tempoInput, '120');
+            userEvent.keyboard('{enter}');
 
-            expect(screen.getByText("120")).toBeInTheDocument()
-        })
+            expect(screen.getByText('120')).toBeInTheDocument();
+        });
 
+        it('should stay with the previous value for the first two beats when tempo is set manually', () => {
+            const { tapButton, tempoInput, setTempoButton } = renderMetronome();
+            userEvent.type(tempoInput, '79');
+            userEvent.click(setTempoButton);
 
-        it("should stay with the previous value for the first two beats when tempo is set manually", () => {
-            const { tapButton, tempoInput, setTempoButton } = renderMetronome()
-            userEvent.type(tempoInput, "79")
-            userEvent.click(setTempoButton)
+            expect(screen.getByText('79')).toBeInTheDocument();
+            jest.advanceTimersByTime(2500);
 
-            expect(screen.getByText("79")).toBeInTheDocument()
-            jest.advanceTimersByTime(2500)
+            userEvent.click(tapButton);
+            expect(screen.getByText('79')).toBeInTheDocument();
+        });
+    });
 
-            userEvent.click(tapButton)
-            expect(screen.getByText("79")).toBeInTheDocument()
+    describe('The behaviour of the metronome upon resetting after idle time', () => {
+        it('should stay with the previous value for the first two beats when idle time is more than 2s', () => {
+            const { countInput } = renderMetronome();
 
-        })
-    })
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(500);
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(500);
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(500);
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(500);
 
-    describe("The behaviour of the metronome upon resetting after idle time", () => {
-        it("should stay with the previous value for the first two beats when idle time is more than 2s", () => {
-            const { tapButton, countInput,  tempoInput, setTempoButton } = renderMetronome()
+            expect(countInput).toHaveValue(4);
+            expect(screen.getByText('120')).toBeInTheDocument();
 
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(500)
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(500)
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(500)
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(500)
+            jest.advanceTimersByTime(2500);
 
-            expect(countInput).toHaveValue(4)
-            expect(screen.getByText("120")).toBeInTheDocument()
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(1000);
+            expect(countInput).toHaveValue(1);
+            expect(screen.getByText('120')).toBeInTheDocument();
 
-            jest.advanceTimersByTime(2500)
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(1000);
+            expect(screen.getByText('120')).toBeInTheDocument();
 
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(1000)
-            expect(countInput).toHaveValue(1)
-            expect(screen.getByText("120")).toBeInTheDocument()
-
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(1000)
-            expect(screen.getByText("120")).toBeInTheDocument()
-
-            userEvent.keyboard("{space}")
-            jest.advanceTimersByTime(1000)
-            expect(screen.getByText("60")).toBeInTheDocument()
-
-        })
-    })
-
-})
+            userEvent.keyboard('{space}');
+            jest.advanceTimersByTime(1000);
+            expect(screen.getByText('60')).toBeInTheDocument();
+        });
+    });
+});
