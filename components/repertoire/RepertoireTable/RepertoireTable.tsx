@@ -5,9 +5,9 @@ import Modal from 'react-modal';
 
 import AddSongModal from '../AddSongModal';
 import RepertoireRow from './RepertoireRow';
-import ButtonLoader from '../../../components/common/Loader';
+import ButtonLoader from '../../common/Loader';
 import ActionRow from '../ActionRow';
-import AlertBox from '../../../components/common/AlertBox';
+import AlertBox from '../../common/AlertBox';
 
 import Song from '../../../lib/types/song';
 
@@ -20,7 +20,12 @@ type Props = {
     data?: any;
 };
 
-export default function RepertoireTable({ songs, user, database, data }: Props) {
+export default function RepertoireTable({
+    songs,
+    user,
+    database,
+    data,
+}: Props) {
     const [alertOptions, setAlertOptions] = useState({ message: '', type: '' });
 
     const modalStyles = {
@@ -46,11 +51,15 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
     const [deleteSong, setDeleteSong] = useState<Song>();
     const [deleteSongArray, setDeleteSongArray] = useState<Song[]>([]);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-    const [isConfirmDeleteSelectedModalOpen, setIsConfirmDeleteSelectedModalOpen] = useState(false);
+    const [
+        isConfirmDeleteSelectedModalOpen,
+        setIsConfirmDeleteSelectedModalOpen,
+    ] = useState(false);
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([]);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const isAllSelected = selectedSongs.length > 0 && songs?.length === selectedSongs.length;
+    const isAllSelected =
+        selectedSongs.length > 0 && songs?.length === selectedSongs.length;
 
     const colKey = [
         <input
@@ -89,7 +98,9 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
             trigger('/api/v1/users?category=id&order=ASC');
 
             setIsConfirmModalOpen(false);
-            setSelectedSongs((prevState) => prevState.filter((song) => song.id !== id));
+            setSelectedSongs((prevState) =>
+                prevState.filter((song) => song.id !== id)
+            );
         } catch (error) {
             console.log(error);
             console.log('Song deletion failed');
@@ -144,7 +155,9 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
                 setIsModalOpen={setIsModalOpen}
                 database="database1"
                 selectedSongs={selectedSongs}
-                handleOpenConfirmDeleteSelectedModal={handleOpenConfirmDeleteSelectedModal}
+                handleOpenConfirmDeleteSelectedModal={
+                    handleOpenConfirmDeleteSelectedModal
+                }
             />
 
             <div className={styles.tableContainer}>
@@ -165,7 +178,9 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
                                     song={song}
                                     handleOpenModal={handleOpenModal}
                                     handleDeleteSong={handleDeleteSong}
-                                    handleOpenConfirmModal={handleOpenConfirmModal}
+                                    handleOpenConfirmModal={
+                                        handleOpenConfirmModal
+                                    }
                                     selectedSongs={selectedSongs}
                                     setSelectedSongs={setSelectedSongs}
                                 />
@@ -205,7 +220,9 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
                             &amp;?
                         </div>
 
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
+                        {errorMessage && (
+                            <div className="error-message">{errorMessage}</div>
+                        )}
 
                         <div className={styles.buttonRow}>
                             <button
@@ -217,7 +234,9 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
 
                             <button
                                 className="btn btn-danger"
-                                onClick={() => handleDeleteSong(deleteSong?.id || -1)}
+                                onClick={() =>
+                                    handleDeleteSong(deleteSong?.id || -1)
+                                }
                             >
                                 Confirm Delete
                             </button>
@@ -227,22 +246,34 @@ export default function RepertoireTable({ songs, user, database, data }: Props) 
             )}
 
             {isConfirmDeleteSelectedModalOpen && (
-                <Modal isOpen={isConfirmDeleteSelectedModalOpen} style={modalStyles}>
+                <Modal
+                    isOpen={isConfirmDeleteSelectedModalOpen}
+                    style={modalStyles}
+                >
                     <div className={styles.modalContainer}>
-                        <div>Are you sure you want to delete {deleteSongArray.length} items?</div>
+                        <div>
+                            Are you sure you want to delete{' '}
+                            {deleteSongArray.length} items?
+                        </div>
 
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
+                        {errorMessage && (
+                            <div className="error-message">{errorMessage}</div>
+                        )}
                         <div className={styles.buttonRow}>
                             <button
                                 className="btn btn-secondary"
-                                onClick={() => setIsConfirmDeleteSelectedModalOpen(false)}
+                                onClick={() =>
+                                    setIsConfirmDeleteSelectedModalOpen(false)
+                                }
                             >
                                 Cancel
                             </button>
 
                             <button
                                 className="btn btn-danger"
-                                onClick={() => handleDeleteSelectedSongs(deleteSongArray)}
+                                onClick={() =>
+                                    handleDeleteSelectedSongs(deleteSongArray)
+                                }
                             >
                                 Confirm Delete
                             </button>

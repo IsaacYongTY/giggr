@@ -48,7 +48,7 @@ For the MVP, I aim to **explore different frameworks and database**, with the fo
 -   Integration with Google Calendar API
 -   Manage Gig - Calendar View
 -   Companion Mobile App - React Native
--   Financial Report - Gigs
+-   Financial Report - Index
 
 ### Relational Database Sketch
 

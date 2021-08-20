@@ -1,23 +1,23 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useRouter } from 'next/router';
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { setCookie } from 'nookies';
 
-import ButtonWithLoader from '../../../../components/common/ButtonWithLoader/ButtonWithLoader';
+import ButtonWithLoader from '../../common/ButtonWithLoader';
 
-import styles from './SignupContainer.module.scss';
+import styles from './LoginContainer.module.scss';
 
 interface Props {
     setIsLoginPage: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function SignupContainer({ setIsLoginPage }: Props) {
+export default function LoginContainer({ setIsLoginPage }: Props) {
     const router = useRouter();
+
     const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
 
     const schema = Yup.object().shape({
         email: Yup.string().required('Please provide email').email('Please provide a valid email'),
@@ -33,46 +33,51 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
         password: '',
     };
 
-    async function handleSignup(values: MyFormValues) {
+    async function handleLogin(values: MyFormValues) {
         try {
             setIsLoading(true);
-            const { data } = await axios.post(`/api/v1/auth/signup`, values);
+            const res = await axios.post(`/api/v1/auth/login`, values);
 
-            setCookie(null, 'x-auth-token', `Bearer ${data.token}`, {
+            setCookie(null, 'x-auth-token', `Bearer ${res.data.token}`, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
             });
 
-            await router.push('/dashboard');
+            setIsShowErrorMessage(false);
+            router.push('/dashboard');
         } catch (err) {
             setIsShowErrorMessage(true);
             setIsLoading(false);
-            setErrorMessage(err.response.data.message);
+            console.log(err);
         }
     }
+
     return (
         <div className={`${styles.wrapper} card`}>
             <div className="card__body">
-                <h2>Sign Up</h2>
+                <h2>Log In</h2>
                 <p>
-                    Already registered? <a onClick={() => setIsLoginPage(true)}>Login here</a>
+                    New user?
+                    <a onClick={() => setIsLoginPage(false)}>Sign up here</a>
                 </p>
+
                 <Formik
                     initialValues={initialValues}
-                    onSubmit={handleSignup}
+                    onSubmit={handleLogin}
                     validationSchema={schema}
                 >
-                    {({ handleChange, handleSubmit, errors, touched }) => (
+                    {({ errors, handleChange, handleSubmit, touched }) => (
                         <form method="POST" onSubmit={handleSubmit}>
                             <input
                                 className="form-control"
                                 name="email"
                                 placeholder="Email"
-                                type="email"
-                                onChange={handleChange}
                                 autoComplete="off"
+                                onChange={handleChange}
+                                type="email"
                             />
                             <div>{errors.email && touched.email && errors.email}</div>
+
                             <input
                                 className="form-control"
                                 name="password"
@@ -82,11 +87,13 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
                                 autoComplete="off"
                             />
                             {errors.password && touched.password && errors.password}
-                            {isShowErrorMessage && <div>{errorMessage}</div>}
+                            {isShowErrorMessage && (
+                                <span>Invalid email or password. Please try again.</span>
+                            )}
                             <ButtonWithLoader
-                                label="Create Account"
                                 isLoading={isLoading}
-                                onClick={() => console.log(handleSubmit)}
+                                label="Log In"
+                                onClick={() => console.log('placeholder')}
                             />
                         </form>
                     )}

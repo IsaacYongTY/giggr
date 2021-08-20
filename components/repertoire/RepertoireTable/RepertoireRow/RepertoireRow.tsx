@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import ActionPopup from '../../ActionPopup/ActionPopup';
 
-import StatusPillButton from '../../../../components/common/StatusPillButton/StatusPillButton';
+import StatusPillButton from '../../../common/StatusPillButton/StatusPillButton';
 
 import convertDurationMsToMinSec from '../../../../lib/utils/convert-duration-ms-to-min-sec';
 import convertKeyModeIntToKey from '../../../../lib/utils/convert-key-mode-int-to-key';

@@ -6,9 +6,9 @@ import isChinese from 'is-chinese';
 import Song from '../../../lib/types/song';
 import Form from '../../../lib/types/Form';
 
-import MetaToolForm from '../../../components/common/MetaToolForm';
-import Metronome from '../../../components/common/Metronome';
-import SongDetailForm from '../../../components/common/SongDetailForm';
+import MetaToolForm from '../../common/MetaToolForm';
+import Metronome from '../../common/Metronome';
+import SongDetailForm from '../../common/SongDetailForm';
 import getInitialism from '../../../lib/utils/get-initialism';
 import getRomTitle from '../../../lib/utils/get-rom-title';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './_dashboard-card.module.scss';
+import styles from './GigsCard.module.scss';
 import GigItemRow from './GigItemRow';
 import Link from 'next/link';
 
