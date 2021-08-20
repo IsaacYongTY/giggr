@@ -13,13 +13,15 @@ import Musician from '../../lib/types/musician';
 
 import styles from './repertoire.module.scss';
 
-export const getServerSideProps: GetServerSideProps = withAuth(async ({ req }: any) => {
-    return {
-        props: {
-            user: req.user,
-        },
-    };
-});
+export const getServerSideProps: GetServerSideProps = withAuth(
+    async ({ req }: any) => {
+        return {
+            props: {
+                user: req.user,
+            },
+        };
+    }
+);
 
 type Props = {
     initialSongs?: Song[];
@@ -46,15 +48,7 @@ type Props = {
     user: any;
 };
 
-// interface Data {
-//     songs: Song[];
-//     musicians: Musician[];
-//     genres: { id: number; name: string }[];
-//     tags: { id: number; name: string }[];
-//     moods: { id: number; name: string }[];
-//     languages: { id: number; name: string }[];
-// }
-export default function Index({ user }: Props) {
+export default function RepertoirePage({ user }: Props) {
     const { data } = useSWR(`/api/v1/users?category=id&order=ASC`);
 
     const [filter, setFilter] = useState('title');
@@ -63,7 +57,7 @@ export default function Index({ user }: Props) {
 
     return (
         <>
-            <Layout title="My Index" user={user}>
+            <Layout title="My Repertoire" user={user}>
                 <div className={styles.container}>
                     <FilterRow setFilter={setFilter} />
 
