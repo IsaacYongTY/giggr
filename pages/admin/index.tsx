@@ -1,21 +1,17 @@
-import React from "react";
-import Layout from "../../components/layouts/Layout";
-import { GetServerSideProps } from "next";
-import withAuth from "../../middlewares/withAuth";
+import React from 'react';
+import { GetServerSideProps } from 'next';
 
-export const getServerSideProps : GetServerSideProps = withAuth((({req, res} : any) => {
+import Layout from '../../components/Layout';
+import withAuth from '../../middlewares/withAuth';
+
+export const getServerSideProps: GetServerSideProps = withAuth(({ req }: any) => {
     return {
         props: {
-            user: req.user
-        }
-    }
-}))
+            user: req.user,
+        },
+    };
+});
 
-export default function AdminPage({ user } : any) {
-
-    return (
-        <Layout user={user}>
-
-        </Layout>
-    )
+export default function AdminPage({ user, children }: any) {
+    return <Layout user={user}>{children}</Layout>;
 }

@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 40rem;
+    margin: 1rem 3rem;
+}
+
+.title {
+    font-size: 2.6rem;
+    margin-bottom: 0;
+}
+
+.list {
+    height: 16rem;
+    margin-top: 2rem;
+    > ul {
+        margin-top: 0;
+    }
+}
+
+.footer {
+    //display: flex;
+    text-align: right;
+}

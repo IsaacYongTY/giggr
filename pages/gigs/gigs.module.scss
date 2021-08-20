@@ -1,0 +1,15 @@
+.container {
+    width: 70%;
+    margin: 3rem auto 0 auto;
+    height: 100vh;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.calendar {
+    width: 100%;
+}

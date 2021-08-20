@@ -1,0 +1,91 @@
+@use "../../../../common/scss/variables";
+
+.modal {
+    background-color: white;
+    position: absolute;
+    width: 60rem;
+    height: 40rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto auto;
+
+    border: 1px solid lightgray;
+    border-radius: 1rem;
+    box-shadow: #b7b7b7 0 0 1.5rem;
+    left: 50%;
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    background-color: white;
+    //background-color: yellowgreen;
+    height: 80%;
+    width: 100%;
+
+    margin: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    input {
+        display: none;
+    }
+}
+
+.customUpload {
+    border: 1rem dashed variables.$blue;
+    border-radius: 0.5rem;
+    height: 100%;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-color: darken(white, 5%);
+
+        span {
+            animation: arrow-grow 0.3s 0.1s forwards ease-out;
+        }
+    }
+
+    span {
+        opacity: 50%;
+        transform: scale(2);
+        margin: 1rem 0;
+    }
+}
+
+.cancelButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(#333333, 10%);
+    }
+}
+
+.fileName {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+@keyframes arrow-grow {
+    0% {
+        transform: scale(2);
+    }
+
+    100% {
+        transform: scale(2.4);
+    }
+}

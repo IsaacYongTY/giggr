@@ -1,104 +1,101 @@
-import KeysDropdown from "../../components/common/KeysDropdown";
-import React, {Dispatch, SetStateAction} from "react";
-import { screen, render, cleanup } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom"
-import '@testing-library/jest-dom/extend-expect'
-import Form from "../../lib/types/Form";
+import KeysDropdown from '../../components/common/KeysDropdown/KeysDropdown';
+import React, { Dispatch, SetStateAction } from 'react';
+import { screen, render, cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
+import Form from '../../lib/types/Form';
 
 interface Props {
-    label: string
-    form: Form,
-    setForm: Dispatch<SetStateAction<Form>>
+    label: string;
+    form: Form;
+    setForm: Dispatch<SetStateAction<Form>>;
 }
 
-describe("The behaviour of key dropdowns <KeysDropdown />", () => {
-    it.todo("problem with this")
+describe('The behaviour of key dropdowns <KeysDropdown />', () => {
+    it.todo('problem with this');
     function renderKeysDropdown(props = {}) {
-
-
-        const defaultProps : Props = {
-            label: "Key",
+        const defaultProps: Props = {
+            label: 'Key',
             form: {},
-            setForm: jest.fn()
-        }
+            setForm: jest.fn(),
+        };
 
-        const utils = render(<KeysDropdown {...defaultProps} {...props} />)
-        const isMinorCheckbox = utils.getByRole("checkbox")
-        const keysDropdown = utils.getByLabelText(/key/i)
-        return {...utils, isMinorCheckbox, keysDropdown}
+        const utils = render(<KeysDropdown {...defaultProps} {...props} />);
+        const isMinorCheckbox = utils.getByRole('checkbox');
+        const keysDropdown = utils.getByLabelText(/key/i);
+        return { ...utils, isMinorCheckbox, keysDropdown };
     }
 
+    it('should render the component', () => {
+        const { keysDropdown, isMinorCheckbox } = renderKeysDropdown();
 
-    it("should render the component", () => {
-        const { keysDropdown, isMinorCheckbox } = renderKeysDropdown()
-
-        expect(keysDropdown).toBeInTheDocument()
-        expect(isMinorCheckbox).toBeInTheDocument()
-
-    })
+        expect(keysDropdown).toBeInTheDocument();
+        expect(isMinorCheckbox).toBeInTheDocument();
+    });
 
     it("should render the component with song's key if exist", async () => {
-
         renderKeysDropdown({
             form: {
                 key: 0,
-                mode: 1
+                mode: 1,
             },
-            setForm: jest.fn()
-        })
+            setForm: jest.fn(),
+        });
 
-        expect(screen.getByDisplayValue("C")).toBeInTheDocument()
+        expect(screen.getByDisplayValue('C')).toBeInTheDocument();
 
-        cleanup()
+        cleanup();
 
         renderKeysDropdown({
             form: {
                 key: 11,
-                mode: 0
+                mode: 0,
             },
-            setForm: jest.fn()
-        })
+            setForm: jest.fn(),
+        });
 
-        expect(screen.getByDisplayValue("Bm")).toBeInTheDocument()
+        expect(screen.getByDisplayValue('Bm')).toBeInTheDocument();
+    });
 
-    })
+    it('should toggle the dropdown menu and render key options accordingly', () => {
+        const { keysDropdown, rerender } = renderKeysDropdown();
 
-    it("should toggle the dropdown menu and render key options accordingly", () => {
-        const { keysDropdown, rerender } = renderKeysDropdown()
+        expect(keysDropdown).toBeInTheDocument();
 
-        expect(keysDropdown).toBeInTheDocument()
+        userEvent.click(keysDropdown);
 
-        userEvent.click(keysDropdown)
+        userEvent.click(screen.getByText('C'));
 
-        userEvent.click(screen.getByText('C'))
+        rerender(
+            <KeysDropdown
+                label="Key"
+                form={{
+                    key: 0,
+                    mode: 1,
+                }}
+                setForm={jest.fn()}
+            />
+        );
 
-        rerender(<KeysDropdown
-            label="Key"
-            form={{
-                key: 0,
-                mode: 1,
-            }}
-            setForm={jest.fn()}
-        />)
+        expect(screen.getByText('C')).toBeInTheDocument();
 
-        expect(screen.getByText('C')).toBeInTheDocument()
+        userEvent.click(keysDropdown);
+        userEvent.click(screen.getByText('Eb'));
 
-        userEvent.click(keysDropdown)
-        userEvent.click(screen.getByText('Eb'))
+        rerender(
+            <KeysDropdown
+                label="Key"
+                form={{
+                    key: 3,
+                    mode: 1,
+                }}
+                setForm={jest.fn()}
+            />
+        );
 
-        rerender(<KeysDropdown
-            label="Key"
-            form={{
-                key: 3,
-                mode: 1,
-            }}
-            setForm={jest.fn()}
-        />)
-
-        expect(screen.getByText('Eb')).toBeInTheDocument()
-
-    })
+        expect(screen.getByText('Eb')).toBeInTheDocument();
+    });
 
     // it("should toggle the isMinor checkbox", () => {
     //     const { isMinorCheckbox, keysDropdown } = renderKeysDropdown({
@@ -132,4 +129,4 @@ describe("The behaviour of key dropdowns <KeysDropdown />", () => {
     //     expect(screen.queryByText('Cm')).not.toBeInTheDocument()
     //     expect(screen.queryByText('Gm')).not.toBeInTheDocument()
     // })
-})
+});

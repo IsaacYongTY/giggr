@@ -1,0 +1,10 @@
+.deleteStringButton {
+    font-size: 1.6rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+        color: #851616;
+    }
+}
