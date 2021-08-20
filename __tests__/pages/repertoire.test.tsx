@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import axios from '../../config/axios';
-import RepertoirePage from '../../pages/repertoire/repertoire';
+import RepertoirePage from '../../pages/repertoire';
 
 import { SWRConfig } from 'swr';
 
@@ -114,7 +114,7 @@ async function renderRepertoirePageAndHoverOnFirstRow(props = {}) {
     return { ...utils, editSongIcon, deleteSongIcon };
 }
 
-describe('The Repertoire Page', () => {
+describe('The Index Page', () => {
     describe('The CSV Upload function', () => {
         it('should open and close the Upload CSV modal', () => {
             const { uploadCsvButton } = renderRepertoirePage();
@@ -282,7 +282,7 @@ describe('The Repertoire Page', () => {
         });
     });
 
-    describe('The checkboxes in Repertoire Table', () => {
+    describe('The checkboxes in Index Table', () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });

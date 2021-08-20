@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from 'next/router';
 import '@testing-library/jest-dom/extend-expect';
 
-import LoginPage from '../../pages/accounts/login/login';
+import LoginPage from '../../pages/accounts/login';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('axios');
@@ -116,7 +116,7 @@ describe('Sign up UI', () => {
         jest.resetAllMocks();
     });
 
-    it("should render login container if 'Login here' is clicked", () => {
+    it("should render login container if 'Index here' is clicked", () => {
         renderSignupPage();
 
         userEvent.click(screen.getByText(/login here/i));

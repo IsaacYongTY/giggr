@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { hyphenateSync } from 'hyphen/en-gb';
 
-import LeadSheetSpacing from '../../pages/utilities/leadsheetspacing/leadsheetspacing';
+import Index from '../../pages/utilities/leadsheetspacing';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('hyphen/en-gb', () => ({
@@ -16,7 +16,7 @@ function renderLeadSheetSpacing() {
         user: { id: 1, firstName: 'Isaac', isAdmin: false },
     };
 
-    const utils = render(<LeadSheetSpacing {...defaultProps} />);
+    const utils = render(<Index {...defaultProps} />);
 
     const inputTextArea = screen.getByLabelText(/input.*/i);
     const resultTextArea = screen.getByLabelText(/result.*/i);

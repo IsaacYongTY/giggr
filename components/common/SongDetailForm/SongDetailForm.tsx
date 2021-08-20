@@ -3,13 +3,13 @@ import { mutate, trigger } from 'swr';
 import axios from '../../../config/axios';
 
 import SpotifySearchBar from '../SpotifySearchBar';
-import ArtistsSingleDropdown from '../../../pages/repertoire/AddSongModal/ArtistsSingleDropdown';
+import ArtistsSingleDropdown from '../../repertoire/AddSongModal/ArtistsSingleDropdown';
 import KeysDropdown from '../KeysDropdown';
-import LanguagesSingleDropdown from '../../../pages/repertoire/AddSongModal/LanguagesSingleDropdown';
-import MusiciansMultiSelectDropdown from '../../../pages/repertoire/AddSongModal/MusiciansMultiSelectDropdown';
-import CategoriesDropdown from '../../../pages/repertoire/AddSongModal/CategoriesDropdown';
+import LanguagesSingleDropdown from '../../repertoire/AddSongModal/LanguagesSingleDropdown';
+import MusiciansMultiSelectDropdown from '../../repertoire/AddSongModal/MusiciansMultiSelectDropdown';
+import CategoriesDropdown from '../../repertoire/AddSongModal/CategoriesDropdown';
 import ButtonWithLoader from '../ButtonWithLoader';
-import SingleDropdown from '../../../pages/repertoire/AddSongModal/SingleDropdown';
+import SingleDropdown from '../../repertoire/AddSongModal/SingleDropdown';
 
 import Form from '../../../lib/types/Form';
 import Song from '../../../lib/types/song';

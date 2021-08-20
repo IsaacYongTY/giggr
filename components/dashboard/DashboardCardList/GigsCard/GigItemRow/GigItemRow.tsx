@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from './GigItemRow.module.scss';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+
+import styles from './GigItemRow.module.scss';
 
 export default function GigItemRow({ gig }: any) {
     const combineDateTime = (date: string, time: string) => {

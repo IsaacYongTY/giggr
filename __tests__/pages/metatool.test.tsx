@@ -1,5 +1,5 @@
 import React from 'react';
-import MetaTool, { Props } from '../../pages/utilities/metatool/metatool';
+import Index, { Props } from '../../pages/utilities/metatool';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -48,7 +48,7 @@ function renderMetaTool(props: Partial<Props> = {}) {
             isAdmin: false,
         },
     };
-    const utils = render(<MetaTool {...defaultProps} {...props} />);
+    const utils = render(<Index {...defaultProps} {...props} />);
 
     const getFromSpotifyButton = utils.getByRole('button', {
         name: /get from spotify/i,

@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import { parseCookies } from 'nookies';
 import { trigger } from 'swr';
 
-import ButtonWithLoader from '../../../../components/common/ButtonWithLoader/ButtonWithLoader';
+import ButtonWithLoader from '../../../common/ButtonWithLoader/ButtonWithLoader';
 
 import styles from './CsvUploadModal.module.scss';
 

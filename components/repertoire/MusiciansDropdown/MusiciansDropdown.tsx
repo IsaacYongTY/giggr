@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import styles from './_musicians-dropdown.module.scss';
-import PillButton from '../../../components/common/PillButton/PillButton';
+import PillButton from '../../common/PillButton/PillButton';
 import Musician from '../../../lib/types/musician';
 
 export default function MusiciansDropdown() {
