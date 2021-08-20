@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user }: Pr
 
                 <SidebarRow
                     icon="dashboard"
-                    title="Index"
+                    title="Dashboard"
                     link="/dashboard"
                     isOpen={isOpen}
                     currentPathName={currentPathName}
@@ -64,7 +64,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user }: Pr
                 <SidebarRow
                     index={1}
                     icon="music_note"
-                    title="My Index"
+                    title="My Repertoire"
                     link="/repertoire"
                     isOpen={isOpen}
                     currentPathName={currentPathName}
@@ -76,7 +76,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName, user }: Pr
                 />
                 <SidebarRow
                     icon="work"
-                    title="My Index"
+                    title="My Gigs"
                     link="/gigs"
                     isOpen={isOpen}
                     currentPathName={currentPathName}
