@@ -1,19 +1,19 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
-import Layout from '../../components/layouts/Layout';
+import Layout from '../../../components/Layout';
 import Select, { ValueType } from 'react-select';
-import KeysDropdown from '../../components/common/KeysDropdown';
-import styles from '../../assets/scss/pages/_progression.module.scss';
+import KeysDropdown from '../../../components/common/KeysDropdown';
+import styles from './progression.module.scss';
 import {
     fullBarProg,
     halfBarProg,
     keyMap,
-} from '../../lib/utils/progression-generator-functions';
-import CopyToClipboardButton from '../../components/common/CopyToClipboardButton';
-import AlertBox from '../../components/common/AlertBox';
+} from '../../../lib/utils/progression-generator-functions';
+import CopyToClipboardButton from '../../../components/common/CopyToClipboardButton';
+import AlertBox from '../../../components/common/AlertBox';
 import { GetServerSideProps } from 'next';
-import withAuth from '../../middlewares/withAuth';
+import withAuth from '../../../middlewares/withAuth';
 
-import Form from '../../lib/types/Form';
+import Form from '../../../lib/types/Form';
 
 interface OptionType {
     value: string;
