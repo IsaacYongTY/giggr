@@ -10,20 +10,22 @@ import withAuth from '../../middlewares/withAuth';
 
 import styles from './gigs.module.scss';
 
-export const getServerSideProps: GetServerSideProps = withAuth(async ({ req }: any) => {
-    const response = await axios.get(`/api/v1/gigs/`, {
-        withCredentials: true,
-        headers: {
-            'x-auth-token': `Bearer ${req.user.tokenString}`,
-        },
-    });
+export const getServerSideProps: GetServerSideProps = withAuth(
+    async ({ req }: any) => {
+        const response = await axios.get(`/api/v1/gigs/`, {
+            withCredentials: true,
+            headers: {
+                'x-auth-token': `Bearer ${req.user.tokenString}`,
+            },
+        });
 
-    return {
-        props: { gigs: response.data.gigs },
-    };
-});
+        return {
+            props: { gigs: response.data.gigs },
+        };
+    }
+);
 
-export default function Index({ gigs }: any) {
+export default function GigsPage({ gigs }: any) {
     const [events, setEvents] = useState([]);
 
     function gigsToFullCalendar(gigs: any) {
