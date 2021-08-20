@@ -9,20 +9,24 @@ import withAuth from '../../middlewares/withAuth';
 
 import styles from './dashboard.module.scss';
 
-export const getServerSideProps: GetServerSideProps = withAuth(async ({ req }: any) => {
-    return {
-        props: {
-            user: req.user,
-        },
-    };
-});
+export const getServerSideProps: GetServerSideProps = withAuth(
+    async ({ req }: any) => {
+        return {
+            props: {
+                user: req.user,
+            },
+        };
+    }
+);
 
-function Index({ user }: any) {
+function DashboardPage({ user }: any) {
     const { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
-    const { data: { songs } = {} } = useSWR(`/api/v1/songs?number=5&category=createdAt&order=DESC`);
+    const { data: { songs } = {} } = useSWR(
+        `/api/v1/songs?number=5&category=createdAt&order=DESC`
+    );
 
     return (
-        <Layout title="Index" user={user}>
+        <Layout title="Dashboard" user={user}>
             <div className={styles.container}>
                 <h2>Welcome!</h2>
                 <Switch color="primary" />
@@ -32,4 +36,4 @@ function Index({ user }: any) {
     );
 }
 
-export default Index;
+export default DashboardPage;
