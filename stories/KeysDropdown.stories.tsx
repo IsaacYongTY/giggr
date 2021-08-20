@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import KeysDropdown from '../components/common/KeysDropdown';
+import KeysDropdown from '../components/common/KeysDropdown/KeysDropdown';
 
 export default {
     title: 'Example/KeysDropdown',
@@ -10,9 +10,7 @@ export default {
     },
 } as ComponentMeta<typeof KeysDropdown>;
 
-const Template: ComponentStory<typeof KeysDropdown> = (args) => (
-    <KeysDropdown {...args} />
-);
+const Template: ComponentStory<typeof KeysDropdown> = (args) => <KeysDropdown {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

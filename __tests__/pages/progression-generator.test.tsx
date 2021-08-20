@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-import ProgGenerator from '../../pages/utilities/progression';
+import ProgGenerator from '../../pages/utilities/progression/progression';
 
 const renderProg = () => {
     const utils = render(<ProgGenerator user={{ id: 1, name: 'test' }} />);
@@ -56,9 +56,7 @@ describe('The progression generator page', () => {
             expect(screen.getByText(/^(canon).+/i)).toBeInTheDocument();
             userEvent.click(screen.getByText(/typical ballad progression.+/i));
 
-            expect(
-                screen.getByText(/typical ballad progression.+/i)
-            ).toBeInTheDocument();
+            expect(screen.getByText(/typical ballad progression.+/i)).toBeInTheDocument();
             expect(inputTextbox).toHaveValue('45362511');
         });
     });
@@ -132,13 +130,8 @@ describe('The progression generator page', () => {
         });
 
         it('should render correct result according to key, progression and spacing given', () => {
-            const {
-                generateButton,
-                keysDropdown,
-                inputTextbox,
-                spacesDropdown,
-                textArea,
-            } = renderProg();
+            const { generateButton, keysDropdown, inputTextbox, spacesDropdown, textArea } =
+                renderProg();
 
             userEvent.click(keysDropdown);
             userEvent.click(screen.getByText('Eb'));
@@ -216,8 +209,7 @@ describe('The progression generator page', () => {
 
             it('should show error message if input ends with b or #', () => {
                 const { generateButton, inputTextbox } = renderProg();
-                const errorMessage =
-                    /^.*"b" and "#" must come before a number/i;
+                const errorMessage = /^.*"b" and "#" must come before a number/i;
                 userEvent.type(inputTextbox, '312b');
                 userEvent.click(generateButton);
 
@@ -250,15 +242,11 @@ describe('The progression generator page', () => {
 
             userEvent.click(copyToClipboardButton);
 
-            expect(
-                await screen.findByText(/copied to clipboard.*/i)
-            ).toBeInTheDocument();
+            expect(await screen.findByText(/copied to clipboard.*/i)).toBeInTheDocument();
 
             await waitFor(
                 () => {
-                    expect(
-                        screen.queryByText(/copied to clipboard.+/i)
-                    ).not.toBeInTheDocument();
+                    expect(screen.queryByText(/copied to clipboard.+/i)).not.toBeInTheDocument();
                 },
                 {
                     timeout: 4000,
@@ -280,8 +268,7 @@ describe('The progression generator page', () => {
 
         it('should remove error message if it is present', () => {
             const { clearButton, generateButton, inputTextbox } = renderProg();
-            const errorMessage =
-                /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i;
+            const errorMessage = /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i;
             userEvent.type(inputTextbox, 'invalid input');
             userEvent.click(generateButton);
 

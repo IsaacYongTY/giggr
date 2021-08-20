@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import ButtonWithLoader from '../components/common/ButtonWithLoader';
+import ButtonWithLoader from '../components/common/ButtonWithLoader/ButtonWithLoader';
 
 export default {
     title: 'Example/ButtonWithLoader',
@@ -10,9 +10,7 @@ export default {
     },
 } as ComponentMeta<typeof ButtonWithLoader>;
 
-const Template: ComponentStory<typeof ButtonWithLoader> = (args) => (
-    <ButtonWithLoader {...args} />
-);
+const Template: ComponentStory<typeof ButtonWithLoader> = (args) => <ButtonWithLoader {...args} />;
 
 function placeholderFunc() {
     console.log('this is a placeholder');
