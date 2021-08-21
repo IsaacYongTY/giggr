@@ -1,4 +1,5 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 import Select from 'react-select';
 
 import { majorKeyArray, minorKeyArray } from '../../../lib/data/data';
@@ -8,7 +9,9 @@ import Form from '../../../lib/types/Form';
 import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
 import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
 
-import styles from './_keys-dropdown.module.scss';
+import styles from './KeysDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     label: string;
@@ -120,7 +123,7 @@ export default function KeysDropdown({
     }, [form.mode]);
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <label>
                 {label}:
                 <Select
@@ -136,7 +139,7 @@ export default function KeysDropdown({
                 />
             </label>
             {showIsMinorCheckbox && (
-                <label className={styles.checkbox}>
+                <label className={cx('checkbox')}>
                     <input type="checkbox" checked={form.mode === 0} onChange={toggleMinor} />
                     Minor
                 </label>

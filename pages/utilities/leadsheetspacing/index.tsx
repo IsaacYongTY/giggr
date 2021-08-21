@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 import { hyphenateSync } from 'hyphen/en-gb';
 import { IncomingMessage } from 'http';
 import { NextApiRequestCookies } from 'next/dist/next-server/server/api-utils';
@@ -13,6 +14,8 @@ import removeCharacters from '../../../lib/utils/remove-characters';
 import replaceCharactersWithPlaceholders from '../../../lib/utils/replace-characters-with-placeholders';
 
 import styles from './leadsheetspacing.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface GetServerSidePropsContextWithUser extends GetServerSidePropsContext {
     req: IncomingMessage & {
@@ -40,7 +43,9 @@ export default function Index({ user }: Props) {
     const [isAddHyphen, setIsAddHyphen] = useState(true);
     const [isRemoveStrings, setIsRemoveStrings] = useState(true);
     const [stringToRemove, setStringToRemove] = useState('');
-    const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>([]);
+    const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>(
+        []
+    );
 
     const [isShowPlaceholderText, setIsShowPlaceholderText] = useState(false);
     const [placeholderText, setPlaceholderText] = useState('');
@@ -81,7 +86,8 @@ export default function Index({ user }: Props) {
     }
 
     function handleSetStringToRemove() {
-        const isInStringToRemoveArray = stringsToRemoveArray.indexOf(stringToRemove) > -1;
+        const isInStringToRemoveArray =
+            stringsToRemoveArray.indexOf(stringToRemove) > -1;
 
         if (isInStringToRemoveArray) {
             setStringToRemove('');
@@ -114,8 +120,8 @@ export default function Index({ user }: Props) {
 
     return (
         <Layout user={user} title="Lead Sheet Spacing">
-            <div className={styles.container}>
-                <div className={styles.textAreaContainer}>
+            <div className={cx('container')}>
+                <div className={cx('text-area-container')}>
                     <div>
                         <label>
                             <div>Input:</div>
@@ -125,11 +131,17 @@ export default function Index({ user }: Props) {
                             />
                         </label>
 
-                        <div className={styles.buttonRow}>
-                            <button className="btn btn-primary" onClick={handleProcessText}>
+                        <div className={cx('button-row')}>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleProcessText}
+                            >
                                 Process
                             </button>
-                            <button className="btn btn-danger-outlined" onClick={handleClearAll}>
+                            <button
+                                className="btn btn-danger-outlined"
+                                onClick={handleClearAll}
+                            >
                                 Clear All
                             </button>
                         </div>
@@ -139,7 +151,11 @@ export default function Index({ user }: Props) {
                         <label>
                             <div>Result:</div>
                             <textarea
-                                value={isShowPlaceholderText ? placeholderText : resultText}
+                                value={
+                                    isShowPlaceholderText
+                                        ? placeholderText
+                                        : resultText
+                                }
                                 onChange={(e) =>
                                     isShowPlaceholderText
                                         ? setPlaceholderText(e.target.value)
@@ -148,21 +164,31 @@ export default function Index({ user }: Props) {
                             />
                         </label>
 
-                        <div className={styles.buttonRow}>
-                            <button className="btn btn-secondary" onClick={togglePlaceholderText}>
+                        <div className={cx('button-row')}>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={togglePlaceholderText}
+                            >
                                 Toggle Placeholder
                             </button>
-                            <button className="btn btn-danger-outlined" onClick={handleClearResult}>
+                            <button
+                                className="btn btn-danger-outlined"
+                                onClick={handleClearResult}
+                            >
                                 Clear Result
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className={styles.option}>
+                <div className={cx('option')}>
                     <h3>Options</h3>
                     <label>
-                        <input type="checkbox" checked={isAddHyphen} onChange={toggleAddHyphen} />
+                        <input
+                            type="checkbox"
+                            checked={isAddHyphen}
+                            onChange={toggleAddHyphen}
+                        />
                         <span>Add Hyphen between Syllables (testing)</span>
                     </label>
 
@@ -177,20 +203,25 @@ export default function Index({ user }: Props) {
 
                     <label>
                         <div>Add string to remove:</div>
-                        <div className={styles.addStringInput}>
+                        <div className={cx('add-string-input')}>
                             <input
                                 type="text"
-                                onChange={(e) => setStringToRemove(e.target.value)}
+                                onChange={(e) =>
+                                    setStringToRemove(e.target.value)
+                                }
                                 className="form-control"
                                 value={stringToRemove}
                             />
-                            <button className="btn btn-secondary" onClick={handleSetStringToRemove}>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={handleSetStringToRemove}
+                            >
                                 Add
                             </button>
                         </div>
                     </label>
 
-                    <ul className={styles.stringToRemoveList}>
+                    <ul className={cx('string-to-remove-list')}>
                         {stringsToRemoveArray?.map((str, index) => (
                             <Tag
                                 key={index}

@@ -7,9 +7,8 @@ const cx = classnames.bind(styles);
 
 export default function Loader() {
     return (
-        <div className={`${cx('loader')}`}>
+        <div className={cx('loader')}>
             <div className={cx('spinner')}>
-                {/*<div className={styles.spinnerText}></div>*/}
                 <div className={cx('spinner-sector')} />
                 <div className={cx('spinner-sector', 'spinner-sector-white')} />
             </div>

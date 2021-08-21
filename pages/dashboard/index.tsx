@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames/bind';
 import { GetServerSideProps } from 'next';
 import useSWR from 'swr';
 import { Switch } from '@material-ui/core';
@@ -8,6 +9,8 @@ import DashboardCardList from '../../components/dashboard/DashboardCardList';
 import withAuth from '../../middlewares/withAuth';
 
 import styles from './dashboard.module.scss';
+
+const cx = classnames.bind(styles);
 
 export const getServerSideProps: GetServerSideProps = withAuth(
     async ({ req }: any) => {
@@ -27,7 +30,7 @@ function DashboardPage({ user }: any) {
 
     return (
         <Layout title="Dashboard" user={user}>
-            <div className={styles.container}>
+            <div className={cx('container')}>
                 <h2>Welcome!</h2>
                 <Switch color="primary" />
                 <DashboardCardList gigs={gigs} songs={songs} />

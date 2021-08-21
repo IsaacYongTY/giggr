@@ -1,8 +1,13 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import classnames from 'classnames/bind';
+
 import axios from 'axios';
-import styles from './_musicians-dropdown.module.scss';
 import PillButton from '../../common/PillButton/PillButton';
 import Musician from '../../../lib/types/musician';
+
+import styles from './MusiciansDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 export default function MusiciansDropdown() {
     const dropdownMenu = useRef(null);
@@ -45,8 +50,8 @@ export default function MusiciansDropdown() {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.pillButtonRow}>
+        <div className={cx('container')}>
+            <div className={cx('pill-button-row')}>
                 {selectedMusicians?.map((composer: any) => (
                     <PillButton
                         key={composer.id}
@@ -57,14 +62,14 @@ export default function MusiciansDropdown() {
             </div>
 
             <input
-                className={`${styles.inputRow} form-control`}
+                className={cx('input-row', 'form-control')}
                 onFocus={() => setIsMenuOpen(true)}
                 onChange={handleInput}
             />
             <button>Add New</button>
             {isMenuOpen && (
                 <div
-                    className={styles.dropdown}
+                    className={cx('dropdown')}
                     onBlur={() => setIsMenuOpen(false)}
                     tabIndex={0}
                     ref={dropdownMenu}
@@ -72,7 +77,7 @@ export default function MusiciansDropdown() {
                     {filteredMusicians?.map((musician) => (
                         <div
                             key={musician.id}
-                            className={styles.dropdownRow}
+                            className={cx('dropdown-row')}
                             onClick={() => toggleSelectMusician(musician)}
                         >
                             <div>{musician.name}</div>

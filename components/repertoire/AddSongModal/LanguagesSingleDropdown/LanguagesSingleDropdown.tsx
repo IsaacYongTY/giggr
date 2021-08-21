@@ -1,9 +1,12 @@
 import React from 'react';
+import classnames from 'classnames/bind';
 import CreatableSelect from 'react-select/creatable';
 
 import { capitalizeString } from '../../../../lib/library';
 
 import styles from './LanguagesSingleDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     options: any;
@@ -24,7 +27,7 @@ export default function LanguagesSingleDropdown({
     }
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <CreatableSelect
                 name="musician"
                 value={{
