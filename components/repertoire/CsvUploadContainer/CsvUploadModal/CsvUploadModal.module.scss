@@ -18,67 +18,74 @@
     top: 50%;
     bottom: auto;
     transform: translate(-50%, -50%);
-}
 
-.container {
-    background-color: white;
-    //background-color: yellowgreen;
-    height: 80%;
-    width: 100%;
+    .container {
+        background-color: white;
+        //background-color: yellowgreen;
+        height: 80%;
+        width: 100%;
 
-    margin: 3rem;
+        margin: 3rem;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    input {
-        display: none;
-    }
-}
-
-.customUpload {
-    border: 1rem dashed variables.$blue;
-    border-radius: 0.5rem;
-    height: 100%;
-    cursor: pointer;
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-        background-color: darken(white, 5%);
-
-        span {
-            animation: arrow-grow 0.3s 0.1s forwards ease-out;
+        input {
+            display: none;
         }
+
+        .cancel-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+
+            &:hover {
+                color: darken(#333333, 10%);
+            }
+        }
+
+        .file-name {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .custom-upload {
+            border: 1rem dashed variables.$blue;
+            border-radius: 0.5rem;
+            height: 100%;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+                background-color: darken(white, 5%);
+
+                span {
+                    animation: arrow-grow 0.3s 0.1s forwards ease-out;
+                }
+            }
+
+            span {
+                opacity: 50%;
+                transform: scale(2);
+                margin: 1rem 0;
+            }
+        }
+
     }
 
-    span {
-        opacity: 50%;
-        transform: scale(2);
-        margin: 1rem 0;
-    }
+
 }
 
-.cancelButton {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
 
-    &:hover {
-        color: darken(#333333, 10%);
-    }
-}
 
-.fileName {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    text-align: center;
-}
+
 
 @keyframes arrow-grow {
     0% {

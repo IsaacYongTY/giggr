@@ -1,6 +1,11 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import styles from './SearchBar.module.scss';
+import classnames from "classnames/bind";
+
 import Song from '../../../lib/types/song';
+
+import styles from './SearchBar.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface Props {
     setFilteredSongList: Dispatch<SetStateAction<Song[]>>;
@@ -37,7 +42,7 @@ export default function SearchBar({
     }
 
     return (
-        <div className={styles.searchBar}>
+        <div className={cx('container')}>
             <input
                 type="text"
                 className="form-control"

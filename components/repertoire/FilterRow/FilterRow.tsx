@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 
 import FilterButton from './FilterButton';
+
 import styles from './FilterRow.module.scss';
 
-export default function FilterRow({ setFilter }: any) {
+const cx = classnames.bind(styles);
+
+type FilterRowProps = {
+    setFilter: (filter: string) => void
+}
+
+export default function FilterRow({ setFilter }: FilterRowProps) {
     const filterOptions = ['title', 'initialism', 'artist'];
     const initialFilter = 'title';
 
@@ -12,7 +20,7 @@ export default function FilterRow({ setFilter }: any) {
     );
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <div>Filter:</div>
             {filterOptions.map((filter, index) => (
                 <FilterButton

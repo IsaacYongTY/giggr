@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 
 import Layout from '../../../components/Layout';
 import SpotifySearchBar from '../../../components/common/SpotifySearchBar';
@@ -8,6 +9,8 @@ import MetaToolForm from '../../../components/common/MetaToolForm';
 import withAuth from '../../../middlewares/withAuth';
 
 import styles from './metatool.module.scss';
+
+const cx = classnames.bind(styles);
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
@@ -34,8 +37,8 @@ export default function Index({ user }: Props) {
 
     return (
         <Layout user={user} title="Spotify Meta Tool">
-            <div className={styles.container}>
-                <div className={styles.searchBarContainer}>
+            <div className={cx('container')}>
+                <div className={cx('search=bar-container')}>
                     <SpotifySearchBar
                         setFormValue={setFormValue}
                         isContribute={isContribute}
@@ -51,7 +54,7 @@ export default function Index({ user }: Props) {
                 />
 
                 {user?.isAdmin && (
-                    <div className={styles.checkboxRowContainer}>
+                    <div className={cx('checkbox-row-container')}>
                         <input
                             type="checkbox"
                             id="contributeCheckbox"

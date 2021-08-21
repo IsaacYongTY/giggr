@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import FullCalendar from '@fullcalendar/react';
@@ -9,6 +10,8 @@ import Layout from '../../components/Layout';
 import withAuth from '../../middlewares/withAuth';
 
 import styles from './gigs.module.scss';
+
+const cx = classnames.bind(styles);
 
 export const getServerSideProps: GetServerSideProps = withAuth(
     async ({ req }: any) => {
@@ -40,7 +43,7 @@ export default function GigsPage({ gigs }: any) {
     }, []);
     return (
         <Layout>
-            <div className={styles.container}>
+            <div className={cx('container')}>
                 <FullCalendar
                     plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"

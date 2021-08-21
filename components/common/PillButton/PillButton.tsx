@@ -1,6 +1,9 @@
 import React from 'react';
+import classnames from 'classnames/bind';
 
 import styles from './PillButton.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     composer: any;
@@ -9,20 +12,16 @@ type Props = {
 
 export default function PillButton({ composer, setMusicians }: Props) {
     function handleRemoveMusician(id: number) {
-        console.log(id);
         setMusicians((prevState: any) => {
-            console.log(prevState);
-            const composers = prevState.filter((composer: any) => composer.id !== id);
-            console.log(composers);
-            return composers;
+            return prevState.filter((composer: any) => composer.id !== id);
         });
     }
 
     return (
-        <button className={styles.container}>
+        <button className={cx('container')}>
             <span id={composer.id}>{composer.name}</span>
             <span
-                className={`${styles.closeButton} material-icons`}
+                className={cx('close-button', 'material-icons')}
                 onClick={() => handleRemoveMusician(composer.id)}
             >
                 close

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 
-import ButtonLoader from '../ButtonLoader/ButtonLoader';
-import styles from './_button-with-loader.module.scss';
+import Loader from './Loader';
+
+import styles from './ButtonWithLoader.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface ButtonProps {
     /**
@@ -49,12 +53,12 @@ export default function ButtonWithLoader({
 
     return (
         <button
-            className={`${primary ? styles.btnPrimary : styles.btnHighlight} btn`}
+            className={primary ? cx('btn', 'btn-primary') : cx('btn', 'btn-highlight')}
             onClick={handleOnClick}
             disabled={isLoading}
         >
             <div>{label}</div>
-            {isLoading && isClicked && <ButtonLoader />}
+            {isLoading && isClicked && <Loader />}
         </button>
     );
 }

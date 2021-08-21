@@ -1,6 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 
 import styles from './AlertBox.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface Props {
     message: string;
@@ -15,10 +18,10 @@ export default function AlertBox({ setAlertOptions, message, type, timeoutInMs =
 
     switch (type) {
         case 'fail':
-            displayStyle = styles.fail;
+            displayStyle = 'fail';
             break;
         case 'success':
-            displayStyle = styles.success;
+            displayStyle = 'success';
             break;
         default:
             displayStyle = '';
@@ -44,7 +47,7 @@ export default function AlertBox({ setAlertOptions, message, type, timeoutInMs =
     return (
         <>
             {isShow && message && (
-                <div className={`${styles.alertBox} ${displayStyle} `}>
+                <div className={cx('container', displayStyle)}>
                     {message}
                     <span className={`${styles.cross} material-icons`} onClick={handleClose}>
                         close

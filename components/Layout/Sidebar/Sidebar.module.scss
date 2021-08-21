@@ -1,6 +1,6 @@
 @import '../../../common/scss/variables';
 
-.sidebar {
+.container {
     position: fixed;
     top: 0;
     left: 0;
@@ -20,24 +20,16 @@
             align-items: center;
         }
     }
-}
 
-@media (max-width: 500px) {
-    .close {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-}
-.sidebarHeader {
-    display: flex;
-    align-items: center;
-    height: $header-height;
-    padding-left: 2rem;
+    .header {
+        display: flex;
+        align-items: center;
+        height: $header-height;
+        padding-left: 2rem;
 
-    * {
-        margin-right: 4.1rem;
+        * {
+            margin-right: 4.1rem;
+        }
     }
 }
 
@@ -49,6 +41,15 @@
 .close {
     width: $sidebar-close-width;
     animation: close-sidebar 0.3s ease-out;
+}
+
+@media (max-width: 500px) {
+    .close {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 @keyframes open-sidebar {

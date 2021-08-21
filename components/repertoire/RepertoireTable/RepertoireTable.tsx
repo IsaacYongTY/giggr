@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import classnames from 'classnames/bind';
 import axios from '../../../config/axios';
 import { trigger } from 'swr';
 import Modal from 'react-modal';
@@ -12,6 +13,8 @@ import AlertBox from '../../common/AlertBox';
 import Song from '../../../lib/types/song';
 
 import styles from './RepertoireTable.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     songs: Song[];
@@ -160,8 +163,8 @@ export default function RepertoireTable({
                 }
             />
 
-            <div className={styles.tableContainer}>
-                <table className={styles.table}>
+            <div className={cx('table-container')}>
+                <table className={cx('table')}>
                     <thead>
                         <tr>
                             {colKey.map((col, index) => (
@@ -171,7 +174,7 @@ export default function RepertoireTable({
                     </thead>
 
                     {data?.songs ? (
-                        <tbody className="table-content-container">
+                        <tbody className={cx('table-content-container')}>
                             {songs?.map((song: Song, index: number) => (
                                 <RepertoireRow
                                     key={index}
@@ -213,7 +216,7 @@ export default function RepertoireTable({
 
             {isConfirmModalOpen && (
                 <Modal isOpen={isConfirmModalOpen} style={modalStyles}>
-                    <div className={styles.modalContainer}>
+                    <div className={cx('modal-container')}>
                         <div>
                             Are you sure you want to delete &amp;
                             {deleteSong?.title}
@@ -224,7 +227,7 @@ export default function RepertoireTable({
                             <div className="error-message">{errorMessage}</div>
                         )}
 
-                        <div className={styles.buttonRow}>
+                        <div className={cx('button-row')}>
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => setIsConfirmModalOpen(false)}
@@ -250,7 +253,7 @@ export default function RepertoireTable({
                     isOpen={isConfirmDeleteSelectedModalOpen}
                     style={modalStyles}
                 >
-                    <div className={styles.modalContainer}>
+                    <div className={cx('modal-container')}>
                         <div>
                             Are you sure you want to delete{' '}
                             {deleteSongArray.length} items?

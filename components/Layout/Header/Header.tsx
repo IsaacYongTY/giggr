@@ -1,16 +1,29 @@
 import React from 'react';
+import classnames from 'classnames/bind';
+
 import SettingsDropdown from '../SettingsDropdown/SettingsDropdown';
 import Image from 'next/image';
 
 import styles from './Header.module.scss';
 
-const Header = ({ title, setIsOpen, isOpen }: any) => {
+const cx = classnames.bind(styles);
+
+type HeaderProps = {
+    title: string;
+    setIsOpen: (open: boolean) => void,
+    isOpen: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ title, setIsOpen, isOpen }) => {
     return (
-        <div className={styles.header}>
-            <div className={`material-icons ${styles.menuButton}`} onClick={() => setIsOpen(true)}>
+        <div className={cx('header')}>
+            <div
+                className={cx('menu-button', 'material-icons')}
+                onClick={() => setIsOpen(true)}
+            >
                 menu
             </div>
-            <div className={`${styles.headerLogoPosition} logo `}>
+            <div className={cx('logo-position', 'logo')}>
                 <Image
                     src={'/img/logos/giggr-logo-blue-600x250.png'}
                     alt="blue-giggr-logo"
@@ -19,9 +32,10 @@ const Header = ({ title, setIsOpen, isOpen }: any) => {
                 />
             </div>
             <p
-                className={`${styles.title} ${
-                    isOpen ? styles.sidebarOpenOffset : styles.sidebarCloseOffset
-                }`}
+                className={cx(
+                    'title',
+                    isOpen ? 'sidebar-open-offset' : 'sidebar-close-offset'
+                )}
             >
                 {title}
             </p>

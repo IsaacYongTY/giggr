@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState, useRef } from 'react';
+import classnames from 'classnames/bind';
 import axios from 'axios';
 import FormData from 'form-data';
 import Modal from 'react-modal';
@@ -8,6 +9,8 @@ import { trigger } from 'swr';
 import ButtonWithLoader from '../../../common/ButtonWithLoader/ButtonWithLoader';
 
 import styles from './CsvUploadModal.module.scss';
+
+const cx = classnames.bind(styles);
 
 export default function CsvUploadModal({
     isModalOpen,
@@ -76,15 +79,15 @@ export default function CsvUploadModal({
     }
 
     return (
-        <Modal isOpen={isModalOpen} className={styles.modal} ariaHideApp={false}>
-            <div className={`${styles.container}`}>
+        <Modal isOpen={isModalOpen} className={cx('modal')} ariaHideApp={false}>
+            <div className={cx('container')}>
                 <span
-                    className={`material-icons ${styles.cancelButton}`}
+                    className={cx('cancel-button', 'material-icons')}
                     onClick={handleCloseModal}
                 >
                     close
                 </span>
-                <label className={styles.customUpload}>
+                <label className={cx('custom-upload')}>
                     <input
                         ref={fileUploadInput}
                         type="file"
@@ -94,7 +97,7 @@ export default function CsvUploadModal({
                     />
                     <span className="material-icons">file_upload</span>
                     <div>Click to Upload CSV</div>
-                    {csvFile && <div className={styles.fileName}> {csvFile.name}</div>}
+                    {csvFile && <div className={cx('file-name')}> {csvFile.name}</div>}
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                     {successMessage && <div>{successMessage}</div>}
                 </label>
