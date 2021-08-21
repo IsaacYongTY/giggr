@@ -66,10 +66,8 @@ export default function RepertoireRow({
                 {isShowPopup && (
                     <ActionPopup
                         handleOpenModal={handleOpenModal}
-                        handleHover={handleHover}
                         setIsShowPopup={setIsShowPopup}
                         song={song}
-                        handleDeleteSong={handleDeleteSong}
                         handleOpenConfirmModal={handleOpenConfirmModal}
                     />
                 )}

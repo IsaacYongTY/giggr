@@ -9,7 +9,7 @@ import styles from './Header.module.scss';
 const cx = classnames.bind(styles);
 
 type HeaderProps = {
-    title: string;
+    title?: string;
     setIsOpen: (open: boolean) => void,
     isOpen: boolean;
 }
