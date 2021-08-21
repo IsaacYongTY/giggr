@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 import { useRouter } from 'next/router';
 import { destroyCookie } from 'nookies';
 
 import MenuRow from '../../common/MenuRow';
 
 import styles from './SettingsDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 export default function SettingsDropdown() {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,9 +34,9 @@ export default function SettingsDropdown() {
 
     return (
         <div tabIndex={-1} onBlur={handleOnBlur}>
-            <div className={`${styles.container} noselect`}>
+            <div className={cx('container', 'noselect')}>
                 <button
-                    className={`material-icons ${styles.gearIcon} }`}
+                    className={cx('material-icons', 'gear-icon')}
                     onClick={handleOpenDropdown}
                 >
                     settings
@@ -41,10 +44,10 @@ export default function SettingsDropdown() {
             </div>
 
             {isOpen && (
-                <div className={styles.menu}>
-                    <MenuRow icon="settings" title="Settings" onClick={() => setIsOpen(false)} />
+                <div className={cx('menu')}>
+                    <MenuRow icon="settings" title="Settings" callback={() => setIsOpen(false)} />
                     <MenuRow icon="help" title="Help" />
-                    <MenuRow icon="logout" title="Logout" action={handleLogout} />
+                    <MenuRow icon="logout" title="Logout" callback={handleLogout} />
                 </div>
             )}
         </div>

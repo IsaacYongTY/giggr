@@ -1,5 +1,9 @@
 import React from 'react';
+import classnames from 'classnames/bind';
+
 import styles from './StatusPillButton.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     label: string;
@@ -10,16 +14,16 @@ export default function StatusPillButton({ label }: Props) {
 
     switch (label) {
         case 'New':
-            selectedStyle = styles.new;
+            selectedStyle = cx('new');
             break;
         case 'In Progress':
-            selectedStyle = styles.inProgress;
+            selectedStyle = cx('in-progress');
             break;
         case 'Learned':
-            selectedStyle = styles.learned;
+            selectedStyle = cx('learned');
             break;
         case 'Charted':
-            selectedStyle = styles.charted;
+            selectedStyle = cx('charted');
             break;
     }
 

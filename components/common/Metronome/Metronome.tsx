@@ -1,6 +1,11 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import styles from './Metronome.module.scss';
+import classnames from 'classnames/bind';
+
 import calculateBpmFromTimeLapsedAndBeat from '../../../lib/utils/calculate-bpm-from-time-lapsed-and-beats';
+
+import styles from './Metronome.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     defaultTempo: number;
@@ -84,7 +89,8 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
     function handleTapTempo() {
         const idleTime = 2000;
 
-        const isIdleMoreThanIdleTime = Date.now() - startTime.current > idleTime;
+        const isIdleMoreThanIdleTime =
+            Date.now() - startTime.current > idleTime;
 
         if (isIdleMoreThanIdleTime && startTime.current > 0) {
             handleReset();
@@ -154,17 +160,19 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <button
-                className={`${styles.tempoDisplayContainer} btn`}
+                className={cx('tempo-display-container', 'btn')}
                 onClick={toggleMetronome}
                 ref={tempoDisplayButton}
             >
-                <div className={styles.tempoDisplay}>{isDecimal ? tempo : displayTempo}</div>
+                <div className={cx('tempo-display')}>
+                    {isDecimal ? tempo : displayTempo}
+                </div>
                 {isPlaying ? <div>Tap to stop</div> : <div>Tap to play</div>}
             </button>
 
-            <div className={styles.buttonRow}>
+            <div className={cx('button-row')}>
                 <div>
                     <label>
                         <div>Count:</div>
@@ -189,11 +197,15 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
                 </div>
             </div>
 
-            <div className={styles.buttonRow}>
+            <div className={cx('button-row')}>
                 <div>
                     <label>
                         <span>Input:</span>{' '}
-                        {errorMessage && <span className="error-message">* {errorMessage}</span>}
+                        {errorMessage && (
+                            <span className="error-message">
+                                * {errorMessage}
+                            </span>
+                        )}
                         <input
                             value={userTempo}
                             className="form-control"
@@ -203,16 +215,22 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
                 </div>
 
                 <div>
-                    <button className="btn btn-primary" ref={tapButton} onClick={handleSetTempo}>
+                    <button
+                        className="btn btn-primary"
+                        ref={tapButton}
+                        onClick={handleSetTempo}
+                    >
                         Set Tempo
                     </button>
                 </div>
             </div>
 
-            <div className={`${styles.buttonRow} pt-1-5`}>
+            <div className={cx('button-row', 'pt-1-5')}>
                 <div>
                     <button
-                        className={isDecimal ? 'btn btn-primary' : 'btn btn-secondary'}
+                        className={
+                            isDecimal ? 'btn btn-primary' : 'btn btn-secondary'
+                        }
                         onClick={handleToggleDecimal}
                         ref={toggleDecimalButton}
                     >

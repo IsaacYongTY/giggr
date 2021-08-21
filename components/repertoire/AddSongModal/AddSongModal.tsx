@@ -1,4 +1,6 @@
 import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import classnames from 'classnames/bind';
+
 import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
@@ -14,6 +16,8 @@ import getRomTitle from '../../../lib/utils/get-rom-title';
 
 import styles from './AddSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     isModalOpen: boolean;
@@ -92,9 +96,9 @@ export default function AddSongModal({
 
     return (
         <Modal isOpen={isModalOpen} style={customStyles} ariaHideApp={false}>
-            <div className={styles.container}>
+            <div className={cx('container')}>
                 <input
-                    className={styles.titleInput}
+                    className={cx('title-input')}
                     placeholder="Title"
                     name="title"
                     onChange={handleInput}
@@ -130,7 +134,7 @@ export default function AddSongModal({
                             setFormValue={setForm}
                             setAlertOptions={setAlertOptions}
                         />
-                        <div className={styles.link}>
+                        <div className={cx('link')}>
                             <a href="/utilities/progression" target="_blank">
                                 Progression Generator {'>'}
                             </a>

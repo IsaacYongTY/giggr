@@ -1,18 +1,24 @@
 import React from 'react';
-import styles from './GigsCard.module.scss';
-import GigItemRow from './GigItemRow';
+import classnames from 'classnames/bind';
 import Link from 'next/link';
+
+import GigItemRow from './GigItemRow';
+
+import styles from './GigsCard.module.scss';
+
+const cx = classnames.bind(styles);
 
 export default function GigsCard({ gigs }: any) {
     return (
-        <div className={`${styles.container} card`}>
-            <div className={styles.title}>
+        <div className={cx('container', 'card')}>
+            <div className={cx('title')}>
                 <p>
-                    You have <span className="text-primary">{gigs?.length}</span> gigs{' '}
+                    You have{' '}
+                    <span className="text-primary">{gigs?.length}</span> gigs{' '}
                 </p>
                 <p>this week</p>
             </div>
-            <div className={styles.list}>
+            <div className={cx('list')}>
                 <ul>
                     {gigs?.slice(0, 3).map((gig: any, index: number) => (
                         <li key={index}>
@@ -22,7 +28,7 @@ export default function GigsCard({ gigs }: any) {
                 </ul>
             </div>
 
-            <div className={styles.footer}>
+            <div className={cx('footer')}>
                 <Link href="/gigs">
                     <a>Go to My Gigs {'>'}</a>
                 </Link>

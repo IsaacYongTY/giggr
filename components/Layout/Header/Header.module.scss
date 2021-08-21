@@ -13,28 +13,30 @@
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
     display: flex;
     z-index: 3;
+
+    .menu-button {
+        justify-self: center;
+        align-self: center;
+        width: $sidebar-close-width;
+    }
+
+    .logo-position {
+        margin-left: 6rem;
+    }
+
+    .title {
+        width: 1000%;
+        text-align: center;
+        //background-color: red;
+    }
+
+    .sidebar-open-offset {
+        margin-left: $sidebar-open-width - $sidebar-close-width - 5rem;
+    }
+
+    .sidebar-close-offset {
+        margin-left: -4rem;
+    }
 }
 
-.menuButton {
-    justify-self: center;
-    align-self: center;
-    width: $sidebar-close-width;
-}
 
-.headerLogoPosition {
-    margin-left: 6rem;
-}
-
-.title {
-    width: 1000%;
-    text-align: center;
-    //background-color: red;
-}
-
-.sidebarOpenOffset {
-    margin-left: $sidebar-open-width - $sidebar-close-width - 5rem;
-}
-
-.sidebarCloseOffset {
-    margin-left: -4rem;
-}

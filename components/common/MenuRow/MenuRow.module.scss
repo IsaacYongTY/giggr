@@ -15,7 +15,6 @@
     margin: 0;
     padding: 0 2rem;
     height: $sidebar-row-height;
-    //border: 1px solid red;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -23,18 +22,14 @@
     text-decoration: none;
     color: $darkgrey;
 
-    //background-color: yellow;
-}
-
-.row:hover {
-    background-color: $blue;
-    text-decoration: none;
-    color: white;
+    &:hover {
+        background-color: $blue;
+        text-decoration: none;
+        color: white;
+    }
 }
 
 .title {
-    //min-width: 10rem;
-    //margin-left: 1rem;
     text-align: left;
 }
 

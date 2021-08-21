@@ -1,8 +1,12 @@
 import React from 'react';
-import styles from './SingleDropdown.module.scss';
+import classnames from 'classnames/bind';
+import Select from 'react-select';
 
 import { capitalizeString } from '../../../../lib/library';
-import Select from 'react-select';
+
+import styles from './SingleDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Props = {
     name: string;
@@ -20,7 +24,7 @@ export default function SingleDropdown({ name, options, currentSelection, setFor
     }
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <Select
                 value={{
                     value: currentSelection,
