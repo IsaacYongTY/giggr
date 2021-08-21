@@ -6,7 +6,7 @@ import styles from './MenuRow.module.scss';
 const cx = classnames.bind(styles);
 
 type MenuRowProps = {
-    icon: string;
+    icon?: string;
     link?: string;
     title: string,
     callback?: () => void;
