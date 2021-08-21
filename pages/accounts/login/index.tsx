@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 import Image from 'next/image';
 
 import LoginContainer from '../../../components/login/LoginContainer';
@@ -6,10 +7,12 @@ import SignupContainer from '../../../components/login/SignupContainer';
 
 import styles from './login.module.scss';
 
+const cx = classnames.bind(styles);
+
 export default function Index() {
     const [isLoginPage, setIsLoginPage] = useState(true);
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <div className="logo-position-top-center">
                 <Image src="/img/logos/giggr-logo-white-600x250.png" width={200} height={80} />
             </div>
@@ -20,7 +23,7 @@ export default function Index() {
                 <SignupContainer setIsLoginPage={setIsLoginPage} />
             )}
 
-            <div className={styles.overlay} />
+            <div className={cx('overlay')} />
         </div>
     );
 }

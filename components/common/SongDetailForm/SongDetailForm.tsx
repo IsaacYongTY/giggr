@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 import { mutate, trigger } from 'swr';
 import axios from '../../../config/axios';
 
@@ -19,6 +20,8 @@ import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to
 import convertSongFormToTempSong from '../../../lib/utils/convert-song-form-to-temp-song';
 
 import styles from './SongDetailForm.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Option = {
     value: string;
@@ -41,7 +44,9 @@ interface Props {
     user: any;
     handleCloseModal: () => void;
     song: Song | undefined;
-    setAlertOptions: Dispatch<SetStateAction<{ message: string; type: string }>>;
+    setAlertOptions: Dispatch<
+        SetStateAction<{ message: string; type: string }>
+    >;
     isModalOpen: boolean;
     data: Data;
     handleInput: any;
@@ -68,15 +73,20 @@ export default function SongDetailForm({
         url = `api/v1/admin/songs`;
     }
 
-    async function handleAddSong({ closeModal = false }: { closeModal?: boolean } = {}) {
+    async function handleAddSong({
+        closeModal = false,
+    }: { closeModal?: boolean } = {}) {
         setIsLoading(true);
         try {
-            const { composers, songwriters, arrangers, genres, moods, tags } = form;
+            const { composers, songwriters, arrangers, genres, moods, tags } =
+                form;
 
             const editedForm = {
                 ...form,
                 composers: composers?.map((composer: Option) => composer.value),
-                songwriters: songwriters?.map((songwriter: Option) => songwriter.value),
+                songwriters: songwriters?.map(
+                    (songwriter: Option) => songwriter.value
+                ),
                 arrangers: arrangers?.map((arranger: Option) => arranger.value),
                 genres: genres?.map((genre: Option) => genre.value),
                 moods: moods?.map((mood: Option) => mood.value),
@@ -122,12 +132,15 @@ export default function SongDetailForm({
     ) {
         setIsLoading(true);
         try {
-            const { composers, songwriters, arrangers, genres, moods, tags } = form;
+            const { composers, songwriters, arrangers, genres, moods, tags } =
+                form;
 
             const editedForm = {
                 ...form,
                 composers: composers?.map((composer: Option) => composer.value),
-                songwriters: songwriters?.map((songwriter: Option) => songwriter.value),
+                songwriters: songwriters?.map(
+                    (songwriter: Option) => songwriter.value
+                ),
                 arrangers: arrangers?.map((arranger: Option) => arranger.value),
                 genres: genres?.map((genre: Option) => genre.value),
                 moods: moods?.map((mood: Option) => mood.value),
@@ -136,7 +149,9 @@ export default function SongDetailForm({
 
             const tempSong = convertSongFormToTempSong(form);
 
-            const foundIndex = data.songs.findIndex((song) => song.id === editedForm.id);
+            const foundIndex = data.songs.findIndex(
+                (song) => song.id === editedForm.id
+            );
 
             if (foundIndex > -1) {
                 data.songs[foundIndex] = tempSong;
@@ -266,21 +281,27 @@ export default function SongDetailForm({
     return (
         <div>
             {type === 'add' && (
-                <SpotifySearchBar setFormValue={setForm} database={database} user={user} />
+                <SpotifySearchBar
+                    setFormValue={setForm}
+                    database={database}
+                    user={user}
+                />
             )}
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <label>
                     Artist:
                     <ArtistsSingleDropdown
-                        musicians={data.musicians.filter((musician) => musician.isArtist)}
+                        musicians={data.musicians.filter(
+                            (musician) => musician.isArtist
+                        )}
                         selectedArtist={form.artist || ''}
                         setFormValue={setForm}
                     />
                 </label>
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <KeysDropdown label="Key" form={form} setForm={setForm} />
                 {!user?.isAdmin && (
                     <KeysDropdown
@@ -326,7 +347,7 @@ export default function SongDetailForm({
                 </label>
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <label>
                     Language:
                     <LanguagesSingleDropdown
@@ -377,28 +398,34 @@ export default function SongDetailForm({
                 </label>
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <MusiciansMultiSelectDropdown
                     label="Composers"
                     role="composers"
-                    musicians={data.musicians.filter((musician) => musician.isComposer)}
+                    musicians={data.musicians.filter(
+                        (musician) => musician.isComposer
+                    )}
                     selectedMusicians={form.composers || []}
                     setFormValue={setForm}
                 />
                 <MusiciansMultiSelectDropdown
                     label="Songwriters"
                     role="songwriters"
-                    musicians={data.musicians.filter((musician) => musician.isSongwriter)}
+                    musicians={data.musicians.filter(
+                        (musician) => musician.isSongwriter
+                    )}
                     selectedMusicians={form.songwriters || []}
                     setFormValue={setForm}
                 />
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <MusiciansMultiSelectDropdown
                     label="Arrangers"
                     role="arrangers"
-                    musicians={data.musicians.filter((musician) => musician.isArranger)}
+                    musicians={data.musicians.filter(
+                        (musician) => musician.isArranger
+                    )}
                     selectedMusicians={form.arrangers || []}
                     setFormValue={setForm}
                 />
@@ -411,7 +438,7 @@ export default function SongDetailForm({
                 />
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <CategoriesDropdown
                     label="Moods"
                     role="moods"
@@ -428,7 +455,7 @@ export default function SongDetailForm({
                 />
             </div>
 
-            <div className={`${styles.formRow} ${styles.flexEnd}`}>
+            <div className={cx('form-row', 'flex-end')}>
                 <label>
                     Spotify Link:
                     <input
@@ -439,14 +466,18 @@ export default function SongDetailForm({
                     />
                 </label>
                 {type === 'edit' && (
-                    <div className={styles.syncCol}>
-                        <button className="btn btn-primary">Sync from Spotify</button>
-                        <button className="btn btn-primary">Sync from Database</button>
+                    <div className={cx('sync-col')}>
+                        <button className="btn btn-primary">
+                            Sync from Spotify
+                        </button>
+                        <button className="btn btn-primary">
+                            Sync from Database
+                        </button>
                     </div>
                 )}
             </div>
 
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <label>
                     YouTube Link:
                     <input
@@ -469,7 +500,7 @@ export default function SongDetailForm({
             </div>
 
             <br />
-            <div className={styles.formRow}>
+            <div className={cx('form-row')}>
                 <label>
                     Energy:
                     <input
@@ -522,8 +553,11 @@ export default function SongDetailForm({
                 </label>
             </div>
 
-            <div className={styles.buttonRow}>
-                <button className="btn btn-danger-outlined" onClick={handleCloseModal}>
+            <div className={cx('button-row')}>
+                <button
+                    className="btn btn-danger-outlined"
+                    onClick={handleCloseModal}
+                >
                     Close
                 </button>
 

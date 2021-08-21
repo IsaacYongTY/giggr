@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import styles from './SpotifySearch-bar.module.scss';
+import styles from './SpotifySearchBar.module.scss';
 import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to-min-sec';
 import getSpotifyTrackId from '../../../lib/utils/get-spotify-track-id';
 import { shakeAnimation } from '../../../lib/library';

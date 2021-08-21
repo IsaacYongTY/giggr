@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 import axios from 'axios';
 import { TimePicker, DatePicker } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
@@ -12,6 +13,8 @@ import Layout from '../../components/Layout';
 import withAuth from '../../middlewares/withAuth';
 
 import styles from './gigform.module.scss';
+
+const cx = classnames.bind(styles);
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
@@ -123,15 +126,15 @@ export default function GigForm({ user }: Props) {
     };
     return (
         <Layout user={user}>
-            <div className={styles.container}>
+            <div className={cx('container')}>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values) => handleSubmit(values)}
                     validationSchema={validationSchema}
                 >
                     {({ handleChange, handleSubmit }) => (
-                        <form className={styles.form} onSubmit={handleSubmit}>
-                            <div className={styles.formRow}>
+                        <form className={cx('form')} onSubmit={handleSubmit}>
+                            <div className={cx('form-row')}>
                                 <label>Title:*</label>
                                 <input
                                     className="form-control"
@@ -144,7 +147,7 @@ export default function GigForm({ user }: Props) {
                                 </div>
                             </div>
 
-                            <div className={styles.formRow}>
+                            <div className={cx('form-row')}>
                                 <label>Description:</label>
                                 <textarea
                                     className="form-control"
@@ -153,19 +156,19 @@ export default function GigForm({ user }: Props) {
                                 />
                             </div>
 
-                            <div className={styles.row}>
-                                <div className={styles.col}>
+                            <div className={cx('row')}>
+                                <div className={cx('col')}>
                                     <label>Date:</label>
                                     <Field name="date" component={DatePickerField} />
                                 </div>
 
-                                <div className={styles.col}>
+                                <div className={cx('col')}>
                                     <label>Time:</label>
                                     <Field name="time" component={TimePickerField} />
                                 </div>
                             </div>
 
-                            <div className={styles.formRow}>
+                            <div className={cx('form-row')}>
                                 <label>Venue:</label>
                                 <input
                                     className="form-control"
@@ -175,7 +178,7 @@ export default function GigForm({ user }: Props) {
                                 />
                             </div>
 
-                            <div className={styles.formRow}>
+                            <div className={cx('form-row')}>
                                 <label>Pay:</label>
                                 <input
                                     className="form-control"
@@ -188,8 +191,8 @@ export default function GigForm({ user }: Props) {
                                 </div>
                             </div>
 
-                            <div className={styles.row}>
-                                <div className={styles.formRow}>
+                            <div className={cx('form-row')}>
+                                <div className={cx('row')}>
                                     <label>Repeat:</label>
                                     <Field
                                         type="checkbox"
@@ -198,7 +201,7 @@ export default function GigForm({ user }: Props) {
                                     />
                                 </div>
 
-                                <div className={styles.formRow}>
+                                <div className={cx('form-row')}>
                                     {isRepeated && (
                                         <>
                                             <label>Frequency:</label>

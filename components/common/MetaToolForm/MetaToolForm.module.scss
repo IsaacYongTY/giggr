@@ -1,6 +1,6 @@
 @import '../../../common/scss/variables';
 
-.pinyinRow {
+.pinyin-row {
     display: flex;
     align-items: center;
     gap: 3rem;
@@ -23,26 +23,27 @@
     width: 8rem;
 }
 
-.searchLink {
-    //margin: 1.5rem 0;
+.search-link {
     display: block;
 }
 
-.timeSignatureToggleGroup {
+.time-signature-toggle-container {
     display: flex;
     gap: 2rem;
     margin-left: auto;
+
+    .toggle {
+        background-color: white;
+        border: 1px solid lightgray;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 2px 2px 5px lightgray;
+        cursor: pointer;
+        font-size: 1.6rem;
+    }
 }
 
-.timeSignatureToggle {
-    background-color: white;
-    border: 1px solid lightgray;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 2px 2px 5px lightgray;
-    cursor: pointer;
-    font-size: 1.6rem;
-}
+
 
 .selected {
     color: white;
@@ -71,26 +72,10 @@
     }
 }
 
-.buttonRowContainer {
+.button-row-container {
     display: flex;
     margin: 2rem 0;
     gap: 3rem;
     justify-content: flex-end;
 }
 
-.checkboxRowContainer {
-    display: flex;
-    margin-top: 1rem;
-    align-items: center;
-    justify-content: flex-end;
-
-    > input[type='checkbox'] {
-        transform: scale(1.3);
-        cursor: pointer;
-        margin-right: 1rem;
-    }
-
-    > label {
-        cursor: pointer;
-    }
-}

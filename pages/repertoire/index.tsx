@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 import useSWR from 'swr';
 import { GetServerSideProps } from 'next';
 
@@ -12,6 +13,8 @@ import Song from '../../lib/types/song';
 import Musician from '../../lib/types/musician';
 
 import styles from './repertoire.module.scss';
+
+const cx = classnames.bind(styles);
 
 export const getServerSideProps: GetServerSideProps = withAuth(
     async ({ req }: any) => {
@@ -58,7 +61,7 @@ export default function RepertoirePage({ user }: Props) {
     return (
         <>
             <Layout title="My Repertoire" user={user}>
-                <div className={styles.container}>
+                <div className={cx('container')}>
                     <FilterRow setFilter={setFilter} />
 
                     <SearchBar

@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import classnames from 'classnames/bind';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
@@ -6,6 +7,8 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 
 import styles from './Layout.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface Props {
     title?: string;
@@ -26,7 +29,7 @@ export default function Layout({ title, user, children }: Props) {
 
             <Header title={title} setIsOpen={setIsOpen} isOpen={isOpen} />
 
-            <div className={`${styles.layoutSidebar} ${isOpen ? styles.open : styles.close}`}>
+            <div className={cx('layout-sidebar', isOpen ? 'open' : 'close')}>
                 <div>
                     <Sidebar
                         isOpen={isOpen}
@@ -36,7 +39,7 @@ export default function Layout({ title, user, children }: Props) {
                     />
                 </div>
 
-                <div className={`${styles.layoutContent}`}>{children}</div>
+                <div className={cx('layout-content')}>{children}</div>
             </div>
         </>
     );

@@ -1,10 +1,13 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
 import CreatableSelect from 'react-select/creatable';
 import { ValueType } from 'react-select/';
 
 import Musician from 'lib/types/musician';
 
 import styles from './ArtistsSingleDropdown.module.scss';
+
+const cx = classnames.bind(styles);
 
 type Option = {
     value: string;
@@ -43,7 +46,7 @@ export default function SingleArtistDropdown({ musicians, selectedArtist, setFor
     }, [selectedArtist]);
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <CreatableSelect
                 name="musician"
                 value={currentValue}

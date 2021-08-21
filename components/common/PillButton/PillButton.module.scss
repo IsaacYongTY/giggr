@@ -12,9 +12,11 @@
         border: 1px solid blue;
         padding-right: 0.5rem;
     }
+
+    .close-button {
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
 }
 
-.closeButton {
-    cursor: pointer;
-    font-size: 1rem;
-}

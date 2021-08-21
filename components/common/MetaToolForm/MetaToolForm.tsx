@@ -1,4 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import classnames from 'classnames/bind';
+
 import Select, { ValueType } from 'react-select';
 
 import Form from '../../../lib/types/Form';
@@ -10,6 +12,8 @@ import convertRelativeKey from '../../../lib/utils/convert-relative-key';
 import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
 
 import styles from '../../../pages/utilities/metatool/metatool.module.scss';
+
+const cx = classnames.bind(styles);
 
 interface Props {
     formValue: Form;
@@ -108,7 +112,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
     }
     return (
         <div>
-            <div className={styles.pinyinRow}>
+            <div className={cx('pinyin-row')}>
                 <label>
                     <input
                         type="checkbox"
@@ -118,7 +122,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                     Pinyin
                 </label>
 
-                <div className={styles.dropdown}>
+                <div className={cx('dropdown')}>
                     <Select
                         value={pinyinSyllable}
                         options={[
@@ -135,7 +139,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                     <>
                         <a
                             href={searchLink}
-                            className={styles.searchLink}
+                            className={cx('search-link')}
                             target="_blank"
                             rel="noreferrer"
                         >
@@ -151,16 +155,16 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                 )}
 
                 {(formValue.timeSignature === '3/4' || formValue.timeSignature === '12/8') && (
-                    <div className={styles.timeSignatureToggleGroup}>
+                    <div className={cx('time-signature-toggle-container')}>
                         <button
-                            className={styles.timeSignatureToggle}
+                            className={cx('toggle')}
                             ref={threeFourToggleRef}
                             onClick={toggleTempoAndTimeSignature}
                         >
                             3/4
                         </button>
                         <button
-                            className={styles.timeSignatureToggle}
+                            className={cx('toggle')}
                             ref={twelveEightToggleRef}
                             onClick={toggleTempoAndTimeSignature}
                         >
@@ -174,7 +178,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                 <span>Result:</span>
                 <div
                     contentEditable="true"
-                    className={styles.textarea}
+                    className={cx('textarea')}
                     ref={textAreaContainer}
                     suppressContentEditableWarning={true}
                 >
@@ -182,7 +186,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                 </div>
             </div>
 
-            <div className={styles.buttonRowContainer}>
+            <div className={cx('button-row-container')}>
                 <button className="btn btn-danger-outlined" onClick={clearSelection}>
                     Clear
                 </button>
