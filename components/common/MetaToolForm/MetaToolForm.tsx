@@ -11,7 +11,7 @@ import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-k
 import convertRelativeKey from '../../../lib/utils/convert-relative-key';
 import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
 
-import styles from '../../../pages/utilities/metatool/metatool.module.scss';
+import styles from './MetaToolForm.module.scss';
 
 const cx = classnames.bind(styles);
 
@@ -111,7 +111,7 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
         }
     }
     return (
-        <div>
+        <div className={cx('container')}>
             <div className={cx('pinyin-row')}>
                 <label>
                     <input
