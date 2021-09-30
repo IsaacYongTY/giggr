@@ -8,8 +8,8 @@ import styles from './FilterRow.module.scss';
 const cx = classnames.bind(styles);
 
 type FilterRowProps = {
-    setFilter: (filter: string) => void
-}
+    setFilter: (filter: string) => void;
+};
 
 export default function FilterRow({ setFilter }: FilterRowProps) {
     const filterOptions = ['title', 'initialism', 'artist'];

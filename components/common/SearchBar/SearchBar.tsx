@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import classnames from "classnames/bind";
+import classnames from 'classnames/bind';
 
 import Song from '../../../lib/types/song';
 

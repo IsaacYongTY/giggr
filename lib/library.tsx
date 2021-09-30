@@ -25,12 +25,15 @@ export const loadUserData = async () => {
 
 export const loadDatabaseData = async (tokenString: string) => {
     try {
-        const response = await axios.get(`/api/v1/admin/songs?category=id&order=ASC`, {
-            withCredentials: true,
-            headers: {
-                'x-auth-token': `Bearer ${tokenString}`,
-            },
-        });
+        const response = await axios.get(
+            `/api/v1/admin/songs?category=id&order=ASC`,
+            {
+                withCredentials: true,
+                headers: {
+                    'x-auth-token': `Bearer ${tokenString}`,
+                },
+            }
+        );
 
         return response.data;
     } catch (error) {
@@ -40,18 +43,23 @@ export const loadDatabaseData = async (tokenString: string) => {
 };
 
 export const loadUserMusicians = async (user: any) => {
-    const response = await axios.get(`/api/v1/musicians?category=name&order=ASC`, {
-        withCredentials: true,
-        headers: {
-            'x-auth-token': `Bearer ${user.tokenString}`,
-        },
-    });
+    const response = await axios.get(
+        `/api/v1/musicians?category=name&order=ASC`,
+        {
+            withCredentials: true,
+            headers: {
+                'x-auth-token': `Bearer ${user.tokenString}`,
+            },
+        }
+    );
 
     return response.data.musicians;
 };
 
 export const loadDatabaseMusicians = async () => {
-    const response = await axios.get(`/api/v1/admin/musicians?category=name&order=ASC`);
+    const response = await axios.get(
+        `/api/v1/admin/musicians?category=name&order=ASC`
+    );
 
     return response.data.musicians;
 };
@@ -77,6 +85,7 @@ export function shakeAnimation(ref: RefObject<HTMLInputElement>) {
 
 export function convertMinSecToMs(durationMinSec: string) {
     return (
-        parseInt(durationMinSec.split(':')[0]) * 60 + parseInt(durationMinSec.split(':')[1]) * 1000
+        parseInt(durationMinSec.split(':')[0]) * 60 +
+        parseInt(durationMinSec.split(':')[1]) * 1000
     );
 }

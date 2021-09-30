@@ -20,7 +20,9 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
     const [errorMessage, setErrorMessage] = useState('');
 
     const schema = Yup.object().shape({
-        email: Yup.string().required('Please provide email').email('Please provide a valid email'),
+        email: Yup.string()
+            .required('Please provide email')
+            .email('Please provide a valid email'),
         password: Yup.string().required('Please provide password').min(5),
     });
 
@@ -55,7 +57,8 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
             <div className="card__body">
                 <h2>Sign Up</h2>
                 <p>
-                    Already registered? <a onClick={() => setIsLoginPage(true)}>Login here</a>
+                    Already registered?{' '}
+                    <a onClick={() => setIsLoginPage(true)}>Login here</a>
                 </p>
                 <Formik
                     initialValues={initialValues}
@@ -72,7 +75,9 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
                                 onChange={handleChange}
                                 autoComplete="off"
                             />
-                            <div>{errors.email && touched.email && errors.email}</div>
+                            <div>
+                                {errors.email && touched.email && errors.email}
+                            </div>
                             <input
                                 className="form-control"
                                 name="password"
@@ -81,7 +86,9 @@ export default function SignupContainer({ setIsLoginPage }: Props) {
                                 onChange={handleChange}
                                 autoComplete="off"
                             />
-                            {errors.password && touched.password && errors.password}
+                            {errors.password &&
+                                touched.password &&
+                                errors.password}
                             {isShowErrorMessage && <div>{errorMessage}</div>}
                             <ButtonWithLoader
                                 label="Create Account"

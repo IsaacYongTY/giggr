@@ -22,27 +22,22 @@ interface Props {
 export default function RepertoireRow({
     song,
     handleOpenModal,
-    handleDeleteSong,
     handleOpenConfirmModal,
     selectedSongs,
     setSelectedSongs,
 }: Props) {
     const [isShowPopup, setIsShowPopup] = useState(false);
 
-    function handleHover(song: Song, isEnter: boolean) {
-        if (isEnter) {
-            setIsShowPopup(true);
-            return;
-        }
-        setIsShowPopup(false);
-    }
-
-    const foundIndex = selectedSongs.findIndex((selectedSong) => selectedSong.id === song.id);
+    const foundIndex = selectedSongs.findIndex(
+        (selectedSong) => selectedSong.id === song.id
+    );
     const isInSelectedSongsArray = foundIndex > -1;
 
     function toggleSelect() {
         if (isInSelectedSongsArray) {
-            setSelectedSongs((prevState) => prevState.filter((element) => element.id !== song.id));
+            setSelectedSongs((prevState) =>
+                prevState.filter((element) => element.id !== song.id)
+            );
             return;
         }
 
@@ -56,7 +51,11 @@ export default function RepertoireRow({
             onMouseLeave={() => setIsShowPopup(false)}
         >
             <td className={styles.checkboxCol}>
-                <input type="checkbox" checked={isInSelectedSongsArray} onChange={toggleSelect} />
+                <input
+                    type="checkbox"
+                    checked={isInSelectedSongsArray}
+                    onChange={toggleSelect}
+                />
             </td>
             <td>
                 <div className={styles.cell}>{song.id}</div>
@@ -81,10 +80,14 @@ export default function RepertoireRow({
                 </div>
             </td>
             <td>
-                <div className={styles.cell}>{convertKeyModeIntToKey(song.key, song.mode)}</div>
+                <div className={styles.cell}>
+                    {convertKeyModeIntToKey(song.key, song.mode)}
+                </div>
             </td>
             <td>
-                <div className={styles.cell}>{convertKeyModeIntToKey(song.myKey, song.mode)}</div>
+                <div className={styles.cell}>
+                    {convertKeyModeIntToKey(song.myKey, song.mode)}
+                </div>
             </td>
             <td>
                 <div className={`${styles.cell} ${styles.tempoCol}`}>
@@ -93,7 +96,9 @@ export default function RepertoireRow({
             </td>
             <td>
                 <div className={styles.cell}>
-                    {song.durationMs ? convertDurationMsToMinSec(song.durationMs) : null}
+                    {song.durationMs
+                        ? convertDurationMsToMinSec(song.durationMs)
+                        : null}
                 </div>
             </td>
             <td>
@@ -101,7 +106,9 @@ export default function RepertoireRow({
             </td>
             <td>
                 <div className={styles.cell}>
-                    {song?.language ? capitalizeString(song?.language?.name) : ''}
+                    {song?.language
+                        ? capitalizeString(song?.language?.name)
+                        : ''}
                 </div>
             </td>
             <td className={styles.listenCol}>

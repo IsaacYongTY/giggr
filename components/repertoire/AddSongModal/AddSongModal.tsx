@@ -141,7 +141,10 @@ export default function AddSongModal({
                         </div>
 
                         <div className={cx('button-row')}>
-                            <button className="btn btn-danger" onClick={handleCloseModal}>
+                            <button
+                                className="btn btn-danger"
+                                onClick={handleCloseModal}
+                            >
                                 Close
                             </button>
                         </div>
@@ -150,7 +153,10 @@ export default function AddSongModal({
                         <Metronome defaultTempo={form.tempo || 70} />
 
                         <div className={cx('button-row')}>
-                            <button className="btn btn-danger" onClick={handleCloseModal}>
+                            <button
+                                className="btn btn-danger"
+                                onClick={handleCloseModal}
+                            >
                                 Close
                             </button>
                         </div>

@@ -6,7 +6,7 @@ import RepertoireCard from './RepertoireCard';
 
 import styles from './DashboardCardList.module.scss';
 
-const cx = classnames.bind(styles)
+const cx = classnames.bind(styles);
 
 export default function DashboardCardList({ gigs, songs }: any) {
     return (

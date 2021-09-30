@@ -10,7 +10,9 @@ export default {
     },
 } as ComponentMeta<typeof KeysDropdown>;
 
-const Template: ComponentStory<typeof KeysDropdown> = (args) => <KeysDropdown {...args} />;
+const Template: ComponentStory<typeof KeysDropdown> = (args) => (
+    <KeysDropdown {...args} />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
