@@ -1,81 +1,80 @@
-@import '../../../common/scss/variables';
+@import 'common/scss/variables';
 
-.pinyin-row {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
+.container {
+    .pinyin-row {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
 
-    > label {
-        cursor: pointer;
+        > label {
+            cursor: pointer;
+        }
+
+        input[type='checkbox'] {
+            cursor: pointer;
+            margin-right: 1rem;
+
+            transform: scale(1.3);
+        }
     }
 
-    input[type='checkbox'] {
-        cursor: pointer;
-        margin-right: 1rem;
-
-        transform: scale(1.3);
+    .dropdown {
+        width: 8rem;
     }
-}
 
-.dropdown {
-    width: 8rem;
-}
+    .search-link {
+        display: block;
+    }
 
-.search-link {
-    display: block;
-}
+    .time-signature-toggle-container {
+        display: flex;
+        gap: 2rem;
+        margin-left: auto;
 
-.time-signature-toggle-container {
-    display: flex;
-    gap: 2rem;
-    margin-left: auto;
+        .toggle {
+            background-color: white;
+            border: 1px solid lightgray;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 2px 2px 5px lightgray;
+            cursor: pointer;
+            font-size: 1.6rem;
+        }
+    }
 
-    .toggle {
-        background-color: white;
+    .selected {
+        color: white;
+        background-color: $blue;
+    }
+
+    .textarea {
+        box-sizing: border-box;
         border: 1px solid lightgray;
+        border-radius: 0.4rem;
         padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 2px 2px 5px lightgray;
-        cursor: pointer;
-        font-size: 1.6rem;
-    }
-}
+        width: 100%;
+        height: 45rem;
+        margin-top: 0.5rem;
+        white-space: pre;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        cursor: text;
 
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
-
-.selected {
-    color: white;
-    background-color: $blue;
-}
-
-.textarea {
-    box-sizing: border-box;
-    border: 1px solid lightgray;
-    border-radius: 0.4rem;
-    padding: 1rem;
-    width: 100%;
-    height: 45rem;
-    margin-top: 0.5rem;
-    white-space: pre;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    cursor: text;
-
-    &::-webkit-scrollbar {
-        display: none;
+        &:focus {
+            outline: none;
+        }
     }
 
-    &:focus {
-        outline: none;
+    .button-row-container {
+        display: flex;
+        margin: 2rem 0;
+        gap: 3rem;
+        justify-content: flex-end;
     }
 }
-
-.button-row-container {
-    display: flex;
-    margin: 2rem 0;
-    gap: 3rem;
-    justify-content: flex-end;
-}
-

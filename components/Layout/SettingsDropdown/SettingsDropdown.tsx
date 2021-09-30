@@ -45,9 +45,17 @@ export default function SettingsDropdown() {
 
             {isOpen && (
                 <div className={cx('menu')}>
-                    <MenuRow icon="settings" title="Settings" callback={() => setIsOpen(false)} />
+                    <MenuRow
+                        icon="settings"
+                        title="Settings"
+                        callback={() => setIsOpen(false)}
+                    />
                     <MenuRow icon="help" title="Help" />
-                    <MenuRow icon="logout" title="Logout" callback={handleLogout} />
+                    <MenuRow
+                        icon="logout"
+                        title="Logout"
+                        callback={handleLogout}
+                    />
                 </div>
             )}
         </div>

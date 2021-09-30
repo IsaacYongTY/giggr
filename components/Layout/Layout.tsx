@@ -24,7 +24,10 @@ export default function Layout({ title, user, children }: Props) {
         <>
             <Head>
                 <title>{title} | GIGGR</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta
+                    name="viewport"
+                    content="initial-scale=1.0, width=device-width"
+                />
             </Head>
 
             <Header title={title} setIsOpen={setIsOpen} isOpen={isOpen} />

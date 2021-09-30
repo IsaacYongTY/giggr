@@ -10,9 +10,9 @@ const cx = classnames.bind(styles);
 
 type HeaderProps = {
     title?: string;
-    setIsOpen: (open: boolean) => void,
+    setIsOpen: (open: boolean) => void;
     isOpen: boolean;
-}
+};
 
 const Header: React.FC<HeaderProps> = ({ title, setIsOpen, isOpen }) => {
     return (

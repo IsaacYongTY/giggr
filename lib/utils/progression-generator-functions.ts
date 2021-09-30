@@ -5,7 +5,11 @@ interface KeyInfo {
     isSharp: boolean;
 }
 
-export const renderSpacing = (spacing: number, chord: string, spaceChar = ' ') => {
+export const renderSpacing = (
+    spacing: number,
+    chord: string,
+    spaceChar = ' '
+) => {
     if (chord.length > spacing || spacing < 0) return '';
     return spaceChar.repeat(spacing - (chord.length - 1));
 };
@@ -103,7 +107,9 @@ export const getNotesInKey = (inputKey: number): string[] => {
     const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     const keyIndex = notes.indexOf(key[0]);
 
-    const reshuffledNotes = notes.slice(keyIndex).concat(notes.slice(0, keyIndex));
+    const reshuffledNotes = notes
+        .slice(keyIndex)
+        .concat(notes.slice(0, keyIndex));
 
     const accidental = isSharp ? '#' : 'b';
 
@@ -137,7 +143,10 @@ export function modifyChordSuffix(chordString: string, key: number): string {
         const [accidental, chordNum] = chordString.split('');
         const keyIndex = parseInt(chordNum) - 1;
 
-        return (notesInKeyArray[keyIndex] + accidental).replace(/(#b)|(b#)/, '');
+        return (notesInKeyArray[keyIndex] + accidental).replace(
+            /(#b)|(b#)/,
+            ''
+        );
     }
 
     const chordNum = chordString.slice(0, 1);
@@ -177,10 +186,15 @@ export const addFamilyChordSuffix = function (chordNum: number, key: number) {
     return notesInKeyArray[keyIndex];
 };
 
-export function assignKeyToProgression(key: number, progression: string): string[] {
+export function assignKeyToProgression(
+    key: number,
+    progression: string
+): string[] {
     const validInputRegex = /[^1-7b#Mm(dim7)]/g;
     const containInvalidInput = progression.search(validInputRegex) > -1;
-    const progressionArray = progression.match(/(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g);
+    const progressionArray = progression.match(
+        /(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g
+    );
 
     if (key < 0 || key > 12 || containInvalidInput || !progressionArray) {
         return [];
@@ -199,7 +213,11 @@ export function assignKeyToProgression(key: number, progression: string): string
     });
 }
 
-export const fullBarProg = function (key: number, progression: string, space: number) {
+export const fullBarProg = function (
+    key: number,
+    progression: string,
+    space: number
+) {
     if (key < 0 || key > 12 || space < 0 || !progression) {
         return '';
     }
@@ -219,7 +237,11 @@ export const fullBarProg = function (key: number, progression: string, space: nu
     return resultString + '|';
 };
 
-export const halfBarProg = function (key: number, progression: string, space: number) {
+export const halfBarProg = function (
+    key: number,
+    progression: string,
+    space: number
+) {
     if (key < 0 || key > 12 || space < 0 || !progression) {
         return '';
     }
@@ -256,7 +278,9 @@ export const halfBarProg = function (key: number, progression: string, space: nu
         const lastChord = chordProgression[chordProgression.length - 1];
         const totalSpace = space + placeholderChord.length;
 
-        return resultString.trimEnd() + `${renderSpacing(totalSpace, lastChord)}|`;
+        return (
+            resultString.trimEnd() + `${renderSpacing(totalSpace, lastChord)}|`
+        );
     }
 
     return resultString + '|';

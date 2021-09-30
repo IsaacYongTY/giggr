@@ -7,7 +7,10 @@ function createKeywordsArray(initialism: string, language: string): string[] {
     return [initialism, language];
 }
 
-export default function generateMetaData(form: Form, pinyinSyllableNum = 0): string {
+export default function generateMetaData(
+    form: Form,
+    pinyinSyllableNum = 0
+): string {
     const {
         title,
         romTitle,
@@ -28,7 +31,9 @@ export default function generateMetaData(form: Form, pinyinSyllableNum = 0): str
             : '';
 
     const keyString =
-        key !== undefined && mode !== undefined ? convertKeyModeIntToKey(key, mode) : '';
+        key !== undefined && mode !== undefined
+            ? convertKeyModeIntToKey(key, mode)
+            : '';
 
     const yearReleased = dateReleased?.slice(0, 4);
 

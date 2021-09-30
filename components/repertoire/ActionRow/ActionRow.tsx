@@ -18,14 +18,19 @@ export default function ActionRow({
 }: Props) {
     return (
         <div className="action-row">
-            <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+            <button
+                className="btn btn-primary"
+                onClick={() => setIsModalOpen(true)}
+            >
                 Add Song
             </button>
             <CsvUploadContainer database={database} />
             {selectedSongs.length > 0 && (
                 <button
                     className="btn btn-danger"
-                    onClick={() => handleOpenConfirmDeleteSelectedModal(selectedSongs)}
+                    onClick={() =>
+                        handleOpenConfirmDeleteSelectedModal(selectedSongs)
+                    }
                 >
                     Delete Selected
                 </button>

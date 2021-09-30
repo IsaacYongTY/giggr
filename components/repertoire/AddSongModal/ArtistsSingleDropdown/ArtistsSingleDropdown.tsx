@@ -20,7 +20,11 @@ type Props = {
     setFormValue: Dispatch<SetStateAction<any>>;
 };
 
-export default function SingleArtistDropdown({ musicians, selectedArtist, setFormValue }: Props) {
+export default function SingleArtistDropdown({
+    musicians,
+    selectedArtist,
+    setFormValue,
+}: Props) {
     const [currentValue, setCurrentValue] = useState({ value: '', label: '' });
     const [options, setOptions] = useState<Option[]>([]);
 

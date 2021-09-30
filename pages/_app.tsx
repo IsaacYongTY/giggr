@@ -17,7 +17,8 @@ export default function MyApp({ Component, pageProps }: any) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <SWRConfig
                 value={{
-                    fetcher: (url: string) => axios.get(url).then((res) => res.data),
+                    fetcher: (url: string) =>
+                        axios.get(url).then((res) => res.data),
                 }}
             >
                 <Component {...pageProps} />

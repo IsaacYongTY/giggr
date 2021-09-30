@@ -2,10 +2,17 @@ import React, { Dispatch, RefObject, SetStateAction } from 'react';
 
 interface Props {
     sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>;
-    setAlertOptions: Dispatch<SetStateAction<{ message: string; type: string }>>;
+    setAlertOptions: Dispatch<
+        SetStateAction<{ message: string; type: string }>
+    >;
 }
-export default function CopyToClipboardButton({ sourceRef, setAlertOptions }: Props) {
-    function copyToClipboard(sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>) {
+export default function CopyToClipboardButton({
+    sourceRef,
+    setAlertOptions,
+}: Props) {
+    function copyToClipboard(
+        sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>
+    ) {
         if (sourceRef.current) {
             let sel: any;
             let range: any;
@@ -47,7 +54,10 @@ export default function CopyToClipboardButton({ sourceRef, setAlertOptions }: Pr
     }
 
     return (
-        <button className="btn btn-secondary" onClick={() => copyToClipboard(sourceRef)}>
+        <button
+            className="btn btn-secondary"
+            onClick={() => copyToClipboard(sourceRef)}
+        >
             Copy To Clipboard
         </button>
     );

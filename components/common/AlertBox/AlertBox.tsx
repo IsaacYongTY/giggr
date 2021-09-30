@@ -9,9 +9,16 @@ interface Props {
     message: string;
     type: string;
     timeoutInMs?: number;
-    setAlertOptions: Dispatch<SetStateAction<{ message: string; type: string }>>;
+    setAlertOptions: Dispatch<
+        SetStateAction<{ message: string; type: string }>
+    >;
 }
-export default function AlertBox({ setAlertOptions, message, type, timeoutInMs = 3000 }: Props) {
+export default function AlertBox({
+    setAlertOptions,
+    message,
+    type,
+    timeoutInMs = 3000,
+}: Props) {
     let displayStyle;
 
     const [isShow, setIsShow] = useState(true);
@@ -49,7 +56,10 @@ export default function AlertBox({ setAlertOptions, message, type, timeoutInMs =
             {isShow && message && (
                 <div className={cx('container', displayStyle)}>
                     {message}
-                    <span className={`${styles.cross} material-icons`} onClick={handleClose}>
+                    <span
+                        className={`${styles.cross} material-icons`}
+                        onClick={handleClose}
+                    >
                         close
                     </span>
                 </div>

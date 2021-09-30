@@ -38,7 +38,42 @@ export const minorKeyArray = [
     'Gm',
     'G#m',
 ];
-export const majorKeyArray = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-export const noteArray = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+export const majorKeyArray = [
+    'C',
+    'Db',
+    'D',
+    'Eb',
+    'E',
+    'F',
+    'Gb',
+    'G',
+    'Ab',
+    'A',
+    'Bb',
+    'B',
+];
+export const noteArray = [
+    'C',
+    'Db',
+    'D',
+    'Eb',
+    'E',
+    'F',
+    'Gb',
+    'G',
+    'Ab',
+    'A',
+    'Bb',
+    'B',
+];
 
-export const timeSignatureArray = ['4/4', '3/4', '12/8', '6/8', '2/4', '5/4', '5/8', '7/8'];
+export const timeSignatureArray = [
+    '4/4',
+    '3/4',
+    '12/8',
+    '6/8',
+    '2/4',
+    '5/4',
+    '5/8',
+    '7/8',
+];
