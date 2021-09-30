@@ -15,7 +15,12 @@ type Props = {
     setFormValue: any;
 };
 
-export default function SingleDropdown({ name, options, currentSelection, setFormValue }: Props) {
+export default function SingleDropdown({
+    name,
+    options,
+    currentSelection,
+    setFormValue,
+}: Props) {
     function handleChange(selectedOption: any) {
         setFormValue((prevState: any) => ({
             ...prevState,

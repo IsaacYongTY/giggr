@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames/bind'
+import classnames from 'classnames/bind';
 
 import styles from './FilterButton.module.scss';
 
@@ -24,7 +24,10 @@ export default function FilterButton({
 
     return (
         <button
-            className={cx('btn', isFilterOnArray[index] ? 'btn-danger' : 'btn-link')}
+            className={cx(
+                'btn',
+                isFilterOnArray[index] ? 'btn-danger' : 'btn-link'
+            )}
             onClick={() => handleSetFilter(filter)}
         >
             {filter}

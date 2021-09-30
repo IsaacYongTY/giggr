@@ -203,7 +203,9 @@ describe('The bpm page', () => {
     describe('The behaviour of Tap to play', () => {
         it('should render text correctly', () => {
             renderMetronome();
-            userEvent.click(screen.getByRole('button', { name: /tap to play/i }));
+            userEvent.click(
+                screen.getByRole('button', { name: /tap to play/i })
+            );
             expect(screen.getByText(/tap to stop/i)).toBeInTheDocument();
 
             userEvent.click(screen.getByText(/tap to stop/i));

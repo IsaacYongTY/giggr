@@ -53,7 +53,9 @@ export default function ButtonWithLoader({
 
     return (
         <button
-            className={primary ? cx('btn', 'btn-primary') : cx('btn', 'btn-highlight')}
+            className={
+                primary ? cx('btn', 'btn-primary') : cx('btn', 'btn-highlight')
+            }
             onClick={handleOnClick}
             disabled={isLoading}
         >

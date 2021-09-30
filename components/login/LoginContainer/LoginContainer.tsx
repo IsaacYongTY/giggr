@@ -20,7 +20,9 @@ export default function LoginContainer({ setIsLoginPage }: Props) {
     const [isLoading, setIsLoading] = useState(false);
 
     const schema = Yup.object().shape({
-        email: Yup.string().required('Please provide email').email('Please provide a valid email'),
+        email: Yup.string()
+            .required('Please provide email')
+            .email('Please provide a valid email'),
         password: Yup.string().required('Please provide password').min(5),
     });
 
@@ -76,7 +78,9 @@ export default function LoginContainer({ setIsLoginPage }: Props) {
                                 onChange={handleChange}
                                 type="email"
                             />
-                            <div>{errors.email && touched.email && errors.email}</div>
+                            <div>
+                                {errors.email && touched.email && errors.email}
+                            </div>
 
                             <input
                                 className="form-control"
@@ -86,9 +90,13 @@ export default function LoginContainer({ setIsLoginPage }: Props) {
                                 onChange={handleChange}
                                 autoComplete="off"
                             />
-                            {errors.password && touched.password && errors.password}
+                            {errors.password &&
+                                touched.password &&
+                                errors.password}
                             {isShowErrorMessage && (
-                                <span>Invalid email or password. Please try again.</span>
+                                <span>
+                                    Invalid email or password. Please try again.
+                                </span>
                             )}
                             <ButtonWithLoader
                                 isLoading={isLoading}

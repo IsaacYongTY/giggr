@@ -30,10 +30,42 @@ describe('Progression Generator functions', () => {
 
     describe('getNotesInKey', () => {
         it('should generate family chords according to key id', () => {
-            expect(getNotesInKey(0)).toEqual(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
-            expect(getNotesInKey(3)).toEqual(['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D']);
-            expect(getNotesInKey(11)).toEqual(['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']);
-            expect(getNotesInKey(6)).toEqual(['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F']);
+            expect(getNotesInKey(0)).toEqual([
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'A',
+                'B',
+            ]);
+            expect(getNotesInKey(3)).toEqual([
+                'Eb',
+                'F',
+                'G',
+                'Ab',
+                'Bb',
+                'C',
+                'D',
+            ]);
+            expect(getNotesInKey(11)).toEqual([
+                'B',
+                'C#',
+                'D#',
+                'E',
+                'F#',
+                'G#',
+                'A#',
+            ]);
+            expect(getNotesInKey(6)).toEqual([
+                'Gb',
+                'Ab',
+                'Bb',
+                'Cb',
+                'Db',
+                'Eb',
+                'F',
+            ]);
         });
 
         it('should return an empty array if input is invalid', () => {
@@ -44,9 +76,24 @@ describe('Progression Generator functions', () => {
 
     describe('assignKeyToProgression', () => {
         it('should assign the notes in key to family chords', () => {
-            expect(assignKeyToProgression(0, '4536')).toEqual(['F', 'G', 'Em', 'Am']);
-            expect(assignKeyToProgression(3, '2511')).toEqual(['Fm7', 'Bb', 'Eb', 'Eb']);
-            expect(assignKeyToProgression(3, '13M44m')).toEqual(['Eb', 'G', 'Ab', 'Abm']);
+            expect(assignKeyToProgression(0, '4536')).toEqual([
+                'F',
+                'G',
+                'Em',
+                'Am',
+            ]);
+            expect(assignKeyToProgression(3, '2511')).toEqual([
+                'Fm7',
+                'Bb',
+                'Eb',
+                'Eb',
+            ]);
+            expect(assignKeyToProgression(3, '13M44m')).toEqual([
+                'Eb',
+                'G',
+                'Ab',
+                'Abm',
+            ]);
             expect(assignKeyToProgression(11, '1234567')).toEqual([
                 'B',
                 'C#m7',
@@ -68,9 +115,24 @@ describe('Progression Generator functions', () => {
         });
 
         it('should still output the correct family chords if the minor and major match the defaults', () => {
-            expect(assignKeyToProgression(0, '4M5M3m6m')).toEqual(['F', 'G', 'Em', 'Am']);
-            expect(assignKeyToProgression(0, '1Mb74M5M')).toEqual(['C', 'Bb', 'F', 'G']);
-            expect(assignKeyToProgression(9, '1b745')).toEqual(['A', 'G', 'D', 'E']);
+            expect(assignKeyToProgression(0, '4M5M3m6m')).toEqual([
+                'F',
+                'G',
+                'Em',
+                'Am',
+            ]);
+            expect(assignKeyToProgression(0, '1Mb74M5M')).toEqual([
+                'C',
+                'Bb',
+                'F',
+                'G',
+            ]);
+            expect(assignKeyToProgression(9, '1b745')).toEqual([
+                'A',
+                'G',
+                'D',
+                'E',
+            ]);
             expect(assignKeyToProgression(0, '1M2m3m4M5M6m7dim7')).toEqual([
                 'C',
                 'Dm',
@@ -147,7 +209,9 @@ describe('Progression Generator functions', () => {
 
     describe('halfBarProg', () => {
         it('should return formatted string with bar lines, with maximum 4 bars per line', () => {
-            expect(halfBarProg(0, '4536', 12)).toBe('| [F]      [G]      | [Em]     [Am]     |');
+            expect(halfBarProg(0, '4536', 12)).toBe(
+                '| [F]      [G]      | [Em]     [Am]     |'
+            );
             expect(halfBarProg(2, '45362511', 12)).toBe(
                 '| [G]      [A]      | [F#m]    [Bm]     |\n' +
                     '| [Em7]    [A]      | [D]      [D]      |'
@@ -156,12 +220,16 @@ describe('Progression Generator functions', () => {
             expect(halfBarProg(11, '23M4m', 14)).toBe(
                 '| [C#m7]    [D#]      | [Em]                |'
             );
-            expect(halfBarProg(4, '251', 14)).toBe('| [F#m7]    [B]       | [E]                 |');
+            expect(halfBarProg(4, '251', 14)).toBe(
+                '| [F#m7]    [B]       | [E]                 |'
+            );
             expect(halfBarProg(0, '15451', 14)).toBe(
-                '| [C]       [G]       | [F]       [G]       |\n' + '| [C]                 |'
+                '| [C]       [G]       | [F]       [G]       |\n' +
+                    '| [C]                 |'
             );
             expect(halfBarProg(7, '64151', 14)).toBe(
-                '| [Em]      [C]       | [G]       [D]       |\n' + '| [G]                 |'
+                '| [Em]      [C]       | [G]       [D]       |\n' +
+                    '| [G]                 |'
             );
             expect(halfBarProg(9, '4536251', 14)).toBe(
                 '| [D]       [E]       | [C#m]     [F#m]     |\n' +
@@ -193,7 +261,9 @@ describe('Progression Generator functions', () => {
         });
 
         it('should round up to next number of spacing if odd is provided', () => {
-            expect(halfBarProg(0, '4536', 11)).toBe('| [F]      [G]      | [Em]     [Am]     |');
+            expect(halfBarProg(0, '4536', 11)).toBe(
+                '| [F]      [G]      | [Em]     [Am]     |'
+            );
             expect(halfBarProg(2, '45362511', 11)).toBe(
                 '| [G]      [A]      | [F#m]    [Bm]     |\n' +
                     '| [Em7]    [A]      | [D]      [D]      |'
@@ -202,9 +272,12 @@ describe('Progression Generator functions', () => {
             expect(halfBarProg(11, '23M4m', 13)).toBe(
                 '| [C#m7]    [D#]      | [Em]                |'
             );
-            expect(halfBarProg(4, '251', 13)).toBe('| [F#m7]    [B]       | [E]                 |');
+            expect(halfBarProg(4, '251', 13)).toBe(
+                '| [F#m7]    [B]       | [E]                 |'
+            );
             expect(halfBarProg(0, '15451', 13)).toBe(
-                '| [C]       [G]       | [F]       [G]       |\n' + '| [C]                 |'
+                '| [C]       [G]       | [F]       [G]       |\n' +
+                    '| [C]                 |'
             );
         });
     });

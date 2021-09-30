@@ -28,7 +28,9 @@ export default function MusiciansDropdown() {
     }, []);
 
     function toggleSelectMusician(musician: Musician) {
-        const foundIndex = selectedMusicians.findIndex((element) => element.id === musician.id);
+        const foundIndex = selectedMusicians.findIndex(
+            (element) => element.id === musician.id
+        );
         if (foundIndex === -1) {
             setSelectedMusicians((prevState) => [...prevState, musician]);
             return;
@@ -45,7 +47,9 @@ export default function MusiciansDropdown() {
             return;
         }
         setFilteredMusicians(
-            musicians.filter((musician) => musician.name.toLowerCase().includes(e.target.value))
+            musicians.filter((musician) =>
+                musician.name.toLowerCase().includes(e.target.value)
+            )
         );
     }
 
@@ -81,8 +85,11 @@ export default function MusiciansDropdown() {
                             onClick={() => toggleSelectMusician(musician)}
                         >
                             <div>{musician.name}</div>
-                            {selectedMusicians.findIndex((element) => element.id === musician.id) >
-                                -1 && <span className="material-icons">done</span>}
+                            {selectedMusicians.findIndex(
+                                (element) => element.id === musician.id
+                            ) > -1 && (
+                                <span className="material-icons">done</span>
+                            )}
                         </div>
                     ))}
                 </div>
