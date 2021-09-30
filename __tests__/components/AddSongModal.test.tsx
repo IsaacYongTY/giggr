@@ -81,8 +81,13 @@ describe('<AddSongModal />', () => {
 
     describe("KeysDropdown component's behaviours", () => {
         it('should render the component', () => {
-            const { keysDropdown, isMinorCheckbox, genresDropdown, moodsDropdown, tagsDropdown } =
-                renderAddSongModal();
+            const {
+                keysDropdown,
+                isMinorCheckbox,
+                genresDropdown,
+                moodsDropdown,
+                tagsDropdown,
+            } = renderAddSongModal();
 
             expect(keysDropdown).toBeInTheDocument();
             expect(isMinorCheckbox).toBeInTheDocument();
@@ -234,7 +239,9 @@ describe('<AddSongModal />', () => {
         it('should be show duration in mm:ss format after getting track info from Spotify in Add mode', async () => {
             const { durationTextbox } = renderAddSongModal();
 
-            const searchBar = screen.getByPlaceholderText('https://open.spotify.com/track/....');
+            const searchBar = screen.getByPlaceholderText(
+                'https://open.spotify.com/track/....'
+            );
             const getFromSpotifyButton = screen.getByRole('button', {
                 name: /get from spotify/i,
             });
@@ -298,9 +305,12 @@ describe('<AddSongModal />', () => {
             const getFromSpotifyButton = screen.getByRole('button', {
                 name: /get from spotify/i,
             });
-            const spotifySearchBar = screen.getByPlaceholderText(/^https:\/\/open.spotify.com.+/i);
+            const spotifySearchBar = screen.getByPlaceholderText(
+                /^https:\/\/open.spotify.com.+/i
+            );
 
-            const validSpotifyUrl = 'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
+            const validSpotifyUrl =
+                'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl';
 
             mockAxios.post.mockResolvedValue({
                 data: {
@@ -367,36 +377,41 @@ describe('<AddSongModal />', () => {
             expect(screen.getByText(/Tempo: 93/i)).toBeInTheDocument();
             expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument();
             expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument();
-            expect(screen.getByText(/Keywords: wan, mandarin/i)).toBeInTheDocument();
-            expect(screen.getByText(/Year Released: 2008/i)).toBeInTheDocument();
+            expect(
+                screen.getByText(/Keywords: wan, mandarin/i)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(/Year Released: 2008/i)
+            ).toBeInTheDocument();
         });
 
         it('should keep the changes that the user has made', async () => {
-            const { songDetailsTab, keysDropdown, generateMetaDataTab } = renderAddSongModal({
-                type: 'edit',
+            const { songDetailsTab, keysDropdown, generateMetaDataTab } =
+                renderAddSongModal({
+                    type: 'edit',
 
-                song: {
-                    title: '我爱你',
-                    artist: {
-                        id: 1,
-                        name: 'Crowd Lu',
-                        romName: '',
-                        spotifyName: '',
+                    song: {
+                        title: '我爱你',
+                        artist: {
+                            id: 1,
+                            name: 'Crowd Lu',
+                            romName: '',
+                            spotifyName: '',
+                        },
+                        romTitle: 'Wo Ai Ni',
+                        key: 2,
+                        mode: 1,
+                        tempo: 93,
+                        durationMs: 285000,
+                        timeSignature: '4/4',
+                        initialism: 'wan',
+                        language: {
+                            id: 1,
+                            name: 'mandarin',
+                        },
+                        dateReleased: '2008-01-01',
                     },
-                    romTitle: 'Wo Ai Ni',
-                    key: 2,
-                    mode: 1,
-                    tempo: 93,
-                    durationMs: 285000,
-                    timeSignature: '4/4',
-                    initialism: 'wan',
-                    language: {
-                        id: 1,
-                        name: 'mandarin',
-                    },
-                    dateReleased: '2008-01-01',
-                },
-            });
+                });
 
             userEvent.click(keysDropdown);
             userEvent.click(screen.getByText('G'));
@@ -419,8 +434,12 @@ describe('<AddSongModal />', () => {
         });
 
         it('should update the initialism and the romTitle if title are in Chinese on blur', () => {
-            const { titleTextbox, keysDropdown, initialismTextbox, romTitleTextbox } =
-                renderAddSongModal();
+            const {
+                titleTextbox,
+                keysDropdown,
+                initialismTextbox,
+                romTitleTextbox,
+            } = renderAddSongModal();
 
             userEvent.type(titleTextbox, '丑八怪咦哎咦啊啊啊');
             userEvent.click(keysDropdown);

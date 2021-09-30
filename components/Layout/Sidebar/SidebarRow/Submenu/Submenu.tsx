@@ -13,7 +13,12 @@ interface Props {
     setIsSubmenuOpen: Dispatch<SetStateAction<boolean>>;
     options: { title: string; link: string }[];
 }
-export default function Submenu({ index, isOpen, setIsSubmenuOpen, options }: Props) {
+export default function Submenu({
+    index,
+    isOpen,
+    setIsSubmenuOpen,
+    options,
+}: Props) {
     const posY = `pos${index}`;
 
     const cs = ['submenu'];

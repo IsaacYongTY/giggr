@@ -60,7 +60,8 @@ describe('The Lead Sheet Spacing page', () => {
 
     describe('The functionality of adding space in characters', () => {
         it('should add spaces between Chinese characters', () => {
-            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { processButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, '我是一只大大大大鸟');
 
@@ -70,7 +71,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should overwrite the content in result when Process button is pressed', () => {
-            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { processButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, '我是一只大大大大鸟');
             userEvent.click(processButton);
@@ -81,11 +83,14 @@ describe('The Lead Sheet Spacing page', () => {
             userEvent.type(inputTextArea, '想要跳啊跳\n 却跳也 跳   不高');
             userEvent.click(processButton);
 
-            expect(resultTextArea).toHaveValue('想 要 跳 啊 跳\n却 跳 也 跳 不 高');
+            expect(resultTextArea).toHaveValue(
+                '想 要 跳 啊 跳\n却 跳 也 跳 不 高'
+            );
         });
 
         it('should add spaces to long paragraph and ignore English words', () => {
-            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { processButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(
                 inputTextArea,
@@ -193,7 +198,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should trim all trailing white spaces for every lines', () => {
-            const { processButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { processButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(
                 inputTextArea,
@@ -209,7 +215,8 @@ describe('The Lead Sheet Spacing page', () => {
 
     describe('Clear All button', () => {
         it('should clear the content inside input and result textarea', () => {
-            const { clearAllButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { clearAllButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, 'testing in input textarea');
             userEvent.type(resultTextArea, 'testing in output textarea');
@@ -222,7 +229,8 @@ describe('The Lead Sheet Spacing page', () => {
 
     describe('Clear Result button', () => {
         it('should clear the content inside result textarea', () => {
-            const { clearResultButton, inputTextArea, resultTextArea } = renderLeadSheetSpacing();
+            const { clearResultButton, inputTextArea, resultTextArea } =
+                renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, 'testing in input textarea');
             userEvent.type(resultTextArea, 'testing in output textarea');
@@ -257,7 +265,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('hyphenate function should not be called if the checkbox is not checked', () => {
-            const { addHyphenCheckbox, processButton } = renderLeadSheetSpacing();
+            const { addHyphenCheckbox, processButton } =
+                renderLeadSheetSpacing();
             userEvent.click(addHyphenCheckbox);
             expect(addHyphenCheckbox).not.toBeChecked();
 
@@ -272,7 +281,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should add and display added string on the page', () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing();
+            const { addStringTextbox, addStringButton } =
+                renderLeadSheetSpacing();
 
             userEvent.type(addStringTextbox, '#');
             expect(addStringTextbox).toHaveValue('#');
@@ -285,7 +295,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should be empty after the add button is clicked', () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing();
+            const { addStringTextbox, addStringButton } =
+                renderLeadSheetSpacing();
 
             userEvent.type(addStringTextbox, '#');
 
@@ -294,7 +305,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should not add string if it already existed', () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing();
+            const { addStringTextbox, addStringButton } =
+                renderLeadSheetSpacing();
 
             userEvent.type(addStringTextbox, '#');
             userEvent.click(addStringButton);
@@ -306,7 +318,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should be able to add multiple strings', () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing();
+            const { addStringTextbox, addStringButton } =
+                renderLeadSheetSpacing();
 
             userEvent.type(addStringTextbox, '#');
             userEvent.click(addStringButton);
@@ -326,7 +339,8 @@ describe('The Lead Sheet Spacing page', () => {
         });
 
         it('should delete the string if delete button for the string is clicked', () => {
-            const { addStringTextbox, addStringButton } = renderLeadSheetSpacing();
+            const { addStringTextbox, addStringButton } =
+                renderLeadSheetSpacing();
 
             userEvent.type(addStringTextbox, '#');
             userEvent.click(addStringButton);
@@ -363,34 +377,49 @@ describe('The Lead Sheet Spacing page', () => {
 
     describe('Toggle placeholder Button', () => {
         it('should toggle the text result to placeholder char', () => {
-            const { processButton, inputTextArea, resultTextArea, togglePlaceholderButton } =
-                renderLeadSheetSpacing();
+            const {
+                processButton,
+                inputTextArea,
+                resultTextArea,
+                togglePlaceholderButton,
+            } = renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, '寂寞夜晚上 过度的想像\n');
 
             userEvent.click(processButton);
 
-            expect(resultTextArea).toHaveValue('寂 寞 夜 晚 上 过 度 的 想 像\n');
+            expect(resultTextArea).toHaveValue(
+                '寂 寞 夜 晚 上 过 度 的 想 像\n'
+            );
 
             userEvent.click(togglePlaceholderButton);
 
             expect(resultTextArea).toHaveValue('a a a a a a a a a a\n');
 
-            userEvent.type(inputTextArea, '{selectall}{backspace}this is a second test');
+            userEvent.type(
+                inputTextArea,
+                '{selectall}{backspace}this is a second test'
+            );
             userEvent.click(processButton);
 
             expect(resultTextArea).toHaveValue('this is a second test');
         });
 
         it('should toggle the text result to placeholder char', () => {
-            const { processButton, inputTextArea, resultTextArea, togglePlaceholderButton } =
-                renderLeadSheetSpacing();
+            const {
+                processButton,
+                inputTextArea,
+                resultTextArea,
+                togglePlaceholderButton,
+            } = renderLeadSheetSpacing();
 
             userEvent.type(inputTextArea, '寂寞夜晚上 过度的想像\n');
 
             userEvent.click(processButton);
 
-            expect(resultTextArea).toHaveValue('寂 寞 夜 晚 上 过 度 的 想 像\n');
+            expect(resultTextArea).toHaveValue(
+                '寂 寞 夜 晚 上 过 度 的 想 像\n'
+            );
 
             userEvent.click(togglePlaceholderButton);
 

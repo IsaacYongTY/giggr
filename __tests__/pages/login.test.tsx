@@ -74,8 +74,12 @@ describe('The login page', () => {
         mockAxios.post.mockRejectedValueOnce({});
 
         await waitFor(() => {
-            expect(screen.getByText(/please provide email/i)).toBeInTheDocument();
-            expect(screen.getByText(/please provide password/i)).toBeInTheDocument();
+            expect(
+                screen.getByText(/please provide email/i)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(/please provide password/i)
+            ).toBeInTheDocument();
         });
     });
 
@@ -88,7 +92,9 @@ describe('The login page', () => {
         mockAxios.post.mockRejectedValueOnce({});
         await waitFor(() => {
             expect(
-                screen.getByText(/invalid email or password\. please try again\./i)
+                screen.getByText(
+                    /invalid email or password\. please try again\./i
+                )
             ).toBeInTheDocument();
         });
     });
@@ -96,7 +102,9 @@ describe('The login page', () => {
     it("should render signup container if 'Sign up here' is clicked", () => {
         renderLoginPage();
         userEvent.click(screen.getByText(/sign up here/i));
-        expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
+        expect(
+            screen.getByRole('button', { name: /create account/i })
+        ).toBeInTheDocument();
     });
 });
 
@@ -120,7 +128,9 @@ describe('Sign up UI', () => {
         renderSignupPage();
 
         userEvent.click(screen.getByText(/login here/i));
-        expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
+        expect(
+            screen.getByRole('button', { name: /log in/i })
+        ).toBeInTheDocument();
     });
 
     it('should make a call to /api/v1/auth/signup', async () => {
@@ -172,8 +182,12 @@ describe('Sign up UI', () => {
         mockAxios.post.mockRejectedValueOnce({});
 
         await waitFor(() => {
-            expect(screen.getByText(/please provide email/i)).toBeInTheDocument();
-            expect(screen.getByText(/please provide password/i)).toBeInTheDocument();
+            expect(
+                screen.getByText(/please provide email/i)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(/please provide password/i)
+            ).toBeInTheDocument();
         });
     });
 

@@ -13,7 +13,11 @@ interface Props {
     user?: any;
 }
 
-export default function SpotifySearchBar({ setFormValue, isContribute, user }: Props) {
+export default function SpotifySearchBar({
+    setFormValue,
+    isContribute,
+    user,
+}: Props) {
     const [spotifyLink, setSpotifyLink] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const spotifySearchInput = useRef<HTMLInputElement>(null);
@@ -35,11 +39,15 @@ export default function SpotifySearchBar({ setFormValue, isContribute, user }: P
         setIsLoading(true);
 
         try {
-            const response = await axios.post(`/api/v1/songs/spotify?trackId=${trackId}`);
+            const response = await axios.post(
+                `/api/v1/songs/spotify?trackId=${trackId}`
+            );
 
             const songData = response.data.result;
 
-            songData.durationMinSec = convertDurationMsToMinSec(songData.durationMs);
+            songData.durationMinSec = convertDurationMsToMinSec(
+                songData.durationMs
+            );
             setFormValue({
                 ...songData,
             });

@@ -49,7 +49,10 @@ export default function CsvUploadModal({
         setIsLoading(true);
         setErrorMessage('');
 
-        const url = database === 'master' ? `/api/v1/admin/songs/csv` : `/api/v1/songs/csv`;
+        const url =
+            database === 'master'
+                ? `/api/v1/admin/songs/csv`
+                : `/api/v1/songs/csv`;
 
         try {
             const formData = new FormData();
@@ -97,8 +100,12 @@ export default function CsvUploadModal({
                     />
                     <span className="material-icons">file_upload</span>
                     <div>Click to Upload CSV</div>
-                    {csvFile && <div className={cx('file-name')}> {csvFile.name}</div>}
-                    {errorMessage && <div className="error-message">{errorMessage}</div>}
+                    {csvFile && (
+                        <div className={cx('file-name')}> {csvFile.name}</div>
+                    )}
+                    {errorMessage && (
+                        <div className="error-message">{errorMessage}</div>
+                    )}
                     {successMessage && <div>{successMessage}</div>}
                 </label>
 

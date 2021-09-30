@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import React, {
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import classnames from 'classnames/bind';
 
 import Select, { ValueType } from 'react-select';
@@ -18,7 +24,9 @@ const cx = classnames.bind(styles);
 interface Props {
     formValue: Form;
     setFormValue: Dispatch<SetStateAction<Form>>;
-    setAlertOptions: Dispatch<SetStateAction<{ message: string; type: string }>>;
+    setAlertOptions: Dispatch<
+        SetStateAction<{ message: string; type: string }>
+    >;
 }
 
 interface Option {
@@ -26,7 +34,11 @@ interface Option {
     label: string;
 }
 
-export default function MetaToolForm({ formValue, setFormValue, setAlertOptions }: Props) {
+export default function MetaToolForm({
+    formValue,
+    setFormValue,
+    setAlertOptions,
+}: Props) {
     const [originalTempo, setOriginalTempo] = useState(0);
     const [text, setText] = useState('');
 
@@ -117,7 +129,9 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                     <input
                         type="checkbox"
                         defaultChecked={showPinyin}
-                        onChange={() => setShowPinyin((prevState) => !prevState)}
+                        onChange={() =>
+                            setShowPinyin((prevState) => !prevState)
+                        }
                     />
                     Pinyin
                 </label>
@@ -144,17 +158,23 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
                             rel="noreferrer"
                         >
                             Search &quot;{formValue?.title}{' '}
-                            {formValue?.language === 'mandarin' ? '歌词' : 'lyrics'}
+                            {formValue?.language === 'mandarin'
+                                ? '歌词'
+                                : 'lyrics'}
                             &quot; on Google
                         </a>
                         <label>
-                            <input type="checkbox" onClick={toggleRelativeKey} />
+                            <input
+                                type="checkbox"
+                                onClick={toggleRelativeKey}
+                            />
                             Relative Key
                         </label>
                     </>
                 )}
 
-                {(formValue.timeSignature === '3/4' || formValue.timeSignature === '12/8') && (
+                {(formValue.timeSignature === '3/4' ||
+                    formValue.timeSignature === '12/8') && (
                     <div className={cx('time-signature-toggle-container')}>
                         <button
                             className={cx('toggle')}
@@ -187,7 +207,10 @@ export default function MetaToolForm({ formValue, setFormValue, setAlertOptions 
             </div>
 
             <div className={cx('button-row-container')}>
-                <button className="btn btn-danger-outlined" onClick={clearSelection}>
+                <button
+                    className="btn btn-danger-outlined"
+                    onClick={clearSelection}
+                >
                     Clear
                 </button>
                 <CopyToClipboardButton

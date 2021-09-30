@@ -7,9 +7,11 @@ describe('getSpotifyTrackId', () => {
                 'https://open.spotify.com/track/0eDCVsJKGbQphGjRYa03vE?si=a9629713e16241db'
             )
         ).toBe('0eDCVsJKGbQphGjRYa03vE');
-        expect(getSpotifyTrackId('https://open.spotify.com/track/66cBlqEs1viJJCE74CDfGB')).toBe(
-            '66cBlqEs1viJJCE74CDfGB'
-        );
+        expect(
+            getSpotifyTrackId(
+                'https://open.spotify.com/track/66cBlqEs1viJJCE74CDfGB'
+            )
+        ).toBe('66cBlqEs1viJJCE74CDfGB');
     });
 
     it('should return undefined if invalid value is passed in', () => {

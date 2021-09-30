@@ -14,7 +14,11 @@ export default function Index() {
     return (
         <div className={cx('container')}>
             <div className="logo-position-top-center">
-                <Image src="/img/logos/giggr-logo-white-600x250.png" width={200} height={80} />
+                <Image
+                    src="/img/logos/giggr-logo-white-600x250.png"
+                    width={200}
+                    height={80}
+                />
             </div>
 
             {isLoginPage ? (

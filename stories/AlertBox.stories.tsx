@@ -8,7 +8,9 @@ export default {
     component: AlertBox,
 } as ComponentMeta<typeof AlertBox>;
 
-const Template: ComponentStory<typeof AlertBox> = (args) => <AlertBox {...args} />;
+const Template: ComponentStory<typeof AlertBox> = (args) => (
+    <AlertBox {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
