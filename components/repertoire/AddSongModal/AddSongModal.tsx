@@ -140,7 +140,7 @@ export default function AddSongModal({
                             </a>
                         </div>
 
-                        <div className={styles.buttonRow}>
+                        <div className={cx('button-row')}>
                             <button className="btn btn-danger" onClick={handleCloseModal}>
                                 Close
                             </button>
@@ -149,7 +149,7 @@ export default function AddSongModal({
                     <TabPanel>
                         <Metronome defaultTempo={form.tempo || 70} />
 
-                        <div className={styles.buttonRow}>
+                        <div className={cx('button-row')}>
                             <button className="btn btn-danger" onClick={handleCloseModal}>
                                 Close
                             </button>
