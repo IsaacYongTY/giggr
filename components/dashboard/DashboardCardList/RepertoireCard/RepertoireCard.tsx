@@ -20,7 +20,7 @@ export default function RepertoireCard({ songs }: RepertoireCardProps) {
                 <p>You have added</p>
                 <p>
                     <span className="text-primary">
-                        {deriveSongsAddedThisWeek(songs)}
+                        {songs && deriveSongsAddedThisWeek(songs)}
                     </span>{' '}
                     songs this week
                 </p>

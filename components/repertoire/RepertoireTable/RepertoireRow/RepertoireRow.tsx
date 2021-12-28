@@ -144,59 +144,47 @@ export default function RepertoireRow({
                     </a>
                 )}
             </td>
-            <td className={styles.composersCol}>
-                <div className={styles.pillButtonContainer}>
-                    {song.composers?.map((composer: any) => (
-                        <div className={styles.pillButton} key={composer.id}>
-                            {composer.name}
-                        </div>
-                    ))}
-                </div>
-            </td>
-            <td className={styles.songwritersCol}>
-                <div className={styles.pillButtonContainer}>
-                    {song.songwriters?.map((songwriter: any) => (
-                        <div className={styles.pillButton} key={songwriter.id}>
-                            {songwriter.name}
-                        </div>
-                    ))}
-                </div>
-            </td>
-            <td className={styles.arrangersCol}>
-                <div className={styles.pillButtonContainer}>
-                    {song.arrangers?.map((arranger: any) => (
-                        <div className={styles.pillButton} key={arranger.id}>
-                            {arranger.name}
-                        </div>
-                    ))}
-                </div>
+            <td>
+                {song.composers?.map((composer: any) => (
+                    <div className={cx('pill-button')} key={composer.id}>
+                        {composer.name}
+                    </div>
+                ))}
             </td>
             <td>
-                <div className={styles.pillButtonContainer}>
-                    {song.genres?.map((arranger: any) => (
-                        <div className={styles.pillButton} key={arranger.id}>
-                            {arranger.name}
-                        </div>
-                    ))}
-                </div>
+                {song.songwriters?.map((songwriter: any) => (
+                    <div className={cx('pill-button')} key={songwriter.id}>
+                        {songwriter.name}
+                    </div>
+                ))}
             </td>
             <td>
-                <div className={styles.pillButtonContainer}>
-                    {song.moods?.map((arranger: any) => (
-                        <div className={styles.pillButton} key={arranger.id}>
-                            {arranger.name}
-                        </div>
-                    ))}
-                </div>
+                {song.arrangers?.map((arranger: any) => (
+                    <div className={cx('pill-button')} key={arranger.id}>
+                        {arranger.name}
+                    </div>
+                ))}
             </td>
             <td>
-                <div className={styles.pillButtonContainer}>
-                    {song.tags?.map((arranger: any) => (
-                        <div className={styles.pillButton} key={arranger.id}>
-                            {arranger.name}
-                        </div>
-                    ))}
-                </div>
+                {song.genres?.map((arranger: any) => (
+                    <div className={cx('pill-button')} key={arranger.id}>
+                        {arranger.name}
+                    </div>
+                ))}
+            </td>
+            <td>
+                {song.moods?.map((arranger: any) => (
+                    <div className={cx('pill-button')} key={arranger.id}>
+                        {arranger.name}
+                    </div>
+                ))}
+            </td>
+            <td>
+                {song.tags?.map((arranger: any) => (
+                    <div className={cx('pill-button')} key={arranger.id}>
+                        {arranger.name}
+                    </div>
+                ))}
             </td>
         </tr>
     );

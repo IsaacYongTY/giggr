@@ -1,12 +1,5 @@
-import React, {
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
-
 import Select, { ValueType } from 'react-select';
 
 import Form from '../../../lib/types/Form';
@@ -21,13 +14,10 @@ import styles from './MetaToolForm.module.scss';
 
 const cx = classnames.bind(styles);
 
-interface Props {
+type MetaToolFormProps = {
     formValue: Form;
-    setFormValue: Dispatch<SetStateAction<Form>>;
-    setAlertOptions: Dispatch<
-        SetStateAction<{ message: string; type: string }>
-    >;
-}
+    setFormValue: (form: any) => void;
+};
 
 interface Option {
     value: number;
@@ -37,8 +27,7 @@ interface Option {
 export default function MetaToolForm({
     formValue,
     setFormValue,
-    setAlertOptions,
-}: Props) {
+}: MetaToolFormProps) {
     const [originalTempo, setOriginalTempo] = useState(0);
     const [text, setText] = useState('');
 
@@ -116,12 +105,9 @@ export default function MetaToolForm({
     function clearSelection() {
         if (textAreaContainer.current) {
             textAreaContainer.current.innerHTML = '';
-            setAlertOptions({
-                message: 'Content cleared',
-                type: 'success',
-            });
         }
     }
+
     return (
         <div className={cx('container')}>
             <div className={cx('pinyin-row')}>
@@ -213,10 +199,7 @@ export default function MetaToolForm({
                 >
                     Clear
                 </button>
-                <CopyToClipboardButton
-                    sourceRef={textAreaContainer}
-                    setAlertOptions={setAlertOptions}
-                />
+                <CopyToClipboardButton sourceRef={textAreaContainer} />
             </div>
         </div>
     );

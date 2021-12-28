@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css';
 import '../styles.scss';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';

@@ -1,29 +1,27 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
-import styles from './SpotifySearchBar.module.scss';
-import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to-min-sec';
-import getSpotifyTrackId from '../../../lib/utils/get-spotify-track-id';
-import { shakeAnimation } from '../../../lib/library';
+import classnames from 'classnames/bind';
 import ButtonWithLoader from '../ButtonWithLoader/ButtonWithLoader';
 
-interface Props {
-    setFormValue: any;
-    database?: string;
-    isContribute?: boolean;
-    user?: any;
-}
+import getSpotifyTrackId from '../../../lib/utils/get-spotify-track-id';
+import { shakeAnimation } from '../../../lib/library';
+
+import styles from './SpotifySearchBar.module.scss';
+
+const cx = classnames.bind(styles);
+
+type SpotifySearchBarProps = {
+    getFromSpotify: (trackId: string) => Promise<void>;
+};
 
 export default function SpotifySearchBar({
-    setFormValue,
-    isContribute,
-    user,
-}: Props) {
+    getFromSpotify,
+}: SpotifySearchBarProps) {
     const [spotifyLink, setSpotifyLink] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
     const spotifySearchInput = useRef<HTMLInputElement>(null);
 
     async function handleGetFromSpotify() {
-        setFormValue({});
         if (!spotifyLink) {
             shakeAnimation(spotifySearchInput);
             return;
@@ -39,32 +37,11 @@ export default function SpotifySearchBar({
         setIsLoading(true);
 
         try {
-            const response = await axios.post(
-                `/api/v1/songs/spotify?trackId=${trackId}`
-            );
-
-            const songData = response.data.result;
-
-            songData.durationMinSec = convertDurationMsToMinSec(
-                songData.durationMs
-            );
-            setFormValue({
-                ...songData,
-            });
-
-            if (isContribute) {
-                await axios.post('/api/v1/admin/songs', songData, {
-                    withCredentials: true,
-                    headers: {
-                        'x-auth-token': `Bearer ${user.tokenString}`,
-                    },
-                });
-            }
-
-            setIsLoading(false);
+            await getFromSpotify(trackId);
         } catch (err) {
-            setIsLoading(false);
             console.log(err);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -76,10 +53,10 @@ export default function SpotifySearchBar({
     }
 
     return (
-        <div className={styles.container}>
+        <div className={cx('container')}>
             <input
                 name="spotifySearch"
-                className={`${styles.searchBar} form-control`}
+                className="form-control"
                 onChange={(e) => setSpotifyLink(e.target.value)}
                 ref={spotifySearchInput}
                 onClick={selectText}

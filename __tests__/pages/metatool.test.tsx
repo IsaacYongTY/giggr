@@ -1,5 +1,5 @@
 import React from 'react';
-import Index, { Props } from '../../pages/utilities/metatool';
+import Index, { MetatoolPageProps } from '../../pages/utilities/metatool';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -39,8 +39,8 @@ const songData = {
     yearReleased: 2013,
 };
 
-function renderMetaTool(props: Partial<Props> = {}) {
-    const defaultProps: Props = {
+function renderMetaTool(props: Partial<MetatoolPageProps> = {}) {
+    const defaultProps: MetatoolPageProps = {
         user: {
             tierId: 2,
             name: 'Isaac',
