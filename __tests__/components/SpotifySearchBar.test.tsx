@@ -4,9 +4,7 @@ import { render } from '@testing-library/react';
 import SpotifySearchBar from '../../components/common/SpotifySearchBar/SpotifySearchBar';
 
 function renderSpotifySearchBar() {
-    const utils = render(
-        <SpotifySearchBar setFormValue={jest.fn()} database="database1" />
-    );
+    const utils = render(<SpotifySearchBar getFromSpotify={jest.fn()} />);
     return { ...utils };
 }
 
