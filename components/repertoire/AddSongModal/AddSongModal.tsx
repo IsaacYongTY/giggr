@@ -39,7 +39,6 @@ export default function AddSongModal({
     user,
 }: Props) {
     const [form, setForm] = useState<Form>({});
-    const [, setAlertOptions] = useState({ message: '', type: '' });
 
     const customStyles = {
         content: {
@@ -66,10 +65,6 @@ export default function AddSongModal({
     function handleCloseModal() {
         setForm({});
         setIsModalOpen(false);
-        setAlertOptions({
-            message: '',
-            type: '',
-        });
     }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
@@ -121,7 +116,6 @@ export default function AddSongModal({
                             user={user}
                             handleCloseModal={handleCloseModal}
                             song={song}
-                            setAlertOptions={setAlertOptions}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
@@ -129,11 +123,7 @@ export default function AddSongModal({
                         />
                     </TabPanel>
                     <TabPanel>
-                        <MetaToolForm
-                            formValue={form}
-                            setFormValue={setForm}
-                            setAlertOptions={setAlertOptions}
-                        />
+                        <MetaToolForm formValue={form} setFormValue={setForm} />
                         <div className={cx('link')}>
                             <a href="/utilities/progression" target="_blank">
                                 Progression Generator {'>'}

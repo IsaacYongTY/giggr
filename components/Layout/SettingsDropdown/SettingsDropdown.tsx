@@ -34,7 +34,7 @@ export default function SettingsDropdown() {
 
     return (
         <div tabIndex={-1} onBlur={handleOnBlur}>
-            <div className={cx('container', 'noselect')}>
+            <div className={cx('container')}>
                 <button
                     className={cx('material-icons', 'gear-icon')}
                     onClick={handleOpenDropdown}

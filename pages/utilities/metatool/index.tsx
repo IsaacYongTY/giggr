@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import classnames from 'classnames/bind';
+import axios from 'axios';
 
 import Layout from '../../../components/Layout';
 import SpotifySearchBar from '../../../components/common/SpotifySearchBar';
-import AlertBox from '../../../components/common/AlertBox';
 import MetaToolForm from '../../../components/common/MetaToolForm';
 
 import withAuth from '../../../middlewares/withAuth';
+import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to-min-sec';
 
 import styles from './metatool.module.scss';
 
@@ -20,7 +21,7 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-export interface Props {
+export interface MetatoolPageProps {
     user: {
         tierId: number;
         name: string;
@@ -29,28 +30,46 @@ export interface Props {
     };
 }
 
-export default function Index({ user }: Props) {
+export default function Index({ user }: MetatoolPageProps) {
     const [formValue, setFormValue] = useState<any>({});
-    const [alertOptions, setAlertOptions] = useState({ message: '', type: '' });
-
     const [isContribute, setIsContribute] = useState(user?.isAdmin);
+
+    async function getFromSpotify(trackId: string) {
+        setFormValue({});
+        const { data } = await axios.post(
+            `/api/v1/songs/spotify?trackId=${trackId}`
+        );
+
+        const songData = data.result;
+
+        songData.durationMinSec = convertDurationMsToMinSec(
+            songData.durationMs
+        );
+
+        setFormValue({
+            ...songData,
+        });
+
+        if (isContribute) {
+            await axios.post('/api/v1/admin/songs', songData, {
+                withCredentials: true,
+                headers: {
+                    'x-auth-token': `Bearer ${user.tokenString}`,
+                },
+            });
+        }
+    }
 
     return (
         <Layout user={user} title="Spotify Meta Tool">
             <div className={cx('container')}>
-                <div className={cx('search=bar-container')}>
-                    <SpotifySearchBar
-                        setFormValue={setFormValue}
-                        isContribute={isContribute}
-                        user={user}
-                        database="master"
-                    />
+                <div className={cx('search-bar-container')}>
+                    <SpotifySearchBar getFromSpotify={getFromSpotify} />
                 </div>
 
                 <MetaToolForm
                     formValue={formValue}
                     setFormValue={setFormValue}
-                    setAlertOptions={setAlertOptions}
                 />
 
                 {user?.isAdmin && (
@@ -68,12 +87,6 @@ export default function Index({ user }: Props) {
                         </label>
                     </div>
                 )}
-
-                <AlertBox
-                    setAlertOptions={setAlertOptions}
-                    message={alertOptions.message}
-                    type={alertOptions.type}
-                />
             </div>
         </Layout>
     );
