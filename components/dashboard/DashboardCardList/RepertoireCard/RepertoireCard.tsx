@@ -3,18 +3,26 @@ import classnames from 'classnames/bind';
 import Link from 'next/link';
 
 import Song from '../../../../lib/types/song';
+import { deriveSongsAddedThisWeek } from './utils';
 
 import styles from './RepertoireCard.module.scss';
 
 const cx = classnames.bind(styles);
 
-export default function RepertoireCard({ songs }: any) {
+type RepertoireCardProps = {
+    songs: Song[];
+};
+
+export default function RepertoireCard({ songs }: RepertoireCardProps) {
     return (
         <div className={cx('container', 'card')}>
             <div className={cx('title')}>
                 <p>You have added</p>
                 <p>
-                    <span className="text-primary">3</span> songs this week
+                    <span className="text-primary">
+                        {songs && deriveSongsAddedThisWeek(songs)}
+                    </span>{' '}
+                    songs this week
                 </p>
             </div>
             <div className={cx('list')}>

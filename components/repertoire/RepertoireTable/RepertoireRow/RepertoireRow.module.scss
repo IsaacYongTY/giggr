@@ -1,4 +1,4 @@
-.pillButton {
+.pill-button {
     display: inline;
     border-radius: 2rem;
     background-color: lightblue;
@@ -10,22 +10,12 @@
     cursor: pointer;
 }
 
-.pillButtonContainer {
-    margin-right: 0.5rem;
-    min-width: 15rem;
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    //overflow-x: hidden;
-}
-
 .artistCol {
     //display: flex;
     min-width: 15rem;
 }
 
-.tempoCol {
+.tempo-col {
     text-align: right;
 }
 
@@ -35,22 +25,6 @@
     //align-items: center;
     min-width: 20rem;
     position: relative;
-}
-
-.composersCol {
-    max-width: 25rem;
-    //overflow: hidden;
-    //word-wrap: break-word;
-}
-
-.songwritersCol {
-    max-width: 25rem;
-    overflow: hidden;
-}
-
-.arrangersCol {
-    max-width: 25rem;
-    overflow: hidden;
 }
 
 .listenCol {

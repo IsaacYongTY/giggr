@@ -20,6 +20,7 @@ import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to
 import convertSongFormToTempSong from '../../../lib/utils/convert-song-form-to-temp-song';
 
 import styles from './SongDetailForm.module.scss';
+import { message } from 'antd';
 
 const cx = classnames.bind(styles);
 
@@ -44,9 +45,6 @@ interface Props {
     user: any;
     handleCloseModal: () => void;
     song: Song | undefined;
-    setAlertOptions: Dispatch<
-        SetStateAction<{ message: string; type: string }>
-    >;
     isModalOpen: boolean;
     data: Data;
     handleInput: any;
@@ -59,7 +57,6 @@ export default function SongDetailForm({
     user,
     handleCloseModal,
     song,
-    setAlertOptions,
     setForm,
     isModalOpen,
     data,
@@ -105,17 +102,7 @@ export default function SongDetailForm({
 
             setIsLoading(false);
 
-            setAlertOptions({
-                message: 'added successfully',
-                type: 'success',
-            });
-
-            setTimeout(() => {
-                setAlertOptions({
-                    message: '',
-                    type: '',
-                });
-            }, 5000);
+            message.success('Added successfully');
 
             await axios.post(url, editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
@@ -166,10 +153,7 @@ export default function SongDetailForm({
 
             setIsLoading(false);
 
-            setAlertOptions({
-                message: 'Edited successfully',
-                type: 'success',
-            });
+            message.success('Edited successfully');
 
             await axios.put(`${url}/${form.id}`, editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
@@ -278,14 +262,25 @@ export default function SongDetailForm({
         }
     }, [isModalOpen]);
 
+    async function getFromSpotify(trackId: string) {
+        const { data } = await axios.post(
+            `/api/v1/songs/spotify?trackId=${trackId}`
+        );
+
+        const songData = data.result;
+
+        songData.durationMinSec = convertDurationMsToMinSec(
+            songData.durationMs
+        );
+        setForm({
+            ...songData,
+        });
+    }
+
     return (
         <div>
             {type === 'add' && (
-                <SpotifySearchBar
-                    setFormValue={setForm}
-                    database={database}
-                    user={user}
-                />
+                <SpotifySearchBar getFromSpotify={getFromSpotify} />
             )}
 
             <div className={cx('form-row')}>
