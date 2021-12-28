@@ -314,10 +314,7 @@ export default function Progression({ user }: Props) {
                     >
                         Clear
                     </button>
-                    <CopyToClipboardButton
-                        sourceRef={textarea}
-                        setAlertOptions={setAlertOptions}
-                    />
+                    <CopyToClipboardButton sourceRef={textarea} />
                     <button
                         className="btn btn-primary"
                         onClick={handleGenerateProg}

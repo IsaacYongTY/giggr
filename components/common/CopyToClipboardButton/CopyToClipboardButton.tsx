@@ -1,15 +1,13 @@
-import React, { Dispatch, RefObject, SetStateAction } from 'react';
+import React, { RefObject } from 'react';
+import { message } from 'antd';
 
-interface Props {
+type CopyToClipboardButtonProps = {
     sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>;
-    setAlertOptions: Dispatch<
-        SetStateAction<{ message: string; type: string }>
-    >;
-}
+};
+
 export default function CopyToClipboardButton({
     sourceRef,
-    setAlertOptions,
-}: Props) {
+}: CopyToClipboardButtonProps) {
     function copyToClipboard(
         sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>
     ) {
@@ -32,32 +30,21 @@ export default function CopyToClipboardButton({
 
                         document.execCommand('copy');
                         sel.removeAllRanges();
-
-                        setAlertOptions({
-                            message: 'Copied to clipboard!',
-                            type: 'success',
-                        });
                     }, 1);
                 }
             }
 
             document.execCommand('copy');
             sel.removeAllRanges();
-
-            // setTimeout(() => {
-            //     setAlertOptions({
-            //         message: "",
-            //         type: ""
-            //     })
-            // }, 3000)
         }
     }
 
+    const handleCopyToClipboard = () => {
+        copyToClipboard(sourceRef);
+        message.success('Copied to clipboard');
+    };
     return (
-        <button
-            className="btn btn-secondary"
-            onClick={() => copyToClipboard(sourceRef)}
-        >
+        <button className="btn btn-secondary" onClick={handleCopyToClipboard}>
             Copy To Clipboard
         </button>
     );
