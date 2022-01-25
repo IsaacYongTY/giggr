@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import { setCookie } from 'nookies';
 
-import ButtonWithLoader from '../../common/ButtonWithLoader/ButtonWithLoader';
+import ButtonWithLoader from 'components/common/ButtonWithLoader';
 
 import styles from './SignupContainer.module.scss';
 

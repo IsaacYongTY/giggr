@@ -8,12 +8,12 @@ import React, {
 import classnames from 'classnames/bind';
 import Select from 'react-select';
 
-import { majorKeyArray, minorKeyArray } from '../../../lib/data/data';
-import convertRelativeKey from '../../../lib/utils/convert-relative-key';
-import Form from '../../../lib/types/Form';
+import { majorKeyArray, minorKeyArray } from 'lib/data/data';
+import convertRelativeKey from 'lib/utils/convert-relative-key';
+import Form from 'lib/types/Form';
 
-import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
-import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
 
 import styles from './KeysDropdown.module.scss';
 

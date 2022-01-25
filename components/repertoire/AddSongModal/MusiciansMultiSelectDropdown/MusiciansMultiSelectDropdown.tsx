@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import styles from '../ArtistsSingleDropdown/ArtistsSingleDropdown.module.scss';
-import Musician from '../../../../lib/types/musician';
+import Musician from 'lib/types/musician';
 import CreatableSelect from 'react-select/creatable';
 import { ValueType } from 'react-select/';
+
+import styles from '../ArtistsSingleDropdown/ArtistsSingleDropdown.module.scss';
 
 type Props = {
     label: string;

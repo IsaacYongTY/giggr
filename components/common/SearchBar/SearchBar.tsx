@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import classnames from 'classnames/bind';
 
-import Song from '../../../lib/types/song';
+import Song from 'lib/types/song';
 
 import styles from './SearchBar.module.scss';
 

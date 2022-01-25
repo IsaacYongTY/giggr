@@ -1,16 +1,16 @@
 import React, { ChangeEvent, useState } from 'react';
 import classnames from 'classnames/bind';
-import axios from '../../../config/axios';
+import axios from 'config/axios';
 import { trigger } from 'swr';
 import Modal from 'react-modal';
 
+import ButtonLoader from 'components/common/Loader';
+import AlertBox from 'components/common/AlertBox';
 import AddSongModal from '../AddSongModal';
 import RepertoireRow from './RepertoireRow';
-import ButtonLoader from '../../common/Loader';
 import ActionRow from '../ActionRow';
-import AlertBox from '../../common/AlertBox';
 
-import Song from '../../../lib/types/song';
+import Song from 'lib/types/song';
 
 import styles from './RepertoireTable.module.scss';
 
