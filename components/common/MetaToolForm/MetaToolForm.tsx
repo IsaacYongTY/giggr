@@ -4,6 +4,7 @@ import Select, { ValueType } from 'react-select';
 
 import Form from 'lib/types/Form';
 import generateMetaData from 'lib/utils/generate-metadata';
+
 import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 
 import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
