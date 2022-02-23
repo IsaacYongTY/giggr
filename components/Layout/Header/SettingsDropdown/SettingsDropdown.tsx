@@ -3,7 +3,7 @@ import classnames from 'classnames/bind';
 import { useRouter } from 'next/router';
 import { destroyCookie } from 'nookies';
 
-import MenuRow from '../../common/MenuRow';
+import MenuRow from 'components/common/MenuRow';
 
 import styles from './SettingsDropdown.module.scss';
 

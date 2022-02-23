@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import Select from 'react-select';
 
-import { capitalizeString } from '../../../../lib/library';
+import { capitalizeString } from 'lib/library';
 
 import styles from './SingleDropdown.module.scss';
 

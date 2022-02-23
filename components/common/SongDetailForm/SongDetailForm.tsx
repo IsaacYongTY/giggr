@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import classnames from 'classnames/bind';
 import { mutate, trigger } from 'swr';
-import axios from '../../../config/axios';
+import axios from 'config/axios';
 
 import SpotifySearchBar from '../SpotifySearchBar';
 import ArtistsSingleDropdown from '../../repertoire/AddSongModal/ArtistsSingleDropdown';
@@ -12,12 +12,12 @@ import CategoriesDropdown from '../../repertoire/AddSongModal/CategoriesDropdown
 import ButtonWithLoader from '../ButtonWithLoader';
 import SingleDropdown from '../../repertoire/AddSongModal/SingleDropdown';
 
-import Form from '../../../lib/types/Form';
-import Song from '../../../lib/types/song';
-import Musician from '../../../lib/types/musician';
+import Form from 'lib/types/Form';
+import Song from 'lib/types/song';
+import Musician from 'lib/types/musician';
 
-import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to-min-sec';
-import convertSongFormToTempSong from '../../../lib/utils/convert-song-form-to-temp-song';
+import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
+import convertSongFormToTempSong from 'lib/utils/convert-song-form-to-temp-song';
 
 import styles from './SongDetailForm.module.scss';
 import { message } from 'antd';

@@ -5,14 +5,14 @@ import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
 
-import Song from '../../../lib/types/song';
-import Form from '../../../lib/types/Form';
+import Song from 'lib/types/song';
+import Form from 'lib/types/Form';
 
-import MetaToolForm from '../../common/MetaToolForm';
-import Metronome from '../../common/Metronome';
-import SongDetailForm from '../../common/SongDetailForm';
-import getInitialism from '../../../lib/utils/get-initialism';
-import getRomTitle from '../../../lib/utils/get-rom-title';
+import MetaToolForm from 'components/common/MetaToolForm';
+import Metronome from 'components/common/Metronome';
+import SongDetailForm from 'components/common/SongDetailForm';
+import getInitialism from 'lib/utils/get-initialism';
+import getRomTitle from 'lib/utils/get-rom-title';
 
 import styles from './AddSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
