@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 
-import SettingsDropdown from '../SettingsDropdown/SettingsDropdown';
+import SettingsDropdown from './SettingsDropdown';
 import Image from 'next/image';
 
 import styles from './Header.module.scss';

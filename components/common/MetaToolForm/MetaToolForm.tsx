@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 import Select, { ValueType } from 'react-select';
 
-import Form from '../../../lib/types/Form';
-import generateMetaData from '../../../lib/utils/generate-metadata';
+import Form from 'lib/types/Form';
+import generateMetaData from 'lib/utils/generate-metadata';
 import CopyToClipboardButton from '../CopyToClipboardButton/CopyToClipboardButton';
 
-import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from '../../../lib/utils/convert-relative-key';
-import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import convertRelativeKey from 'lib/utils/convert-relative-key';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
 
 import styles from './MetaToolForm.module.scss';
 
