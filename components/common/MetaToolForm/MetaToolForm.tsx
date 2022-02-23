@@ -10,10 +10,14 @@ import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
 import convertRelativeKey from 'lib/utils/convert-relative-key';
 import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
-import { defaultPinyinSyllableOption } from './constants';
+import {
+    defaultPinyinSyllableOption,
+    defaultPinyinSyllableOptions,
+} from './constants';
 import { deriveGoogleSearchLink } from './utils';
 
 import styles from './MetaToolForm.module.scss';
+import { Option } from './types';
 
 const cx = classnames.bind(styles);
 
@@ -21,11 +25,6 @@ type MetaToolFormProps = {
     formValue: Form;
     setFormValue: (form: any) => void;
 };
-
-interface Option {
-    value: number;
-    label: string;
-}
 
 export default function MetaToolForm({
     formValue,
@@ -123,11 +122,7 @@ export default function MetaToolForm({
                 <div className={cx('dropdown')}>
                     <Select
                         value={pinyinSyllable}
-                        options={[
-                            { value: 1, label: '1' },
-                            { value: 2, label: '2' },
-                            { value: 99, label: 'All' },
-                        ]}
+                        options={defaultPinyinSyllableOptions}
                         className="basic-single"
                         isSearchable={false}
                         onChange={handleChange}
