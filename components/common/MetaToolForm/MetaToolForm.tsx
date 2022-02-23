@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 import Select, { ValueType } from 'react-select';
 
-import Form from '../../../lib/types/Form';
-import generateMetaData from '../../../lib/utils/generate-metadata';
-import CopyToClipboardButton from '../CopyToClipboardButton/CopyToClipboardButton';
+import Form from 'lib/types/Form';
+import generateMetaData from 'lib/utils/generate-metadata';
+import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 
-import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from '../../../lib/utils/convert-relative-key';
-import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import convertRelativeKey from 'lib/utils/convert-relative-key';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import { defaultPinyinSyllableOption } from './constants';
+import { deriveGoogleSearchLink } from './utils';
 
 import styles from './MetaToolForm.module.scss';
 
@@ -32,10 +34,9 @@ export default function MetaToolForm({
     const [text, setText] = useState('');
 
     const [searchLink, setSearchLink] = useState('');
-    const [pinyinSyllable, setPinyinSyllable] = useState({
-        value: 2,
-        label: '2',
-    });
+    const [pinyinSyllable, setPinyinSyllable] = useState(
+        defaultPinyinSyllableOption
+    );
     const [showPinyin, setShowPinyin] = useState(true);
 
     const threeFourToggleRef = useRef<HTMLButtonElement>(null);
@@ -52,11 +53,7 @@ export default function MetaToolForm({
         setText(metaData);
 
         if (title) {
-            setSearchLink(
-                `https://www.google.com/search?q=${title}%20${
-                    language === 'mandarin' ? '歌词' : 'lyrics'
-                }`
-            );
+            setSearchLink(deriveGoogleSearchLink(title, language));
         }
     }, [formValue, pinyinSyllable, showPinyin]);
 
