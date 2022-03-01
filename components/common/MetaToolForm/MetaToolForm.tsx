@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 import Select, { ValueType } from 'react-select';
 
-import Form from 'lib/types/Form';
-import generateMetaData from 'lib/utils/generate-metadata';
-
 import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 
+import Form from 'lib/types/Form';
+import generateMetaData from 'lib/utils/generate-metadata';
 import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
 import convertRelativeKey from 'lib/utils/convert-relative-key';
 import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
@@ -15,9 +14,9 @@ import {
     defaultPinyinSyllableOptions,
 } from './constants';
 import { deriveGoogleSearchLink } from './utils';
+import { Option } from './types';
 
 import styles from './MetaToolForm.module.scss';
-import { Option } from './types';
 
 const cx = classnames.bind(styles);
 
@@ -39,9 +38,6 @@ export default function MetaToolForm({
     );
     const [showPinyin, setShowPinyin] = useState(true);
 
-    const threeFourToggleRef = useRef<HTMLButtonElement>(null);
-    const twelveEightToggleRef = useRef<HTMLButtonElement>(null);
-
     useEffect(() => {
         const { title, tempo, language }: Form = formValue;
 
@@ -57,16 +53,8 @@ export default function MetaToolForm({
         }
     }, [formValue, pinyinSyllable, showPinyin]);
 
-    useEffect(() => {
-        formValue.timeSignature === '3/4'
-            ? threeFourToggleRef?.current?.classList.add(styles.selected)
-            : twelveEightToggleRef?.current?.classList.add(styles.selected);
-    }, []);
-
     function toggleTempoAndTimeSignature() {
         if (formValue.timeSignature === '12/8') {
-            threeFourToggleRef?.current?.classList.add(styles.selected);
-            twelveEightToggleRef?.current?.classList.remove(styles.selected);
             setFormValue((prevState: any) => ({
                 ...prevState,
                 tempo: originalTempo * 3,
@@ -75,8 +63,6 @@ export default function MetaToolForm({
             return;
         }
 
-        twelveEightToggleRef?.current?.classList.add(styles.selected);
-        threeFourToggleRef?.current?.classList.remove(styles.selected);
         setFormValue((prevState: any) => ({
             ...prevState,
             tempo: originalTempo / 3,
@@ -156,15 +142,17 @@ export default function MetaToolForm({
                     formValue.timeSignature === '12/8') && (
                     <div className={cx('time-signature-toggle-container')}>
                         <button
-                            className={cx('toggle')}
-                            ref={threeFourToggleRef}
+                            className={cx('toggle', {
+                                selected: formValue.timeSignature === '3/4',
+                            })}
                             onClick={toggleTempoAndTimeSignature}
                         >
                             3/4
                         </button>
                         <button
-                            className={cx('toggle')}
-                            ref={twelveEightToggleRef}
+                            className={cx('toggle', {
+                                selected: formValue.timeSignature === '12/8',
+                            })}
                             onClick={toggleTempoAndTimeSignature}
                         >
                             12/8
