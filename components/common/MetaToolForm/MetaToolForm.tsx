@@ -13,7 +13,7 @@ import {
     defaultPinyinSyllableOption,
     defaultPinyinSyllableOptions,
 } from './constants';
-import { deriveGoogleSearchLink } from './utils';
+import { deriveGoogleSearchLink, deriveGoogleSearchText } from './utils';
 import { Option } from './types';
 
 import styles from './MetaToolForm.module.scss';
@@ -21,8 +21,9 @@ import styles from './MetaToolForm.module.scss';
 const cx = classnames.bind(styles);
 
 type MetaToolFormProps = {
-    formValue: Form;
+    formValue?: Form;
     setFormValue: (form: any) => void;
+    handleMetadataChange?: (form: Form) => void; //TODO: remove optional after debug
 };
 
 export default function MetaToolForm({
@@ -39,27 +40,31 @@ export default function MetaToolForm({
     const [showPinyin, setShowPinyin] = useState(true);
 
     useEffect(() => {
+        if (!formValue) {
+            return;
+        }
         const { title, tempo, language }: Form = formValue;
 
-        if (tempo) {
-            setOriginalTempo(tempo);
-        }
+        setOriginalTempo(tempo || 0);
 
         const metaData = generateMetaData(formValue, pinyinSyllable.value);
         setText(metaData);
 
-        if (title) {
-            setSearchLink(deriveGoogleSearchLink(title, language));
-        }
+        setSearchLink(title ? deriveGoogleSearchLink(title, language) : '');
     }, [formValue, pinyinSyllable, showPinyin]);
 
     function toggleTempoAndTimeSignature() {
+        if (!formValue) {
+            return;
+        }
+
         if (formValue.timeSignature === '12/8') {
             setFormValue((prevState: any) => ({
                 ...prevState,
                 tempo: originalTempo * 3,
                 timeSignature: '3/4',
             }));
+
             return;
         }
 
@@ -71,6 +76,10 @@ export default function MetaToolForm({
     }
 
     function toggleRelativeKey() {
+        if (!formValue) {
+            return;
+        }
+
         const keyString = convertKeyModeIntToKey(formValue.key, formValue.mode);
         const relativeKey = convertRelativeKey(keyString);
         const [key, mode] = convertKeyToKeyModeInt(relativeKey);
@@ -114,7 +123,7 @@ export default function MetaToolForm({
                         onChange={handleChange}
                     />
                 </div>
-                {formValue.title && (
+                {formValue?.title && (
                     <>
                         <a
                             href={searchLink}
@@ -122,11 +131,10 @@ export default function MetaToolForm({
                             target="_blank"
                             rel="noreferrer"
                         >
-                            Search &quot;{formValue?.title}{' '}
-                            {formValue?.language === 'mandarin'
-                                ? '歌词'
-                                : 'lyrics'}
-                            &quot; on Google
+                            {deriveGoogleSearchText(
+                                formValue.title,
+                                formValue.language
+                            )}
                         </a>
                         <label>
                             <input
@@ -138,8 +146,8 @@ export default function MetaToolForm({
                     </>
                 )}
 
-                {(formValue.timeSignature === '3/4' ||
-                    formValue.timeSignature === '12/8') && (
+                {(formValue?.timeSignature === '3/4' ||
+                    formValue?.timeSignature === '12/8') && (
                     <div className={cx('time-signature-toggle-container')}>
                         <button
                             className={cx('toggle', {
@@ -169,11 +177,11 @@ export default function MetaToolForm({
                     ref={textAreaContainer}
                     suppressContentEditableWarning={true}
                 >
-                    {Object.keys(formValue).length ? text : null}
+                    {formValue && Object.keys(formValue).length ? text : null}
                 </div>
             </div>
 
-            <div className={cx('button-row-container')}>
+            <div className={cx('button-row')}>
                 <button
                     className="btn btn-danger-outlined"
                     onClick={clearSelection}

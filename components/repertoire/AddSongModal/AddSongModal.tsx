@@ -24,7 +24,6 @@ type Props = {
     setIsModalOpen: Dispatch<SetStateAction<boolean>>;
     type: string;
     song?: Song;
-    database: string;
     user: any;
     data: any;
 };
@@ -33,7 +32,6 @@ export default function AddSongModal({
     isModalOpen,
     setIsModalOpen,
     type,
-    database,
     song,
     data,
     user,
@@ -111,7 +109,6 @@ export default function AddSongModal({
                     <TabPanel>
                         <SongDetailForm
                             type={type}
-                            database={database}
                             form={form}
                             user={user}
                             handleCloseModal={handleCloseModal}

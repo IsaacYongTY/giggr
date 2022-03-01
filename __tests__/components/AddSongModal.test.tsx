@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
 
-import AddSongModal from '../../components/repertoire/AddSongModal/AddSongModal';
+import AddSongModal from 'components/repertoire/AddSongModal';
 
 jest.mock('axios');
 
@@ -19,7 +19,6 @@ function renderAddSongModal(props = {}) {
             isModalOpen={true}
             setIsModalOpen={jest.fn()}
             type="add"
-            database="database1"
             user={mockUser}
             data={{
                 songs: [],

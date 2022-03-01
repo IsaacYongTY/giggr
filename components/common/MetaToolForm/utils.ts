@@ -7,3 +7,11 @@ export const deriveGoogleSearchLink = (
 
     return `https://www.google.com/search?q=${title}%20${affix}`;
 };
+
+export const deriveGoogleSearchText = (
+    title: string,
+    language: string | undefined
+) => {
+    const affix = language === 'mandarin' ? '歌词' : 'lyrics';
+    return `Search "${title} ${affix}" on Google`;
+};
