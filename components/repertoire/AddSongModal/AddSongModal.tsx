@@ -1,12 +1,5 @@
-import React, {
-    useState,
-    Dispatch,
-    SetStateAction,
-    ChangeEvent,
-    useMemo,
-} from 'react';
+import React, { useState, ChangeEvent, useMemo } from 'react';
 import classnames from 'classnames/bind';
-
 import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
@@ -17,11 +10,10 @@ import Form from 'lib/types/Form';
 import MetaToolForm from 'components/common/MetaToolForm';
 import Metronome from 'components/common/Metronome';
 import SongDetailForm from 'components/common/SongDetailForm';
-import getInitialism from 'lib/utils/get-initialism';
-import getRomTitle from 'lib/utils/get-rom-title';
 import { MetatoolSongMetadata } from 'common/types';
 import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultSongForm } from './constants';
+import { getInitialism, getRomTitle } from './utils';
 
 import styles from './AddSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
@@ -30,7 +22,7 @@ const cx = classnames.bind(styles);
 
 type Props = {
     isModalOpen: boolean;
-    setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+    setIsModalOpen: (isModalOpen: boolean) => void;
     type: string;
     song?: Song;
     user: any;

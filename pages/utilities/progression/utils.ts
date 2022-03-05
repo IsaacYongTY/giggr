@@ -1,9 +1,4 @@
-interface KeyInfo {
-    id: number;
-    key: string;
-    degree: number;
-    isSharp: boolean;
-}
+import { keyMap } from './constants';
 
 export const renderSpacing = (
     spacing: number,
@@ -14,87 +9,6 @@ export const renderSpacing = (
     return spaceChar.repeat(spacing - (chord.length - 1));
 };
 
-export const keyMap: KeyInfo[] = [
-    {
-        id: 0,
-        key: 'C',
-        degree: 0,
-        isSharp: true,
-    },
-    {
-        id: 7,
-        key: 'G',
-        degree: 1,
-        isSharp: true,
-    },
-    {
-        id: 2,
-        key: 'D',
-        degree: 2,
-        isSharp: true,
-    },
-    {
-        id: 9,
-        key: 'A',
-        degree: 3,
-        isSharp: true,
-    },
-    {
-        id: 4,
-        key: 'E',
-        degree: 4,
-        isSharp: true,
-    },
-    {
-        id: 11,
-        key: 'B',
-        degree: 5,
-        isSharp: true,
-    },
-    {
-        id: 12,
-        key: 'F#',
-        degree: 6,
-        isSharp: true,
-    },
-    {
-        id: 5,
-        key: 'F',
-        degree: 1,
-        isSharp: false,
-    },
-    {
-        id: 10,
-        key: 'Bb',
-        degree: 2,
-        isSharp: false,
-    },
-    {
-        id: 3,
-        key: 'Eb',
-        degree: 3,
-        isSharp: false,
-    },
-    {
-        id: 8,
-        key: 'Ab',
-        degree: 4,
-        isSharp: false,
-    },
-    {
-        id: 1,
-        key: 'Db',
-        degree: 5,
-        isSharp: false,
-    },
-    {
-        id: 6,
-        key: 'Gb',
-        degree: 6,
-        isSharp: false,
-    },
-];
-
 export const getNotesInKey = (inputKey: number): string[] => {
     const resultKey = keyMap.find((element) => element.id === inputKey);
 
@@ -102,7 +16,7 @@ export const getNotesInKey = (inputKey: number): string[] => {
         return [];
     }
 
-    const { key, degree, isSharp }: KeyInfo = resultKey || {};
+    const { key, degree, isSharp } = resultKey || {};
 
     const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     const keyIndex = notes.indexOf(key[0]);
@@ -213,7 +127,7 @@ export function assignKeyToProgression(
     });
 }
 
-export const fullBarProg = function (
+export const generateFullBarProgression = function (
     key: number,
     progression: string,
     space: number
@@ -237,7 +151,7 @@ export const fullBarProg = function (
     return resultString + '|';
 };
 
-export const halfBarProg = function (
+export const generateHalfBarProgression = function (
     key: number,
     progression: string,
     space: number
@@ -284,4 +198,40 @@ export const halfBarProg = function (
     }
 
     return resultString + '|';
+};
+
+export const checkIsValidProgression = (progression: string) => {
+    if (!progression) {
+        throw Error('Please input progression');
+    }
+
+    const invalidCharactersRegex = /[^1-7#bmM]/;
+    const isInvalidProgression = invalidCharactersRegex.test(progression);
+
+    const invalidGroupingRegex = /(mm)|(b#)|(#b)|(7m)/i;
+    const isInvalidGrouping = invalidGroupingRegex.test(progression);
+
+    if (isInvalidProgression) {
+        throw Error(
+            'Input is invalid. Valid characters are 1-7, b, #, m, and M'
+        );
+    }
+
+    if (isInvalidGrouping) {
+        throw Error('Input is invalid. "mm", "b#","#b", "7m" are not valid');
+    }
+
+    const invalidEndChar = /^.+[b#]$/;
+    const isInvalidEndChar = invalidEndChar.test(progression);
+
+    if (isInvalidEndChar) {
+        throw Error('"b" and "#" must come before a number');
+    }
+
+    const invalidStartChar = /^[mM].+/;
+    const isInvalidStartChar = invalidStartChar.test(progression);
+
+    if (isInvalidStartChar) {
+        throw Error('"m" and "M" must come after a number');
+    }
 };
