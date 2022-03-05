@@ -6,70 +6,70 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
 
-.inputRow {
-    width: 100%;
-    display: flex;
-    gap: 3rem;
-    margin: 1rem 0;
-}
+    .input-row {
+        width: 100%;
+        display: flex;
+        gap: 3rem;
+        margin: 1rem 0;
 
-.radioRow {
-    display: flex;
-    width: 100%;
-    gap: 3rem;
-    //margin: 1rem 0;
-    align-items: flex-end;
+        .keys-dropdown-container {
+            min-width: 8rem;
+        }
 
-    label {
-        cursor: pointer;
+        .prog-dropdown-container {
+            width: 100%;
+        }
+
+        .inputContainer {
+            width: 100%;
+        }
     }
 
-    input[type='radio'] {
-        cursor: pointer;
-        margin-right: 0.5rem;
-        margin-left: 0;
-        margin-bottom: 1.2rem;
+    .radio-row {
+        display: flex;
+        width: 100%;
+        gap: 3rem;
+        //margin: 1rem 0;
+        align-items: flex-end;
+
+        label {
+            cursor: pointer;
+        }
+
+        input[type='radio'] {
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-left: 0;
+            margin-bottom: 1.2rem;
+        }
+
+        button {
+            margin-left: auto;
+        }
+
+        .spacing-dropdown-container {
+            width: 8rem;
+        }
+
+        .text-area-container {
+            margin: 1rem 0;
+            width: 100%;
+
+            .textarea {
+                width: 100%;
+                height: 40rem;
+                border-radius: 0.4rem;
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
     }
 
-    button {
-        margin-left: auto;
+    .button-row {
+        display: flex;
+        width: 100%;
+        gap: 3rem;
+        justify-content: flex-end;
     }
-}
-
-.buttonRow {
-    display: flex;
-    width: 100%;
-    gap: 3rem;
-    justify-content: flex-end;
-}
-
-.keysDropdownContainer {
-    min-width: 8rem;
-}
-
-.progDropdownContainer {
-    width: 100%;
-}
-
-.inputContainer {
-    width: 100%;
-}
-
-.spacingDropdownContainer {
-    width: 8rem;
-}
-
-.textAreaContainer {
-    margin: 1rem 0;
-    width: 100%;
-}
-
-.textarea {
-    width: 100%;
-    height: 40rem;
-    border-radius: 0.4rem;
-    margin: 1rem 0;
-    padding: 1rem;
 }

@@ -5,13 +5,15 @@ import { IncomingMessage } from 'http';
 import { NextApiRequestCookies } from 'next/dist/next-server/server/api-utils';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
-import Layout from '../../../components/Layout';
-import Tag from '../../../components/common/Tag';
-import withAuth from '../../../middlewares/withAuth';
+import Layout from 'components/Layout';
+import Tag from 'components/common/Tag';
+import withAuth from 'middlewares/withAuth';
 
-import addSpaceBetweenChineseWords from '../../../lib/utils/add-space-between-chinese-words';
-import removeCharacters from '../../../lib/utils/remove-characters';
-import replaceCharactersWithPlaceholders from '../../../lib/utils/replace-characters-with-placeholders';
+import {
+    addSpaceBetweenChineseCharacters,
+    removeCharacters,
+    replaceCharactersWithPlaceholders,
+} from './utils';
 
 import styles from './leadsheetspacing.module.scss';
 
@@ -24,9 +26,10 @@ interface GetServerSidePropsContextWithUser extends GetServerSidePropsContext {
     };
 }
 
-interface Props {
+type LeadSheetSpacingPageProps = {
     user: any;
-}
+};
+
 export const getServerSideProps: GetServerSideProps = withAuth(
     async ({ req }: GetServerSidePropsContextWithUser) => {
         return {
@@ -37,7 +40,9 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-export default function Index({ user }: Props) {
+export default function LeadSheetSpacingPage({
+    user,
+}: LeadSheetSpacingPageProps) {
     const [inputText, setInputText] = useState('');
     const [resultText, setResultText] = useState('');
     const [isAddHyphen, setIsAddHyphen] = useState(true);
@@ -68,7 +73,7 @@ export default function Index({ user }: Props) {
                 ? hyphenateSync(cleanedInput, { hyphenChar: '-' })
                 : cleanedInput;
 
-            const result = addSpaceBetweenChineseWords(cleanedInput);
+            const result = addSpaceBetweenChineseCharacters(cleanedInput);
 
             setResultText(result);
         } catch (error) {
