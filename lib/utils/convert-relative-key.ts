@@ -1,4 +1,4 @@
-import { majorKeyArray, minorKeyArray } from '../data/data';
+import { majorKeyArray, minorKeyArray } from 'common/constants';
 
 export default function convertRelativeKey(keyString: string): string {
     if (

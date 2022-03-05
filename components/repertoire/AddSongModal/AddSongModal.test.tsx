@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
 
-import AddSongModal from 'components/repertoire/AddSongModal/index';
+import AddSongModal from 'components/repertoire/AddSongModal';
 
 jest.mock('axios');
 jest.setTimeout(10000); // TODO: to investigate why test is timeout
@@ -45,7 +45,7 @@ function renderAddSongModal(props = {}) {
     const genresDropdown = utils.getByLabelText(/genres/i);
     const moodsDropdown = utils.getByLabelText(/moods/i);
     const tagsDropdown = utils.getByLabelText(/tags/i);
-    const generateMetaDataTab = utils.getByText(/generate metadata.*/i);
+    const generateMetadataTab = utils.getByText(/generate metadata.*/i);
     const songDetailsTab = utils.getByText(/details.*/i);
 
     return {
@@ -59,7 +59,7 @@ function renderAddSongModal(props = {}) {
         genresDropdown,
         moodsDropdown,
         tagsDropdown,
-        generateMetadataTab: generateMetaDataTab,
+        generateMetadataTab,
         songDetailsTab,
     };
 }

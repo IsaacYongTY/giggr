@@ -1,5 +1,5 @@
 import convertEnharmonic from './convert-enharmonic';
-import { noteArray } from '../data/data';
+import { noteArray } from 'common/constants';
 
 export default function convertKeyModeIntToKey(
     key: number | undefined | null,

@@ -5,12 +5,12 @@ import axios from 'config/axios';
 import { message } from 'antd';
 
 import SpotifySearchBar from '../SpotifySearchBar';
+import KeysDropdown from 'components/common/KeysDropdown';
+import ButtonWithLoader from 'components/common/ButtonWithLoader';
 import ArtistsSingleDropdown from 'components/repertoire/AddSongModal/ArtistsSingleDropdown';
-import KeysDropdown from '../KeysDropdown';
 import LanguagesSingleDropdown from 'components/repertoire/AddSongModal/LanguagesSingleDropdown';
 import MusiciansMultiSelectDropdown from 'components/repertoire/AddSongModal/MusiciansMultiSelectDropdown';
 import CategoriesDropdown from 'components/repertoire/AddSongModal/CategoriesDropdown';
-import ButtonWithLoader from '../ButtonWithLoader';
 import SingleDropdown from 'components/repertoire/AddSongModal/SingleDropdown';
 
 import Form from 'lib/types/Form';
@@ -19,6 +19,9 @@ import Musician from 'lib/types/musician';
 
 import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
 import convertSongFormToTempSong from 'lib/utils/convert-song-form-to-temp-song';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import convertRelativeKey from 'lib/utils/convert-relative-key';
 
 import styles from './SongDetailForm.module.scss';
 
@@ -237,6 +240,44 @@ export default function SongDetailForm({
         });
     }
 
+    const handleKeysDropdownChange = (keyString: string) => {
+        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
+        setForm((prevState) => ({
+            ...prevState,
+            key: selectedKey,
+            mode: selectedMode,
+        }));
+    };
+
+    const handleMyKeysDropdownChange = (keyString: string) => {
+        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
+        setForm((prevState) => ({
+            ...prevState,
+            myKey: selectedKey,
+            mode: selectedMode,
+        }));
+    };
+
+    const handleIsMinorToggle = () => {
+        const currentKeyString = convertKeyModeIntToKey(form.key, form.mode);
+        const relativeMinor = convertRelativeKey(currentKeyString);
+        const [key, mode] = convertKeyToKeyModeInt(relativeMinor);
+
+        const currentMyKeyString = convertKeyModeIntToKey(
+            form.myKey,
+            form.mode
+        );
+        const relativeMyKeyMinor = convertRelativeKey(currentMyKeyString);
+        const [myKey] = convertKeyToKeyModeInt(relativeMyKeyMinor);
+
+        setForm((prevState) => ({
+            ...prevState,
+            key,
+            myKey,
+            mode,
+        }));
+    };
+
     return (
         <div>
             {type === 'add' && (
@@ -257,13 +298,18 @@ export default function SongDetailForm({
             </div>
 
             <div className={cx('form-row')}>
-                <KeysDropdown label="Key" form={form} setForm={setForm} />
+                <KeysDropdown
+                    label="Key"
+                    handleKeysDropdownChange={handleKeysDropdownChange}
+                    selectedKey={convertKeyModeIntToKey(form.key, form.mode)}
+                    handleIsMinorToggle={handleIsMinorToggle}
+                />
 
                 <KeysDropdown
                     label="My Key"
-                    keyProp="myKey"
-                    form={form}
-                    setForm={setForm}
+                    handleKeysDropdownChange={handleMyKeysDropdownChange}
+                    selectedKey={convertKeyModeIntToKey(form.myKey, form.mode)}
+                    handleIsMinorToggle={handleIsMinorToggle}
                     showIsMinorCheckbox={false}
                 />
 
