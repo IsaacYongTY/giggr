@@ -58,7 +58,7 @@ function renderAddSongModal(props = {}) {
         genresDropdown,
         moodsDropdown,
         tagsDropdown,
-        generateMetaDataTab,
+        generateMetadataTab: generateMetaDataTab,
         songDetailsTab,
     };
 }
@@ -342,7 +342,7 @@ describe('<AddSongModal />', () => {
 
     describe('The behaviour of Generate Metadata button', () => {
         it('should display the metadata head', async () => {
-            const { generateMetaDataTab } = renderAddSongModal({
+            const { generateMetadataTab } = renderAddSongModal({
                 type: 'edit',
 
                 song: {
@@ -368,7 +368,7 @@ describe('<AddSongModal />', () => {
                 },
             });
 
-            userEvent.click(generateMetaDataTab);
+            userEvent.click(generateMetadataTab);
 
             expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument();
             expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument();
@@ -385,7 +385,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should keep the changes that the user has made', async () => {
-            const { songDetailsTab, keysDropdown, generateMetaDataTab } =
+            const { songDetailsTab, keysDropdown, generateMetadataTab } =
                 renderAddSongModal({
                     type: 'edit',
 
@@ -417,7 +417,7 @@ describe('<AddSongModal />', () => {
 
             expect(screen.getByText('G')).toBeInTheDocument();
 
-            userEvent.click(generateMetaDataTab);
+            userEvent.click(generateMetadataTab);
             userEvent.click(songDetailsTab);
 
             expect(screen.getByText('G')).toBeInTheDocument();

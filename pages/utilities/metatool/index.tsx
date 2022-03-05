@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import classnames from 'classnames/bind';
 import axios from 'axios';
 
-import Layout from '../../../components/Layout';
-import SpotifySearchBar from '../../../components/common/SpotifySearchBar';
-import MetaToolForm from '../../../components/common/MetaToolForm';
+import Layout from 'components/Layout';
+import SpotifySearchBar from 'components/common/SpotifySearchBar';
+import MetaToolForm from 'components/common/MetaToolForm';
+import { MetatoolSongMetadata } from 'common/types';
+import { defaultMetatoolSongMetadata } from 'common/constants';
 
-import withAuth from '../../../middlewares/withAuth';
-import convertDurationMsToMinSec from '../../../lib/utils/convert-duration-ms-to-min-sec';
+import withAuth from 'middlewares/withAuth';
+import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
 
 import styles from './metatool.module.scss';
 
@@ -30,25 +32,34 @@ export interface MetatoolPageProps {
     };
 }
 
-export default function Index({ user }: MetatoolPageProps) {
-    const [formValue, setFormValue] = useState<any>({});
+export default function MetatoolPage({ user }: MetatoolPageProps) {
+    const [metadata, setMetadata] = useState<MetatoolSongMetadata>(
+        defaultMetatoolSongMetadata
+    );
     const [isContribute, setIsContribute] = useState(user?.isAdmin);
 
     async function getFromSpotify(trackId: string) {
-        setFormValue({});
+        // TODO: update endpoint to GET and remove .result from data
         const { data } = await axios.post(
             `/api/v1/songs/spotify?trackId=${trackId}`
         );
 
         const songData = data.result;
 
-        songData.durationMinSec = convertDurationMsToMinSec(
-            songData.durationMs
-        );
-
-        setFormValue({
-            ...songData,
-        });
+        const metatoolSongMetadata = {
+            title: songData.title,
+            romTitle: songData.romTitle,
+            language: songData.language,
+            timeSignature: songData.timeSignature,
+            tempo: songData.tempo,
+            durationMinSec: convertDurationMsToMinSec(songData.durationMs),
+            dateReleased: songData.dateReleased,
+            key: songData.key,
+            mode: songData.mode,
+            artist: songData.artist,
+            initialism: songData.initialism,
+        };
+        setMetadata(metatoolSongMetadata);
 
         if (isContribute) {
             await axios.post('/api/v1/admin/songs', songData, {
@@ -60,6 +71,10 @@ export default function Index({ user }: MetatoolPageProps) {
         }
     }
 
+    const handleMetadataChange = (metadata: MetatoolSongMetadata) => {
+        setMetadata(metadata);
+    };
+
     return (
         <Layout user={user} title="Spotify Meta Tool">
             <div className={cx('container')}>
@@ -68,8 +83,8 @@ export default function Index({ user }: MetatoolPageProps) {
                 </div>
 
                 <MetaToolForm
-                    formValue={formValue}
-                    setFormValue={setFormValue}
+                    metadata={metadata}
+                    handleMetadataChange={handleMetadataChange}
                 />
 
                 {user?.isAdmin && (

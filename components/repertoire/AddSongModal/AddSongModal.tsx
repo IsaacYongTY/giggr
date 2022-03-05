@@ -1,4 +1,10 @@
-import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import React, {
+    useState,
+    Dispatch,
+    SetStateAction,
+    ChangeEvent,
+    useMemo,
+} from 'react';
 import classnames from 'classnames/bind';
 
 import Modal from 'react-modal';
@@ -13,6 +19,9 @@ import Metronome from 'components/common/Metronome';
 import SongDetailForm from 'components/common/SongDetailForm';
 import getInitialism from 'lib/utils/get-initialism';
 import getRomTitle from 'lib/utils/get-rom-title';
+import { MetatoolSongMetadata } from 'common/types';
+import { deriveMetatoolSongMetadata } from './utils';
+import { defaultSongForm } from './constants';
 
 import styles from './AddSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
@@ -36,7 +45,13 @@ export default function AddSongModal({
     data,
     user,
 }: Props) {
-    const [form, setForm] = useState<Form>({});
+    const [form, setForm] = useState<Form>(defaultSongForm);
+
+    const metatoolSongMetadata: MetatoolSongMetadata = useMemo(
+        () => deriveMetatoolSongMetadata(form),
+
+        [form]
+    );
 
     const customStyles = {
         content: {
@@ -54,7 +69,7 @@ export default function AddSongModal({
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
         const userInput = e.target.value;
-        setForm((prevState: any) => ({
+        setForm((prevState) => ({
             ...prevState,
             [e.target.name]: userInput,
         }));
@@ -86,6 +101,13 @@ export default function AddSongModal({
             romTitle,
         }));
     }
+
+    const handleMetadataChange = (metatool: MetatoolSongMetadata) => {
+        setForm((prevState) => ({
+            ...prevState,
+            ...metatool,
+        }));
+    };
 
     return (
         <Modal isOpen={isModalOpen} style={customStyles} ariaHideApp={false}>
@@ -120,7 +142,10 @@ export default function AddSongModal({
                         />
                     </TabPanel>
                     <TabPanel>
-                        <MetaToolForm formValue={form} setFormValue={setForm} />
+                        <MetaToolForm
+                            metadata={metatoolSongMetadata}
+                            handleMetadataChange={handleMetadataChange}
+                        />
                         <div className={cx('link')}>
                             <a href="/utilities/progression" target="_blank">
                                 Progression Generator {'>'}
