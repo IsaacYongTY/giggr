@@ -1,6 +1,6 @@
-import Form from 'lib/types/Form';
-import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
-import { MetatoolSongMetadata } from 'common/types';
+import Form from '../lib/types/Form';
+import { MetatoolSongMetadata } from './types';
+import convertDurationMsToMinSec from '../lib/utils/convert-duration-ms-to-min-sec';
 
 export const deriveMetatoolSongMetadata = (
     data: Form

@@ -20,7 +20,7 @@ import SongDetailForm from 'components/common/SongDetailForm';
 import getInitialism from 'lib/utils/get-initialism';
 import getRomTitle from 'lib/utils/get-rom-title';
 import { MetatoolSongMetadata } from 'common/types';
-import { deriveMetatoolSongMetadata } from './utils';
+import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultSongForm } from './constants';
 
 import styles from './AddSongModal.module.scss';

@@ -6,7 +6,7 @@ import Layout from 'components/Layout';
 import SpotifySearchBar from 'components/common/SpotifySearchBar';
 import MetaToolForm from 'components/common/MetaToolForm';
 import { MetatoolSongMetadata } from 'common/types';
-import { deriveMetatoolSongMetadata } from 'components/repertoire/AddSongModal/utils';
+import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultMetatoolSongMetadata } from 'common/constants';
 import Form from 'lib/types/Form';
 

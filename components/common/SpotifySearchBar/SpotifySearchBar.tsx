@@ -27,7 +27,7 @@ export default function SpotifySearchBar({
             return;
         }
 
-        const trackId: string = getSpotifyTrackId(spotifyLink);
+        const trackId = getSpotifyTrackId(spotifyLink);
 
         if (!trackId) {
             shakeAnimation(spotifySearchInput);
