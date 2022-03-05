@@ -69,11 +69,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
     };
 
     function handleRadioChange(e: ChangeEvent<HTMLInputElement>) {
-        console.log(e.target.name);
-        console.log(isFullBar);
-        console.log(e.target.name === 'fullBar');
         if (e.target.name === 'fullBar') {
-            console.log('in');
             setSpaces(12);
             setIsFullBar(true);
             return;
@@ -84,8 +80,6 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
     }
 
     function handleGenerateProgression() {
-        // const { key, progression, isFullBar, spaces } = progressionData;
-        console.log(progression);
         if (!spaces || key === undefined) {
             setErrorMessage('Invalid inputs');
             return;
