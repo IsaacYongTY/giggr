@@ -1,4 +1,4 @@
-export default function getSpotifyTrackId(spotifyLink: string): string {
+export const getSpotifyTrackId = (spotifyLink: string): string => {
     if (
         !spotifyLink.includes('spotify:track:') &&
         !spotifyLink.includes('https://open.spotify.com/track/')
@@ -10,4 +10,4 @@ export default function getSpotifyTrackId(spotifyLink: string): string {
         .replace('spotify:track:', '')
         .replace('https://open.spotify.com/track/', '')
         .substring(0, 22);
-}
+};

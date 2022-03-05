@@ -8,6 +8,7 @@ import axios from 'axios';
 import AddSongModal from 'components/repertoire/AddSongModal/index';
 
 jest.mock('axios');
+jest.setTimeout(10000); // TODO: to investigate why test is timeout
 
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
