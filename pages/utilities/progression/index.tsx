@@ -16,17 +16,14 @@ import AlertBox from 'components/common/AlertBox';
 import withAuth from 'middlewares/withAuth';
 
 import styles from './progression.module.scss';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
 
 const cx = classnames.bind(styles);
 
 interface OptionType {
     value: string;
     label: string;
-}
-
-interface SpacingOptionType {
-    value: number;
-    label: number;
 }
 
 type ProgressionPageProps = {
@@ -43,24 +40,16 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-type ProgressionData = {
-    key: number;
-    progression: string;
-    isFullBar: boolean;
-    spaces: number;
-};
-
 export default function ProgressionPage({ user }: ProgressionPageProps) {
     const defaultKey = useMemo(() => keyMap[0], []);
 
-    const [progressionData, setProgressionData] = useState<ProgressionData>({
-        key: defaultKey.id,
-        progression: '',
-        isFullBar: true,
-        spaces: 12,
-    });
+    const [key, setKey] = useState(defaultKey.id);
 
+    const [isFullBar, setIsFullBar] = useState(true);
+    const [spaces, setSpaces] = useState(12);
     const [progression, setProgression] = useState('');
+
+    const [displayedText, setDisplayedText] = useState('');
 
     const [alertOptions, setAlertOptions] = useState({ message: '', type: '' });
     const [errorMessage, setErrorMessage] = useState('');
@@ -72,39 +61,31 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
             return;
         }
 
-        setProgressionData((prevState) => ({
-            ...prevState,
-            progression: selectedOption.value,
-        }));
+        setProgression(selectedOption.value);
     }
 
-    function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-        const newValue = e.target.value;
-        setProgressionData((prevState) => ({
-            ...prevState,
-            [e.target.name]: newValue,
-        }));
-    }
+    const handleProgressionInputChange = (progressionInput: string) => {
+        setProgression(progressionInput);
+    };
 
     function handleRadioChange(e: ChangeEvent<HTMLInputElement>) {
+        console.log(e.target.name);
+        console.log(isFullBar);
+        console.log(e.target.name === 'fullBar');
         if (e.target.name === 'fullBar') {
-            setProgressionData((prevState) => ({
-                ...prevState,
-                spaces: 12,
-                isFullBar: true,
-            }));
+            console.log('in');
+            setSpaces(12);
+            setIsFullBar(true);
             return;
         }
-        setProgressionData((prevState) => ({
-            ...prevState,
-            spaces: 14,
-            isFullBar: false,
-        }));
+
+        setSpaces(14);
+        setIsFullBar(false);
     }
 
-    function handleGenerateProg() {
-        const { key, progression, isFullBar, spaces } = progressionData;
-
+    function handleGenerateProgression() {
+        // const { key, progression, isFullBar, spaces } = progressionData;
+        console.log(progression);
         if (!spaces || key === undefined) {
             setErrorMessage('Invalid inputs');
             return;
@@ -113,35 +94,33 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
         try {
             checkIsValidProgression(progression);
 
-            const generatedProg = isFullBar
+            const generatedProgression = isFullBar
                 ? generateFullBarProgression(key, progression, spaces)
                 : generateHalfBarProgression(key, progression, spaces);
 
-            setProgression((prevState) => prevState + generatedProg + '\n\n');
-
+            setDisplayedText(
+                (prevState) => prevState + generatedProgression + '\n\n'
+            );
             setErrorMessage('');
         } catch (err) {
             setErrorMessage(err.message);
         }
     }
 
-    function handleSpacingChanges(
-        selectedOption: ValueType<SpacingOptionType, false>
-    ) {
-        if (!selectedOption) {
-            return;
-        }
-        setProgressionData((prevState) => ({
-            ...prevState,
-            spaces: selectedOption.value,
-        }));
+    function handleSpacingChanges(spaces: number) {
+        setSpaces(spaces);
     }
 
     function handleClear() {
-        setProgression('');
+        setDisplayedText('');
         setErrorMessage('');
     }
 
+    const handleKeysDropdownChange = (keyString: string) => {
+        const [selectedKey] = convertKeyToKeyModeInt(keyString);
+
+        setKey(selectedKey);
+    };
     return (
         <Layout title="Progression Generator" user={user}>
             <div className={cx('container')}>
@@ -149,9 +128,8 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                     <div className={cx('keys-dropdown-container')}>
                         <KeysDropdown
                             label="Key"
-                            form={progressionData}
-                            setForm={setProgressionData}
-                            defaultKey={defaultKey.key}
+                            selectedKey={convertKeyModeIntToKey(key, 1)} // minor major is irrelevant here
+                            handleKeysDropdownChange={handleKeysDropdownChange}
                             showIsMinorCheckbox={false}
                         />
                     </div>
@@ -162,9 +140,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                             <Select
                                 className="basic-single"
                                 value={progressionOptions.find(
-                                    (option) =>
-                                        option.value ===
-                                        progressionData.progression
+                                    (option) => option.value === progression
                                 )}
                                 options={progressionOptions}
                                 onChange={handleChange}
@@ -179,9 +155,11 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                                 className="form-control"
                                 type="text"
                                 placeholder="1b73M4m5251..."
-                                value={progressionData.progression}
+                                value={progression}
                                 name="progression"
-                                onChange={handleInputChange}
+                                onChange={(e) =>
+                                    handleProgressionInputChange(e.target.value)
+                                }
                             />
 
                             {errorMessage && (
@@ -199,7 +177,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                             type="radio"
                             name="fullBar"
                             onChange={handleRadioChange}
-                            checked={progressionData.isFullBar}
+                            checked={isFullBar}
                         />
                         <span>Full bar</span>
                     </label>
@@ -208,7 +186,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                             type="radio"
                             name="halfBar"
                             onChange={handleRadioChange}
-                            checked={!progressionData.isFullBar}
+                            checked={!isFullBar}
                         />
                         <span>Half bar</span>
                     </label>
@@ -219,12 +197,14 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                             <Select
                                 className="basic-single"
                                 value={{
-                                    value: progressionData.spaces || 0,
-                                    label: progressionData.spaces || 0,
+                                    value: spaces || 0,
+                                    label: spaces || 0,
                                 }}
                                 name="spaces"
                                 options={spacingOptions}
-                                onChange={handleSpacingChanges}
+                                onChange={(e) =>
+                                    handleSpacingChanges(e?.value || 0)
+                                }
                             />
                         </div>
                     </label>
@@ -236,8 +216,9 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                         <textarea
                             ref={textarea}
                             className={`${cx('textarea')} form-control`}
-                            value={progression}
-                            onChange={(e) => setProgression(e.target.value)}
+                            value={displayedText}
+                            spellCheck={false}
+                            onChange={(e) => setDisplayedText(e.target.value)}
                         />
                     </label>
                 </div>
@@ -252,7 +233,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                     <CopyToClipboardButton sourceRef={textarea} />
                     <button
                         className="btn btn-primary"
-                        onClick={handleGenerateProg}
+                        onClick={handleGenerateProgression}
                     >
                         Generate
                     </button>

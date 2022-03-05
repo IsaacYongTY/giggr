@@ -1,4 +1,4 @@
-import { noteArray } from '../data/data';
+import { noteArray } from 'common/constants';
 
 export default function convertKeyToKeyModeInt(keyString: string): number[] {
     let note;

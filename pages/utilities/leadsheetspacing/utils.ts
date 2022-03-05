@@ -1,4 +1,5 @@
 import isChinese from 'is-chinese';
+import { hyphenateSync } from 'hyphen/en';
 
 export const addSpaceBetweenChineseCharacters = (str: string): string => {
     const alphaNumRegex = /[A-z]/;
@@ -59,4 +60,8 @@ export const replaceCharactersWithPlaceholders = (
     );
 
     return replacedLines.join('\n');
+};
+
+export const addHyphensToWordsInSentences = (paragraph: string): string => {
+    return hyphenateSync(paragraph, { hyphenChar: '-' });
 };

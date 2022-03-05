@@ -211,10 +211,14 @@ export const checkIsValidProgression = (progression: string) => {
     const invalidGroupingRegex = /(mm)|(b#)|(#b)|(7m)/i;
     const isInvalidGrouping = invalidGroupingRegex.test(progression);
 
-    if (isInvalidProgression || isInvalidGrouping) {
+    if (isInvalidProgression) {
         throw Error(
             'Input is invalid. Valid characters are 1-7, b, #, m, and M'
         );
+    }
+
+    if (isInvalidGrouping) {
+        throw Error('Input is invalid. "mm", "b#","#b", "7m" are not valid');
     }
 
     const invalidEndChar = /^.+[b#]$/;
