@@ -1,7 +1,7 @@
-import Form from '../../lib/types/Form';
-import generateMetaData from '../../lib/utils/generate-metadata';
+import { generateMetadataText } from './utils';
+import { MetatoolSongMetadata } from 'common/types';
 
-const sampleForm: Form = {
+const sampleForm: MetatoolSongMetadata = {
     title: '不遗憾',
     romTitle: 'Bu Yi Han',
     artist: 'Ronghao Li',
@@ -13,15 +13,15 @@ const sampleForm: Form = {
     tempo: 66,
     initialism: 'byh',
     dateReleased: '2021-04-10',
-    moods: [{ value: 'sad', label: 'sad' }],
-    genres: [
-        { value: 'pop', label: 'pop' },
-        { value: 'ballad', label: 'ballad' },
-    ],
-    tags: [{ value: 'theme song', label: 'theme song' }],
+    // moods: [{ value: 'sad', label: 'sad' }],
+    // genres: [
+    //     { value: 'pop', label: 'pop' },
+    //     { value: 'ballad', label: 'ballad' },
+    // ],
+    // tags: [{ value: 'theme song', label: 'theme song' }],
 };
 
-const sampleForm2: Form = {
+const sampleForm2: MetatoolSongMetadata = {
     title: '我爱你',
     romTitle: 'Wo Ai Ni',
     artist: 'Crowd Lu',
@@ -33,17 +33,17 @@ const sampleForm2: Form = {
     tempo: 93,
     initialism: 'wan',
     dateReleased: '2008-11-10',
-    moods: [{ value: 'sad', label: 'sad' }],
-    genres: [
-        { value: 'pop', label: 'pop' },
-        { value: 'funk', label: 'funk' },
-    ],
-    tags: [{ value: 'guitar', label: 'guitar' }],
+    // moods: [{ value: 'sad', label: 'sad' }],
+    // genres: [
+    //     { value: 'pop', label: 'pop' },
+    //     { value: 'funk', label: 'funk' },
+    // ],
+    // tags: [{ value: 'guitar', label: 'guitar' }],
 };
 
 describe('generateMetaData', () => {
     it('should return metadata in OnSong format', () => {
-        expect(generateMetaData(sampleForm, 2)).toBe(
+        expect(generateMetadataText(sampleForm, 2)).toBe(
             'Bu Yi 不遗憾\n' +
                 'Ronghao Li\n' +
                 'Key: D\n' +
@@ -54,7 +54,7 @@ describe('generateMetaData', () => {
                 'Year Released: 2021'
         );
 
-        expect(generateMetaData(sampleForm2, 1)).toBe(
+        expect(generateMetadataText(sampleForm2, 1)).toBe(
             'Wo 我爱你\n' +
                 'Crowd Lu\n' +
                 'Key: Bm\n' +
@@ -65,7 +65,7 @@ describe('generateMetaData', () => {
                 'Year Released: 2008'
         );
 
-        expect(generateMetaData(sampleForm2, 99)).toBe(
+        expect(generateMetadataText(sampleForm2, 99)).toBe(
             'Wo Ai Ni 我爱你\n' +
                 'Crowd Lu\n' +
                 'Key: Bm\n' +
@@ -79,9 +79,19 @@ describe('generateMetaData', () => {
 
     it('should return empty string if the parameters are not present', () => {
         expect(
-            generateMetaData(
+            generateMetadataText(
                 {
                     title: '我爱你',
+                    romTitle: '',
+                    language: '',
+                    timeSignature: '',
+                    tempo: 0,
+                    durationMinSec: '',
+                    dateReleased: '',
+                    key: -1,
+                    mode: -1,
+                    artist: '',
+                    initialism: '',
                 },
                 99
             )
@@ -96,9 +106,18 @@ describe('generateMetaData', () => {
         );
 
         expect(
-            generateMetaData({
+            generateMetadataText({
                 title: '我爱你',
                 language: 'mandarin',
+                romTitle: '',
+                timeSignature: '',
+                tempo: 0,
+                durationMinSec: '',
+                dateReleased: '',
+                key: -1,
+                mode: -1,
+                artist: '',
+                initialism: '',
             })
         ).toBe(
             '我爱你\n' +
@@ -111,9 +130,18 @@ describe('generateMetaData', () => {
         );
 
         expect(
-            generateMetaData({
+            generateMetadataText({
                 title: '我爱你',
                 initialism: 'wan',
+                romTitle: '',
+                language: '',
+                timeSignature: '',
+                tempo: 0,
+                durationMinSec: '',
+                dateReleased: '',
+                key: -1,
+                mode: -1,
+                artist: '',
             })
         ).toBe(
             '我爱你\n' +

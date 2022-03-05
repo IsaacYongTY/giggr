@@ -1,4 +1,10 @@
-import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import React, {
+    useState,
+    Dispatch,
+    SetStateAction,
+    ChangeEvent,
+    useMemo,
+} from 'react';
 import classnames from 'classnames/bind';
 
 import Modal from 'react-modal';
@@ -13,6 +19,9 @@ import Metronome from 'components/common/Metronome';
 import SongDetailForm from 'components/common/SongDetailForm';
 import getInitialism from 'lib/utils/get-initialism';
 import getRomTitle from 'lib/utils/get-rom-title';
+import { MetatoolSongMetadata } from 'common/types';
+import { deriveMetatoolSongMetadata } from 'common/utils';
+import { defaultSongForm } from './constants';
 
 import styles from './AddSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
@@ -24,7 +33,6 @@ type Props = {
     setIsModalOpen: Dispatch<SetStateAction<boolean>>;
     type: string;
     song?: Song;
-    database: string;
     user: any;
     data: any;
 };
@@ -33,12 +41,17 @@ export default function AddSongModal({
     isModalOpen,
     setIsModalOpen,
     type,
-    database,
     song,
     data,
     user,
 }: Props) {
-    const [form, setForm] = useState<Form>({});
+    const [form, setForm] = useState<Form>(defaultSongForm);
+
+    const metatoolSongMetadata: MetatoolSongMetadata = useMemo(
+        () => deriveMetatoolSongMetadata(form),
+
+        [form]
+    );
 
     const customStyles = {
         content: {
@@ -56,7 +69,7 @@ export default function AddSongModal({
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
         const userInput = e.target.value;
-        setForm((prevState: any) => ({
+        setForm((prevState) => ({
             ...prevState,
             [e.target.name]: userInput,
         }));
@@ -89,6 +102,13 @@ export default function AddSongModal({
         }));
     }
 
+    const handleMetadataChange = (metatool: MetatoolSongMetadata) => {
+        setForm((prevState) => ({
+            ...prevState,
+            ...metatool,
+        }));
+    };
+
     return (
         <Modal isOpen={isModalOpen} style={customStyles} ariaHideApp={false}>
             <div className={cx('container')}>
@@ -111,7 +131,6 @@ export default function AddSongModal({
                     <TabPanel>
                         <SongDetailForm
                             type={type}
-                            database={database}
                             form={form}
                             user={user}
                             handleCloseModal={handleCloseModal}
@@ -123,7 +142,10 @@ export default function AddSongModal({
                         />
                     </TabPanel>
                     <TabPanel>
-                        <MetaToolForm formValue={form} setFormValue={setForm} />
+                        <MetaToolForm
+                            metadata={metatoolSongMetadata}
+                            handleMetadataChange={handleMetadataChange}
+                        />
                         <div className={cx('link')}>
                             <a href="/utilities/progression" target="_blank">
                                 Progression Generator {'>'}

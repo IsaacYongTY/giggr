@@ -117,7 +117,9 @@ export default function RepertoireTable({
         const idArray = selectedSongs.map((song) => song.id);
         try {
             await axios.delete('/api/v1/songs', { data: { idArray } });
+
             trigger('/api/v1/users?category=id&order=ASC');
+
             setIsConfirmDeleteSelectedModalOpen(false);
             setSelectedSongs([]);
         } catch (err) {
@@ -144,12 +146,7 @@ export default function RepertoireTable({
     }
 
     function toggleSelectAll(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.checked) {
-            setSelectedSongs(data.songs);
-            return;
-        }
-
-        setSelectedSongs([]);
+        setSelectedSongs(e.target.checked ? data.songs : []);
     }
 
     return (
@@ -200,7 +197,6 @@ export default function RepertoireTable({
                 setIsModalOpen={setIsEditModalOpen}
                 type="edit"
                 song={modalSong}
-                database={database}
                 user={user}
                 data={data}
             />
@@ -209,7 +205,6 @@ export default function RepertoireTable({
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 type="add"
-                database="database1"
                 data={data}
                 user={user}
             />

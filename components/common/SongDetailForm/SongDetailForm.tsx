@@ -2,15 +2,16 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import classnames from 'classnames/bind';
 import { mutate, trigger } from 'swr';
 import axios from 'config/axios';
+import { message } from 'antd';
 
 import SpotifySearchBar from '../SpotifySearchBar';
-import ArtistsSingleDropdown from '../../repertoire/AddSongModal/ArtistsSingleDropdown';
+import ArtistsSingleDropdown from 'components/repertoire/AddSongModal/ArtistsSingleDropdown';
 import KeysDropdown from '../KeysDropdown';
-import LanguagesSingleDropdown from '../../repertoire/AddSongModal/LanguagesSingleDropdown';
-import MusiciansMultiSelectDropdown from '../../repertoire/AddSongModal/MusiciansMultiSelectDropdown';
-import CategoriesDropdown from '../../repertoire/AddSongModal/CategoriesDropdown';
+import LanguagesSingleDropdown from 'components/repertoire/AddSongModal/LanguagesSingleDropdown';
+import MusiciansMultiSelectDropdown from 'components/repertoire/AddSongModal/MusiciansMultiSelectDropdown';
+import CategoriesDropdown from 'components/repertoire/AddSongModal/CategoriesDropdown';
 import ButtonWithLoader from '../ButtonWithLoader';
-import SingleDropdown from '../../repertoire/AddSongModal/SingleDropdown';
+import SingleDropdown from 'components/repertoire/AddSongModal/SingleDropdown';
 
 import Form from 'lib/types/Form';
 import Song from 'lib/types/song';
@@ -20,7 +21,6 @@ import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec'
 import convertSongFormToTempSong from 'lib/utils/convert-song-form-to-temp-song';
 
 import styles from './SongDetailForm.module.scss';
-import { message } from 'antd';
 
 const cx = classnames.bind(styles);
 
@@ -37,9 +37,9 @@ interface Data {
     moods: { id: number; name: string }[];
     languages: { id: number; name: string }[];
 }
-interface Props {
+
+type SongDetailFormProps = {
     type: string;
-    database: string;
     form: Form;
     setForm: Dispatch<SetStateAction<Form>>;
     user: any;
@@ -48,27 +48,19 @@ interface Props {
     isModalOpen: boolean;
     data: Data;
     handleInput: any;
-}
+};
 
 export default function SongDetailForm({
     type,
-    database,
     form,
-    user,
     handleCloseModal,
     song,
     setForm,
     isModalOpen,
     data,
     handleInput,
-}: Props) {
+}: SongDetailFormProps) {
     const [isLoading, setIsLoading] = useState(false);
-
-    let url = `/api/v1/songs`;
-
-    if (database === 'master') {
-        url = `api/v1/admin/songs`;
-    }
 
     async function handleAddSong({
         closeModal = false,
@@ -104,7 +96,7 @@ export default function SongDetailForm({
 
             message.success('Added successfully');
 
-            await axios.post(url, editedForm);
+            await axios.post('/api/v1/songs', editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
@@ -155,7 +147,7 @@ export default function SongDetailForm({
 
             message.success('Edited successfully');
 
-            await axios.put(`${url}/${form.id}`, editedForm);
+            await axios.put(`/api/v1/songs/${form.id}`, editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
@@ -165,88 +157,56 @@ export default function SongDetailForm({
 
     useEffect(() => {
         if (type === 'edit' && song && !form.title) {
-            const {
-                id,
-                title,
-                artist,
-                romTitle,
-                key,
-                myKey,
-                mode,
-                tempo,
-                durationMs,
-                timeSignature,
-                language,
-                spotifyLink,
-                youtubeLink,
-                otherLink,
-                composers,
-                arrangers,
-                songwriters,
-                initialism,
-                energy,
-                danceability,
-                valence,
-                acousticness,
-                instrumentalness,
-                genres,
-                moods,
-                tags,
-                dateReleased,
-                status,
-            } = song;
-
             const value: Form = {
-                id,
-                title,
-                romTitle,
-                artist: artist?.name,
+                id: song.id,
+                title: song.title,
+                romTitle: song.romTitle,
+                artist: song.artist?.name,
 
-                key,
-                myKey,
-                mode,
-                tempo,
+                key: song.key,
+                myKey: song.myKey,
+                mode: song.mode,
+                tempo: song.tempo,
 
-                durationMinSec: convertDurationMsToMinSec(durationMs),
-                timeSignature,
-                language: language?.name,
+                durationMinSec: convertDurationMsToMinSec(song.durationMs),
+                timeSignature: song.timeSignature,
+                language: song.language?.name,
 
-                spotifyLink,
-                youtubeLink,
-                otherLink,
-                composers: composers?.map((composer: any) => ({
+                spotifyLink: song.spotifyLink,
+                youtubeLink: song.youtubeLink,
+                otherLink: song.otherLink,
+                composers: song.composers?.map((composer: any) => ({
                     value: composer.name,
                     label: composer.name,
                 })),
-                arrangers: arrangers?.map((arranger: any) => ({
+                arrangers: song.arrangers?.map((arranger: any) => ({
                     value: arranger.name,
                     label: arranger.name,
                 })),
-                songwriters: songwriters?.map((songwriter: any) => ({
+                songwriters: song.songwriters?.map((songwriter: any) => ({
                     value: songwriter.name,
                     label: songwriter.name,
                 })),
-                initialism,
-                energy,
-                danceability,
-                valence,
-                acousticness,
-                instrumentalness,
-                genres: genres?.map((genre: any) => ({
+                initialism: song.initialism,
+                energy: song.energy,
+                danceability: song.danceability,
+                valence: song.valence,
+                acousticness: song.acousticness,
+                instrumentalness: song.instrumentalness,
+                genres: song.genres?.map((genre: any) => ({
                     value: genre.name,
                     label: genre.name,
                 })),
-                moods: moods?.map((mood: any) => ({
+                moods: song.moods?.map((mood: any) => ({
                     value: mood.name,
                     label: mood.name,
                 })),
-                tags: tags?.map((tag: any) => ({
+                tags: song.tags?.map((tag: any) => ({
                     value: tag.name,
                     label: tag.name,
                 })),
-                dateReleased,
-
-                status,
+                dateReleased: song.dateReleased,
+                status: song.status,
                 artistId: song.artistId,
                 languageId: song.languageId,
                 durationMs: song.durationMs,
@@ -298,15 +258,14 @@ export default function SongDetailForm({
 
             <div className={cx('form-row')}>
                 <KeysDropdown label="Key" form={form} setForm={setForm} />
-                {!user?.isAdmin && (
-                    <KeysDropdown
-                        label="My Key"
-                        keyProp="myKey"
-                        form={form}
-                        setForm={setForm}
-                        showIsMinorCheckbox={false}
-                    />
-                )}
+
+                <KeysDropdown
+                    label="My Key"
+                    keyProp="myKey"
+                    form={form}
+                    setForm={setForm}
+                    showIsMinorCheckbox={false}
+                />
 
                 <label>
                     Tempo:

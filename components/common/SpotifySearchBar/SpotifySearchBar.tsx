@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 import ButtonWithLoader from '../ButtonWithLoader';
 
-import getSpotifyTrackId from 'lib/utils/get-spotify-track-id';
+import { getSpotifyTrackId } from './utils';
 import { shakeAnimation } from 'lib/library';
 
 import styles from './SpotifySearchBar.module.scss';
@@ -27,7 +27,7 @@ export default function SpotifySearchBar({
             return;
         }
 
-        const trackId: string = getSpotifyTrackId(spotifyLink);
+        const trackId = getSpotifyTrackId(spotifyLink);
 
         if (!trackId) {
             shakeAnimation(spotifySearchInput);
