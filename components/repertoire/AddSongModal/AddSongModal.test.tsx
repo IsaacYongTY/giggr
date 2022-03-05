@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
 
-import AddSongModal from 'components/repertoire/AddSongModal';
+import AddSongModal from 'components/repertoire/AddSongModal/index';
 
 jest.mock('axios');
 

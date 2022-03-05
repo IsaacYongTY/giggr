@@ -6,10 +6,11 @@ import Layout from 'components/Layout';
 import SpotifySearchBar from 'components/common/SpotifySearchBar';
 import MetaToolForm from 'components/common/MetaToolForm';
 import { MetatoolSongMetadata } from 'common/types';
+import { deriveMetatoolSongMetadata } from 'components/repertoire/AddSongModal/utils';
 import { defaultMetatoolSongMetadata } from 'common/constants';
+import Form from 'lib/types/Form';
 
 import withAuth from 'middlewares/withAuth';
-import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
 
 import styles from './metatool.module.scss';
 
@@ -44,21 +45,9 @@ export default function MetatoolPage({ user }: MetatoolPageProps) {
             `/api/v1/songs/spotify?trackId=${trackId}`
         );
 
-        const songData = data.result;
+        const songData: Form = data.result;
 
-        const metatoolSongMetadata = {
-            title: songData.title,
-            romTitle: songData.romTitle,
-            language: songData.language,
-            timeSignature: songData.timeSignature,
-            tempo: songData.tempo,
-            durationMinSec: convertDurationMsToMinSec(songData.durationMs),
-            dateReleased: songData.dateReleased,
-            key: songData.key,
-            mode: songData.mode,
-            artist: songData.artist,
-            initialism: songData.initialism,
-        };
+        const metatoolSongMetadata = deriveMetatoolSongMetadata(songData);
         setMetadata(metatoolSongMetadata);
 
         if (isContribute) {

@@ -1,4 +1,5 @@
 import Form from 'lib/types/Form';
+import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
 import { MetatoolSongMetadata } from 'common/types';
 
 export const deriveMetatoolSongMetadata = (
@@ -9,7 +10,9 @@ export const deriveMetatoolSongMetadata = (
     artist: data.artist || '',
     language: data.language || '',
     timeSignature: data.timeSignature || '',
-    durationMinSec: data.durationMinSec || '',
+    durationMinSec: data.durationMs
+        ? convertDurationMsToMinSec(data.durationMs)
+        : '',
     tempo: data.tempo || 0,
     dateReleased: data.dateReleased || '',
     key: data.key === undefined ? -1 : data.key, // key can be 0
