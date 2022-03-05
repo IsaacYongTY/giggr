@@ -1,4 +1,4 @@
-import getInitialism from '../../lib/utils/get-initialism';
+import { getInitialism } from './utils';
 
 describe('getInitialism', () => {
     it('should return the initials of the song title in latin alphabets', () => {

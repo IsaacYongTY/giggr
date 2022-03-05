@@ -1,14 +1,14 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
-import ActionPopup from '../../ActionPopup/ActionPopup';
+import ActionPopup from 'components/repertoire/ActionPopup';
 import classnames from 'classnames/bind';
 
-import StatusPillButton from '../../../common/StatusPillButton';
+import StatusPillButton from 'components/common/StatusPillButton';
 
-import convertDurationMsToMinSec from '../../../../lib/utils/convert-duration-ms-to-min-sec';
-import convertKeyModeIntToKey from '../../../../lib/utils/convert-key-mode-int-to-key';
-import { capitalizeString } from '../../../../lib/library';
-import Song from '../../../../lib/types/song';
+import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import { capitalizeString } from 'lib/library';
+import Song from 'lib/types/song';
 
 import styles from './RepertoireRow.module.scss';
 

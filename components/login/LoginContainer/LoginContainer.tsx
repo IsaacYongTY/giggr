@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { setCookie } from 'nookies';
 
-import ButtonWithLoader from '../../common/ButtonWithLoader';
+import ButtonWithLoader from 'components/common/ButtonWithLoader';
 
 import styles from './LoginContainer.module.scss';
 

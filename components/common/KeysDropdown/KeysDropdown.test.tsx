@@ -1,15 +1,14 @@
-import KeysDropdown from '../../components/common/KeysDropdown/KeysDropdown';
-import React, { Dispatch, SetStateAction } from 'react';
+import KeysDropdown from './KeysDropdown';
+import React from 'react';
 import { screen, render, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import Form from '../../lib/types/Form';
 
 interface Props {
     label: string;
-    form: Form;
-    setForm: Dispatch<SetStateAction<Form>>;
+    handleKeysDropdownChange: () => void;
+    selectedKey: string;
 }
 
 describe('The behaviour of key dropdowns <KeysDropdown />', () => {
@@ -17,8 +16,8 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
     function renderKeysDropdown(props = {}) {
         const defaultProps: Props = {
             label: 'Key',
-            form: {},
-            setForm: jest.fn(),
+            handleKeysDropdownChange: jest.fn(),
+            selectedKey: '',
         };
 
         const utils = render(<KeysDropdown {...defaultProps} {...props} />);
@@ -36,11 +35,7 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
 
     it("should render the component with song's key if exist", async () => {
         renderKeysDropdown({
-            form: {
-                key: 0,
-                mode: 1,
-            },
-            setForm: jest.fn(),
+            selectedKey: 'C',
         });
 
         expect(screen.getByDisplayValue('C')).toBeInTheDocument();
@@ -48,11 +43,7 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
         cleanup();
 
         renderKeysDropdown({
-            form: {
-                key: 11,
-                mode: 0,
-            },
-            setForm: jest.fn(),
+            selectedKey: 'Bm',
         });
 
         expect(screen.getByDisplayValue('Bm')).toBeInTheDocument();
@@ -70,11 +61,8 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
         rerender(
             <KeysDropdown
                 label="Key"
-                form={{
-                    key: 0,
-                    mode: 1,
-                }}
-                setForm={jest.fn()}
+                handleKeysDropdownChange={jest.fn()}
+                selectedKey="C"
             />
         );
 
@@ -86,11 +74,8 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
         rerender(
             <KeysDropdown
                 label="Key"
-                form={{
-                    key: 3,
-                    mode: 1,
-                }}
-                setForm={jest.fn()}
+                handleKeysDropdownChange={jest.fn()}
+                selectedKey="Eb"
             />
         );
 

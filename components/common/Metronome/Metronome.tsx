@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 
-import calculateBpmFromTimeLapsedAndBeat from '../../../lib/utils/calculate-bpm-from-time-lapsed-and-beats';
+import { calculateBpmFromTimeLapsedAndBeats } from './utils';
 
 import styles from './Metronome.module.scss';
 
@@ -111,7 +111,7 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
             return;
         }
 
-        const calculatedTempo = calculateBpmFromTimeLapsedAndBeat(
+        const calculatedTempo = calculateBpmFromTimeLapsedAndBeats(
             totalTimeLapsed.current,
             count - 1
         );

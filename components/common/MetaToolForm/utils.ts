@@ -1,5 +1,23 @@
-import Form from '../types/Form';
-import convertKeyModeIntToKey from './convert-key-mode-int-to-key';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import { MetatoolSongMetadata } from 'common/types';
+
+// only support mandarin for now, affixes "lyrics" for all other languages
+export const deriveGoogleSearchLink = (
+    title: string,
+    language: string | undefined
+) => {
+    const affix = language === 'mandarin' ? '歌词' : 'lyrics';
+
+    return `https://www.google.com/search?q=${title}%20${affix}`;
+};
+
+export const deriveGoogleSearchText = (
+    title: string,
+    language: string | undefined
+) => {
+    const affix = language === 'mandarin' ? '歌词' : 'lyrics';
+    return `Search "${title} ${affix}" on Google`;
+};
 
 function createKeywordsArray(initialism: string, language: string): string[] {
     if (!initialism) return [language];
@@ -7,8 +25,8 @@ function createKeywordsArray(initialism: string, language: string): string[] {
     return [initialism, language];
 }
 
-export default function generateMetaData(
-    form: Form,
+export function generateMetadataText(
+    metadata: MetatoolSongMetadata,
     pinyinSyllableNum = 0
 ): string {
     const {
@@ -23,7 +41,7 @@ export default function generateMetaData(
         dateReleased,
         initialism,
         language,
-    } = form;
+    } = metadata;
 
     const displayedPinyin =
         pinyinSyllableNum && romTitle

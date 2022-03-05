@@ -183,6 +183,7 @@ describe('The progression generator page', () => {
             expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
         });
 
+        // TODO: refactor to function that throws the error
         describe('the behaviour of error handling if input is invalid', () => {
             it("should show error message if input textbox contains invalid characters '0' ", () => {
                 const { generateButton, inputTextbox } = renderProg();
@@ -207,7 +208,7 @@ describe('The progression generator page', () => {
             it('should show error message if input textbox contains mM or Mm', () => {
                 const { generateButton, inputTextbox } = renderProg();
                 const errorMessage =
-                    /^.*Input is invalid. Valid characters are 1-7, b, #, m, and M/i;
+                    /^.*Input is invalid. "mm", "b#","#b", "7m" are not valid/i;
                 userEvent.type(inputTextbox, '2mM');
                 userEvent.click(generateButton);
 

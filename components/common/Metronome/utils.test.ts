@@ -1,4 +1,4 @@
-import calculateBpmFromTimeLapsedAndBeats from '../../lib/utils/calculate-bpm-from-time-lapsed-and-beats';
+import { calculateBpmFromTimeLapsedAndBeats } from './utils';
 
 describe('calculateBpm', () => {
     it('should return the bpm based on time lapsed and count given', () => {
