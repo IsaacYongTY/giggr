@@ -5,12 +5,12 @@ import axios from 'config/axios';
 import { message } from 'antd';
 
 import SpotifySearchBar from '../SpotifySearchBar';
+import KeysDropdown from 'components/common/KeysDropdown';
+import ButtonWithLoader from 'components/common/ButtonWithLoader';
 import ArtistsSingleDropdown from 'components/repertoire/AddSongModal/ArtistsSingleDropdown';
-import KeysDropdown from '../KeysDropdown';
 import LanguagesSingleDropdown from 'components/repertoire/AddSongModal/LanguagesSingleDropdown';
 import MusiciansMultiSelectDropdown from 'components/repertoire/AddSongModal/MusiciansMultiSelectDropdown';
 import CategoriesDropdown from 'components/repertoire/AddSongModal/CategoriesDropdown';
-import ButtonWithLoader from '../ButtonWithLoader';
 import SingleDropdown from 'components/repertoire/AddSongModal/SingleDropdown';
 
 import Form from 'lib/types/Form';
@@ -19,11 +19,11 @@ import Musician from 'lib/types/musician';
 
 import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
 import convertSongFormToTempSong from 'lib/utils/convert-song-form-to-temp-song';
+import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import convertRelativeKey from 'lib/utils/convert-relative-key';
 
 import styles from './SongDetailForm.module.scss';
-import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
-import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from '../../../lib/utils/convert-relative-key';
 
 const cx = classnames.bind(styles);
 

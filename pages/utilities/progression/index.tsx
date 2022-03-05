@@ -150,7 +150,6 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                                 type="text"
                                 placeholder="1b73M4m5251..."
                                 value={progression}
-                                name="progression"
                                 onChange={(e) =>
                                     handleProgressionInputChange(e.target.value)
                                 }
@@ -194,7 +193,6 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
                                     value: spaces || 0,
                                     label: spaces || 0,
                                 }}
-                                name="spaces"
                                 options={spacingOptions}
                                 onChange={(e) =>
                                     handleSpacingChanges(e?.value || 0)
