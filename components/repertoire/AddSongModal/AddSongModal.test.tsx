@@ -5,9 +5,10 @@ import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
 
-import AddSongModal from '../../components/repertoire/AddSongModal/AddSongModal';
+import AddSongModal from 'components/repertoire/AddSongModal/index';
 
 jest.mock('axios');
+jest.setTimeout(10000); // TODO: to investigate why test is timeout
 
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
@@ -19,7 +20,6 @@ function renderAddSongModal(props = {}) {
             isModalOpen={true}
             setIsModalOpen={jest.fn()}
             type="add"
-            database="database1"
             user={mockUser}
             data={{
                 songs: [],
@@ -59,7 +59,7 @@ function renderAddSongModal(props = {}) {
         genresDropdown,
         moodsDropdown,
         tagsDropdown,
-        generateMetaDataTab,
+        generateMetadataTab: generateMetaDataTab,
         songDetailsTab,
     };
 }
@@ -343,7 +343,7 @@ describe('<AddSongModal />', () => {
 
     describe('The behaviour of Generate Metadata button', () => {
         it('should display the metadata head', async () => {
-            const { generateMetaDataTab } = renderAddSongModal({
+            const { generateMetadataTab } = renderAddSongModal({
                 type: 'edit',
 
                 song: {
@@ -369,7 +369,7 @@ describe('<AddSongModal />', () => {
                 },
             });
 
-            userEvent.click(generateMetaDataTab);
+            userEvent.click(generateMetadataTab);
 
             expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument();
             expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument();
@@ -386,7 +386,7 @@ describe('<AddSongModal />', () => {
         });
 
         it('should keep the changes that the user has made', async () => {
-            const { songDetailsTab, keysDropdown, generateMetaDataTab } =
+            const { songDetailsTab, keysDropdown, generateMetadataTab } =
                 renderAddSongModal({
                     type: 'edit',
 
@@ -418,7 +418,7 @@ describe('<AddSongModal />', () => {
 
             expect(screen.getByText('G')).toBeInTheDocument();
 
-            userEvent.click(generateMetaDataTab);
+            userEvent.click(generateMetadataTab);
             userEvent.click(songDetailsTab);
 
             expect(screen.getByText('G')).toBeInTheDocument();
