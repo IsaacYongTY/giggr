@@ -15,7 +15,7 @@ import {
     replaceCharactersWithPlaceholders,
 } from './utils';
 
-import styles from './LeadSheetSpacing.module.scss';
+import styles from './LeadSheetSpacingPage.module.scss';
 
 const cx = classnames.bind(styles);
 
