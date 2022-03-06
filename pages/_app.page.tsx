@@ -4,6 +4,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import React from 'react';
 import '@material-ui/core';
+import '@material-ui/icons';
 import axios from '../config/axios';
 import '@fullcalendar/common/main.css'; // @fullcalendar/react imports @fullcalendar/common
 import '@fullcalendar/daygrid/main.css'; // @fullcalendar/timegrid imports @fullcalendar/daygrid
