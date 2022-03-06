@@ -1,4 +1,4 @@
-import Song from '../../../../lib/types/song';
+import { Song } from 'common/types';
 import { previousMonday, isAfter } from 'date-fns';
 
 export const deriveSongsAddedThisWeek = (songs: Song[]) => {

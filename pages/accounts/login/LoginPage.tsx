@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import classnames from 'classnames/bind';
 import Image from 'next/image';
 
-import LoginContainer from '../../../components/login/LoginContainer';
-import SignupContainer from '../../../components/login/SignupContainer';
+import LoginContainer from 'components/login/LoginContainer';
+import SignupContainer from 'components/login/SignupContainer';
 
-import styles from './login.module.scss';
+import styles from './LoginPage.module.scss';
 
 const cx = classnames.bind(styles);
 

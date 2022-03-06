@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classnames from 'classnames/bind';
 import { hyphenateSync } from 'hyphen/en-gb';
-import { IncomingMessage } from 'http';
-import { NextApiRequestCookies } from 'next/dist/next-server/server/api-utils';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 
 import Layout from 'components/Layout';
 import Tag from 'components/common/Tag';
@@ -15,23 +13,17 @@ import {
     replaceCharactersWithPlaceholders,
 } from './utils';
 
-import styles from './leadsheetspacing.module.scss';
+import styles from './LeadSheetSpacingPage.module.scss';
 
 const cx = classnames.bind(styles);
-
-interface GetServerSidePropsContextWithUser extends GetServerSidePropsContext {
-    req: IncomingMessage & {
-        user: any;
-        cookies: NextApiRequestCookies;
-    };
-}
 
 type LeadSheetSpacingPageProps = {
     user: any;
 };
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-    async ({ req }: GetServerSidePropsContextWithUser) => {
+    async ({ req }: any) => {
+        // ignore type for now, failed due to Next 12 upgrade
         return {
             props: {
                 user: req.user,

@@ -8,11 +8,11 @@ import MetaToolForm from 'components/common/MetaToolForm';
 import { MetatoolSongMetadata } from 'common/types';
 import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultMetatoolSongMetadata } from 'common/constants';
-import Form from 'lib/types/Form';
+import { Form } from 'common/types';
 
 import withAuth from 'middlewares/withAuth';
 
-import styles from './metatool.module.scss';
+import styles from './MetatoolPage.module.scss';
 
 const cx = classnames.bind(styles);
 
@@ -24,14 +24,14 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-export interface MetatoolPageProps {
+export type MetatoolPageProps = {
     user: {
         tierId: number;
         name: string;
         tokenString: string;
         isAdmin: boolean;
     };
-}
+};
 
 export default function MetatoolPage({ user }: MetatoolPageProps) {
     const [metadata, setMetadata] = useState<MetatoolSongMetadata>(

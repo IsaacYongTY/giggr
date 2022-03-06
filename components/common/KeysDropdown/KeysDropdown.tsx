@@ -3,7 +3,7 @@ import classnames from 'classnames/bind';
 import Select, { ValueType } from 'react-select';
 
 import { majorKeyArray, minorKeyArray } from './constants';
-import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import { convertKeyToKeyModeInt } from 'common/utils';
 
 import styles from './KeysDropdown.module.scss';
 

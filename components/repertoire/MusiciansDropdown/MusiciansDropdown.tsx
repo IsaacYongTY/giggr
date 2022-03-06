@@ -3,7 +3,7 @@ import classnames from 'classnames/bind';
 import axios from 'axios';
 
 import PillButton from 'components/common/PillButton';
-import Musician from 'lib/types/musician';
+import { Musician } from 'common/types';
 
 import styles from './MusiciansDropdown.module.scss';
 

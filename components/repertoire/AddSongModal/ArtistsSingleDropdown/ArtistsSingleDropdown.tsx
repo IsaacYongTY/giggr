@@ -3,7 +3,7 @@ import classnames from 'classnames/bind';
 import CreatableSelect from 'react-select/creatable';
 import { ValueType } from 'react-select/';
 
-import Musician from 'lib/types/musician';
+import { Musician } from 'common/types';
 
 import styles from './ArtistsSingleDropdown.module.scss';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import MetatoolPage, { MetatoolPageProps } from 'pages/utilities/metatool';
+import MetatoolPage, { MetatoolPageProps } from './MetatoolPage';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -8,10 +8,10 @@ import axios from 'axios';
 jest.mock('axios');
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
-import { shakeAnimation } from '../../lib/library';
+import { shakeAnimation } from 'lib/library';
 
 jest.mock('next/router', () => require('next-router-mock'));
-jest.mock('../../lib/library');
+jest.mock('lib/library');
 
 const defaultPinyinSyllables = 2;
 
@@ -40,7 +40,7 @@ const songData = {
 };
 
 function renderMetaTool(props: Partial<MetatoolPageProps> = {}) {
-    const defaultProps: MetatoolPageProps = {
+    const defaultProps = {
         user: {
             tierId: 2,
             name: 'Isaac',

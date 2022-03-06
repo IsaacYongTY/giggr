@@ -11,9 +11,9 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-export default function Playground({ user }: any) {
+export default function PlaygroundPage({ user }: any) {
     return (
-        <Layout user={user} title="Playground">
+        <Layout user={user} title="PlaygroundPage">
             <div>something here</div>
         </Layout>
     );
