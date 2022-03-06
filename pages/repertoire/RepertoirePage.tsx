@@ -3,16 +3,15 @@ import classnames from 'classnames/bind';
 import useSWR from 'swr';
 import { GetServerSideProps } from 'next';
 
-import Layout from '../../components/Layout';
-import withAuth from '../../middlewares/withAuth';
-import SearchBar from '../../components/common/SearchBar';
-import RepertoireTable from '../../components/repertoire/RepertoireTable';
-import FilterRow from '../../components/repertoire/FilterRow';
+import Layout from 'components/Layout';
+import withAuth from 'middlewares/withAuth';
+import SearchBar from 'components/common/SearchBar';
+import RepertoireTable from 'components/repertoire/RepertoireTable';
+import FilterRow from 'components/repertoire/FilterRow';
 
-import Song from '../../lib/types/song';
-import Musician from '../../lib/types/musician';
+import { Musician, Song } from 'common/types';
 
-import styles from './repertoire.module.scss';
+import styles from './RepertoirePage.module.scss';
 
 const cx = classnames.bind(styles);
 

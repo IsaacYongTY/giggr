@@ -1,8 +1,8 @@
 import { deriveSongsAddedThisWeek } from './utils';
 import { subDays } from 'date-fns';
 
-import Song from '../../../../lib/types/song';
-import { generateMockSong } from '../../../../fixtures/generate-mock-song';
+import { Song } from 'common/types';
+import { generateMockSong } from 'fixtures/generate-mock-song';
 
 const mockSongs: Song[] = [
     generateMockSong('Qi Tian', new Date()),

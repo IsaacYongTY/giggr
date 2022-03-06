@@ -7,11 +7,11 @@ import styles from './Metronome.module.scss';
 
 const cx = classnames.bind(styles);
 
-type Props = {
+type MetronomeProps = {
     defaultTempo: number;
 };
 
-const Metronome: React.FC<Props> = ({ defaultTempo }) => {
+const Metronome: React.FC<MetronomeProps> = ({ defaultTempo }) => {
     const [count, setCount] = useState(0);
     const [tempo, setTempo] = useState(defaultTempo);
     const [displayTempo, setDisplayTempo] = useState(defaultTempo);
@@ -119,6 +119,7 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
         setDisplayTempo(Math.round(calculatedTempo));
         startTime.current = Date.now();
     }
+
     function handleReset() {
         setCount(0);
 
@@ -169,7 +170,7 @@ const Metronome: React.FC<Props> = ({ defaultTempo }) => {
                 <div className={cx('tempo-display')}>
                     {isDecimal ? tempo : displayTempo}
                 </div>
-                {isPlaying ? <div>Tap to stop</div> : <div>Tap to play</div>}
+                <div>Tap to {isPlaying ? 'stop' : 'play'}</div>
             </button>
 
             <div className={cx('button-row')}>

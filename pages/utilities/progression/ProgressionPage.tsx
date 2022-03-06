@@ -14,10 +14,9 @@ import { keyMap, progressionOptions, spacingOptions } from './constants';
 import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 import AlertBox from 'components/common/AlertBox';
 import withAuth from 'middlewares/withAuth';
+import { convertKeyModeIntToKey, convertKeyToKeyModeInt } from 'common/utils';
 
 import styles from './progression.module.scss';
-import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
-import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
 
 const cx = classnames.bind(styles);
 

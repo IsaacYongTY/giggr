@@ -5,30 +5,33 @@ import classnames from 'classnames/bind';
 
 import StatusPillButton from 'components/common/StatusPillButton';
 
-import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
-import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import {
+    convertDurationMsToMinSec,
+    convertKeyModeIntToKey,
+} from 'common/utils';
 import { capitalizeString } from 'lib/library';
-import Song from 'lib/types/song';
+import { Song } from 'common/types';
 
 import styles from './RepertoireRow.module.scss';
 
 const cx = classnames.bind(styles);
 
-interface Props {
+type RepertoireRowProps = {
     song: Song;
     handleOpenModal: (song: Song) => void;
     handleDeleteSong: (id: number) => Promise<void>;
     handleOpenConfirmModal: (song: Song) => void;
     selectedSongs: Song[];
     setSelectedSongs: Dispatch<SetStateAction<Song[]>>;
-}
+};
+
 export default function RepertoireRow({
     song,
     handleOpenModal,
     handleOpenConfirmModal,
     selectedSongs,
     setSelectedSongs,
-}: Props) {
+}: RepertoireRowProps) {
     const [isShowPopup, setIsShowPopup] = useState(false);
 
     const foundIndex = selectedSongs.findIndex(

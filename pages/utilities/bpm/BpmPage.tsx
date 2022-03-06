@@ -1,8 +1,9 @@
 import React from 'react';
-import Layout from '../../../components/Layout';
 
-import withAuth from '../../../middlewares/withAuth';
-import Metronome from '../../../components/common/Metronome/Metronome';
+import withAuth from 'middlewares/withAuth';
+
+import Layout from 'components/Layout';
+import Metronome from 'components/common/Metronome/Metronome';
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
@@ -12,11 +13,11 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-interface Props {
+type BpmPageProps = {
     user: any;
-}
+};
 
-export default function Index({ user }: Props) {
+export default function BpmPage({ user }: BpmPageProps) {
     return (
         <Layout user={user} title="Metronome">
             <Metronome defaultTempo={69} />

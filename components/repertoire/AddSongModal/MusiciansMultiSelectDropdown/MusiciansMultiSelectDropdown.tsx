@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Musician from 'lib/types/musician';
+import React, { useEffect, useState } from 'react';
+import { Musician } from 'common/types';
 import CreatableSelect from 'react-select/creatable';
 import { ValueType } from 'react-select/';
 
@@ -8,7 +8,7 @@ import styles from '../ArtistsSingleDropdown/ArtistsSingleDropdown.module.scss';
 type Props = {
     label: string;
     selectedMusicians: Option[];
-    setFormValue: Dispatch<SetStateAction<any>>;
+    setFormValue: (form: any) => void;
     musicians: Musician[];
     role: string;
 };

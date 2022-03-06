@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import CsvUploadContainer from './CsvUploadContainer';
-import Song from 'lib/types/song';
+import { Song } from 'common/types';
 
 interface Props {
     setIsModalOpen: Dispatch<SetStateAction<boolean>>;

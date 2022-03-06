@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import SpotifySearchBar from '../../components/common/SpotifySearchBar/SpotifySearchBar';
+import SpotifySearchBar from './SpotifySearchBar';
 
 function renderSpotifySearchBar() {
     const utils = render(<SpotifySearchBar getFromSpotify={jest.fn()} />);

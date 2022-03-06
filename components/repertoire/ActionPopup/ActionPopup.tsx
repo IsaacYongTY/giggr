@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import classnames from 'classnames/bind';
 
-import Song from 'lib/types/song';
+import { Song } from 'common/types';
 
 import styles from './ActionPopup.module.scss';
 

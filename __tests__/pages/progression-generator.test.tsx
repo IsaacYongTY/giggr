@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-import ProgGenerator from '../../pages/utilities/progression/index';
+import ProgGenerator from '../../pages/utilities/progression/index.page';
 
 const renderProg = () => {
     const utils = render(<ProgGenerator user={{ id: 1, name: 'test' }} />);

@@ -2,7 +2,9 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Metronome from '../../components/common/Metronome/Metronome';
+
+import Metronome from './Metronome';
+
 const defaultTempo = 69;
 
 jest.mock('next/router', () => require('next-router-mock'));
