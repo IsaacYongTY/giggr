@@ -10,7 +10,7 @@ import AddSongModal from '../AddSongModal';
 import RepertoireRow from './RepertoireRow';
 import ActionRow from '../ActionRow';
 
-import Song from 'lib/types/song';
+import { Song } from 'common/types';
 
 import styles from './RepertoireTable.module.scss';
 

@@ -13,15 +13,15 @@ import MusiciansMultiSelectDropdown from 'components/repertoire/AddSongModal/Mus
 import CategoriesDropdown from 'components/repertoire/AddSongModal/CategoriesDropdown';
 import SingleDropdown from 'components/repertoire/AddSongModal/SingleDropdown';
 
-import Form from 'lib/types/Form';
-import Song from 'lib/types/song';
-import Musician from 'lib/types/musician';
+import { Form, Musician, Song } from 'common/types';
 
-import convertDurationMsToMinSec from 'lib/utils/convert-duration-ms-to-min-sec';
-import convertSongFormToTempSong from 'lib/utils/convert-song-form-to-temp-song';
-import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
-import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from 'lib/utils/convert-relative-key';
+import {
+    convertDurationMsToMinSec,
+    convertKeyModeIntToKey,
+    convertKeyToKeyModeInt,
+    convertRelativeKey,
+} from 'common/utils';
+import { convertSongFormToTempSong } from './utils';
 
 import styles from './SongDetailForm.module.scss';
 

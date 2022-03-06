@@ -1,4 +1,4 @@
-import Song from '../lib/types/song';
+import { Song } from 'common/types';
 
 export const generateMockSong = (title: string, createdDate: Date): Song => ({
     id: 1,

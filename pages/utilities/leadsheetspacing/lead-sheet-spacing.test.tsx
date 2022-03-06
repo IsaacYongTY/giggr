@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { hyphenateSync } from 'hyphen/en-gb';
 
-import LeadSheetSpacingPage from '../../pages/utilities/leadsheetspacing';
+import LeadSheetSpacingPage from './index';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('hyphen/en-gb', () => ({

@@ -5,9 +5,11 @@ import Select, { ValueType } from 'react-select';
 import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 
 import { generateMetadataText } from './utils';
-import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from 'lib/utils/convert-relative-key';
-import convertKeyToKeyModeInt from 'lib/utils/convert-key-to-key-mode-int';
+import {
+    convertKeyModeIntToKey,
+    convertKeyToKeyModeInt,
+    convertRelativeKey,
+} from 'common/utils';
 import { MetatoolSongMetadata } from 'common/types';
 import { defaultPinyinSyllableOptions } from './constants';
 import { deriveGoogleSearchLink, deriveGoogleSearchText } from './utils';
