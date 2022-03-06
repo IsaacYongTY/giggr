@@ -5,12 +5,16 @@ import useSWR from 'swr';
 import { Switch } from '@material-ui/core';
 
 import Layout from 'components/Layout';
-import DashboardCardList from '../../components/dashboard/DashboardCardList';
-import withAuth from '../../middlewares/withAuth';
+import DashboardCardList from 'components/dashboard/DashboardCardList';
+import withAuth from 'middlewares/withAuth';
 
 import styles from './dashboard.module.scss';
 
 const cx = classnames.bind(styles);
+
+type DashboardPageProps = {
+    user: any;
+};
 
 export const getServerSideProps: GetServerSideProps = withAuth(
     async ({ req }: any) => {
@@ -22,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-function DashboardPage({ user }: any) {
+function DashboardPage({ user }: DashboardPageProps) {
     const { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
     const { data: { songs } = {} } = useSWR(
         `/api/v1/songs?number=5&category=createdAt&order=DESC`

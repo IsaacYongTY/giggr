@@ -4,8 +4,7 @@ import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
 
-import Song from 'lib/types/song';
-import Form from 'lib/types/Form';
+import { Form, Song } from 'common/types';
 
 import MetaToolForm from 'components/common/MetaToolForm';
 import Metronome from 'components/common/Metronome';

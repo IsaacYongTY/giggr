@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import Link from 'next/link';
 
-import Song from '../../../../lib/types/song';
+import { Song } from 'common/types';
 import { deriveSongsAddedThisWeek } from './utils';
 
 import styles from './RepertoireCard.module.scss';

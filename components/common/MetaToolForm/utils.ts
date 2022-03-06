@@ -1,4 +1,4 @@
-import convertKeyModeIntToKey from 'lib/utils/convert-key-mode-int-to-key';
+import { convertKeyModeIntToKey } from 'common/utils';
 import { MetatoolSongMetadata } from 'common/types';
 
 // only support mandarin for now, affixes "lyrics" for all other languages
