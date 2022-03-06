@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from 'next/router';
 import '@testing-library/jest-dom/extend-expect';
 
-import LoginPage from '../../pages/accounts/login';
+import LoginPage from '../../pages/accounts/login/index.page';
 
 jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('axios');

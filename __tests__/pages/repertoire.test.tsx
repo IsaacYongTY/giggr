@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import axios from '../../config/axios';
-import RepertoirePage from '../../pages/repertoire';
+import RepertoirePage from '../../pages/repertoire/index.page';
 
 import { SWRConfig } from 'swr';
 
