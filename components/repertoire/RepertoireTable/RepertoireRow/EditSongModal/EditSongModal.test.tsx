@@ -11,11 +11,12 @@ jest.mock('axios');
 jest.setTimeout(10000); // TODO: to investigate why test is timeout
 
 function renderEditSongModal(props = {}) {
+    const defaultPlaceholderSong = generateMockSong('认错', 'Eb', new Date());
     const utils = render(
         <EditSongModal
             isModalOpen={true}
             setIsModalOpen={jest.fn()}
-            song={generateMockSong('认错', 'Eb', new Date())}
+            song={defaultPlaceholderSong}
             data={{
                 songs: [],
                 genres: [],
@@ -27,6 +28,7 @@ function renderEditSongModal(props = {}) {
             {...props}
         />
     );
+
     const titleTextbox = utils.getByPlaceholderText(/title/i);
     const initialismTextbox = utils.getByRole('textbox', {
         name: /initialism.*/i,
@@ -101,37 +103,15 @@ describe('<EditSongModal />', () => {
             cleanup();
 
             renderEditSongModal({
-                type: 'edit',
-                song: { key: 11, mode: 0 },
+                song: generateMockSong('我爱你', 'Bm', new Date()),
             });
 
             expect(screen.getByDisplayValue('Bm')).toBeInTheDocument();
         });
 
-        it('should toggle the dropdown menu and render key options accordingly', () => {
-            const { keysDropdown } = renderEditSongModal({
-                song: generateMockSong('认错', 'C', new Date()),
-            });
-
-            expect(keysDropdown).toBeInTheDocument();
-
-            userEvent.click(keysDropdown);
-
-            // use arrow down to simulate opening the dropdown menu via clicking
-            userEvent.type(keysDropdown, '{arrowdown}');
-            userEvent.click(screen.getByText('C'));
-
-            expect(screen.getByDisplayValue('C')).toBeInTheDocument();
-
-            userEvent.type(keysDropdown, '{arrowdown}');
-            // screen.debug(undefined, 10000)
-            userEvent.click(screen.getByText('Eb'));
-            expect(screen.getByDisplayValue('Eb')).toBeInTheDocument();
-        });
-
         it('should toggle the isMinor checkbox when the default is empty', () => {
             const { keysDropdown, isMinorCheckbox } = renderEditSongModal({
-                song: generateMockSong('认错', 'C', new Date()),
+                song: generateMockSong('认错', '', new Date()),
             });
 
             userEvent.click(keysDropdown);
@@ -277,8 +257,6 @@ describe('<EditSongModal />', () => {
         it('should keep the changes that the user has made', async () => {
             const { songDetailsTab, keysDropdown, generateMetadataTab } =
                 renderEditSongModal({
-                    type: 'edit',
-
                     song: {
                         title: '我爱你',
                         artist: {

@@ -2,10 +2,11 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import Modal from 'react-modal';
 
-import styles from './ConfirmDeleteModal.module.scss';
-import axios from '../../../../../config/axios';
+import axios from 'config/axios';
 import { trigger } from 'swr';
 import { message } from 'antd';
+
+import styles from './ConfirmDeleteModal.module.scss';
 
 const cx = classnames.bind(styles);
 
@@ -59,10 +60,6 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
                     {songTitle}
                     &quot;?
                 </div>
-
-                {/*{errorMessage && (*/}
-                {/*    <div className="error-message">{errorMessage}</div>*/}
-                {/*)}*/}
 
                 <div className={cx('button-row')}>
                     <button

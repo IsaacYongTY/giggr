@@ -27,7 +27,7 @@ export const generateMockSong = (
         dateReleased: '2013-01-01',
         updatedAt: createdDate,
         createdAt: createdDate,
-        myKey: 0,
+        myKey: -1,
         languageId: 1,
         language: { id: 1, name: 'Mandarin' },
         spotifyLink: '',
