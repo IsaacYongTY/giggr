@@ -15,9 +15,7 @@ const cx = classnames.bind(styles);
 export default function CsvUploadModal({
     isModalOpen,
     setIsModalOpen,
-    database,
 }: {
-    database: string;
     setIsModalOpen: any;
     isModalOpen: boolean;
 }) {
@@ -49,11 +47,6 @@ export default function CsvUploadModal({
         setIsLoading(true);
         setErrorMessage('');
 
-        const url =
-            database === 'master'
-                ? `/api/v1/admin/songs/csv`
-                : `/api/v1/songs/csv`;
-
         try {
             const formData = new FormData();
 
@@ -63,7 +56,7 @@ export default function CsvUploadModal({
             formData.append('file', csvFile);
 
             const cookies = parseCookies();
-            await axios.post(url, formData, {
+            await axios.post('/api/v1/songs/csv', formData, {
                 withCredentials: true,
                 headers: {
                     'x-auth-token': cookies['x-auth-token'],

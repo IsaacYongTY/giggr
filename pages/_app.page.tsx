@@ -24,6 +24,7 @@ export default function MyApp({ Component, pageProps }: any) {
                         axios.get(url).then((res) => res.data),
                 }}
             >
+                {/*TODO: remove after icons are replaced with components*/}
                 <Head>
                     <link
                         href="https://fonts.googleapis.com/icon?family=Material+Icons"

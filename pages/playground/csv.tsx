@@ -10,11 +10,7 @@ export default function Csv() {
 
     return (
         <>
-            <CsvRow
-                database="database1"
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-            />
+            <CsvRow isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <button onClick={handleOpenModal}>Open Modal</button>
         </>
     );

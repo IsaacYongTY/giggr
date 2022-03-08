@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
 
-import { Form, Song } from 'common/types';
+import { Form } from 'common/types';
 
 import MetaToolForm from 'components/common/MetaToolForm';
 import Metronome from 'components/common/Metronome';
@@ -22,19 +22,14 @@ const cx = classnames.bind(styles);
 type Props = {
     isModalOpen: boolean;
     setIsModalOpen: (isModalOpen: boolean) => void;
-    type: string;
-    song?: Song;
-    user: any;
     data: any;
+    handleCloseModal: () => void;
 };
 
 export default function AddSongModal({
     isModalOpen,
-    setIsModalOpen,
-    type,
-    song,
     data,
-    user,
+    handleCloseModal,
 }: Props) {
     const [form, setForm] = useState<Form>(defaultSongForm);
 
@@ -64,11 +59,6 @@ export default function AddSongModal({
             ...prevState,
             [e.target.name]: userInput,
         }));
-    }
-
-    function handleCloseModal() {
-        setForm({});
-        setIsModalOpen(false);
     }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
@@ -121,15 +111,11 @@ export default function AddSongModal({
 
                     <TabPanel>
                         <SongDetailForm
-                            type={type}
                             form={form}
-                            user={user}
                             handleCloseModal={handleCloseModal}
-                            song={song}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
-                            isModalOpen={isModalOpen}
                         />
                     </TabPanel>
                     <TabPanel>

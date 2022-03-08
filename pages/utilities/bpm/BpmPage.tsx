@@ -17,10 +17,12 @@ type BpmPageProps = {
     user: any;
 };
 
-export default function BpmPage({ user }: BpmPageProps) {
+const BpmPage: React.FC<BpmPageProps> = () => {
     return (
-        <Layout user={user} title="Metronome">
+        <Layout title="Metronome">
             <Metronome defaultTempo={69} />
         </Layout>
     );
-}
+};
+
+export default BpmPage;

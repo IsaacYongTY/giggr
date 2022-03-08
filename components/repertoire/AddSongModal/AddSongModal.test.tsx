@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render, cleanup, waitFor } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
@@ -12,15 +12,12 @@ jest.setTimeout(10000); // TODO: to investigate why test is timeout
 
 const mockAxios = axios as jest.Mocked<typeof axios>;
 
-const mockUser = { tierId: 2, name: 'Isaac', tokenString: 'faketokenstring' };
-
 function renderAddSongModal(props = {}) {
     const utils = render(
         <AddSongModal
             isModalOpen={true}
             setIsModalOpen={jest.fn()}
-            type="add"
-            user={mockUser}
+            handleCloseModal={jest.fn()}
             data={{
                 songs: [],
                 genres: [],
@@ -96,24 +93,6 @@ describe('<AddSongModal />', () => {
             expect(tagsDropdown).toBeInTheDocument();
         });
 
-        it("should render the component with song's key if exist and in Edit mode", async () => {
-            renderAddSongModal({
-                song: { key: 0, mode: 1 },
-                type: 'edit',
-            });
-
-            expect(await screen.findByText('C')).toBeInTheDocument();
-
-            cleanup();
-
-            renderAddSongModal({
-                type: 'edit',
-                song: { key: 11, mode: 0 },
-            });
-
-            expect(screen.getByDisplayValue('Bm')).toBeInTheDocument();
-        });
-
         it('should toggle the dropdown menu and render key options accordingly', () => {
             const { keysDropdown } = renderAddSongModal();
 
@@ -162,11 +141,10 @@ describe('<AddSongModal />', () => {
         });
 
         it('should toggle the isMinor checkbox even when key is selected', () => {
-            const { keysDropdown, isMinorCheckbox } = renderAddSongModal({
-                type: 'edit',
-                song: { key: 3, mode: 1 },
-            });
+            const { keysDropdown, isMinorCheckbox } = renderAddSongModal();
 
+            userEvent.click(keysDropdown);
+            userEvent.click(screen.getByText('Eb'));
             expect(screen.getByText('Eb')).toBeInTheDocument();
 
             userEvent.click(keysDropdown);
@@ -195,36 +173,22 @@ describe('<AddSongModal />', () => {
             expect(screen.queryByText('Gm')).not.toBeInTheDocument();
         });
 
-        it('should change the selected key to relative major when checkbox is toggled', () => {
-            const { isMinorCheckbox } = renderAddSongModal({
-                song: {
-                    key: 1,
-                    mode: 0,
-                },
-                type: 'edit',
-            });
-
-            expect(screen.getByDisplayValue('C#m')).toBeInTheDocument();
-            userEvent.click(isMinorCheckbox);
-
-            expect(screen.queryByDisplayValue('C#m')).not.toBeInTheDocument();
-            expect(screen.getByDisplayValue('E')).toBeInTheDocument();
-        });
-
         it('should change the selected key to relative minor when checkbox is toggled', () => {
-            const { isMinorCheckbox } = renderAddSongModal({
-                song: {
-                    key: 6,
-                    mode: 1,
-                },
-                type: 'edit',
-            });
+            const { keysDropdown, isMinorCheckbox } = renderAddSongModal();
+
+            userEvent.click(keysDropdown);
+            userEvent.click(screen.getByText('Gb'));
 
             expect(screen.getByDisplayValue('Gb')).toBeInTheDocument();
             userEvent.click(isMinorCheckbox);
 
             expect(screen.queryByDisplayValue('Gb')).not.toBeInTheDocument();
             expect(screen.getByDisplayValue('Ebm')).toBeInTheDocument();
+
+            userEvent.click(isMinorCheckbox);
+
+            expect(screen.queryByDisplayValue('Ebm')).not.toBeInTheDocument();
+            expect(screen.getByDisplayValue('Gb')).toBeInTheDocument();
         });
     });
 
@@ -284,18 +248,6 @@ describe('<AddSongModal />', () => {
         });
     });
 
-    describe('The Duration input textbox in Edit mode', () => {
-        it('should show duration in mm:ss format when the modal is opened in Edit mode', () => {
-            const { durationTextbox } = renderAddSongModal({
-                song: { durationMs: 184000 },
-                type: 'edit',
-            });
-
-            expect(durationTextbox).toBeInTheDocument();
-            expect(durationTextbox).toHaveValue('3:04');
-        });
-    });
-
     describe('The behaviour of form if Get From Spotify button is clicked', () => {
         it('should render the key of the song in KeysDropdown', async () => {
             renderAddSongModal({
@@ -342,76 +294,9 @@ describe('<AddSongModal />', () => {
     });
 
     describe('The behaviour of Generate Metadata button', () => {
-        it('should display the metadata head', async () => {
-            const { generateMetadataTab } = renderAddSongModal({
-                type: 'edit',
-
-                song: {
-                    title: '我爱你',
-                    artist: {
-                        id: 1,
-                        name: 'Crowd Lu',
-                        romName: '',
-                        spotifyName: '',
-                    },
-                    romTitle: 'Wo Ai Ni',
-                    key: 10,
-                    mode: 0,
-                    tempo: 93,
-                    durationMs: 285000,
-                    timeSignature: '4/4',
-                    initialism: 'wan',
-                    language: {
-                        id: 1,
-                        name: 'mandarin',
-                    },
-                    dateReleased: '2008-01-01',
-                },
-            });
-
-            userEvent.click(generateMetadataTab);
-
-            expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument();
-            expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument();
-            expect(screen.getByText(/Key: Bbm/i)).toBeInTheDocument();
-            expect(screen.getByText(/Tempo: 93/i)).toBeInTheDocument();
-            expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument();
-            expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument();
-            expect(
-                screen.getByText(/Keywords: wan, mandarin/i)
-            ).toBeInTheDocument();
-            expect(
-                screen.getByText(/Year Released: 2008/i)
-            ).toBeInTheDocument();
-        });
-
         it('should keep the changes that the user has made', async () => {
             const { songDetailsTab, keysDropdown, generateMetadataTab } =
-                renderAddSongModal({
-                    type: 'edit',
-
-                    song: {
-                        title: '我爱你',
-                        artist: {
-                            id: 1,
-                            name: 'Crowd Lu',
-                            romName: '',
-                            spotifyName: '',
-                        },
-                        romTitle: 'Wo Ai Ni',
-                        key: 2,
-                        mode: 1,
-                        tempo: 93,
-                        durationMs: 285000,
-                        timeSignature: '4/4',
-                        initialism: 'wan',
-                        language: {
-                            id: 1,
-                            name: 'mandarin',
-                        },
-                        dateReleased: '2008-01-01',
-                    },
-                });
+                renderAddSongModal();
 
             userEvent.click(keysDropdown);
             userEvent.click(screen.getByText('G'));

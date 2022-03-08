@@ -26,14 +26,14 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-function DashboardPage({ user }: DashboardPageProps) {
+const DashboardPage: React.FC<DashboardPageProps> = () => {
     const { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
     const { data: { songs } = {} } = useSWR(
         `/api/v1/songs?number=5&category=createdAt&order=DESC`
     );
 
     return (
-        <Layout title="Dashboard" user={user}>
+        <Layout title="Dashboard">
             <div className={cx('container')}>
                 <h2>Welcome!</h2>
                 <Switch color="primary" />
@@ -41,6 +41,6 @@ function DashboardPage({ user }: DashboardPageProps) {
             </div>
         </Layout>
     );
-}
+};
 
 export default DashboardPage;
