@@ -1,0 +1,49 @@
+.container {
+    padding: 0 2rem;
+}
+
+.titleInput {
+    border: none;
+    border-bottom: 0.1rem solid gray;
+    font-size: 3.6rem;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.pillButtonRow {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row {
+    display: flex;
+    width: 100%;
+    margin: 1rem 0;
+    gap: 2rem;
+
+    > label {
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    .sync-col {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.flex-end {
+    align-items: flex-end;
+}
+
+.button-row {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+}

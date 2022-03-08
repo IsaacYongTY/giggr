@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Layout from '../../components/Layout';
-import withAuth from '../../middlewares/withAuth';
+import Layout from 'components/Layout';
+import withAuth from 'middlewares/withAuth';
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {
@@ -11,10 +11,16 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-export default function PlaygroundPage({ user }: any) {
+type PlaygroundPageProps = {
+    user?: any;
+};
+
+const PlaygroundPage: React.FC<PlaygroundPageProps> = () => {
     return (
-        <Layout user={user} title="PlaygroundPage">
+        <Layout title="PlaygroundPage">
             <div>something here</div>
         </Layout>
     );
-}
+};
+
+export default PlaygroundPage;

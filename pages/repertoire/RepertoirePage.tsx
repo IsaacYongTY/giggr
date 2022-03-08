@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-type Props = {
+type RepertoirePageProps = {
     initialSongs?: Song[];
     initialData?: {
         songs: Song[];
@@ -50,7 +50,7 @@ type Props = {
     user: any;
 };
 
-export default function RepertoirePage({ user }: Props) {
+const RepertoirePage: React.FC<RepertoirePageProps> = () => {
     const { data } = useSWR(`/api/v1/users?category=id&order=ASC`);
 
     const [filter, setFilter] = useState('title');
@@ -58,27 +58,25 @@ export default function RepertoirePage({ user }: Props) {
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
     return (
-        <>
-            <Layout title="My Repertoire" user={user}>
-                <div className={cx('container')}>
-                    <FilterRow setFilter={setFilter} />
+        <Layout title="My Repertoire">
+            <div className={cx('container')}>
+                <FilterRow setFilter={setFilter} />
 
-                    <SearchBar
-                        songs={data?.songs}
-                        setFilteredSongList={setFilteredSongList}
-                        filter={filter}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                    />
+                <SearchBar
+                    songs={data?.songs}
+                    setFilteredSongList={setFilteredSongList}
+                    filter={filter}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                />
 
-                    <RepertoireTable
-                        songs={searchTerm ? filteredSongList : data?.songs}
-                        user={user}
-                        database="database1"
-                        data={data}
-                    />
-                </div>
-            </Layout>
-        </>
+                <RepertoireTable
+                    songs={searchTerm ? filteredSongList : data?.songs}
+                    data={data}
+                />
+            </div>
+        </Layout>
     );
-}
+};
+
+export default RepertoirePage;

@@ -10,12 +10,12 @@ import styles from './Layout.module.scss';
 
 const cx = classnames.bind(styles);
 
-interface Props {
+type LayoutProps = {
     title?: string;
-    user?: any;
     children: ReactNode;
-}
-export default function Layout({ title, user, children }: Props) {
+};
+
+export default function Layout({ title, children }: LayoutProps) {
     const router = useRouter();
 
     const [isOpen, setIsOpen] = useState(true);
@@ -38,7 +38,6 @@ export default function Layout({ title, user, children }: Props) {
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         currentPathName={router.pathname}
-                        user={user}
                     />
                 </div>
 

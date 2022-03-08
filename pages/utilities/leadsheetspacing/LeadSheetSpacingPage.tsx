@@ -32,9 +32,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-export default function LeadSheetSpacingPage({
-    user,
-}: LeadSheetSpacingPageProps) {
+const LeadSheetSpacingPage: React.FC<LeadSheetSpacingPageProps> = () => {
     const [inputText, setInputText] = useState('');
     const [resultText, setResultText] = useState('');
     const [isAddHyphen, setIsAddHyphen] = useState(true);
@@ -116,7 +114,7 @@ export default function LeadSheetSpacingPage({
     }, []);
 
     return (
-        <Layout user={user} title="Lead Sheet Spacing">
+        <Layout title="Lead Sheet Spacing">
             <div className={cx('container')}>
                 <div className={cx('text-area-container')}>
                     <div>
@@ -231,4 +229,6 @@ export default function LeadSheetSpacingPage({
             </div>
         </Layout>
     );
-}
+};
+
+export default LeadSheetSpacingPage;

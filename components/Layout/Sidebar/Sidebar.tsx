@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useRef } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import classnames from 'classnames/bind';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,32 +13,15 @@ type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     currentPathName: string;
-    user: any;
 };
 
-export default function Sidebar({
-    isOpen,
-    setIsOpen,
-    currentPathName,
-    user,
-}: Props) {
-    const sidebar = useRef<HTMLDivElement>(null);
-
+export default function Sidebar({ isOpen, setIsOpen, currentPathName }: Props) {
     function handleToggleSidebar() {
-        if (!isOpen) {
-            setIsOpen(true);
-            sidebar?.current?.classList.add(cx('open'));
-            sidebar?.current?.classList.remove(cx('close'));
-            return;
-        }
-
-        setIsOpen(false);
-        sidebar?.current?.classList.add(cx('close'));
-        sidebar?.current?.classList.remove(cx('add'));
+        setIsOpen((prevState) => !prevState);
     }
 
     return (
-        <div className={cx('container')} ref={sidebar}>
+        <div className={cx('container', { open: isOpen, close: !isOpen })}>
             <div className={cx('header')}>
                 <div
                     className="material-icons text-white menu-button"
@@ -54,7 +37,7 @@ export default function Sidebar({
                                 src={'/img/logos/giggr-logo-white-600x250.png'}
                                 alt="white giggr logo"
                                 width={650}
-                                height={500}
+                                height={270}
                             />
                         </div>
                     </Link>
@@ -120,25 +103,6 @@ export default function Sidebar({
                 isOpen={isOpen}
                 currentPathName={currentPathName}
             />
-
-            {user?.isAdmin && (
-                <SidebarRow
-                    icon="admin_panel_settings"
-                    title="Admin"
-                    link="/admin"
-                    isOpen={isOpen}
-                    currentPathName={currentPathName}
-                    hasSubmenu={true}
-                    options={[
-                        {
-                            title: 'Manage Database',
-                            link: '/admin/database',
-                        },
-                        { title: 'Playground', link: '/test/playground' },
-                        { title: 'Gig Form', link: '/test/gigform' },
-                    ]}
-                />
-            )}
         </div>
     );
 }

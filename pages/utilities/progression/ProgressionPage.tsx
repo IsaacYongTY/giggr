@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-export default function ProgressionPage({ user }: ProgressionPageProps) {
+const ProgressionPage: React.FC<ProgressionPageProps> = () => {
     const defaultKey = useMemo(() => keyMap[0], []);
 
     const [key, setKey] = useState(defaultKey.id);
@@ -115,7 +115,7 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
         setKey(selectedKey);
     };
     return (
-        <Layout title="Progression Generator" user={user}>
+        <Layout title="Progression Generator">
             <div className={cx('container')}>
                 <div className={cx('input-row')}>
                     <div className={cx('keys-dropdown-container')}>
@@ -238,4 +238,6 @@ export default function ProgressionPage({ user }: ProgressionPageProps) {
             </div>
         </Layout>
     );
-}
+};
+
+export default ProgressionPage;

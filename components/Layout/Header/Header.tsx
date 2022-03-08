@@ -3,7 +3,7 @@ import classnames from 'classnames/bind';
 
 import SettingsDropdown from './SettingsDropdown';
 import Image from 'next/image';
-
+import { MenuOutlined } from '@material-ui/icons';
 import styles from './Header.module.scss';
 
 const cx = classnames.bind(styles);
@@ -17,12 +17,10 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ title, setIsOpen, isOpen }) => {
     return (
         <div className={cx('header')}>
-            <div
-                className={cx('menu-button', 'material-icons')}
-                onClick={() => setIsOpen(true)}
-            >
-                menu
+            <div className={cx('menu-button')} onClick={() => setIsOpen(true)}>
+                <MenuOutlined />
             </div>
+
             <div className={cx('logo-position', 'logo')}>
                 <Image
                     src={'/img/logos/giggr-logo-blue-600x250.png'}
