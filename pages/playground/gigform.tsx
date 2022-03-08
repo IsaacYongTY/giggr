@@ -8,9 +8,9 @@ import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { createMuiTheme } from '@material-ui/core';
 
-import Layout from '../../components/Layout';
+import Layout from 'components/Layout';
 
-import withAuth from '../../middlewares/withAuth';
+import withAuth from 'middlewares/withAuth';
 
 import styles from './gigform.module.scss';
 
@@ -24,10 +24,11 @@ export const getServerSideProps = withAuth(async ({ req }: any) => {
     };
 });
 
-interface Props {
+type GigFormProps = {
     user: any;
-}
-export default function GigForm({ user }: Props) {
+};
+
+const GigForm: React.FC<GigFormProps> = () => {
     const [isRepeated, setIsRepeated] = useState(false);
     const customDatePickerTheme = createMuiTheme({
         typography: {
@@ -129,7 +130,7 @@ export default function GigForm({ user }: Props) {
         );
     };
     return (
-        <Layout user={user}>
+        <Layout>
             <div className={cx('container')}>
                 <Formik
                     initialValues={initialValues}
@@ -249,4 +250,6 @@ export default function GigForm({ user }: Props) {
             </div>
         </Layout>
     );
-}
+};
+
+export default GigForm;

@@ -1,1 +1,1 @@
-export { default } from './SongDetailForm';
+export { default } from './EditSongDetailForm';

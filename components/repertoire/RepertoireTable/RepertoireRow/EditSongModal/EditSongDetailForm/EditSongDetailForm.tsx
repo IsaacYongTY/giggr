@@ -12,7 +12,7 @@ import MusiciansMultiSelectDropdown from 'components/repertoire/AddSongModal/Mus
 import CategoriesDropdown from 'components/repertoire/AddSongModal/CategoriesDropdown';
 import SingleDropdown from 'components/repertoire/AddSongModal/SingleDropdown';
 
-import { Form, Musician, Song } from 'common/types';
+import { Form, Song } from 'common/types';
 
 import {
     convertDurationMsToMinSec,
@@ -169,21 +169,6 @@ export default function EditSongDetailForm({
             };
         }
     }, [isModalOpen]);
-
-    async function getFromSpotify(trackId: string) {
-        const { data } = await axios.post(
-            `/api/v1/songs/spotify?trackId=${trackId}`
-        );
-
-        const songData = data.result;
-
-        songData.durationMinSec = convertDurationMsToMinSec(
-            songData.durationMs
-        );
-        setForm({
-            ...songData,
-        });
-    }
 
     const handleKeysDropdownChange = (keyString: string) => {
         const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);

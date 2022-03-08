@@ -39,7 +39,6 @@ export default function AddSongModal({
         [form]
     );
 
-    console.log(data);
     const customStyles = {
         content: {
             top: '50%',

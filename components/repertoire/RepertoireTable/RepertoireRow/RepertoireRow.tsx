@@ -55,7 +55,9 @@ export default function RepertoireRow({
 
     const onDeleteSongSuccess = () => {
         setIsConfirmDeleteModalOpen(false);
-        setSelectedSongs([]);
+        setSelectedSongs((prevState) =>
+            prevState.filter((element) => element.id !== song.id)
+        );
     };
 
     return (

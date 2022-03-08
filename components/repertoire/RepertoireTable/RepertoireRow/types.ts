@@ -8,4 +8,4 @@ export type Data = {
     tags: { id: number; name: string }[];
     moods: { id: number; name: string }[];
     languages: { id: number; name: string }[];
-}
+};

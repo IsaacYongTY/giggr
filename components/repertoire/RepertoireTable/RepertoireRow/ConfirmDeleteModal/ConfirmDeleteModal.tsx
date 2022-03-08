@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import styles from './ConfirmDeleteModal.module.scss';
 import axios from '../../../../../config/axios';
 import { trigger } from 'swr';
+import { message } from 'antd';
 
 const cx = classnames.bind(styles);
 
@@ -15,13 +16,14 @@ type ConfirmDeleteModalProps = {
     onDeleteSongSuccess: () => void;
     onDeleteSongCancel: () => void;
 };
-export default function ConfirmDeleteModal({
+
+const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
     isOpen,
     songId,
     songTitle,
     onDeleteSongSuccess,
     onDeleteSongCancel,
-}: ConfirmDeleteModalProps) {
+}) => {
     const modalStyles = {
         content: {
             top: '50%',
@@ -45,9 +47,7 @@ export default function ConfirmDeleteModal({
 
             onDeleteSongSuccess();
         } catch (error) {
-            console.log(error);
-            console.log('Song deletion failed');
-            // setErrorMessage('Something went wrong. Please try again later.');
+            message.error('Something went wrong. Please try again later.');
         }
     }
 
@@ -82,4 +82,6 @@ export default function ConfirmDeleteModal({
             </div>
         </Modal>
     );
-}
+};
+
+export default ConfirmDeleteModal;

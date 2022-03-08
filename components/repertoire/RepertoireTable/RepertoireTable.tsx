@@ -1,8 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import classnames from 'classnames/bind';
-import axios from 'config/axios';
-import { trigger } from 'swr';
-import Modal from 'react-modal';
 
 import ButtonLoader from 'components/common/Loader';
 import AlertBox from 'components/common/AlertBox';
@@ -24,16 +21,10 @@ type Props = {
 export default function RepertoireTable({ songs, data }: Props) {
     const [alertOptions, setAlertOptions] = useState({ message: '', type: '' });
 
-    const [deleteSong, setDeleteSong] = useState<Song>();
-
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
     const [selectedSongs, setSelectedSongs] = useState<Song[]>([]);
-    const [errorMessage, setErrorMessage] = useState('');
 
     const isAllSelected =
         selectedSongs.length > 0 && songs?.length === selectedSongs.length;
-
 
     function toggleSelectAll(e: ChangeEvent<HTMLInputElement>) {
         setSelectedSongs(e.target.checked ? data.songs : []);

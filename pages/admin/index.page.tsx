@@ -14,6 +14,6 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-export default function AdminPage({ user, children }: any) {
-    return <Layout user={user}>{children}</Layout>;
+export default function AdminPage({ children }: any) {
+    return <Layout>{children}</Layout>;
 }

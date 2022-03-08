@@ -15,11 +15,7 @@ type Props = {
     currentPathName: string;
 };
 
-export default function Sidebar({
-    isOpen,
-    setIsOpen,
-    currentPathName,
-}: Props) {
+export default function Sidebar({ isOpen, setIsOpen, currentPathName }: Props) {
     function handleToggleSidebar() {
         setIsOpen((prevState) => !prevState);
     }

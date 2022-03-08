@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 
 import CsvUploadContainer from './CsvUploadContainer';
 import { Song } from 'common/types';
@@ -25,12 +25,7 @@ export default function ActionRow({
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [isDeleteSongsModalOpen, setIsDeleteSongsModalOpen] = useState(false);
-    //
-    // function handleOpenConfirmDeleteSelectedModal(selectedSongs: Song[]) {
-    //     setIsConfirmDeleteSelectedModalOpen(true);
-    //     setSongsToDelete(selectedSongs);
-    //     setErrorMessage('');
-    // }
+
     const modalStyles = {
         content: {
             top: '50%',

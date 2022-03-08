@@ -12,8 +12,6 @@ import FilterRow from 'components/repertoire/FilterRow';
 import { Musician, Song } from 'common/types';
 
 import styles from './RepertoirePage.module.scss';
-import AddSongModal from '../../components/repertoire/AddSongModal';
-import ActionRow from '../../components/repertoire/ActionRow';
 
 const cx = classnames.bind(styles);
 
@@ -27,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     }
 );
 
-type Props = {
+type RepertoirePageProps = {
     initialSongs?: Song[];
     initialData?: {
         songs: Song[];
@@ -52,7 +50,7 @@ type Props = {
     user: any;
 };
 
-export default function RepertoirePage({ user }: Props) {
+const RepertoirePage: React.FC<RepertoirePageProps> = () => {
     const { data } = useSWR(`/api/v1/users?category=id&order=ASC`);
 
     const [filter, setFilter] = useState('title');
@@ -60,7 +58,7 @@ export default function RepertoirePage({ user }: Props) {
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
     return (
-        <Layout title="My Repertoire" user={user}>
+        <Layout title="My Repertoire">
             <div className={cx('container')}>
                 <FilterRow setFilter={setFilter} />
 
@@ -79,4 +77,6 @@ export default function RepertoirePage({ user }: Props) {
             </div>
         </Layout>
     );
-}
+};
+
+export default RepertoirePage;
