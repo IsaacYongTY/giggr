@@ -1,1 +1,1 @@
-export { default } from './AddSongModal';
+export { default } from './EditSongModal';
