@@ -12,6 +12,8 @@ import FilterRow from 'components/repertoire/FilterRow';
 import { Musician, Song } from 'common/types';
 
 import styles from './RepertoirePage.module.scss';
+import AddSongModal from '../../components/repertoire/AddSongModal';
+import ActionRow from '../../components/repertoire/ActionRow';
 
 const cx = classnames.bind(styles);
 
@@ -58,27 +60,23 @@ export default function RepertoirePage({ user }: Props) {
     const [filteredSongList, setFilteredSongList] = useState<Song[]>([]);
 
     return (
-        <>
-            <Layout title="My Repertoire" user={user}>
-                <div className={cx('container')}>
-                    <FilterRow setFilter={setFilter} />
+        <Layout title="My Repertoire" user={user}>
+            <div className={cx('container')}>
+                <FilterRow setFilter={setFilter} />
 
-                    <SearchBar
-                        songs={data?.songs}
-                        setFilteredSongList={setFilteredSongList}
-                        filter={filter}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                    />
+                <SearchBar
+                    songs={data?.songs}
+                    setFilteredSongList={setFilteredSongList}
+                    filter={filter}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                />
 
-                    <RepertoireTable
-                        songs={searchTerm ? filteredSongList : data?.songs}
-                        user={user}
-                        database="database1"
-                        data={data}
-                    />
-                </div>
-            </Layout>
-        </>
+                <RepertoireTable
+                    songs={searchTerm ? filteredSongList : data?.songs}
+                    data={data}
+                />
+            </div>
+        </Layout>
     );
 }

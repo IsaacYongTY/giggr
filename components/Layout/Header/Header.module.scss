@@ -1,5 +1,5 @@
 @use "sass:math";
-@import '../../../common/scss/variables';
+@import 'common/scss/variables';
 
 .header {
     position: fixed;
@@ -18,16 +18,24 @@
         justify-self: center;
         align-self: center;
         width: $sidebar-close-width;
+
+        :global {
+            .MuiSvgIcon-root {
+                font-size: 24px;
+                cursor: pointer;
+                margin-left: 2rem;
+                margin-top: 0.8rem;
+            }
+        }
     }
 
     .logo-position {
-        margin-left: 6rem;
+        margin-left: 4rem;
     }
 
     .title {
         width: 1000%;
         text-align: center;
-        //background-color: red;
     }
 
     .sidebar-open-offset {

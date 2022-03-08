@@ -4,17 +4,17 @@ import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import isChinese from 'is-chinese';
 
-import { Form } from 'common/types';
+import { Form, Song } from 'common/types';
 
 import MetaToolForm from 'components/common/MetaToolForm';
 import Metronome from 'components/common/Metronome';
-import SongDetailForm from 'components/common/SongDetailForm';
 import { MetatoolSongMetadata } from 'common/types';
 import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultSongForm } from './constants';
 import { getInitialism, getRomTitle } from './utils';
+import EditSongDetailForm from './EditSongDetailForm/EditSongDetailForm';
 
-import styles from './AddSongModal.module.scss';
+import styles from './EditSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
 
 const cx = classnames.bind(styles);
@@ -22,14 +22,15 @@ const cx = classnames.bind(styles);
 type Props = {
     isModalOpen: boolean;
     setIsModalOpen: (isModalOpen: boolean) => void;
+    song: Song;
     data: any;
-    handleCloseModal: () => void;
 };
 
-export default function AddSongModal({
+export default function EditSongModal({
     isModalOpen,
+    setIsModalOpen,
+    song,
     data,
-    handleCloseModal,
 }: Props) {
     const [form, setForm] = useState<Form>(defaultSongForm);
 
@@ -39,7 +40,6 @@ export default function AddSongModal({
         [form]
     );
 
-    console.log(data);
     const customStyles = {
         content: {
             top: '50%',
@@ -60,6 +60,11 @@ export default function AddSongModal({
             ...prevState,
             [e.target.name]: userInput,
         }));
+    }
+
+    function handleCloseModal() {
+        setForm({});
+        setIsModalOpen(false);
     }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
@@ -111,12 +116,14 @@ export default function AddSongModal({
                     </TabList>
 
                     <TabPanel>
-                        <SongDetailForm
+                        <EditSongDetailForm
                             form={form}
                             handleCloseModal={handleCloseModal}
+                            song={song}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
+                            isModalOpen={isModalOpen}
                         />
                     </TabPanel>
                     <TabPanel>

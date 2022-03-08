@@ -10,7 +10,6 @@ import '@fullcalendar/common/main.css'; // @fullcalendar/react imports @fullcale
 import '@fullcalendar/daygrid/main.css'; // @fullcalendar/timegrid imports @fullcalendar/daygrid
 import '@fullcalendar/timegrid/main.css'; // @fullcalendar/timegrid is a direct import
 import { SWRConfig } from 'swr';
-import Head from 'next/head';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -24,12 +23,6 @@ export default function MyApp({ Component, pageProps }: any) {
                         axios.get(url).then((res) => res.data),
                 }}
             >
-                <Head>
-                    <link
-                        href="https://fonts.googleapis.com/icon?family=Material+Icons"
-                        rel="stylesheet"
-                    />
-                </Head>
                 <Component {...pageProps} />
             </SWRConfig>
         </MuiPickersUtilsProvider>

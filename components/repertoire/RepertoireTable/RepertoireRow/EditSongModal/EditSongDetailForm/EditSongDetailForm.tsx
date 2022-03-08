@@ -1,10 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import classnames from 'classnames/bind';
 import { mutate, trigger } from 'swr';
 import axios from 'config/axios';
 import { message } from 'antd';
 
-import SpotifySearchBar from '../SpotifySearchBar';
 import KeysDropdown from 'components/common/KeysDropdown';
 import ButtonWithLoader from 'components/common/ButtonWithLoader';
 import ArtistsSingleDropdown from 'components/repertoire/AddSongModal/ArtistsSingleDropdown';
@@ -22,8 +21,9 @@ import {
     convertRelativeKey,
 } from 'common/utils';
 import { convertSongFormToTempSong } from './utils';
+import { Data } from '../../types';
 
-import styles from './SongDetailForm.module.scss';
+import styles from './EditSongDetailForm.module.scss';
 
 const cx = classnames.bind(styles);
 
@@ -32,35 +32,31 @@ type Option = {
     label: string;
 };
 
-interface Data {
-    songs: Song[];
-    musicians: Musician[];
-    genres: { id: number; name: string }[];
-    tags: { id: number; name: string }[];
-    moods: { id: number; name: string }[];
-    languages: { id: number; name: string }[];
-}
-
 type SongDetailFormProps = {
     form: Form;
     setForm: Dispatch<SetStateAction<Form>>;
     handleCloseModal: () => void;
+    song: Song;
+    isModalOpen: boolean;
     data: Data;
     handleInput: any;
 };
 
-export default function SongDetailForm({
+export default function EditSongDetailForm({
     form,
     handleCloseModal,
+    song,
     setForm,
-    data, // TODO: to refactor data, we get musicians from context or call the endpoint here
+    isModalOpen,
+    data,
     handleInput,
 }: SongDetailFormProps) {
     const [isLoading, setIsLoading] = useState(false);
 
-    async function handleAddSong({
-        closeModal = false,
-    }: { closeModal?: boolean } = {}) {
+    async function handleEditSong(
+        id: number,
+        { closeModal = false }: { closeModal?: boolean } = {}
+    ) {
         setIsLoading(true);
         try {
             const { composers, songwriters, arrangers, genres, moods, tags } =
@@ -80,7 +76,14 @@ export default function SongDetailForm({
 
             const tempSong = convertSongFormToTempSong(form);
 
-            data.songs.push(tempSong);
+            const foundIndex = data.songs.findIndex(
+                (song) => song.id === editedForm.id
+            );
+
+            if (foundIndex > -1) {
+                data.songs[foundIndex] = tempSong;
+                console.log(data.songs);
+            }
 
             mutate('/api/v1/users?category=id&order=ASC', data, false);
 
@@ -90,16 +93,82 @@ export default function SongDetailForm({
 
             setIsLoading(false);
 
-            await axios.post('/api/v1/songs', editedForm);
-            message.success('Added successfully');
+            message.success('Edited successfully');
 
+            await axios.put(`/api/v1/songs/${form.id}`, editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
-            console.log('went wrong');
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        if (song && !form.title) {
+            const value: Form = {
+                id: song.id,
+                title: song.title,
+                romTitle: song.romTitle,
+                artist: song.artist?.name,
+
+                key: song.key,
+                myKey: song.myKey,
+                mode: song.mode,
+                tempo: song.tempo,
+
+                durationMinSec: convertDurationMsToMinSec(song.durationMs),
+                timeSignature: song.timeSignature,
+                language: song.language?.name,
+
+                spotifyLink: song.spotifyLink,
+                youtubeLink: song.youtubeLink,
+                otherLink: song.otherLink,
+                composers: song.composers?.map((composer: any) => ({
+                    value: composer.name,
+                    label: composer.name,
+                })),
+                arrangers: song.arrangers?.map((arranger: any) => ({
+                    value: arranger.name,
+                    label: arranger.name,
+                })),
+                songwriters: song.songwriters?.map((songwriter: any) => ({
+                    value: songwriter.name,
+                    label: songwriter.name,
+                })),
+                initialism: song.initialism,
+                energy: song.energy,
+                danceability: song.danceability,
+                valence: song.valence,
+                acousticness: song.acousticness,
+                instrumentalness: song.instrumentalness,
+                genres: song.genres?.map((genre: any) => ({
+                    value: genre.name,
+                    label: genre.name,
+                })),
+                moods: song.moods?.map((mood: any) => ({
+                    value: mood.name,
+                    label: mood.name,
+                })),
+                tags: song.tags?.map((tag: any) => ({
+                    value: tag.name,
+                    label: tag.name,
+                })),
+                dateReleased: song.dateReleased,
+                status: song.status,
+                artistId: song.artistId,
+                languageId: song.languageId,
+                durationMs: song.durationMs,
+            };
+
+            setForm(value);
+        }
+
+        if (!isModalOpen) {
+            return () => {
+                setForm({});
+            };
+        }
+    }, [isModalOpen]);
 
     async function getFromSpotify(trackId: string) {
         const { data } = await axios.post(
@@ -156,8 +225,6 @@ export default function SongDetailForm({
 
     return (
         <div>
-            <SpotifySearchBar getFromSpotify={getFromSpotify} />
-
             <div className={cx('form-row')}>
                 <label>
                     Artist:
@@ -339,6 +406,15 @@ export default function SongDetailForm({
                         value={form.spotifyLink}
                     />
                 </label>
+
+                <div className={cx('sync-col')}>
+                    <button className="btn btn-primary">
+                        Sync from Spotify
+                    </button>
+                    <button className="btn btn-primary">
+                        Sync from Database
+                    </button>
+                </div>
             </div>
 
             <div className={cx('form-row')}>
@@ -424,8 +500,20 @@ export default function SongDetailForm({
                 >
                     Close
                 </button>
+
+                {song && (
+                    <ButtonWithLoader
+                        onClick={() => handleEditSong(song.id)}
+                        isLoading={isLoading}
+                        label="Save"
+                        primary={true}
+                    />
+                )}
+
                 <ButtonWithLoader
-                    onClick={() => handleAddSong()}
+                    onClick={() =>
+                        handleEditSong(song.id, { closeModal: true })
+                    }
                     isLoading={isLoading}
                     label="Save and Close"
                     primary={true}
