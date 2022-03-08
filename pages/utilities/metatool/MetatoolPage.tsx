@@ -33,7 +33,7 @@ export type MetatoolPageProps = {
     };
 };
 
-export default function MetatoolPage({ user }: MetatoolPageProps) {
+const MetatoolPage: React.FC<MetatoolPageProps> = ({ user }) => {
     const [metadata, setMetadata] = useState<MetatoolSongMetadata>(
         defaultMetatoolSongMetadata
     );
@@ -65,7 +65,7 @@ export default function MetatoolPage({ user }: MetatoolPageProps) {
     };
 
     return (
-        <Layout user={user} title="Spotify Meta Tool">
+        <Layout title="Spotify Meta Tool">
             <div className={cx('container')}>
                 <div className={cx('search-bar-container')}>
                     <SpotifySearchBar getFromSpotify={getFromSpotify} />
@@ -94,4 +94,6 @@ export default function MetatoolPage({ user }: MetatoolPageProps) {
             </div>
         </Layout>
     );
-}
+};
+
+export default MetatoolPage;

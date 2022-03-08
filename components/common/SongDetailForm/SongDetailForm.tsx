@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import classnames from 'classnames/bind';
 import { mutate, trigger } from 'swr';
 import axios from 'config/axios';
@@ -42,25 +42,18 @@ interface Data {
 }
 
 type SongDetailFormProps = {
-    type: string;
     form: Form;
     setForm: Dispatch<SetStateAction<Form>>;
-    user: any;
     handleCloseModal: () => void;
-    song: Song | undefined;
-    isModalOpen: boolean;
     data: Data;
     handleInput: any;
 };
 
 export default function SongDetailForm({
-    type,
     form,
     handleCloseModal,
-    song,
     setForm,
-    isModalOpen,
-    data,
+    data, // TODO: to refactor data, we get musicians from context or call the endpoint here
     handleInput,
 }: SongDetailFormProps) {
     const [isLoading, setIsLoading] = useState(false);
@@ -97,9 +90,9 @@ export default function SongDetailForm({
 
             setIsLoading(false);
 
+            await axios.post('/api/v1/songs', editedForm);
             message.success('Added successfully');
 
-            await axios.post('/api/v1/songs', editedForm);
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
@@ -107,123 +100,6 @@ export default function SongDetailForm({
             console.log(error);
         }
     }
-
-    async function handleEditSong(
-        id: number,
-        { closeModal = false }: { closeModal?: boolean } = {}
-    ) {
-        setIsLoading(true);
-        try {
-            const { composers, songwriters, arrangers, genres, moods, tags } =
-                form;
-
-            const editedForm = {
-                ...form,
-                composers: composers?.map((composer: Option) => composer.value),
-                songwriters: songwriters?.map(
-                    (songwriter: Option) => songwriter.value
-                ),
-                arrangers: arrangers?.map((arranger: Option) => arranger.value),
-                genres: genres?.map((genre: Option) => genre.value),
-                moods: moods?.map((mood: Option) => mood.value),
-                tags: tags?.map((tag: Option) => tag.value),
-            };
-
-            const tempSong = convertSongFormToTempSong(form);
-
-            const foundIndex = data.songs.findIndex(
-                (song) => song.id === editedForm.id
-            );
-
-            if (foundIndex > -1) {
-                data.songs[foundIndex] = tempSong;
-                console.log(data.songs);
-            }
-
-            mutate('/api/v1/users?category=id&order=ASC', data, false);
-
-            if (closeModal) {
-                handleCloseModal();
-            }
-
-            setIsLoading(false);
-
-            message.success('Edited successfully');
-
-            await axios.put(`/api/v1/songs/${form.id}`, editedForm);
-            trigger('/api/v1/users?category=id&order=ASC');
-        } catch (error) {
-            setIsLoading(false);
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        if (type === 'edit' && song && !form.title) {
-            const value: Form = {
-                id: song.id,
-                title: song.title,
-                romTitle: song.romTitle,
-                artist: song.artist?.name,
-
-                key: song.key,
-                myKey: song.myKey,
-                mode: song.mode,
-                tempo: song.tempo,
-
-                durationMinSec: convertDurationMsToMinSec(song.durationMs),
-                timeSignature: song.timeSignature,
-                language: song.language?.name,
-
-                spotifyLink: song.spotifyLink,
-                youtubeLink: song.youtubeLink,
-                otherLink: song.otherLink,
-                composers: song.composers?.map((composer: any) => ({
-                    value: composer.name,
-                    label: composer.name,
-                })),
-                arrangers: song.arrangers?.map((arranger: any) => ({
-                    value: arranger.name,
-                    label: arranger.name,
-                })),
-                songwriters: song.songwriters?.map((songwriter: any) => ({
-                    value: songwriter.name,
-                    label: songwriter.name,
-                })),
-                initialism: song.initialism,
-                energy: song.energy,
-                danceability: song.danceability,
-                valence: song.valence,
-                acousticness: song.acousticness,
-                instrumentalness: song.instrumentalness,
-                genres: song.genres?.map((genre: any) => ({
-                    value: genre.name,
-                    label: genre.name,
-                })),
-                moods: song.moods?.map((mood: any) => ({
-                    value: mood.name,
-                    label: mood.name,
-                })),
-                tags: song.tags?.map((tag: any) => ({
-                    value: tag.name,
-                    label: tag.name,
-                })),
-                dateReleased: song.dateReleased,
-                status: song.status,
-                artistId: song.artistId,
-                languageId: song.languageId,
-                durationMs: song.durationMs,
-            };
-
-            setForm(value);
-        }
-
-        if (!isModalOpen) {
-            return () => {
-                setForm({});
-            };
-        }
-    }, [isModalOpen]);
 
     async function getFromSpotify(trackId: string) {
         const { data } = await axios.post(
@@ -280,9 +156,7 @@ export default function SongDetailForm({
 
     return (
         <div>
-            {type === 'add' && (
-                <SpotifySearchBar getFromSpotify={getFromSpotify} />
-            )}
+            <SpotifySearchBar getFromSpotify={getFromSpotify} />
 
             <div className={cx('form-row')}>
                 <label>
@@ -465,16 +339,6 @@ export default function SongDetailForm({
                         value={form.spotifyLink}
                     />
                 </label>
-                {type === 'edit' && (
-                    <div className={cx('sync-col')}>
-                        <button className="btn btn-primary">
-                            Sync from Spotify
-                        </button>
-                        <button className="btn btn-primary">
-                            Sync from Database
-                        </button>
-                    </div>
-                )}
             </div>
 
             <div className={cx('form-row')}>
@@ -560,22 +424,8 @@ export default function SongDetailForm({
                 >
                     Close
                 </button>
-
-                {type === 'edit' && song && (
-                    <ButtonWithLoader
-                        onClick={() => handleEditSong(song.id)}
-                        isLoading={isLoading}
-                        label="Save"
-                        primary={true}
-                    />
-                )}
-
                 <ButtonWithLoader
-                    onClick={() =>
-                        type === 'edit' && song
-                            ? handleEditSong(song.id, { closeModal: true })
-                            : handleAddSong({ closeModal: true })
-                    }
+                    onClick={() => handleAddSong()}
                     isLoading={isLoading}
                     label="Save and Close"
                     primary={true}
