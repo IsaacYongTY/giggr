@@ -82,10 +82,3 @@ export function shakeAnimation(ref: RefObject<HTMLInputElement>) {
         ref.current?.classList.remove('error-shake');
     }, 1000);
 }
-
-export function convertMinSecToMs(durationMinSec: string) {
-    return (
-        parseInt(durationMinSec.split(':')[0]) * 60 +
-        parseInt(durationMinSec.split(':')[1]) * 1000
-    );
-}

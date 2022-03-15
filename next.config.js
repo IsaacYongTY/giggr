@@ -8,12 +8,10 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
+    pageExtensions: ['page.tsx'],
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },
-    // future: {
-    //     webpack5: true,
-    // }
     async redirects() {
         return [
             {

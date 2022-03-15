@@ -1,23 +1,23 @@
 import React, { useRef } from 'react';
 import classnames from 'classnames/bind';
 
-import Song from '../../../lib/types/song';
+import { Song } from 'common/types';
 
 import styles from './ActionPopup.module.scss';
 
 const cx = classnames.bind(styles);
 
 type ActionPopupProps = {
-    handleOpenModal: (song: Song) => void;
+    handleOpenEditModal: (song: Song) => void;
     song: Song;
     setIsShowPopup: (show: boolean) => void;
-    handleOpenConfirmModal: (song: Song) => void;
+    handleOpenConfirmDeleteModal: () => void;
 };
 export default function ActionPopup({
-    handleOpenModal,
+    handleOpenEditModal,
     song,
     setIsShowPopup,
-    handleOpenConfirmModal,
+    handleOpenConfirmDeleteModal,
 }: ActionPopupProps) {
     const actionRow = useRef(null);
 
@@ -29,14 +29,14 @@ export default function ActionPopup({
         >
             <span
                 className="material-icons"
-                onClick={() => handleOpenModal(song)}
+                onClick={() => handleOpenEditModal(song)}
             >
                 edit
             </span>
 
             <span
                 className="material-icons"
-                onClick={() => handleOpenConfirmModal(song)}
+                onClick={() => handleOpenConfirmDeleteModal()}
             >
                 delete
             </span>

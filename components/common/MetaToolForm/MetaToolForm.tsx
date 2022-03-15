@@ -2,102 +2,85 @@ import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames/bind';
 import Select, { ValueType } from 'react-select';
 
-import Form from '../../../lib/types/Form';
-import generateMetaData from '../../../lib/utils/generate-metadata';
-import CopyToClipboardButton from '../CopyToClipboardButton/CopyToClipboardButton';
+import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
 
-import convertKeyModeIntToKey from '../../../lib/utils/convert-key-mode-int-to-key';
-import convertRelativeKey from '../../../lib/utils/convert-relative-key';
-import convertKeyToKeyModeInt from '../../../lib/utils/convert-key-to-key-mode-int';
+import { generateMetadataText } from './utils';
+import {
+    convertKeyModeIntToKey,
+    convertKeyToKeyModeInt,
+    convertRelativeKey,
+} from 'common/utils';
+import { MetatoolSongMetadata } from 'common/types';
+import { defaultPinyinSyllableOptions } from './constants';
+import { deriveGoogleSearchLink, deriveGoogleSearchText } from './utils';
+import { Option } from './types';
 
 import styles from './MetaToolForm.module.scss';
 
 const cx = classnames.bind(styles);
 
 type MetaToolFormProps = {
-    formValue: Form;
-    setFormValue: (form: any) => void;
+    metadata: MetatoolSongMetadata;
+    handleMetadataChange: (metadata: MetatoolSongMetadata) => void;
 };
 
-interface Option {
-    value: number;
-    label: string;
-}
-
 export default function MetaToolForm({
-    formValue,
-    setFormValue,
+    metadata,
+    handleMetadataChange,
 }: MetaToolFormProps) {
     const [originalTempo, setOriginalTempo] = useState(0);
-    const [text, setText] = useState('');
+    const [displayedMetadata, setDisplayedMetadata] = useState('');
 
     const [searchLink, setSearchLink] = useState('');
-    const [pinyinSyllable, setPinyinSyllable] = useState({
-        value: 2,
-        label: '2',
-    });
+    const [pinyinSyllableOption, setPinyinSyllableOption] = useState(
+        defaultPinyinSyllableOptions[1]
+    );
     const [showPinyin, setShowPinyin] = useState(true);
 
-    const threeFourToggleRef = useRef<HTMLButtonElement>(null);
-    const twelveEightToggleRef = useRef<HTMLButtonElement>(null);
-
     useEffect(() => {
-        const { title, tempo, language }: Form = formValue;
+        const { title, tempo, language } = metadata;
 
-        if (tempo) {
-            setOriginalTempo(tempo);
-        }
+        setOriginalTempo(tempo);
 
-        const metaData = generateMetaData(formValue, pinyinSyllable.value);
-        setText(metaData);
+        const metaData = generateMetadataText(
+            metadata,
+            pinyinSyllableOption.value
+        );
+        setDisplayedMetadata(metaData);
 
-        if (title) {
-            setSearchLink(
-                `https://www.google.com/search?q=${title}%20${
-                    language === 'mandarin' ? '歌词' : 'lyrics'
-                }`
-            );
-        }
-    }, [formValue, pinyinSyllable, showPinyin]);
-
-    useEffect(() => {
-        formValue.timeSignature === '3/4'
-            ? threeFourToggleRef?.current?.classList.add(styles.selected)
-            : twelveEightToggleRef?.current?.classList.add(styles.selected);
-    }, []);
+        setSearchLink(title ? deriveGoogleSearchLink(title, language) : '');
+    }, [metadata, pinyinSyllableOption, showPinyin]);
 
     function toggleTempoAndTimeSignature() {
-        if (formValue.timeSignature === '12/8') {
-            threeFourToggleRef?.current?.classList.add(styles.selected);
-            twelveEightToggleRef?.current?.classList.remove(styles.selected);
-            setFormValue((prevState: any) => ({
-                ...prevState,
-                tempo: originalTempo * 3,
-                timeSignature: '3/4',
-            }));
-            return;
-        }
+        const updatedMetadata = {
+            ...metadata,
+            tempo:
+                metadata.timeSignature === '12/8'
+                    ? originalTempo * 3
+                    : originalTempo / 3,
+            timeSignature: metadata.timeSignature === '12/8' ? '3/4' : '12/8',
+        };
 
-        twelveEightToggleRef?.current?.classList.add(styles.selected);
-        threeFourToggleRef?.current?.classList.remove(styles.selected);
-        setFormValue((prevState: any) => ({
-            ...prevState,
-            tempo: originalTempo / 3,
-            timeSignature: '12/8',
-        }));
+        handleMetadataChange(updatedMetadata);
     }
 
     function toggleRelativeKey() {
-        const keyString = convertKeyModeIntToKey(formValue.key, formValue.mode);
+        const keyString = convertKeyModeIntToKey(metadata.key, metadata.mode);
         const relativeKey = convertRelativeKey(keyString);
         const [key, mode] = convertKeyToKeyModeInt(relativeKey);
 
-        setFormValue((prevState: any) => ({ ...prevState, key, mode }));
+        const updatedMetadata = {
+            ...metadata,
+            key,
+            mode,
+        };
+
+        handleMetadataChange(updatedMetadata);
     }
 
     function handleChange(selectedOption: ValueType<Option, false>) {
         if (!selectedOption) return;
-        setPinyinSyllable(selectedOption);
+        setPinyinSyllableOption(selectedOption);
     }
 
     const textAreaContainer = useRef<HTMLDivElement>(null);
@@ -124,18 +107,14 @@ export default function MetaToolForm({
 
                 <div className={cx('dropdown')}>
                     <Select
-                        value={pinyinSyllable}
-                        options={[
-                            { value: 1, label: '1' },
-                            { value: 2, label: '2' },
-                            { value: 99, label: 'All' },
-                        ]}
+                        value={pinyinSyllableOption}
+                        options={defaultPinyinSyllableOptions}
                         className="basic-single"
                         isSearchable={false}
                         onChange={handleChange}
                     />
                 </div>
-                {formValue.title && (
+                {metadata.title && (
                     <>
                         <a
                             href={searchLink}
@@ -143,11 +122,10 @@ export default function MetaToolForm({
                             target="_blank"
                             rel="noreferrer"
                         >
-                            Search &quot;{formValue?.title}{' '}
-                            {formValue?.language === 'mandarin'
-                                ? '歌词'
-                                : 'lyrics'}
-                            &quot; on Google
+                            {deriveGoogleSearchText(
+                                metadata.title,
+                                metadata.language
+                            )}
                         </a>
                         <label>
                             <input
@@ -159,19 +137,21 @@ export default function MetaToolForm({
                     </>
                 )}
 
-                {(formValue.timeSignature === '3/4' ||
-                    formValue.timeSignature === '12/8') && (
+                {(metadata.timeSignature === '3/4' ||
+                    metadata.timeSignature === '12/8') && (
                     <div className={cx('time-signature-toggle-container')}>
                         <button
-                            className={cx('toggle')}
-                            ref={threeFourToggleRef}
+                            className={cx('toggle', {
+                                selected: metadata.timeSignature === '3/4',
+                            })}
                             onClick={toggleTempoAndTimeSignature}
                         >
                             3/4
                         </button>
                         <button
-                            className={cx('toggle')}
-                            ref={twelveEightToggleRef}
+                            className={cx('toggle', {
+                                selected: metadata.timeSignature === '12/8',
+                            })}
                             onClick={toggleTempoAndTimeSignature}
                         >
                             12/8
@@ -188,11 +168,13 @@ export default function MetaToolForm({
                     ref={textAreaContainer}
                     suppressContentEditableWarning={true}
                 >
-                    {Object.keys(formValue).length ? text : null}
+                    {metadata.title && Object.keys(metadata).length
+                        ? displayedMetadata
+                        : null}
                 </div>
             </div>
 
-            <div className={cx('button-row-container')}>
+            <div className={cx('button-row')}>
                 <button
                     className="btn btn-danger-outlined"
                     onClick={clearSelection}

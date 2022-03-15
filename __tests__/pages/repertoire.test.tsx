@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import axios from '../../config/axios';
-import RepertoirePage from '../../pages/repertoire';
+import RepertoirePage from '../../pages/repertoire/index.page';
 
 import { SWRConfig } from 'swr';
 
@@ -117,7 +117,7 @@ async function renderRepertoirePageAndHoverOnFirstRow(props = {}) {
     return { ...utils, editSongIcon, deleteSongIcon };
 }
 
-describe('The Index Page', () => {
+describe('The Repertoire Page', () => {
     describe('The CSV Upload function', () => {
         it('should open and close the Upload CSV modal', () => {
             const { uploadCsvButton } = renderRepertoirePage();
@@ -308,7 +308,7 @@ describe('The Index Page', () => {
         });
     });
 
-    describe('The checkboxes in Index Table', () => {
+    describe('The checkboxes in Repertoire Table', () => {
         beforeEach(() => {
             jest.clearAllMocks();
         });
@@ -551,21 +551,6 @@ describe('The Index Page', () => {
             const headerCheckbox = await screen.findByRole('checkbox');
             expect(deleteSelectedButton).not.toBeInTheDocument();
             expect(headerCheckbox).not.toBeChecked();
-        });
-
-        it('should show error message if Confirm Delete fails', async () => {
-            mockAxios.delete.mockRejectedValue({});
-            const { confirmDeleteButton } =
-                await renderRepertoirePageWithDeleteModalOpen();
-
-            userEvent.click(confirmDeleteButton);
-
-            expect(mockAxios.delete).toBeCalledTimes(1);
-            expect(
-                await screen.findByText(
-                    /something went wrong. please try again later.*/i
-                )
-            );
         });
     });
 
