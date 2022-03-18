@@ -6,6 +6,7 @@ import Image from 'next/image';
 import SidebarRow from './SidebarRow';
 
 import styles from './Sidebar.module.scss';
+import { ENABLE_PLAYGROUND } from '../../../flags';
 
 const cx = classnames.bind(styles);
 
@@ -103,6 +104,15 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName }: Props) {
                 isOpen={isOpen}
                 currentPathName={currentPathName}
             />
+            {ENABLE_PLAYGROUND && (
+                <SidebarRow
+                    icon="insights"
+                    title="Playground (DEV ONLY)"
+                    link="/playground"
+                    isOpen={isOpen}
+                    currentPathName={currentPathName}
+                />
+            )}
         </div>
     );
 }
