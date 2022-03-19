@@ -220,7 +220,7 @@ export default function RepertoireRow({
             </tr>
             <EditSongModal
                 isModalOpen={isEditModalOpen}
-                setIsModalOpen={setIsEditModalOpen}
+                handleCloseModal={() => setIsEditModalOpen(false)}
                 song={song}
                 data={data}
             />

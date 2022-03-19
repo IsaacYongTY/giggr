@@ -11,6 +11,7 @@ import LanguagesSingleDropdown from 'pages/repertoire/AddSongModal/LanguagesSing
 import MusiciansMultiSelectDropdown from 'pages/repertoire/AddSongModal/MusiciansMultiSelectDropdown';
 import CategoriesDropdown from 'pages/repertoire/AddSongModal/CategoriesDropdown';
 import SingleDropdown from 'pages/repertoire/AddSongModal/SingleDropdown';
+import SpotifySearchBar from 'components/SpotifySearchBar';
 
 import { Form, Song } from 'common/types';
 
@@ -45,11 +46,11 @@ type SongDetailFormProps = {
 export default function EditSongDetailForm({
     form,
     handleCloseModal,
-    song,
     setForm,
-    isModalOpen,
-    data,
+    data, // TODO: to refactor data, we get musicians from context or call the endpoint here
     handleInput,
+    song,
+    isModalOpen,
 }: SongDetailFormProps) {
     const [isLoading, setIsLoading] = useState(false);
 
@@ -85,6 +86,8 @@ export default function EditSongDetailForm({
                 console.log(data.songs);
             }
 
+            data.songs.push(tempSong);
+
             mutate('/api/v1/users?category=id&order=ASC', data, false);
 
             if (closeModal) {
@@ -99,9 +102,63 @@ export default function EditSongDetailForm({
             trigger('/api/v1/users?category=id&order=ASC');
         } catch (error) {
             setIsLoading(false);
+            console.log('went wrong');
             console.log(error);
         }
     }
+
+    async function getFromSpotify(trackId: string) {
+        const { data } = await axios.post(
+            `/api/v1/songs/spotify?trackId=${trackId}`
+        );
+
+        const songData = data.result;
+
+        songData.durationMinSec = convertDurationMsToMinSec(
+            songData.durationMs
+        );
+        setForm({
+            ...songData,
+        });
+    }
+
+    const handleKeysDropdownChange = (keyString: string) => {
+        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
+        setForm((prevState) => ({
+            ...prevState,
+            key: selectedKey,
+            mode: selectedMode,
+        }));
+    };
+
+    const handleMyKeysDropdownChange = (keyString: string) => {
+        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
+        setForm((prevState) => ({
+            ...prevState,
+            myKey: selectedKey,
+            mode: selectedMode,
+        }));
+    };
+
+    const handleIsMinorToggle = () => {
+        const currentKeyString = convertKeyModeIntToKey(form.key, form.mode);
+        const relativeMinor = convertRelativeKey(currentKeyString);
+        const [key, mode] = convertKeyToKeyModeInt(relativeMinor);
+
+        const currentMyKeyString = convertKeyModeIntToKey(
+            form.myKey,
+            form.mode
+        );
+        const relativeMyKeyMinor = convertRelativeKey(currentMyKeyString);
+        const [myKey] = convertKeyToKeyModeInt(relativeMyKeyMinor);
+
+        setForm((prevState) => ({
+            ...prevState,
+            key,
+            myKey,
+            mode,
+        }));
+    };
 
     useEffect(() => {
         if (song && !form.title) {
@@ -170,46 +227,10 @@ export default function EditSongDetailForm({
         }
     }, [isModalOpen]);
 
-    const handleKeysDropdownChange = (keyString: string) => {
-        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
-        setForm((prevState) => ({
-            ...prevState,
-            key: selectedKey,
-            mode: selectedMode,
-        }));
-    };
-
-    const handleMyKeysDropdownChange = (keyString: string) => {
-        const [selectedKey, selectedMode] = convertKeyToKeyModeInt(keyString);
-        setForm((prevState) => ({
-            ...prevState,
-            myKey: selectedKey,
-            mode: selectedMode,
-        }));
-    };
-
-    const handleIsMinorToggle = () => {
-        const currentKeyString = convertKeyModeIntToKey(form.key, form.mode);
-        const relativeMinor = convertRelativeKey(currentKeyString);
-        const [key, mode] = convertKeyToKeyModeInt(relativeMinor);
-
-        const currentMyKeyString = convertKeyModeIntToKey(
-            form.myKey,
-            form.mode
-        );
-        const relativeMyKeyMinor = convertRelativeKey(currentMyKeyString);
-        const [myKey] = convertKeyToKeyModeInt(relativeMyKeyMinor);
-
-        setForm((prevState) => ({
-            ...prevState,
-            key,
-            myKey,
-            mode,
-        }));
-    };
-
     return (
         <div>
+            <SpotifySearchBar onSuccess={getFromSpotify} />
+
             <div className={cx('form-row')}>
                 <label>
                     Artist:

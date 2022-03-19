@@ -15,7 +15,7 @@ function renderEditSongModal(props = {}) {
     const utils = render(
         <EditSongModal
             isModalOpen={true}
-            setIsModalOpen={jest.fn()}
+            handleCloseModal={jest.fn()}
             song={defaultPlaceholderSong}
             data={{
                 songs: [],

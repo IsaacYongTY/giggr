@@ -104,6 +104,7 @@ export default function Sidebar({ isOpen, setIsOpen, currentPathName }: Props) {
                 isOpen={isOpen}
                 currentPathName={currentPathName}
             />
+
             {ENABLE_PLAYGROUND && (
                 <SidebarRow
                     icon="insights"

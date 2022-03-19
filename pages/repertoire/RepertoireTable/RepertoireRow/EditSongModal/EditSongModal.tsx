@@ -12,7 +12,7 @@ import { MetatoolSongMetadata } from 'common/types';
 import { deriveMetatoolSongMetadata } from 'common/utils';
 import { defaultSongForm } from './constants';
 import { getInitialism, getRomTitle } from './utils';
-import EditSongDetailForm from './EditSongDetailForm/EditSongDetailForm';
+import EditSongDetailForm from './EditSongDetailForm';
 
 import styles from './EditSongModal.module.scss';
 import 'react-tabs/style/react-tabs.css';
@@ -21,16 +21,16 @@ const cx = classnames.bind(styles);
 
 type Props = {
     isModalOpen: boolean;
-    setIsModalOpen: (isModalOpen: boolean) => void;
     song: Song;
     data: any;
+    handleCloseModal: () => void;
 };
 
 export default function EditSongModal({
     isModalOpen,
-    setIsModalOpen,
     song,
     data,
+    handleCloseModal,
 }: Props) {
     const [form, setForm] = useState<Form>(defaultSongForm);
 
@@ -60,11 +60,6 @@ export default function EditSongModal({
             ...prevState,
             [e.target.name]: userInput,
         }));
-    }
-
-    function handleCloseModal() {
-        setForm({});
-        setIsModalOpen(false);
     }
 
     function handleUpdateInitialismAndRomTitleWhenBlur() {
@@ -119,10 +114,10 @@ export default function EditSongModal({
                         <EditSongDetailForm
                             form={form}
                             handleCloseModal={handleCloseModal}
-                            song={song}
                             setForm={setForm}
                             handleInput={handleInput}
                             data={data}
+                            song={song}
                             isModalOpen={isModalOpen}
                         />
                     </TabPanel>
