@@ -109,27 +109,6 @@ describe('The metatool page', () => {
             expect(searchBar).toHaveValue(spotifyUrl);
         });
 
-        it('should trigger call to get data from spotify if the url is valid, and user is admin', async () => {
-            const { searchBar, getFromSpotifyButton } = renderMetaTool({
-                user: mockAdmin,
-            });
-
-            mockAxios.post.mockResolvedValueOnce({
-                data: {
-                    result: songData,
-                    message: 'This is a mock resolved value',
-                },
-            });
-
-            userEvent.type(searchBar, validUrl);
-            userEvent.click(getFromSpotifyButton);
-
-            await waitFor(() => {
-                expect(axios.post).toBeCalledTimes(2);
-                jest.resetAllMocks();
-            });
-        });
-
         it('should not contribute to the database if user is not admin', async () => {
             const { searchBar, getFromSpotifyButton } = renderMetaTool();
 

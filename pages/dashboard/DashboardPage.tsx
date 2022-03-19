@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { Switch } from '@material-ui/core';
 
 import Layout from 'components/Layout';
-import DashboardCardList from 'components/dashboard/DashboardCardList';
+import DashboardCardList from 'pages/dashboard/DashboardCardList';
 import withAuth from 'middlewares/withAuth';
 
 import styles from './dashboard.module.scss';
