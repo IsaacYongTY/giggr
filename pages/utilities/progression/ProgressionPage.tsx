@@ -4,15 +4,15 @@ import Select, { ValueType } from 'react-select';
 import classnames from 'classnames/bind';
 
 import Layout from 'components/Layout';
-import KeysDropdown from 'components/common/KeysDropdown';
+import KeysDropdown from 'components/KeysDropdown';
 import {
     generateFullBarProgression,
     generateHalfBarProgression,
     checkIsValidProgression,
 } from './utils';
 import { keyMap, progressionOptions, spacingOptions } from './constants';
-import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
-import AlertBox from 'components/common/AlertBox';
+import CopyToClipboardButton from 'components/CopyToClipboardButton';
+import AlertBox from 'components/AlertBox';
 import withAuth from 'middlewares/withAuth';
 import { convertKeyModeIntToKey, convertKeyToKeyModeInt } from 'common/utils';
 

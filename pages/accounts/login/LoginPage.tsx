@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import classnames from 'classnames/bind';
 import Image from 'next/image';
 
-import LoginContainer from 'components/login/LoginContainer';
-import SignupContainer from 'components/login/SignupContainer';
+import LoginContainer from 'pages/accounts/login/LoginContainer';
+import SignupContainer from 'pages/accounts/login/SignupContainer';
 
 import styles from './LoginPage.module.scss';
 

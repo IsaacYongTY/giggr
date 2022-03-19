@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AlertBox from '../components/common/AlertBox/AlertBox';
+import AlertBox from '../components/AlertBox/AlertBox';
 
 export default {
     title: 'Example/AlertBox',
