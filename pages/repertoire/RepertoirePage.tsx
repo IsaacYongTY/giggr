@@ -5,9 +5,9 @@ import { GetServerSideProps } from 'next';
 
 import Layout from 'components/Layout';
 import withAuth from 'middlewares/withAuth';
-import SearchBar from 'components/common/SearchBar';
-import RepertoireTable from 'components/repertoire/RepertoireTable';
-import FilterRow from 'components/repertoire/FilterRow';
+import SearchBar from 'components/SearchBar';
+import RepertoireTable from 'pages/repertoire/RepertoireTable';
+import FilterRow from 'pages/repertoire/FilterRow';
 
 import { Musician, Song } from 'common/types';
 

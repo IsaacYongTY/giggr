@@ -77,7 +77,6 @@ export async function loadUserLanguages(user: any) {
 
 export function shakeAnimation(ref: RefObject<HTMLInputElement>) {
     ref.current?.classList.add('error-shake');
-    ref.current?.classList.add('error-textbox-border');
     setTimeout(() => {
         ref.current?.classList.remove('error-shake');
     }, 1000);
