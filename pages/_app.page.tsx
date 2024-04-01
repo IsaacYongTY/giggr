@@ -13,7 +13,7 @@ import { SWRConfig } from 'swr';
 import Head from 'next/head';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+// axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function MyApp({ Component, pageProps }: any) {
     return (
