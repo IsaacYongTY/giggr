@@ -52,12 +52,10 @@ const MetatoolPage: React.FC<MetatoolPageProps> = ({ user }) => {
                 <div className={cx('search-bar-container')}>
                     <SpotifySearchBar onSuccess={getFromSpotifyOnSuccess} />
                 </div>
-
                 <MetaToolForm
                     metadata={metadata}
                     handleMetadataChange={handleMetadataChange}
                 />
-
                 {user?.isAdmin && (
                     <div className={cx('checkbox-row-container')}>
                         <input
@@ -73,6 +71,7 @@ const MetatoolPage: React.FC<MetatoolPageProps> = ({ user }) => {
                         </label>
                     </div>
                 )}
+                New
             </div>
         </Layout>
     );
