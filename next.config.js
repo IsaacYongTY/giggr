@@ -8,7 +8,7 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
-    pageExtensions: ['page.tsx'],
+    pageExtensions: ['page.tsx', 'api.ts'],
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },

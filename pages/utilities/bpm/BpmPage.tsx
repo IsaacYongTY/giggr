@@ -3,7 +3,7 @@ import React from 'react';
 import withAuth from 'middlewares/withAuth';
 
 import Layout from 'components/Layout';
-import Metronome from 'components/common/Metronome/Metronome';
+import Metronome from 'components/Metronome/Metronome';
 
 export const getServerSideProps = withAuth(async ({ req }: any) => {
     return {

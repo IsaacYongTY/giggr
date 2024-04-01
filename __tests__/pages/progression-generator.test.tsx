@@ -57,7 +57,7 @@ describe('The progression generator page', () => {
             userEvent.click(screen.getByText(/typical ballad progression.+/i));
 
             expect(
-                screen.getByText(/typical ballad progression.+/i)
+                screen.getByText(/typical ballad progression.+/i),
             ).toBeInTheDocument();
             expect(inputTextbox).toHaveValue('45362511');
         });
@@ -153,7 +153,7 @@ describe('The progression generator page', () => {
             userEvent.click(generateButton);
 
             expect(textArea).toHaveValue(
-                '| [Ab]             | [Bb]             | [Gm]             | [Cm]             |\n\n'
+                '| [Ab]             | [Bb]             | [Gm]             | [Cm]             |\n\n',
             );
         });
 

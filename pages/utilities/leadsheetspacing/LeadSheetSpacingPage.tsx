@@ -4,7 +4,7 @@ import { hyphenateSync } from 'hyphen/en-gb';
 import { GetServerSideProps } from 'next';
 
 import Layout from 'components/Layout';
-import Tag from 'components/common/Tag';
+import Tag from 'components/Tag';
 import withAuth from 'middlewares/withAuth';
 
 import {
@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 const LeadSheetSpacingPage: React.FC<LeadSheetSpacingPageProps> = () => {
@@ -39,7 +39,7 @@ const LeadSheetSpacingPage: React.FC<LeadSheetSpacingPageProps> = () => {
     const [isRemoveStrings, setIsRemoveStrings] = useState(true);
     const [stringToRemove, setStringToRemove] = useState('');
     const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>(
-        []
+        [],
     );
 
     const [isShowPlaceholderText, setIsShowPlaceholderText] = useState(false);

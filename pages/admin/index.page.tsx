@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 export default function AdminPage({ children }: any) {

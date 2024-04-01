@@ -4,15 +4,15 @@ import Select, { ValueType } from 'react-select';
 import classnames from 'classnames/bind';
 
 import Layout from 'components/Layout';
-import KeysDropdown from 'components/common/KeysDropdown';
+import KeysDropdown from 'components/KeysDropdown';
 import {
     generateFullBarProgression,
     generateHalfBarProgression,
     checkIsValidProgression,
 } from './utils';
 import { keyMap, progressionOptions, spacingOptions } from './constants';
-import CopyToClipboardButton from 'components/common/CopyToClipboardButton';
-import AlertBox from 'components/common/AlertBox';
+import CopyToClipboardButton from 'components/CopyToClipboardButton';
+import AlertBox from 'components/AlertBox';
 import withAuth from 'middlewares/withAuth';
 import { convertKeyModeIntToKey, convertKeyToKeyModeInt } from 'common/utils';
 
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 const ProgressionPage: React.FC<ProgressionPageProps> = () => {
@@ -92,7 +92,7 @@ const ProgressionPage: React.FC<ProgressionPageProps> = () => {
                 : generateHalfBarProgression(key, progression, spaces);
 
             setDisplayedText(
-                (prevState) => prevState + generatedProgression + '\n\n'
+                (prevState) => prevState + generatedProgression + '\n\n',
             );
             setErrorMessage('');
         } catch (err) {
@@ -133,7 +133,7 @@ const ProgressionPage: React.FC<ProgressionPageProps> = () => {
                             <Select
                                 className="basic-single"
                                 value={progressionOptions.find(
-                                    (option) => option.value === progression
+                                    (option) => option.value === progression,
                                 )}
                                 options={progressionOptions}
                                 onChange={handleChange}

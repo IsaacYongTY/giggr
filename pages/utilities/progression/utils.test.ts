@@ -158,43 +158,43 @@ describe('Progression Generator functions', () => {
     describe('fullBarProg', () => {
         it('should return formatted string with bar lines, with maximum 4 bars per line', () => {
             expect(generateFullBarProgression(0, '4536', 12)).toBe(
-                '| [F]            | [G]            | [Em]           | [Am]           |'
+                '| [F]            | [G]            | [Em]           | [Am]           |',
             );
             expect(generateFullBarProgression(1, '4536', 12)).toBe(
-                '| [Gb]           | [Ab]           | [Fm]           | [Bbm]          |'
+                '| [Gb]           | [Ab]           | [Fm]           | [Bbm]          |',
             );
             expect(generateFullBarProgression(7, '7', 12)).toBe(
-                '| [F#dim7]       |'
+                '| [F#dim7]       |',
             );
             expect(generateFullBarProgression(9, '15654325', 10)).toBe(
                 '| [A]          | [E]          | [F#m]        | [E]          |\n' +
-                    '| [D]          | [C#m]        | [Bm7]        | [E]          |'
+                    '| [D]          | [C#m]        | [Bm7]        | [E]          |',
             );
             expect(generateFullBarProgression(9, '4536251', 10)).toBe(
                 '| [D]          | [E]          | [C#m]        | [F#m]        |\n' +
-                    '| [Bm7]        | [E]          | [A]          |'
+                    '| [Bm7]        | [E]          | [A]          |',
             );
             expect(generateFullBarProgression(11, '23M4m', 12)).toBe(
-                '| [C#m7]         | [D#]           | [Em]           |'
+                '| [C#m7]         | [D#]           | [Em]           |',
             );
         });
 
         it('should read prefix and suffix and return formatted string with bar lines, with maximum 4 bars per line', () => {
             expect(generateFullBarProgression(0, '4M5M3m6m', 8)).toBe(
-                '| [F]        | [G]        | [Em]       | [Am]       |'
+                '| [F]        | [G]        | [Em]       | [Am]       |',
             );
             expect(generateFullBarProgression(1, '4m5m3M6M', 12)).toBe(
-                '| [Gbm]          | [Abm]          | [F]            | [Bb]           |'
+                '| [Gbm]          | [Abm]          | [F]            | [Bb]           |',
             );
             expect(generateFullBarProgression(6, '62M51', 12)).toBe(
-                '| [Ebm]          | [Ab]           | [Db]           | [Gb]           |'
+                '| [Ebm]          | [Ab]           | [Db]           | [Gb]           |',
             );
             expect(generateFullBarProgression(9, '1b745', 10)).toBe(
-                '| [A]          | [G]          | [D]          | [E]          |'
+                '| [A]          | [G]          | [D]          | [E]          |',
             );
             expect(generateFullBarProgression(9, '1m2M3M4m5m6M7m', 10)).toBe(
                 '| [Am]         | [B]          | [C#]         | [Dm]         |\n' +
-                    '| [Em]         | [F#]         | [G#dim7]     |'
+                    '| [Em]         | [F#]         | [G#dim7]     |',
             );
         });
 
@@ -212,38 +212,38 @@ describe('Progression Generator functions', () => {
     describe('halfBarProg', () => {
         it('should return formatted string with bar lines, with maximum 4 bars per line', () => {
             expect(generateHalfBarProgression(0, '4536', 12)).toBe(
-                '| [F]      [G]      | [Em]     [Am]     |'
+                '| [F]      [G]      | [Em]     [Am]     |',
             );
             expect(generateHalfBarProgression(2, '45362511', 12)).toBe(
                 '| [G]      [A]      | [F#m]    [Bm]     |\n' +
-                    '| [Em7]    [A]      | [D]      [D]      |'
+                    '| [Em7]    [A]      | [D]      [D]      |',
             );
             expect(generateHalfBarProgression(3, '2', 12)).toBe(
-                '| [Fm7]             |'
+                '| [Fm7]             |',
             );
             expect(generateHalfBarProgression(11, '23M4m', 14)).toBe(
-                '| [C#m7]    [D#]      | [Em]                |'
+                '| [C#m7]    [D#]      | [Em]                |',
             );
             expect(generateHalfBarProgression(4, '251', 14)).toBe(
-                '| [F#m7]    [B]       | [E]                 |'
+                '| [F#m7]    [B]       | [E]                 |',
             );
             expect(generateHalfBarProgression(0, '15451', 14)).toBe(
                 '| [C]       [G]       | [F]       [G]       |\n' +
-                    '| [C]                 |'
+                    '| [C]                 |',
             );
             expect(generateHalfBarProgression(7, '64151', 14)).toBe(
                 '| [Em]      [C]       | [G]       [D]       |\n' +
-                    '| [G]                 |'
+                    '| [G]                 |',
             );
             expect(generateHalfBarProgression(9, '4536251', 14)).toBe(
                 '| [D]       [E]       | [C#m]     [F#m]     |\n' +
-                    '| [Bm7]     [E]       | [A]                 |'
+                    '| [Bm7]     [E]       | [A]                 |',
             );
 
             expect(generateHalfBarProgression(10, '453625114', 14)).toBe(
                 '| [Eb]      [F]       | [Dm]      [Gm]      |\n' +
                     '| [Cm7]     [F]       | [Bb]      [Bb]      |\n' +
-                    '| [Eb]                |'
+                    '| [Eb]                |',
             );
         });
 
@@ -251,7 +251,7 @@ describe('Progression Generator functions', () => {
             expect(generateHalfBarProgression(10, '4m5m3M6M2M5174', 14)).toBe(
                 '| [Ebm]     [Fm]      | [D]       [G]       |\n' +
                     '| [C]       [F]       | [Bb]      [Adim7]   |\n' +
-                    '| [Eb]                |'
+                    '| [Eb]                |',
             );
         });
         it('should return empty string if invalid input is provided', () => {
@@ -266,24 +266,24 @@ describe('Progression Generator functions', () => {
 
         it('should round up to next number of spacing if odd is provided', () => {
             expect(generateHalfBarProgression(0, '4536', 11)).toBe(
-                '| [F]      [G]      | [Em]     [Am]     |'
+                '| [F]      [G]      | [Em]     [Am]     |',
             );
             expect(generateHalfBarProgression(2, '45362511', 11)).toBe(
                 '| [G]      [A]      | [F#m]    [Bm]     |\n' +
-                    '| [Em7]    [A]      | [D]      [D]      |'
+                    '| [Em7]    [A]      | [D]      [D]      |',
             );
             expect(generateHalfBarProgression(3, '2', 11)).toBe(
-                '| [Fm7]             |'
+                '| [Fm7]             |',
             );
             expect(generateHalfBarProgression(11, '23M4m', 13)).toBe(
-                '| [C#m7]    [D#]      | [Em]                |'
+                '| [C#m7]    [D#]      | [Em]                |',
             );
             expect(generateHalfBarProgression(4, '251', 13)).toBe(
-                '| [F#m7]    [B]       | [E]                 |'
+                '| [F#m7]    [B]       | [E]                 |',
             );
             expect(generateHalfBarProgression(0, '15451', 13)).toBe(
                 '| [C]       [G]       | [F]       [G]       |\n' +
-                    '| [C]                 |'
+                    '| [C]                 |',
             );
         });
     });

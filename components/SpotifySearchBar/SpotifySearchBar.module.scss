@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    margin: 2rem 0 1rem 0;
+    width: 100%;
+    gap: 2rem;
+
+    .error-textbox-border {
+        border: 2px solid #fc6f7d;
+        //box-shadow:  0rem 0rem 0.5rem #fc6f7d;
+    }
+
+    input {
+        width: 80%;
+        //background-color: #008800;
+    }
+}

@@ -9,7 +9,7 @@ export const addSpaceBetweenChineseCharacters = (str: string): string => {
     const resultArray = lineArray.map((line) => {
         const wordArray = line.trim().split(spacesRegex);
         const addedSpacesWordArray = wordArray.map((word) =>
-            alphaNumRegex.test(word) ? word : word.split('').join(' ')
+            alphaNumRegex.test(word) ? word : word.split('').join(' '),
         );
         return addedSpacesWordArray.join(' ');
     });
@@ -23,16 +23,16 @@ export const isEscapedCharacter = (char: string) => {
 };
 
 export const addBackSlashToEscapingCharactersArray = (
-    strArray: string[]
+    strArray: string[],
 ): string[] => {
     return strArray.map((char) =>
-        isEscapedCharacter(char) ? `\\${char}` : char
+        isEscapedCharacter(char) ? `\\${char}` : char,
     );
 };
 
 export const removeCharacters = (
     stringsToRemoveArray: string[],
-    text: string
+    text: string,
 ): string => {
     if (stringsToRemoveArray.length === 0) return text;
 
@@ -45,7 +45,7 @@ export const removeCharacters = (
 
 export const replaceCharactersWithPlaceholders = (
     str: string,
-    placeholderChar = 'a'
+    placeholderChar = 'a',
 ): string => {
     if (!placeholderChar || placeholderChar.length > 1) {
         throw new Error('Placeholder text must only be a single character');
@@ -56,7 +56,7 @@ export const replaceCharactersWithPlaceholders = (
         line
             .split(' ')
             .map((str) => (isChinese(str) ? placeholderChar : str))
-            .join(' ')
+            .join(' '),
     );
 
     return replacedLines.join('\n');

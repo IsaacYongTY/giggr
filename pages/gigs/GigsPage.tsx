@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
         return {
             props: { gigs: response.data.gigs },
         };
-    }
+    },
 );
 
 export default function GigsPage({ gigs }: any) {

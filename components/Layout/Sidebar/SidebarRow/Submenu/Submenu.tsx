@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import classnames from 'classnames/bind';
 
-import MenuRow from '../../../../../components/common/MenuRow';
+import MenuRow from '../../../../MenuRow';
 
 import styles from './Submenu.module.scss';
 

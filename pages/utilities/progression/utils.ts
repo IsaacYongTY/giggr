@@ -3,7 +3,7 @@ import { keyMap } from './constants';
 export const renderSpacing = (
     spacing: number,
     chord: string,
-    spaceChar = ' '
+    spaceChar = ' ',
 ) => {
     if (chord.length > spacing || spacing < 0) return '';
     return spaceChar.repeat(spacing - (chord.length - 1));
@@ -59,7 +59,7 @@ export function modifyChordSuffix(chordString: string, key: number): string {
 
         return (notesInKeyArray[keyIndex] + accidental).replace(
             /(#b)|(b#)/,
-            ''
+            '',
         );
     }
 
@@ -102,12 +102,12 @@ export const addFamilyChordSuffix = function (chordNum: number, key: number) {
 
 export function assignKeyToProgression(
     key: number,
-    progression: string
+    progression: string,
 ): string[] {
     const validInputRegex = /[^1-7b#Mm(dim7)]/g;
     const containInvalidInput = progression.search(validInputRegex) > -1;
     const progressionArray = progression.match(
-        /(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g
+        /(b[1-7])|([1-6]m)|([1-6]M)|(7dim7)|[1-7]/g,
     );
 
     if (key < 0 || key > 12 || containInvalidInput || !progressionArray) {
@@ -130,7 +130,7 @@ export function assignKeyToProgression(
 export const generateFullBarProgression = function (
     key: number,
     progression: string,
-    space: number
+    space: number,
 ) {
     if (key < 0 || key > 12 || space < 0 || !progression) {
         return '';
@@ -154,7 +154,7 @@ export const generateFullBarProgression = function (
 export const generateHalfBarProgression = function (
     key: number,
     progression: string,
-    space: number
+    space: number,
 ) {
     if (key < 0 || key > 12 || space < 0 || !progression) {
         return '';
@@ -213,7 +213,7 @@ export const checkIsValidProgression = (progression: string) => {
 
     if (isInvalidProgression) {
         throw Error(
-            'Input is invalid. Valid characters are 1-7, b, #, m, and M'
+            'Input is invalid. Valid characters are 1-7, b, #, m, and M',
         );
     }
 

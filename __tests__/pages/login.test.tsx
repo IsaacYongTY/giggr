@@ -75,10 +75,10 @@ describe('The login page', () => {
 
         await waitFor(() => {
             expect(
-                screen.getByText(/please provide email/i)
+                screen.getByText(/please provide email/i),
             ).toBeInTheDocument();
             expect(
-                screen.getByText(/please provide password/i)
+                screen.getByText(/please provide password/i),
             ).toBeInTheDocument();
         });
     });
@@ -93,8 +93,8 @@ describe('The login page', () => {
         await waitFor(() => {
             expect(
                 screen.getByText(
-                    /invalid email or password\. please try again\./i
-                )
+                    /invalid email or password\. please try again\./i,
+                ),
             ).toBeInTheDocument();
         });
     });
@@ -103,7 +103,7 @@ describe('The login page', () => {
         renderLoginPage();
         userEvent.click(screen.getByText(/sign up here/i));
         expect(
-            screen.getByRole('button', { name: /create account/i })
+            screen.getByRole('button', { name: /create account/i }),
         ).toBeInTheDocument();
     });
 });
@@ -129,7 +129,7 @@ describe('Sign up UI', () => {
 
         userEvent.click(screen.getByText(/login here/i));
         expect(
-            screen.getByRole('button', { name: /log in/i })
+            screen.getByRole('button', { name: /log in/i }),
         ).toBeInTheDocument();
     });
 
@@ -183,10 +183,10 @@ describe('Sign up UI', () => {
 
         await waitFor(() => {
             expect(
-                screen.getByText(/please provide email/i)
+                screen.getByText(/please provide email/i),
             ).toBeInTheDocument();
             expect(
-                screen.getByText(/please provide password/i)
+                screen.getByText(/please provide password/i),
             ).toBeInTheDocument();
         });
     });
@@ -212,7 +212,7 @@ describe('Sign up UI', () => {
         });
 
         expect(
-            await screen.findByText(/user already exists\. please try again/i)
+            await screen.findByText(/user already exists\. please try again/i),
         ).toBeInTheDocument();
     });
 });

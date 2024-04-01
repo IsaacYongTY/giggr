@@ -66,7 +66,7 @@ const GigForm: React.FC<GigFormProps> = () => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/v1/gigs`,
             values,
-            { withCredentials: true }
+            { withCredentials: true },
         );
         console.log(response);
     };
@@ -210,7 +210,7 @@ const GigForm: React.FC<GigFormProps> = () => {
                                         name="isRepeat"
                                         onClick={() =>
                                             setIsRepeated(
-                                                (prevState) => !prevState
+                                                (prevState) => !prevState,
                                             )
                                         }
                                     />
