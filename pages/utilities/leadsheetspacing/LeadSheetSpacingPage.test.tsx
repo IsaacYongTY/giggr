@@ -84,7 +84,7 @@ describe('The Lead Sheet Spacing page', () => {
             userEvent.click(processButton);
 
             expect(resultTextArea).toHaveValue(
-                '想 要 跳 啊 跳\n却 跳 也 跳 不 高'
+                '想 要 跳 啊 跳\n却 跳 也 跳 不 高',
             );
         });
 
@@ -109,7 +109,7 @@ describe('The Lead Sheet Spacing page', () => {
                     '\n' +
                     '不敢去面对你 只怕我情意你不领\n' +
                     '尴尬彼此间一段友情\n' +
-                    '所希望被破灭 被你否定'
+                    '所希望被破灭 被你否定',
             );
 
             userEvent.click(processButton);
@@ -130,7 +130,7 @@ describe('The Lead Sheet Spacing page', () => {
                     '\n' +
                     '不 敢 去 面 对 你 只 怕 我 情 意 你 不 领\n' +
                     '尴 尬 彼 此 间 一 段 友 情\n' +
-                    '所 希 望 被 破 灭 被 你 否 定'
+                    '所 希 望 被 破 灭 被 你 否 定',
             );
         });
 
@@ -166,11 +166,11 @@ describe('The Lead Sheet Spacing page', () => {
 
             userEvent.type(
                 inputTextArea,
-                'Verse\nfirst line of lyrics\n需要被移除 的字符串\nChorus\nThis is the Chorus'
+                'Verse\nfirst line of lyrics\n需要被移除 的字符串\nChorus\nThis is the Chorus',
             );
             userEvent.click(processButton);
             expect(resultTextArea).toHaveValue(
-                'Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus'
+                'Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus',
             );
         });
 
@@ -203,12 +203,12 @@ describe('The Lead Sheet Spacing page', () => {
 
             userEvent.type(
                 inputTextArea,
-                '   Verse\n    first line of lyrics \n\n Chorus  \n This is the Chorus'
+                '   Verse\n    first line of lyrics \n\n Chorus  \n This is the Chorus',
             );
             userEvent.click(processButton);
 
             expect(resultTextArea).toHaveValue(
-                'Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus'
+                'Verse\nfirst line of lyrics\n\nChorus\nThis is the Chorus',
             );
         });
     });
@@ -389,7 +389,7 @@ describe('The Lead Sheet Spacing page', () => {
             userEvent.click(processButton);
 
             expect(resultTextArea).toHaveValue(
-                '寂 寞 夜 晚 上 过 度 的 想 像\n'
+                '寂 寞 夜 晚 上 过 度 的 想 像\n',
             );
 
             userEvent.click(togglePlaceholderButton);
@@ -398,7 +398,7 @@ describe('The Lead Sheet Spacing page', () => {
 
             userEvent.type(
                 inputTextArea,
-                '{selectall}{backspace}this is a second test'
+                '{selectall}{backspace}this is a second test',
             );
             userEvent.click(processButton);
 
@@ -418,7 +418,7 @@ describe('The Lead Sheet Spacing page', () => {
             userEvent.click(processButton);
 
             expect(resultTextArea).toHaveValue(
-                '寂 寞 夜 晚 上 过 度 的 想 像\n'
+                '寂 寞 夜 晚 上 过 度 的 想 像\n',
             );
 
             userEvent.click(togglePlaceholderButton);

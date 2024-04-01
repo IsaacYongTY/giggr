@@ -58,7 +58,9 @@ a {
 
 .form-control:focus {
     outline-color: $primary-color;
-    box-shadow: inset 0.5rem 0.5rem $primary-color, rgba(126, 239, 104, 0.6);
+    box-shadow:
+        inset 0.5rem 0.5rem $primary-color,
+        rgba(126, 239, 104, 0.6);
 }
 
 .text-white {

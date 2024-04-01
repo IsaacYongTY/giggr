@@ -76,7 +76,7 @@ export default function SongDetailForm({
 
         const currentMyKeyString = convertKeyModeIntToKey(
             form.myKey,
-            form.mode
+            form.mode,
         );
         const relativeMyKeyMinor = convertRelativeKey(currentMyKeyString);
         const [myKey] = convertKeyToKeyModeInt(relativeMyKeyMinor);
@@ -98,7 +98,7 @@ export default function SongDetailForm({
                     Artist:
                     <ArtistsSingleDropdown
                         musicians={data.musicians.filter(
-                            (musician) => musician.isArtist
+                            (musician) => musician.isArtist,
                         )}
                         selectedArtist={form.artist || ''}
                         setFormValue={setForm}
@@ -212,7 +212,7 @@ export default function SongDetailForm({
                     label="Composers"
                     role="composers"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isComposer
+                        (musician) => musician.isComposer,
                     )}
                     selectedMusicians={form.composers || []}
                     setFormValue={setForm}
@@ -221,7 +221,7 @@ export default function SongDetailForm({
                     label="Songwriters"
                     role="songwriters"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isSongwriter
+                        (musician) => musician.isSongwriter,
                     )}
                     selectedMusicians={form.songwriters || []}
                     setFormValue={setForm}
@@ -233,7 +233,7 @@ export default function SongDetailForm({
                     label="Arrangers"
                     role="arrangers"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isArranger
+                        (musician) => musician.isArranger,
                     )}
                     selectedMusicians={form.arrangers || []}
                     setFormValue={setForm}

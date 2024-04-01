@@ -4,7 +4,7 @@ import { convertKeyToKeyModeInt } from '../common/utils';
 export const generateMockSong = (
     title: string,
     keyString: string,
-    createdDate: Date
+    createdDate: Date,
 ): Song => {
     const [key, mode] = convertKeyToKeyModeInt(keyString);
 

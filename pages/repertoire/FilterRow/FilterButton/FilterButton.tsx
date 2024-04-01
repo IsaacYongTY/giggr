@@ -26,7 +26,7 @@ export default function FilterButton({
         <button
             className={cx(
                 'btn',
-                isFilterOnArray[index] ? 'btn-danger' : 'btn-link'
+                isFilterOnArray[index] ? 'btn-danger' : 'btn-link',
             )}
             onClick={() => handleSetFilter(filter)}
         >

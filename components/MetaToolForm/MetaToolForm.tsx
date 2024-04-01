@@ -33,7 +33,7 @@ export default function MetaToolForm({
 
     const [searchLink, setSearchLink] = useState('');
     const [pinyinSyllableOption, setPinyinSyllableOption] = useState(
-        defaultPinyinSyllableOptions[1]
+        defaultPinyinSyllableOptions[1],
     );
     const [showPinyin, setShowPinyin] = useState(true);
 
@@ -44,7 +44,7 @@ export default function MetaToolForm({
 
         const metaData = generateMetadataText(
             metadata,
-            pinyinSyllableOption.value
+            pinyinSyllableOption.value,
         );
         setDisplayedMetadata(metaData);
 
@@ -124,7 +124,7 @@ export default function MetaToolForm({
                         >
                             {deriveGoogleSearchText(
                                 metadata.title,
-                                metadata.language
+                                metadata.language,
                             )}
                         </a>
                         <label>

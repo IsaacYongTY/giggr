@@ -25,12 +25,12 @@ export default function SearchBar({
         setFilteredSongList(() => {
             if (filter === 'artist') {
                 return songs.filter((song: Song) =>
-                    song.artist?.enName?.toLowerCase().includes(searchTerm)
+                    song.artist?.enName?.toLowerCase().includes(searchTerm),
                 );
             }
             if (filter === 'initialism' || filter === 'title') {
                 return songs?.filter((song: Song) =>
-                    song[filter]?.toLowerCase().includes(searchTerm)
+                    song[filter]?.toLowerCase().includes(searchTerm),
                 );
             }
             return [];

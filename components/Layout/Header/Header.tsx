@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ title, setIsOpen, isOpen }) => {
             <p
                 className={cx(
                     'title',
-                    isOpen ? 'sidebar-open-offset' : 'sidebar-close-offset'
+                    isOpen ? 'sidebar-open-offset' : 'sidebar-close-offset',
                 )}
             >
                 {title}

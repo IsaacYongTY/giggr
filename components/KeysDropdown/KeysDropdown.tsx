@@ -31,7 +31,7 @@ export default function KeysDropdown({
 }: KeysDropdownProps) {
     const [, mode] = useMemo(
         () => convertKeyToKeyModeInt(selectedKey || ''),
-        [selectedKey]
+        [selectedKey],
     );
 
     const [isMinor, setIsMinor] = useState(mode === 0);
@@ -42,7 +42,7 @@ export default function KeysDropdown({
                 value: key,
                 label: key,
             })),
-        []
+        [],
     );
     const majorKeyOptions = useMemo(
         () =>
@@ -50,7 +50,7 @@ export default function KeysDropdown({
                 value: key,
                 label: key,
             })),
-        []
+        [],
     );
 
     const [keyOptions, setKeyOptions] = useState<OptionType[]>([]);

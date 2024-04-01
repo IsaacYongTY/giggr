@@ -40,7 +40,7 @@ export default function AddSongModal({ visible, data, onClose }: Props) {
     const metatoolSongMetadata: MetatoolSongMetadata = useMemo(
         () => deriveMetatoolSongMetadata(form),
 
-        [form]
+        [form],
     );
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
@@ -59,13 +59,13 @@ export default function AddSongModal({ visible, data, onClose }: Props) {
             const editedForm = {
                 ...form,
                 composers: form.composers?.map(
-                    (composer: Option) => composer.value
+                    (composer: Option) => composer.value,
                 ),
                 songwriters: form.songwriters?.map(
-                    (songwriter: Option) => songwriter.value
+                    (songwriter: Option) => songwriter.value,
                 ),
                 arrangers: form.arrangers?.map(
-                    (arranger: Option) => arranger.value
+                    (arranger: Option) => arranger.value,
                 ),
                 genres: form.genres?.map((genre: Option) => genre.value),
                 moods: form.moods?.map((mood: Option) => mood.value),

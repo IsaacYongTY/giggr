@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 const LeadSheetSpacingPage: React.FC<LeadSheetSpacingPageProps> = () => {
@@ -39,7 +39,7 @@ const LeadSheetSpacingPage: React.FC<LeadSheetSpacingPageProps> = () => {
     const [isRemoveStrings, setIsRemoveStrings] = useState(true);
     const [stringToRemove, setStringToRemove] = useState('');
     const [stringsToRemoveArray, setStringsToRemoveArray] = useState<string[]>(
-        []
+        [],
     );
 
     const [isShowPlaceholderText, setIsShowPlaceholderText] = useState(false);

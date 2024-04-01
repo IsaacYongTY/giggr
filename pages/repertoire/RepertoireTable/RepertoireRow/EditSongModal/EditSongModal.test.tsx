@@ -26,7 +26,7 @@ function renderEditSongModal(props = {}) {
                 languages: [],
             }}
             {...props}
-        />
+        />,
     );
 
     const titleTextbox = utils.getByPlaceholderText(/title/i);
@@ -247,10 +247,10 @@ describe('<EditSongModal />', () => {
             expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument();
             expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument();
             expect(
-                screen.getByText(/Keywords: wan, mandarin/i)
+                screen.getByText(/Keywords: wan, mandarin/i),
             ).toBeInTheDocument();
             expect(
-                screen.getByText(/Year Released: 2008/i)
+                screen.getByText(/Year Released: 2008/i),
             ).toBeInTheDocument();
         });
 
@@ -312,7 +312,7 @@ describe('<EditSongModal />', () => {
             userEvent.click(keysDropdown);
 
             expect(romTitleTextbox).toHaveValue(
-                'Ren Cuo Chou Ba Guai Yi Ai Yi A A A'
+                'Ren Cuo Chou Ba Guai Yi Ai Yi A A A',
             );
             expect(initialismTextbox).toHaveValue('rccbgyayaaa');
         });

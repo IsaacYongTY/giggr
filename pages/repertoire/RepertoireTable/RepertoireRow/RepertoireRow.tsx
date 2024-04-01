@@ -38,14 +38,14 @@ export default function RepertoireRow({
         useState(false);
 
     const foundIndex = selectedSongs.findIndex(
-        (selectedSong) => selectedSong.id === song.id
+        (selectedSong) => selectedSong.id === song.id,
     );
     const isInSelectedSongsArray = foundIndex > -1;
 
     function toggleSelect() {
         if (isInSelectedSongsArray) {
             setSelectedSongs((prevState) =>
-                prevState.filter((element) => element.id !== song.id)
+                prevState.filter((element) => element.id !== song.id),
             );
             return;
         }
@@ -56,7 +56,7 @@ export default function RepertoireRow({
     const onDeleteSongSuccess = () => {
         setIsConfirmDeleteModalOpen(false);
         setSelectedSongs((prevState) =>
-            prevState.filter((element) => element.id !== song.id)
+            prevState.filter((element) => element.id !== song.id),
         );
     };
 

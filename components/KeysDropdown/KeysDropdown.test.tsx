@@ -63,7 +63,7 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
                 label="Key"
                 handleKeysDropdownChange={jest.fn()}
                 selectedKey="C"
-            />
+            />,
         );
 
         expect(screen.getByText('C')).toBeInTheDocument();
@@ -76,7 +76,7 @@ describe('The behaviour of key dropdowns <KeysDropdown />', () => {
                 label="Key"
                 handleKeysDropdownChange={jest.fn()}
                 selectedKey="Eb"
-            />
+            />,
         );
 
         expect(screen.getByText('Eb')).toBeInTheDocument();

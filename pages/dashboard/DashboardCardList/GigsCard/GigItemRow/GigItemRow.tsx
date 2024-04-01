@@ -23,7 +23,7 @@ export default function GigItemRow({ gig }: any) {
                 <p>
                     {format(
                         new Date(combineDateTime(gig.date, gig.time)),
-                        'dd MMM yyyy hh:mm a'
+                        'dd MMM yyyy hh:mm a',
                     )}
                 </p>
             </div>

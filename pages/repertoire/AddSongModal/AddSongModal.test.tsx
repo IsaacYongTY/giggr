@@ -26,7 +26,7 @@ function renderAddSongModal(props = {}) {
                 languages: [],
             }}
             {...props}
-        />
+        />,
     );
     const titleTextbox = utils.getByPlaceholderText(/title/i);
     const initialismTextbox = utils.getByRole('textbox', {
@@ -203,7 +203,7 @@ describe('<AddSongModal />', () => {
             const { durationTextbox } = renderAddSongModal();
 
             const searchBar = screen.getByPlaceholderText(
-                'https://open.spotify.com/track/....'
+                'https://open.spotify.com/track/....',
             );
             const getFromSpotifyButton = screen.getByRole('button', {
                 name: /get from spotify/i,
@@ -233,14 +233,14 @@ describe('<AddSongModal />', () => {
 
             userEvent.type(
                 searchBar,
-                'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl?si=e840d909c0a643c6'
+                'https://open.spotify.com/track/54kJUsxhDUMJS3kI2XptLl?si=e840d909c0a643c6',
             );
             userEvent.click(getFromSpotifyButton);
 
             await waitFor(() => {
                 expect(axios.post).toBeCalledTimes(1);
                 expect(axios.post).toBeCalledWith(
-                    '/api/v1/songs/spotify?trackId=54kJUsxhDUMJS3kI2XptLl'
+                    '/api/spotify?trackId=54kJUsxhDUMJS3kI2XptLl',
                 );
                 expect(durationTextbox).toHaveValue('4:00');
             });
@@ -257,7 +257,7 @@ describe('<AddSongModal />', () => {
                 name: /get from spotify/i,
             });
             const spotifySearchBar = screen.getByPlaceholderText(
-                /^https:\/\/open.spotify.com.+/i
+                /^https:\/\/open.spotify.com.+/i,
             );
 
             const validSpotifyUrl =

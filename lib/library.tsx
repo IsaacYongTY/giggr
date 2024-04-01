@@ -32,7 +32,7 @@ export const loadDatabaseData = async (tokenString: string) => {
                 headers: {
                     'x-auth-token': `Bearer ${tokenString}`,
                 },
-            }
+            },
         );
 
         return response.data;
@@ -50,7 +50,7 @@ export const loadUserMusicians = async (user: any) => {
             headers: {
                 'x-auth-token': `Bearer ${user.tokenString}`,
             },
-        }
+        },
     );
 
     return response.data.musicians;
@@ -58,7 +58,7 @@ export const loadUserMusicians = async (user: any) => {
 
 export const loadDatabaseMusicians = async () => {
     const response = await axios.get(
-        `/api/v1/admin/musicians?category=name&order=ASC`
+        `/api/v1/admin/musicians?category=name&order=ASC`,
     );
 
     return response.data.musicians;
