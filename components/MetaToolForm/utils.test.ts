@@ -51,7 +51,7 @@ describe('generateMetaData', () => {
                 'Duration: 5:29\n' +
                 'Time: 4/4\n' +
                 'Keywords: byh, mandarin\n\n' +
-                'Year Released: 2021'
+                'Year Released: 2021',
         );
 
         expect(generateMetadataText(sampleForm2, 1)).toBe(
@@ -62,7 +62,7 @@ describe('generateMetaData', () => {
                 'Duration: 4:45\n' +
                 'Time: 4/4\n' +
                 'Keywords: wan, mandarin\n\n' +
-                'Year Released: 2008'
+                'Year Released: 2008',
         );
 
         expect(generateMetadataText(sampleForm2, 99)).toBe(
@@ -73,7 +73,7 @@ describe('generateMetaData', () => {
                 'Duration: 4:45\n' +
                 'Time: 4/4\n' +
                 'Keywords: wan, mandarin\n\n' +
-                'Year Released: 2008'
+                'Year Released: 2008',
         );
     });
 
@@ -93,8 +93,8 @@ describe('generateMetaData', () => {
                     artist: '',
                     initialism: '',
                 },
-                99
-            )
+                99,
+            ),
         ).toBe(
             '我爱你\n' +
                 'Key: \n' +
@@ -102,7 +102,7 @@ describe('generateMetaData', () => {
                 'Duration: \n' +
                 'Time: \n' +
                 'Keywords: \n\n' +
-                'Year Released: '
+                'Year Released: ',
         );
 
         expect(
@@ -118,7 +118,7 @@ describe('generateMetaData', () => {
                 mode: -1,
                 artist: '',
                 initialism: '',
-            })
+            }),
         ).toBe(
             '我爱你\n' +
                 'Key: \n' +
@@ -126,7 +126,7 @@ describe('generateMetaData', () => {
                 'Duration: \n' +
                 'Time: \n' +
                 'Keywords: mandarin\n\n' +
-                'Year Released: '
+                'Year Released: ',
         );
 
         expect(
@@ -142,7 +142,7 @@ describe('generateMetaData', () => {
                 key: -1,
                 mode: -1,
                 artist: '',
-            })
+            }),
         ).toBe(
             '我爱你\n' +
                 'Key: \n' +
@@ -150,7 +150,7 @@ describe('generateMetaData', () => {
                 'Duration: \n' +
                 'Time: \n' +
                 'Keywords: wan\n\n' +
-                'Year Released: '
+                'Year Released: ',
         );
     });
 });

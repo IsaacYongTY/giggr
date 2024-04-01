@@ -39,7 +39,7 @@ export default function MusiciansMultiSelectDropdown({
             musicians.map((musician) => ({
                 value: musician.name,
                 label: musician.name,
-            }))
+            })),
         );
     }, []);
 

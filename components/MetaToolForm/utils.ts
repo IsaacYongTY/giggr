@@ -4,7 +4,7 @@ import { MetatoolSongMetadata } from 'common/types';
 // only support mandarin for now, affixes "lyrics" for all other languages
 export const deriveGoogleSearchLink = (
     title: string,
-    language: string | undefined
+    language: string | undefined,
 ) => {
     const affix = language === 'mandarin' ? '歌词' : 'lyrics';
 
@@ -13,7 +13,7 @@ export const deriveGoogleSearchLink = (
 
 export const deriveGoogleSearchText = (
     title: string,
-    language: string | undefined
+    language: string | undefined,
 ) => {
     const affix = language === 'mandarin' ? '歌词' : 'lyrics';
     return `Search "${title} ${affix}" on Google`;
@@ -27,7 +27,7 @@ function createKeywordsArray(initialism: string, language: string): string[] {
 
 export function generateMetadataText(
     metadata: MetatoolSongMetadata,
-    pinyinSyllableNum = 0
+    pinyinSyllableNum = 0,
 ): string {
     const {
         title,

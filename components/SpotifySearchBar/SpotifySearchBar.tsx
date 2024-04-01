@@ -37,13 +37,13 @@ export default function SpotifySearchBar({ onSuccess }: SpotifySearchBarProps) {
 
         try {
             const { data } = await axios.post(
-                `/api/v1/songs/spotify?trackId=${trackId}`
+                `/api/spotify?trackId=${trackId}`,
             );
 
             const songData = data.result;
 
             songData.durationMinSec = convertDurationMsToMinSec(
-                songData.durationMs
+                songData.durationMs,
             );
 
             onSuccess(songData);
@@ -66,7 +66,7 @@ export default function SpotifySearchBar({ onSuccess }: SpotifySearchBarProps) {
             <input
                 className={cx(
                     { 'error-textbox-border': hasError },
-                    'form-control'
+                    'form-control',
                 )}
                 onChange={(e) => setSpotifyLink(e.target.value)}
                 ref={spotifySearchInput}

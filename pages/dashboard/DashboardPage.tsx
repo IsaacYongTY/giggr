@@ -23,13 +23,13 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 const DashboardPage: React.FC<DashboardPageProps> = () => {
     const { data: { gigs } = {} } = useSWR(`/api/v1/gigs`);
     const { data: { songs } = {} } = useSWR(
-        `/api/v1/songs?number=5&category=createdAt&order=DESC`
+        `/api/v1/songs?number=5&category=createdAt&order=DESC`,
     );
 
     return (

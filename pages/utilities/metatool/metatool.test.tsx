@@ -61,7 +61,7 @@ function renderMetaTool(props: Partial<MetatoolPageProps> = {}) {
     const showPinyinCheckbox = utils.getByRole('checkbox', { name: /pinyin/i });
 
     const searchBar = utils.getByPlaceholderText(
-        /^https:\/\/open.spotify.com.*/
+        /^https:\/\/open.spotify.com.*/,
     );
 
     const pinyinDropdown = utils.getByText(defaultPinyinSyllables);
@@ -141,7 +141,7 @@ describe('The metatool page', () => {
 
             userEvent.type(
                 searchBar,
-                'https://open.spotify.com/track/obviouslywrong'
+                'https://open.spotify.com/track/obviouslywrong',
             );
             expect(shakeAnimation).toBeCalledTimes(1);
         });
@@ -149,7 +149,7 @@ describe('The metatool page', () => {
         it.todo('should render loader on button if the url is valid');
         it.todo('unable to test Content Editable div at the moment');
         it.todo(
-            'should not render pinyin before title if pinyin checkbox is not checked'
+            'should not render pinyin before title if pinyin checkbox is not checked',
         );
     });
 
@@ -223,10 +223,10 @@ describe('The metatool page', () => {
             userEvent.click(getFromSpotifyButton);
 
             expect(
-                await screen.findByRole('button', { name: '12/8' })
+                await screen.findByRole('button', { name: '12/8' }),
             ).toBeInTheDocument();
             expect(
-                await screen.findByRole('button', { name: '3/4' })
+                await screen.findByRole('button', { name: '3/4' }),
             ).toBeInTheDocument();
         });
 

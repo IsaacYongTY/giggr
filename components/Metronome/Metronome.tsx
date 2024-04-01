@@ -113,7 +113,7 @@ const Metronome: React.FC<MetronomeProps> = ({ defaultTempo }) => {
 
         const calculatedTempo = calculateBpmFromTimeLapsedAndBeats(
             totalTimeLapsed.current,
-            count - 1
+            count - 1,
         );
         setTempo(calculatedTempo);
         setDisplayTempo(Math.round(calculatedTempo));

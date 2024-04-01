@@ -3,7 +3,7 @@ import { MetatoolSongMetadata } from './types';
 import { majorKeyArray, minorKeyArray, noteArray } from './constants';
 
 export const deriveMetatoolSongMetadata = (
-    data: Form
+    data: Form,
 ): MetatoolSongMetadata => ({
     title: data.title || '',
     romTitle: data.romTitle || '',
@@ -66,7 +66,7 @@ export const convertEnharmonic = (keyString: string): string => {
     const result =
         accidental === '#'
             ? Object.keys(enharmonicPair).find(
-                  (element) => enharmonicPair[element] === keyString
+                  (element) => enharmonicPair[element] === keyString,
               )
             : enharmonicPair[keyString];
 
@@ -75,7 +75,7 @@ export const convertEnharmonic = (keyString: string): string => {
 
 export const convertKeyModeIntToKey = (
     key: number | undefined | null,
-    mode: number | undefined | null
+    mode: number | undefined | null,
 ): string => {
     if (
         key === undefined ||

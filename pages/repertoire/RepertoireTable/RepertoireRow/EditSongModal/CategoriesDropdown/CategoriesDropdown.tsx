@@ -43,7 +43,7 @@ export default function CategoriesDropdown({
             categories?.map((category: any) => ({
                 value: category.name,
                 label: category.name,
-            }))
+            })),
         );
     }, []);
 

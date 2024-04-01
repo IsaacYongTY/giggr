@@ -45,7 +45,7 @@ export default function SingleArtistDropdown({
             musicians?.map((musician) => ({
                 value: musician.name,
                 label: musician.name,
-            }))
+            })),
         );
     }, [selectedArtist]);
 

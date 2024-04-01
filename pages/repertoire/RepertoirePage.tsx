@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 type RepertoirePageProps = {

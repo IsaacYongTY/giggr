@@ -56,7 +56,7 @@ export default function EditSongDetailForm({
 
     async function handleEditSong(
         id: number,
-        { closeModal = false }: { closeModal?: boolean } = {}
+        { closeModal = false }: { closeModal?: boolean } = {},
     ) {
         setIsLoading(true);
         try {
@@ -67,7 +67,7 @@ export default function EditSongDetailForm({
                 ...form,
                 composers: composers?.map((composer: Option) => composer.value),
                 songwriters: songwriters?.map(
-                    (songwriter: Option) => songwriter.value
+                    (songwriter: Option) => songwriter.value,
                 ),
                 arrangers: arrangers?.map((arranger: Option) => arranger.value),
                 genres: genres?.map((genre: Option) => genre.value),
@@ -78,7 +78,7 @@ export default function EditSongDetailForm({
             const tempSong = convertSongFormToTempSong(form);
 
             const foundIndex = data.songs.findIndex(
-                (song) => song.id === editedForm.id
+                (song) => song.id === editedForm.id,
             );
 
             if (foundIndex > -1) {
@@ -109,13 +109,13 @@ export default function EditSongDetailForm({
 
     async function getFromSpotify(trackId: string) {
         const { data } = await axios.post(
-            `/api/v1/songs/spotify?trackId=${trackId}`
+            `/api/v1/songs/spotify?trackId=${trackId}`,
         );
 
         const songData = data.result;
 
         songData.durationMinSec = convertDurationMsToMinSec(
-            songData.durationMs
+            songData.durationMs,
         );
         setForm({
             ...songData,
@@ -147,7 +147,7 @@ export default function EditSongDetailForm({
 
         const currentMyKeyString = convertKeyModeIntToKey(
             form.myKey,
-            form.mode
+            form.mode,
         );
         const relativeMyKeyMinor = convertRelativeKey(currentMyKeyString);
         const [myKey] = convertKeyToKeyModeInt(relativeMyKeyMinor);
@@ -236,7 +236,7 @@ export default function EditSongDetailForm({
                     Artist:
                     <ArtistsSingleDropdown
                         musicians={data.musicians.filter(
-                            (musician) => musician.isArtist
+                            (musician) => musician.isArtist,
                         )}
                         selectedArtist={form.artist || ''}
                         setFormValue={setForm}
@@ -350,7 +350,7 @@ export default function EditSongDetailForm({
                     label="Composers"
                     role="composers"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isComposer
+                        (musician) => musician.isComposer,
                     )}
                     selectedMusicians={form.composers || []}
                     setFormValue={setForm}
@@ -359,7 +359,7 @@ export default function EditSongDetailForm({
                     label="Songwriters"
                     role="songwriters"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isSongwriter
+                        (musician) => musician.isSongwriter,
                     )}
                     selectedMusicians={form.songwriters || []}
                     setFormValue={setForm}
@@ -371,7 +371,7 @@ export default function EditSongDetailForm({
                     label="Arrangers"
                     role="arrangers"
                     musicians={data.musicians.filter(
-                        (musician) => musician.isArranger
+                        (musician) => musician.isArranger,
                     )}
                     selectedMusicians={form.arrangers || []}
                     setFormValue={setForm}

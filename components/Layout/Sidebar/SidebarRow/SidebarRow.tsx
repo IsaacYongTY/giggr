@@ -66,9 +66,7 @@ export default function SidebarRow({
 
                 {hasSubmenu && (
                     <div
-                        className={`${
-                            isOpen && styles.navigateNext
-                        } material-icons`}
+                        className={`${isOpen && styles.navigateNext} material-icons`}
                     >
                         navigate_next
                     </div>

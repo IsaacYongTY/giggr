@@ -12,7 +12,7 @@ export default function Tag({ label, setStringToRemoveArray }: Props) {
             const resultArray = prevState.filter((str) => str !== label);
             localStorage.setItem(
                 'strings-to-remove',
-                JSON.stringify(resultArray)
+                JSON.stringify(resultArray),
             );
             return resultArray;
         });

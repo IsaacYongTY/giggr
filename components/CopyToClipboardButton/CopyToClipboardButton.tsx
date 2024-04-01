@@ -9,7 +9,7 @@ export default function CopyToClipboardButton({
     sourceRef,
 }: CopyToClipboardButtonProps) {
     function copyToClipboard(
-        sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>
+        sourceRef: RefObject<HTMLDivElement | HTMLTextAreaElement>,
     ) {
         if (sourceRef.current) {
             let sel: any;

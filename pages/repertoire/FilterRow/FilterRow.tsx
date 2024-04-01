@@ -16,7 +16,7 @@ export default function FilterRow({ setFilter }: FilterRowProps) {
     const initialFilter = 'title';
 
     const [isFilterOnArray, setIsFilterOnArray] = useState(
-        filterOptions.map((filter) => filter === initialFilter)
+        filterOptions.map((filter) => filter === initialFilter),
     );
 
     return (

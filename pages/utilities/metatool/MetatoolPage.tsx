@@ -32,7 +32,7 @@ export type MetatoolPageProps = {
 
 const MetatoolPage: React.FC<MetatoolPageProps> = ({ user }) => {
     const [metadata, setMetadata] = useState<MetatoolSongMetadata>(
-        defaultMetatoolSongMetadata
+        defaultMetatoolSongMetadata,
     );
     const [isContribute, setIsContribute] = useState(user?.isAdmin);
 

@@ -10,7 +10,7 @@ const mockSongs: Song[] = [
     generateMockSong(
         'A song that is out of range',
         'C',
-        subDays(new Date(), 10)
+        subDays(new Date(), 10),
     ),
 ];
 

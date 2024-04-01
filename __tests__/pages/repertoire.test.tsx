@@ -40,7 +40,7 @@ function renderRepertoirePage(props = {}) {
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
-        </SWRConfig>
+        </SWRConfig>,
     );
 
     const uploadCsvButton = utils.getByRole('button', { name: /upload csv/i });
@@ -64,7 +64,7 @@ async function renderRepertoirePageWithDeleteModalOpen(props = {}) {
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
-        </SWRConfig>
+        </SWRConfig>,
     );
 
     let allCheckboxes: any[];
@@ -107,7 +107,7 @@ async function renderRepertoirePageAndHoverOnFirstRow(props = {}) {
             }}
         >
             <RepertoirePage {...defaultProps} {...props} />
-        </SWRConfig>
+        </SWRConfig>,
     );
 
     userEvent.hover(await screen.findByText('Song 1'));
@@ -123,19 +123,19 @@ describe('The Repertoire Page', () => {
             const { uploadCsvButton } = renderRepertoirePage();
             userEvent.click(uploadCsvButton);
             expect(
-                screen.getByRole('button', { name: /submit/i })
+                screen.getByRole('button', { name: /submit/i }),
             ).toBeInTheDocument();
             expect(
-                screen.getByText(/click to upload csv/i)
+                screen.getByText(/click to upload csv/i),
             ).toBeInTheDocument();
 
             const closeIcon = screen.getByText(/close/i);
             userEvent.click(closeIcon);
             expect(
-                screen.queryByRole('button', { name: /submit/i })
+                screen.queryByRole('button', { name: /submit/i }),
             ).not.toBeInTheDocument();
             expect(
-                screen.queryByText(/click to upload csv/i)
+                screen.queryByText(/click to upload csv/i),
             ).not.toBeInTheDocument();
         });
 
@@ -159,7 +159,7 @@ describe('The Repertoire Page', () => {
                 const closeIcon = screen.getByText(/close/i);
 
                 expect(
-                    screen.queryByText(errorMessage)
+                    screen.queryByText(errorMessage),
                 ).not.toBeInTheDocument();
 
                 userEvent.click(submitButton);
@@ -169,7 +169,7 @@ describe('The Repertoire Page', () => {
                 userEvent.click(uploadCsvButton);
 
                 expect(
-                    screen.queryByText(errorMessage)
+                    screen.queryByText(errorMessage),
                 ).not.toBeInTheDocument();
             });
 
@@ -181,7 +181,7 @@ describe('The Repertoire Page', () => {
                     name: /submit/i,
                 });
                 const uploadArea = screen.getByLabelText(
-                    /click to upload csv/i
+                    /click to upload csv/i,
                 ) as HTMLInputElement;
 
                 const blob: IBlob = new Blob([''], { type: 'text/csv' });
@@ -204,7 +204,7 @@ describe('The Repertoire Page', () => {
                 userEvent.click(submitButton);
 
                 expect(
-                    await screen.findByText(successMessage)
+                    await screen.findByText(successMessage),
                 ).toBeInTheDocument();
                 expect(screen.queryByText('test.csv')).not.toBeInTheDocument();
 
@@ -221,7 +221,7 @@ describe('The Repertoire Page', () => {
                 userEvent.click(uploadCsvButton);
 
                 const uploadArea = screen.getByLabelText(
-                    /click to upload csv/i
+                    /click to upload csv/i,
                 ) as HTMLInputElement;
 
                 const blob: IBlob = new Blob([''], { type: 'text/csv' });
@@ -245,10 +245,10 @@ describe('The Repertoire Page', () => {
 
                 expect(screen.queryByText('test.csv')).not.toBeInTheDocument();
                 expect(
-                    screen.queryByText(errorMessage)
+                    screen.queryByText(errorMessage),
                 ).not.toBeInTheDocument();
                 expect(
-                    screen.queryByText(successMessage)
+                    screen.queryByText(successMessage),
                 ).not.toBeInTheDocument();
 
                 const submitButton = screen.getByRole('button', {
@@ -277,7 +277,7 @@ describe('The Repertoire Page', () => {
                     name: /submit/i,
                 });
                 const uploadArea = screen.getByLabelText(
-                    /click to upload csv/i
+                    /click to upload csv/i,
                 ) as HTMLInputElement;
 
                 const blob: IBlob = new Blob([''], { type: 'text/csv' });
@@ -297,13 +297,13 @@ describe('The Repertoire Page', () => {
                 userEvent.click(submitButton);
                 expect(
                     await screen.findByText(
-                        /upload failed. please try again later\./i
-                    )
+                        /upload failed. please try again later\./i,
+                    ),
                 ).toBeInTheDocument();
             });
 
             it.todo(
-                'should show error message if user uploaded a file larger than 1MB'
+                'should show error message if user uploaded a file larger than 1MB',
             );
         });
     });
@@ -331,7 +331,7 @@ describe('The Repertoire Page', () => {
             });
 
             expect(
-                screen.getAllByRole('checkbox', { checked: true })
+                screen.getAllByRole('checkbox', { checked: true }),
             ).toHaveLength(4);
 
             act(() => {
@@ -340,7 +340,7 @@ describe('The Repertoire Page', () => {
             });
 
             expect(
-                screen.getAllByRole('checkbox', { checked: true })
+                screen.getAllByRole('checkbox', { checked: true }),
             ).toHaveLength(2);
         });
 
@@ -359,7 +359,7 @@ describe('The Repertoire Page', () => {
             });
 
             expect(
-                screen.getAllByRole('checkbox', { checked: true })
+                screen.getAllByRole('checkbox', { checked: true }),
             ).toHaveLength(6);
 
             act(() => {
@@ -367,7 +367,7 @@ describe('The Repertoire Page', () => {
             });
 
             expect(
-                screen.queryByRole('checkbox', { checked: true })
+                screen.queryByRole('checkbox', { checked: true }),
             ).not.toBeInTheDocument();
         });
     });
@@ -381,7 +381,7 @@ describe('The Repertoire Page', () => {
             mockAxios.get.mockResolvedValue(mockData);
             renderRepertoirePage();
             expect(
-                screen.queryByRole('button', { name: /delete selected/i })
+                screen.queryByRole('button', { name: /delete selected/i }),
             ).not.toBeInTheDocument();
 
             let allCheckboxes: any[];
@@ -399,7 +399,7 @@ describe('The Repertoire Page', () => {
             expect(checked).toHaveLength(2);
 
             expect(
-                screen.getByRole('button', { name: /delete selected/i })
+                screen.getByRole('button', { name: /delete selected/i }),
             ).toBeInTheDocument();
         });
 
@@ -471,7 +471,7 @@ describe('The Repertoire Page', () => {
                 await renderRepertoirePageWithDeleteModalOpen();
             userEvent.click(cancelButton);
             expect(
-                screen.queryByRole('button', { name: /cancel/i })
+                screen.queryByRole('button', { name: /cancel/i }),
             ).not.toBeInTheDocument();
         });
 
@@ -493,10 +493,10 @@ describe('The Repertoire Page', () => {
 
             await waitFor(() => {
                 expect(
-                    screen.queryByRole('button', { name: /confirm delete/i })
+                    screen.queryByRole('button', { name: /confirm delete/i }),
                 ).not.toBeInTheDocument();
                 expect(
-                    screen.queryByRole('button', { name: /delete selected/i })
+                    screen.queryByRole('button', { name: /delete selected/i }),
                 ).not.toBeInTheDocument();
 
                 const allCheckboxes = screen.getAllByRole('checkbox');
@@ -565,14 +565,14 @@ describe('The Repertoire Page', () => {
 
             userEvent.click(deleteSongIcon);
             expect(
-                screen.getByRole('button', { name: /cancel/i })
+                screen.getByRole('button', { name: /cancel/i }),
             ).toBeInTheDocument();
             expect(
-                screen.getByRole('button', { name: /confirm delete/i })
+                screen.getByRole('button', { name: /confirm delete/i }),
             ).toBeInTheDocument();
 
             userEvent.click(
-                screen.getByRole('button', { name: /confirm delete/i })
+                screen.getByRole('button', { name: /confirm delete/i }),
             );
             expect(mockAxios.delete).toBeCalledTimes(1);
         });
@@ -602,7 +602,7 @@ describe('The Repertoire Page', () => {
 
             await waitFor(() => {
                 expect(
-                    screen.queryByRole('button', { name: /delete selected/i })
+                    screen.queryByRole('button', { name: /delete selected/i }),
                 ).not.toBeInTheDocument();
             });
         });
@@ -630,10 +630,10 @@ describe('The Repertoire Page', () => {
             userEvent.click(confirmDeleteButton);
 
             expect(
-                await screen.findByRole('button', { name: /delete selected/i })
+                await screen.findByRole('button', { name: /delete selected/i }),
             ).toBeInTheDocument();
             expect(
-                screen.getAllByRole('checkbox', { checked: true })
+                screen.getAllByRole('checkbox', { checked: true }),
             ).toHaveLength(4);
         });
 
@@ -663,8 +663,8 @@ describe('The Repertoire Page', () => {
 
             expect(
                 await screen.findByText(
-                    /something went wrong\. please try again later.*/i
-                )
+                    /something went wrong\. please try again later.*/i,
+                ),
             ).toBeInTheDocument();
         });
     });

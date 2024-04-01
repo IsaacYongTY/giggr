@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
                 user: req.user,
             },
         };
-    }
+    },
 );
 
 const ProgressionPage: React.FC<ProgressionPageProps> = () => {
@@ -92,7 +92,7 @@ const ProgressionPage: React.FC<ProgressionPageProps> = () => {
                 : generateHalfBarProgression(key, progression, spaces);
 
             setDisplayedText(
-                (prevState) => prevState + generatedProgression + '\n\n'
+                (prevState) => prevState + generatedProgression + '\n\n',
             );
             setErrorMessage('');
         } catch (err) {
@@ -133,7 +133,7 @@ const ProgressionPage: React.FC<ProgressionPageProps> = () => {
                             <Select
                                 className="basic-single"
                                 value={progressionOptions.find(
-                                    (option) => option.value === progression
+                                    (option) => option.value === progression,
                                 )}
                                 options={progressionOptions}
                                 onChange={handleChange}

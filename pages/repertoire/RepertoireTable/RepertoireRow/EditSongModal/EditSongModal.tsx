@@ -37,7 +37,7 @@ export default function EditSongModal({
     const metatoolSongMetadata: MetatoolSongMetadata = useMemo(
         () => deriveMetatoolSongMetadata(form),
 
-        [form]
+        [form],
     );
 
     const customStyles = {
