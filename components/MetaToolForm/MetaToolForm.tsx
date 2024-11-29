@@ -5,11 +5,6 @@ import Select, { ValueType } from 'react-select';
 import CopyToClipboardButton from 'components/CopyToClipboardButton';
 
 import { generateMetadataText } from './utils';
-import {
-    convertKeyModeIntToKey,
-    convertKeyToKeyModeInt,
-    convertRelativeKey,
-} from 'common/utils';
 import { MetatoolSongMetadata } from 'common/types';
 import { defaultPinyinSyllableOptions } from './constants';
 import { deriveGoogleSearchLink, deriveGoogleSearchText } from './utils';
@@ -21,14 +16,10 @@ const cx = classnames.bind(styles);
 
 type MetaToolFormProps = {
     metadata: MetatoolSongMetadata;
-    handleMetadataChange: (metadata: MetatoolSongMetadata) => void;
+    handleMetadataChange?: (metadata: MetatoolSongMetadata) => void;
 };
 
-export default function MetaToolForm({
-    metadata,
-    handleMetadataChange,
-}: MetaToolFormProps) {
-    const [originalTempo, setOriginalTempo] = useState(0);
+export default function MetaToolForm({ metadata }: MetaToolFormProps) {
     const [displayedMetadata, setDisplayedMetadata] = useState('');
 
     const [searchLink, setSearchLink] = useState('');
@@ -38,9 +29,7 @@ export default function MetaToolForm({
     const [showPinyin, setShowPinyin] = useState(true);
 
     useEffect(() => {
-        const { title, tempo, language } = metadata;
-
-        setOriginalTempo(tempo);
+        const { title, language } = metadata;
 
         const metaData = generateMetadataText(
             metadata,
@@ -50,33 +39,6 @@ export default function MetaToolForm({
 
         setSearchLink(title ? deriveGoogleSearchLink(title, language) : '');
     }, [metadata, pinyinSyllableOption, showPinyin]);
-
-    function toggleTempoAndTimeSignature() {
-        const updatedMetadata = {
-            ...metadata,
-            tempo:
-                metadata.timeSignature === '12/8'
-                    ? originalTempo * 3
-                    : originalTempo / 3,
-            timeSignature: metadata.timeSignature === '12/8' ? '3/4' : '12/8',
-        };
-
-        handleMetadataChange(updatedMetadata);
-    }
-
-    function toggleRelativeKey() {
-        const keyString = convertKeyModeIntToKey(metadata.key, metadata.mode);
-        const relativeKey = convertRelativeKey(keyString);
-        const [key, mode] = convertKeyToKeyModeInt(relativeKey);
-
-        const updatedMetadata = {
-            ...metadata,
-            key,
-            mode,
-        };
-
-        handleMetadataChange(updatedMetadata);
-    }
 
     function handleChange(selectedOption: ValueType<Option, false>) {
         if (!selectedOption) return;
@@ -127,37 +89,30 @@ export default function MetaToolForm({
                                 metadata.language,
                             )}
                         </a>
-                        <label>
-                            <input
-                                type="checkbox"
-                                onClick={toggleRelativeKey}
-                            />
-                            Relative Key
-                        </label>
                     </>
                 )}
 
-                {(metadata.timeSignature === '3/4' ||
-                    metadata.timeSignature === '12/8') && (
-                    <div className={cx('time-signature-toggle-container')}>
-                        <button
-                            className={cx('toggle', {
-                                selected: metadata.timeSignature === '3/4',
-                            })}
-                            onClick={toggleTempoAndTimeSignature}
-                        >
-                            3/4
-                        </button>
-                        <button
-                            className={cx('toggle', {
-                                selected: metadata.timeSignature === '12/8',
-                            })}
-                            onClick={toggleTempoAndTimeSignature}
-                        >
-                            12/8
-                        </button>
-                    </div>
-                )}
+                {/*{(metadata.timeSignature === '3/4' ||*/}
+                {/*    metadata.timeSignature === '12/8') && (*/}
+                {/*    <div className={cx('time-signature-toggle-container')}>*/}
+                {/*        <button*/}
+                {/*            className={cx('toggle', {*/}
+                {/*                selected: metadata.timeSignature === '3/4',*/}
+                {/*            })}*/}
+                {/*            onClick={toggleTempoAndTimeSignature}*/}
+                {/*        >*/}
+                {/*            3/4*/}
+                {/*        </button>*/}
+                {/*        <button*/}
+                {/*            className={cx('toggle', {*/}
+                {/*                selected: metadata.timeSignature === '12/8',*/}
+                {/*            })}*/}
+                {/*            onClick={toggleTempoAndTimeSignature}*/}
+                {/*        >*/}
+                {/*            12/8*/}
+                {/*        </button>*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </div>
 
             <div>

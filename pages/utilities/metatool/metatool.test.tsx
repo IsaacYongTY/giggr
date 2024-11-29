@@ -184,84 +184,84 @@ describe('The metatool page', () => {
         });
     });
 
-    describe('Toggle time signature feature', () => {
-        const validUrl =
-            'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
-        const songDataInTwelveEight = {
-            title: '深夜',
-            artist: 'Isaac Yong',
-            key: 1,
-            mode: 0,
-            tempo: 171,
-            spotifyLink:
-                'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7',
-            durationMs: 263390,
-            timeSignature: '3/4',
-            energy: 0.409,
-            danceability: 0.408,
-            valence: 0.279,
-            acousticness: 0.74,
-            instrumentalness: 0,
-            verified: false,
-            dateReleased: '2019-09-19',
-            romTitle: 'Shen Ye',
-            language: 'mandarin',
-            initialism: 'sy',
-        };
-
-        it('should show time signature toggle if time signature is 3/4', async () => {
-            const { searchBar, getFromSpotifyButton } = renderMetaTool();
-
-            mockAxios.post.mockResolvedValueOnce({
-                data: {
-                    result: songDataInTwelveEight,
-                    message: 'This is a mock 222',
-                },
-            });
-
-            userEvent.type(searchBar, validUrl);
-            userEvent.click(getFromSpotifyButton);
-
-            expect(
-                await screen.findByRole('button', { name: '12/8' }),
-            ).toBeInTheDocument();
-            expect(
-                await screen.findByRole('button', { name: '3/4' }),
-            ).toBeInTheDocument();
-        });
-
-        it("should render song's original time signature on button toggle", async () => {
-            const { searchBar, getFromSpotifyButton } = renderMetaTool();
-
-            mockAxios.post.mockResolvedValueOnce({
-                data: {
-                    result: songDataInTwelveEight,
-                    message: 'This is a mock 222',
-                },
-            });
-
-            userEvent.type(searchBar, validUrl);
-            userEvent.click(getFromSpotifyButton);
-
-            const twelveEightButton = await screen.findByRole('button', {
-                name: '12/8',
-            });
-            const threeFourButton = await screen.findByRole('button', {
-                name: '3/4',
-            });
-
-            expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument();
-
-            userEvent.click(twelveEightButton);
-            expect(screen.getByText(/^.*Tempo: 57.*/)).toBeInTheDocument();
-
-            userEvent.click(threeFourButton);
-            expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument();
-        });
-
-        //contentEditable div not testable at the moment
-        it.todo('should toggle time signature displayed');
-    });
+    // describe('Toggle time signature feature', () => {
+    //     const validUrl =
+    //         'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7';
+    //     const songDataInTwelveEight = {
+    //         title: '深夜',
+    //         artist: 'Isaac Yong',
+    //         key: 1,
+    //         mode: 0,
+    //         tempo: 171,
+    //         spotifyLink:
+    //             'https://open.spotify.com/track/5ioYOfM00Jf3aJBlmecsX7',
+    //         durationMs: 263390,
+    //         timeSignature: '3/4',
+    //         energy: 0.409,
+    //         danceability: 0.408,
+    //         valence: 0.279,
+    //         acousticness: 0.74,
+    //         instrumentalness: 0,
+    //         verified: false,
+    //         dateReleased: '2019-09-19',
+    //         romTitle: 'Shen Ye',
+    //         language: 'mandarin',
+    //         initialism: 'sy',
+    //     };
+    //
+    //     it('should show time signature toggle if time signature is 3/4', async () => {
+    //         const { searchBar, getFromSpotifyButton } = renderMetaTool();
+    //
+    //         mockAxios.post.mockResolvedValueOnce({
+    //             data: {
+    //                 result: songDataInTwelveEight,
+    //                 message: 'This is a mock 222',
+    //             },
+    //         });
+    //
+    //         userEvent.type(searchBar, validUrl);
+    //         userEvent.click(getFromSpotifyButton);
+    //
+    //         expect(
+    //             await screen.findByRole('button', { name: '12/8' }),
+    //         ).toBeInTheDocument();
+    //         expect(
+    //             await screen.findByRole('button', { name: '3/4' }),
+    //         ).toBeInTheDocument();
+    //     });
+    //
+    //     it("should render song's original time signature on button toggle", async () => {
+    //         const { searchBar, getFromSpotifyButton } = renderMetaTool();
+    //
+    //         mockAxios.post.mockResolvedValueOnce({
+    //             data: {
+    //                 result: songDataInTwelveEight,
+    //                 message: 'This is a mock 222',
+    //             },
+    //         });
+    //
+    //         userEvent.type(searchBar, validUrl);
+    //         userEvent.click(getFromSpotifyButton);
+    //
+    //         const twelveEightButton = await screen.findByRole('button', {
+    //             name: '12/8',
+    //         });
+    //         const threeFourButton = await screen.findByRole('button', {
+    //             name: '3/4',
+    //         });
+    //
+    //         expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument();
+    //
+    //         userEvent.click(twelveEightButton);
+    //         expect(screen.getByText(/^.*Tempo: 57.*/)).toBeInTheDocument();
+    //
+    //         userEvent.click(threeFourButton);
+    //         expect(screen.getByText(/^.*Tempo: 171.*/)).toBeInTheDocument();
+    //     });
+    //
+    //     //contentEditable div not testable at the moment
+    //     it.todo('should toggle time signature displayed');
+    // });
 
     describe('The contribution checkbox', () => {
         it('should render if user is logged in as admin', () => {
@@ -300,55 +300,55 @@ describe('The metatool page', () => {
         });
     });
 
-    describe('The relative key checkbox', () => {
-        it('should show only after after clicking Get From Spotify button, with uncheck as default', async () => {
-            const { searchBar, getFromSpotifyButton } = renderMetaTool();
-
-            mockAxios.post.mockResolvedValueOnce({
-                data: {
-                    result: songData,
-                    message: 'This is a mock resolved value',
-                },
-            });
-
-            userEvent.type(searchBar, validUrl);
-            userEvent.click(getFromSpotifyButton);
-
-            const relativeKeyCheckbox = await screen.findByRole('checkbox', {
-                name: /relative key/i,
-            });
-            expect(relativeKeyCheckbox).toBeInTheDocument();
-            expect(relativeKeyCheckbox).not.toBeChecked();
-        });
-
-        it('should be unchecked as default, and toggle check and relative key value when clicked', async () => {
-            const { searchBar, getFromSpotifyButton } = renderMetaTool();
-
-            mockAxios.post.mockResolvedValueOnce({
-                data: {
-                    result: songData,
-                    message: 'This is a mock resolved value',
-                },
-            });
-
-            userEvent.type(searchBar, validUrl);
-            userEvent.click(getFromSpotifyButton);
-
-            const relativeKeyCheckbox = await screen.findByRole('checkbox', {
-                name: /relative key/i,
-            });
-
-            expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument();
-
-            userEvent.click(relativeKeyCheckbox);
-            expect(relativeKeyCheckbox).toBeChecked();
-            expect(screen.getByText(/^.+Key: Bm.+/)).toBeInTheDocument();
-
-            userEvent.click(relativeKeyCheckbox);
-            expect(relativeKeyCheckbox).not.toBeChecked();
-            expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument();
-        });
-    });
+    // describe('The relative key checkbox', () => {
+    //     it('should show only after after clicking Get From Spotify button, with uncheck as default', async () => {
+    //         const { searchBar, getFromSpotifyButton } = renderMetaTool();
+    //
+    //         mockAxios.post.mockResolvedValueOnce({
+    //             data: {
+    //                 result: songData,
+    //                 message: 'This is a mock resolved value',
+    //             },
+    //         });
+    //
+    //         userEvent.type(searchBar, validUrl);
+    //         userEvent.click(getFromSpotifyButton);
+    //
+    //         const relativeKeyCheckbox = await screen.findByRole('checkbox', {
+    //             name: /relative key/i,
+    //         });
+    //         expect(relativeKeyCheckbox).toBeInTheDocument();
+    //         expect(relativeKeyCheckbox).not.toBeChecked();
+    //     });
+    //
+    //     it('should be unchecked as default, and toggle check and relative key value when clicked', async () => {
+    //         const { searchBar, getFromSpotifyButton } = renderMetaTool();
+    //
+    //         mockAxios.post.mockResolvedValueOnce({
+    //             data: {
+    //                 result: songData,
+    //                 message: 'This is a mock resolved value',
+    //             },
+    //         });
+    //
+    //         userEvent.type(searchBar, validUrl);
+    //         userEvent.click(getFromSpotifyButton);
+    //
+    //         const relativeKeyCheckbox = await screen.findByRole('checkbox', {
+    //             name: /relative key/i,
+    //         });
+    //
+    //         expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument();
+    //
+    //         userEvent.click(relativeKeyCheckbox);
+    //         expect(relativeKeyCheckbox).toBeChecked();
+    //         expect(screen.getByText(/^.+Key: Bm.+/)).toBeInTheDocument();
+    //
+    //         userEvent.click(relativeKeyCheckbox);
+    //         expect(relativeKeyCheckbox).not.toBeChecked();
+    //         expect(screen.getByText(/^.+Key: D.+/)).toBeInTheDocument();
+    //     });
+    // });
 
     describe('Copy to Clipboard button', () => {
         it.todo('should copy text in content editable div to clipboard');

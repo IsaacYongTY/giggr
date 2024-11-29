@@ -9,13 +9,17 @@ export async function getDataFromSpotify(trackId: string) {
         clientSecret: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
     });
 
+    console.log(process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID);
+    console.log(process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET);
     const code = await spotifyApi.clientCredentialsGrant();
     await spotifyApi.setAccessToken(code.body.access_token);
 
-    const data = await spotifyApi.getAudioFeaturesForTrack(trackId);
-    const trackInfo = await spotifyApi.getTrack(trackId);
+    // const data = await spotifyApi.getAudioFeaturesForTrack(trackId);
+    // const data = await spotifyApi.getAudioFeaturesForTrack('test');
 
-    return { audioFeatures: data.body, singleTrack: trackInfo.body };
+    const trackInfo = await spotifyApi.getTrack(trackId);
+    // console.log(trackInfo);
+    return { singleTrack: trackInfo.body };
 }
 
 type ResponseData = {
@@ -34,12 +38,13 @@ export default async function handler(
             return res.status(400).json({ error: 'No track id provided' });
         }
 
-        const { audioFeatures, singleTrack } =
-            await getDataFromSpotify(trackId);
-        const trackInfo = await getAudioFeatures(audioFeatures, singleTrack);
+        console.log(trackId);
+        const { singleTrack } = await getDataFromSpotify(trackId);
+        const trackInfo = await getAudioFeatures(singleTrack);
 
         res.status(200).json({ result: trackInfo });
     } catch (err) {
+        console.log(err);
         res.status(400).json({ error: err });
     }
 }

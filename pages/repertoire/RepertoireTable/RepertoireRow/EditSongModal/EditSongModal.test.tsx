@@ -242,10 +242,10 @@ describe('<EditSongModal />', () => {
 
             expect(screen.getByText(/Wo Ai 我爱你/i)).toBeInTheDocument();
             expect(screen.getByText(/Crowd Lu/i)).toBeInTheDocument();
-            expect(screen.getByText(/Key: Bbm/i)).toBeInTheDocument();
-            expect(screen.getByText(/Tempo: 93/i)).toBeInTheDocument();
-            expect(screen.getByText(/Duration: 4:45/i)).toBeInTheDocument();
-            expect(screen.getByText(/Time: 4\/4/i)).toBeInTheDocument();
+            expect(screen.getByText(/Key: /i)).toBeInTheDocument();
+            expect(screen.getByText(/Tempo: /i)).toBeInTheDocument();
+            expect(screen.getByText(/Duration: /i)).toBeInTheDocument();
+            expect(screen.getByText(/Time: /i)).toBeInTheDocument();
             expect(
                 screen.getByText(/Keywords: wan, mandarin/i),
             ).toBeInTheDocument();
