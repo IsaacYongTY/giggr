@@ -6,19 +6,9 @@ export interface TrackData {
     artist: string;
     spotifyLink: string;
     verified: boolean;
-    tempo: number;
     language: string;
-    timeSignature: string;
-    mode: number;
     initialism: string;
-    danceability: number;
-    energy: number;
-    instrumentalness: number;
-    acousticness: number;
-    valence: number;
     dateReleased: string;
-    durationMs: number;
-    key: number;
     romTitle: string;
 }
 
@@ -70,24 +60,9 @@ export function addEnglishTrackInfo(trackData: TrackData) {
 }
 
 export async function getAudioFeatures(
-    data: SpotifyApi.AudioFeaturesResponse,
     trackInfo: SpotifyApi.SingleTrackResponse,
 ) {
     try {
-        console.log(data);
-        const {
-            key,
-            mode,
-            tempo,
-            time_signature,
-            duration_ms,
-            energy,
-            danceability,
-            valence,
-            acousticness,
-            instrumentalness,
-        } = data;
-
         const {
             artists,
             name,
@@ -98,17 +73,7 @@ export async function getAudioFeatures(
         let processedTrackData = {
             title: name,
             artist: artists[0].name,
-            key,
-            mode,
-            tempo: roundTempo(tempo),
             spotifyLink: spotify,
-            durationMs: duration_ms,
-            timeSignature: convertTime(time_signature),
-            energy,
-            danceability,
-            valence,
-            acousticness,
-            instrumentalness,
             verified: false,
             dateReleased: album.release_date,
             romTitle: '',
