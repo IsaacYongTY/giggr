@@ -42,20 +42,13 @@ const MetatoolPage: React.FC<MetatoolPageProps> = ({ user }) => {
         });
     }
 
-    const handleMetadataChange = (metadata: MetatoolSongMetadata) => {
-        setMetadata(metadata);
-    };
-
     return (
         <Layout title="Spotify Meta Tool">
             <div className={cx('container')}>
                 <div className={cx('search-bar-container')}>
                     <SpotifySearchBar onSuccess={getFromSpotifyOnSuccess} />
                 </div>
-                <MetaToolForm
-                    metadata={metadata}
-                    handleMetadataChange={handleMetadataChange}
-                />
+                <MetaToolForm metadata={metadata} />
                 {user?.isAdmin && (
                     <div className={cx('checkbox-row-container')}>
                         <input

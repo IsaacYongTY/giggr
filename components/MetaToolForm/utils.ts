@@ -1,4 +1,3 @@
-import { convertKeyModeIntToKey } from 'common/utils';
 import { MetatoolSongMetadata } from 'common/types';
 
 // only support mandarin for now, affixes "lyrics" for all other languages
@@ -29,28 +28,12 @@ export function generateMetadataText(
     metadata: MetatoolSongMetadata,
     pinyinSyllableNum = 0,
 ): string {
-    const {
-        title,
-        romTitle,
-        artist,
-        key,
-        mode,
-        tempo,
-        durationMinSec,
-        timeSignature,
-        dateReleased,
-        initialism,
-        language,
-    } = metadata;
+    const { title, romTitle, artist, dateReleased, initialism, language } =
+        metadata;
 
     const displayedPinyin =
         pinyinSyllableNum && romTitle
             ? romTitle.split(' ').slice(0, pinyinSyllableNum).join(' ')
-            : '';
-
-    const keyString =
-        key !== undefined && mode !== undefined
-            ? convertKeyModeIntToKey(key, mode)
             : '';
 
     const yearReleased = dateReleased?.slice(0, 4);
@@ -63,10 +46,10 @@ export function generateMetadataText(
     return (
         `${displayedTitle}\n` +
         (artist ? `${artist}\n` : '') +
-        `Key: ${keyString}\n` +
-        `Tempo: ${tempo || ''}\n` +
-        `Duration: ${durationMinSec || ''}\n` +
-        `Time: ${timeSignature || ''}\n` +
+        `Key: \n` +
+        `Tempo: \n` +
+        `Duration: \n` +
+        `Time: \n` +
         `Keywords: ${displayedKeywords}\n\n` +
         `Year Released: ${yearReleased || ''}`
     );
